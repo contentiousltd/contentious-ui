@@ -1,0 +1,182 @@
+/**
+ * Contentious UI core styles
+ * These styles define the base theme for Contentious-branded applications
+ */
+
+@font-face {
+  font-family: 'Bely';
+  src: url('/fonts/Bely.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bely';
+  src: url('/fonts/Bely bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bely';
+  src: url('/fonts/Bely italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bely Display';
+  src: url('/fonts/Bely display.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Contentious color palette - Hex values */
+:root {
+  /* Brand colors */
+  --gloaming-dark-hex: #383533;
+  --gloaming-hex: #4F4D4B;
+  --limestone-hex: #F2F2E7;
+  --limestone-dark-hex: #DEDED4;
+  --sunshine-hex: #FFCF3B;
+  --sunshine-dark-hex: #F8B400;
+  --moonlight-hex: #CFF0FF;
+  --moonlight-dark-hex: #B8E7FF;
+  --flame-hex: #E9331F;
+  --flame-dark-hex: #D1251A;
+
+  /* Font settings */
+  --font-body: 'Bely', system-ui, sans-serif;
+  --font-display: 'Bely Display', Georgia, serif;
+  --font-mono: monospace;
+}
+
+/* Light mode */
+:root {
+  /* Theme colors as HSL for component shadcn integration */
+  --background: 60 27% 93%;
+  --foreground: 20 4% 22%;
+  --card: 60 18% 85%;
+  --card-foreground: 20 4% 22%;
+  --popover: 60 27% 93%;
+  --popover-foreground: 20 4% 22%;
+  --primary: 47 100% 62%;
+  --primary-foreground: 20 4% 22%;
+  --secondary: 60 18% 85%;
+  --secondary-foreground: 20 4% 22%;
+  --muted: 60 4% 89%;
+  --muted-foreground: 20 4% 36%;
+  --accent: 47 100% 62%;
+  --accent-foreground: 20 4% 22%;
+  --destructive: 0 84% 51%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 20 4% 86%;
+  --input: 20 4% 86%;
+  --ring: 47 100% 62%;
+  --radius: 4px;
+
+  /* Specific elements */
+  --theme-header-color: var(--gloaming-dark-hex);
+  --background-color: var(--limestone-hex);
+}
+
+/* Dark mode */
+.dark {
+  --background: 20 4% 10%;
+  --foreground: 60 27% 88%;
+  --card: 20 4% 15%;
+  --card-foreground: 60 27% 88%;
+  --popover: 20 4% 10%;
+  --popover-foreground: 60 27% 88%;
+  --primary: 47 100% 62%;
+  --primary-foreground: 20 4% 10%;
+  --secondary: 20 4% 20%;
+  --secondary-foreground: 60 27% 88%;
+  --muted: 20 4% 18%;
+  --muted-foreground: 60 10% 70%;
+  --accent: 47 100% 62%;
+  --accent-foreground: 20 4% 10%;
+  --destructive: 0 84% 51%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 20 4% 25%;
+  --input: 20 4% 25%;
+  --ring: 47 100% 62%;
+
+  /* Specific elements */
+  --theme-header-color: var(--limestone-hex);
+  --background-color: var(--gloaming-dark-hex);
+}
+
+/* Common components styling */
+
+/* Buttons */
+.filter-button {
+  font-size: 0.875rem;
+  text-transform: none;
+  font-weight: 500;
+  border-radius: var(--radius);
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.filter-button:hover {
+  background-color: var(--gloaming-dark-hex);
+  border-color: var(--gloaming-hex);
+  color: var(--limestone-hex);
+}
+
+.filter-button.active {
+  background-color: var(--sunshine-hex);
+  border-color: var(--sunshine-dark-hex);
+  color: var(--gloaming-dark-hex);
+}
+
+/* View toggle buttons */
+.view-button {
+  transition-property: background-color, border-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.view-button:hover {
+  background-color: var(--gloaming-dark-hex);
+  border-color: var(--gloaming-hex);
+  color: var(--limestone-hex);
+}
+
+.view-button.active {
+  background-color: var(--sunshine-hex);
+  color: var(--gloaming-dark-hex);
+}
+
+/* General styles */
+body {
+  font-family: var(--font-body);
+  background-color: var(--background-color);
+  color: hsl(var(--foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: normal;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: normal;
+}
+
+/* Logo hover effect in footer */
+.logo-link img {
+  transition: opacity 0.3s ease;
+}
+
+.logo-link:hover img {
+  opacity: 1;
+}
