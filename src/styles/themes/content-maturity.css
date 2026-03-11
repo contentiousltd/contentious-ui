@@ -1,0 +1,41 @@
+/* ================================================================
+   Content Maturity — Semantic token mapping
+   Primary: fire | Surfaces: lichen
+   ================================================================ */
+
+@layer base {
+  :root {
+    --background: var(--lichen-300);
+    --foreground: var(--gloaming-700);
+    --card: var(--lichen-150);
+    --card-foreground: var(--gloaming-700);
+    --popover: var(--lichen-150);
+    --popover-foreground: var(--gloaming-700);
+    --primary: var(--fire-500);
+    --primary-foreground: var(--limestone-100);
+    --secondary: var(--lichen-500);
+    --secondary-foreground: var(--gloaming-700);
+    --muted: var(--lichen-400);
+    --muted-foreground: var(--gloaming-500);
+    --accent: var(--sunshine-500);
+    --accent-foreground: var(--gloaming-700);
+    --destructive: var(--fire-600);
+    --destructive-foreground: var(--limestone-100);
+    --border: var(--lichen-500);
+    --input: var(--lichen-500);
+    --ring: var(--fire-500);
+
+    /* Chart colours */
+    --chart-1: var(--fire-500);
+    --chart-2: var(--sunshine-500);
+    --chart-3: var(--sapling-500);
+    --chart-4: var(--wave-500);
+    --chart-5: var(--gloaming-400);
+
+    /* Loading ring */
+    --loading-ring-1: var(--sunshine-500);
+    --loading-ring-2: var(--fire-500);
+    --loading-ring-3: var(--wave-500);
+    --loading-ring-4: var(--amber-500);
+  }
+}

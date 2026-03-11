@@ -1,0 +1,41 @@
+/* ================================================================
+   Voice, Tone and Style — Semantic token mapping
+   Primary: sorbet | Surfaces: limestone
+   ================================================================ */
+
+@layer base {
+  :root {
+    --background: var(--limestone-300);
+    --foreground: var(--gloaming-700);
+    --card: var(--limestone-100);
+    --card-foreground: var(--gloaming-700);
+    --popover: var(--limestone-100);
+    --popover-foreground: var(--gloaming-700);
+    --primary: var(--sorbet-500);
+    --primary-foreground: var(--limestone-100);
+    --secondary: var(--limestone-600);
+    --secondary-foreground: var(--gloaming-700);
+    --muted: var(--limestone-500);
+    --muted-foreground: var(--gloaming-500);
+    --accent: var(--sorbet-400);
+    --accent-foreground: var(--gloaming-700);
+    --destructive: var(--fire-600);
+    --destructive-foreground: var(--limestone-100);
+    --border: var(--limestone-600);
+    --input: var(--limestone-600);
+    --ring: var(--sorbet-500);
+
+    /* Chart colours */
+    --chart-1: var(--sorbet-500);
+    --chart-2: var(--wave-500);
+    --chart-3: var(--sunshine-500);
+    --chart-4: var(--sapling-500);
+    --chart-5: var(--gloaming-400);
+
+    /* Loading ring */
+    --loading-ring-1: var(--sorbet-400);
+    --loading-ring-2: var(--sorbet-600);
+    --loading-ring-3: var(--limestone-500);
+    --loading-ring-4: var(--sorbet-400);
+  }
+}
