@@ -36,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen w-full flex items-center justify-center bg-background px-4">
           <div className="w-full max-w-md text-center space-y-6">
             <div className="space-y-2">
-              <h1 className="font-['bely-display'] text-2xl text-foreground">Something went wrong</h1>
+              <h1 className="font-display text-2xl text-foreground">Something went wrong</h1>
               <p className="text-sm text-muted-foreground">
                 An unexpected error occurred. You can try recovering or return to the home page.
               </p>

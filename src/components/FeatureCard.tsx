@@ -19,7 +19,7 @@ export default function FeatureCard({ title, children, className, accent }: Feat
     <Card className={cn("border-0 rounded-xl", className)}>
       <CardContent className="p-8">
         {accent && <div className="mb-3">{accent}</div>}
-        <h3 className="font-['bely-display'] text-2xl font-normal mb-4">{title}</h3>
+        <h3 className="font-display text-2xl font-normal mb-4">{title}</h3>
         <div className="text-lg text-muted-foreground leading-relaxed">
           {children}
         </div>

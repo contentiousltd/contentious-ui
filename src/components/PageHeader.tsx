@@ -10,7 +10,7 @@ interface PageHeaderProps {
 export default function PageHeader({ title, children, className }: PageHeaderProps) {
   return (
     <div className={cn(className)}>
-      <h1 className="text-5xl text-foreground mb-6 font-['bely-display'] leading-tight">
+      <h1 className="text-5xl text-foreground mb-6 font-display leading-tight">
         {title}
       </h1>
       {children}

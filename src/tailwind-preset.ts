@@ -105,18 +105,17 @@ export const contentiousPreset: Config = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
+        sm: "var(--radius)",
         md: "calc(var(--radius) + 2px)",
-        sm: "calc(var(--radius) + 4px)",
+        lg: "calc(var(--radius) + 4px)",
       },
       fontSize: {
         base: ["1.1rem", { lineHeight: "1.6" }],
       },
       fontFamily: {
-        sans: ["var(--font-sans)"],
-        serif: ["var(--font-serif)"],
-        mono: ["var(--font-mono)"],
         display: ["bely-display", "serif"],
+        mono: ["Courier New", "Courier", "monospace"],
+        hand: ["Caveat", "cursive"],
       },
       keyframes: {
         "accordion-down": {

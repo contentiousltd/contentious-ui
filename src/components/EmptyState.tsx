@@ -16,7 +16,7 @@ export default function EmptyState({ icon, title, description, action, className
       <CardContent className="pt-6 pb-6">
         <div className="text-center">
           {icon && <div className="mb-4 flex justify-center">{icon}</div>}
-          <h3 className="text-lg font-['bely-display'] text-foreground mb-2">{title}</h3>
+          <h3 className="text-lg font-display text-foreground mb-2">{title}</h3>
           {description && <p className="text-muted-foreground mb-4">{description}</p>}
           {action}
         </div>

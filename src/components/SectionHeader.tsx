@@ -16,7 +16,7 @@ interface SectionHeaderProps {
 export default function SectionHeader({ title, subtitle, className, centred }: SectionHeaderProps) {
   return (
     <div className={cn(centred && "text-center", className)}>
-      <h2 className="text-4xl text-foreground mb-4 font-['bely-display']">{title}</h2>
+      <h2 className="text-4xl text-foreground mb-4 font-display">{title}</h2>
       {subtitle && (
         <p className={cn("text-xl text-muted-foreground mb-12", centred ? "max-w-xl mx-auto" : "max-w-2xl")}>
           {subtitle}
