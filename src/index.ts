@@ -1,5 +1,26 @@
 // Utilities
 export { cn } from "./lib/utils";
+export {
+  colourToCssVar,
+  colorToCssVar,
+  getCssVar,
+  isDarkScheme,
+  getScoreColour,
+  getStatusColour,
+  CHART_COLOURS,
+} from "./lib/colors";
+
+// Types
+export type {
+  ColourScheme,
+  ColorScheme,
+  BorderStyle,
+  SectionLayout,
+  SectionVariant,
+  DeviceType,
+  StatusType,
+} from "./types/design-tokens";
+export { borderHeights } from "./types/design-tokens";
 
 // Hooks
 export { useToast, toast } from "./hooks/use-toast";
@@ -9,7 +30,7 @@ export { useIsMobile } from "./hooks/use-mobile";
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./components/ui/accordion";
 export { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
 export { Badge, badgeVariants } from "./components/ui/badge";
-export { Button, buttonVariants } from "./components/ui/button";
+export { Button } from "./components/ui/button";
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/card";
 export { Checkbox } from "./components/ui/checkbox";
 export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from "./components/ui/dialog";

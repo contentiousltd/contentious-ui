@@ -7,7 +7,9 @@
     ".": "./src/index.ts",
     "./tailwind-preset": "./src/tailwind-preset.ts",
     "./styles/*": "./src/styles/*",
-    "./fonts/*": "./fonts/*"
+    "./fonts/*": "./fonts/*",
+    "./types/design-tokens": "./src/types/design-tokens.ts",
+    "./lib/colors": "./src/lib/colors.ts"
   },
   "peerDependencies": {
     "react": "^18.0.0",
