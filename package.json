@@ -6,6 +6,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./tailwind-preset": "./src/tailwind-preset.ts",
+    "./styles/typography.css": "./src/styles/typography.css",
     "./styles/*": "./src/styles/*",
     "./fonts/*": "./fonts/*",
     "./types/design-tokens": "./src/types/design-tokens.ts",

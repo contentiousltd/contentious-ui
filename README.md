@@ -18,11 +18,11 @@ tokens → theme → base → components → utilities
 
 | Layer | File | Purpose |
 |-------|------|---------|
-| `tokens` | `tokens.css` | Raw design decisions: hex palette, spacing, motion, layout |
+| `tokens` | `tokens.css`, `typography.css` | Raw design decisions: hex palette, spacing, motion, layout, type scale |
 | `theme` | `themes/*.css` | Semantic mapping: `--background`, `--primary` → token values |
-| `base` | `base.css` | `@font-face`, body/heading element defaults |
-| `components` | `components.css` | `c-button`, `c-card`, `type-*` classes |
-| `utilities` | `utilities.css` | `.flex`, `.grid`, `.gap-md`, layout helpers |
+| `base` | `base.css`, `typography.css` | `@font-face`, body/heading element defaults, responsive type multiplier |
+| `components` | `typography.css`, `components.css` | `type-*` classes, `.display-heading`, `c-button`, `c-card` (in progress) |
+| `utilities` | `utilities.css` | `.flex`, `.grid`, `.gap-md`, layout helpers (planned) |
 
 See [docs/adr/0003-css-cascade-layers.md](docs/adr/0003-css-cascade-layers.md) for the rationale.
 
