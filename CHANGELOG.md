@@ -18,9 +18,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 - **`src/types/design-tokens.ts`** — `ColorScheme`, `BorderStyle`, `SectionLayout`, `SectionVariant`, `DeviceType` types ported from `contentious-astro`.
 - **`src/lib/colors.ts`** — colour utility functions: `getCssVar()`, `isDarkScheme()`, `getScoreColour()`, `CHART_COLOURS`, `getStatusColour()`. Ported and updated from `contentious-astro` and CHC local copy. All functions return CSS variable references (not HSL strings or Tailwind classes).
 - **`typography.css`** — Contentious responsive typography system in `@layer tokens` (type scale and weight tokens), `@layer base` (responsive `--text-multiplier` breakpoints), `@layer components` (`type-*` utility classes and `.display-heading`), and unlayered `.prose` styles for article content. Extracted from `voicetoneandstyle/client/src/index.css`. `hsl(var(--x))` colour references updated to plain `var(--x)` to match hex token format.
-- **`components.css`** — Button component classes in `@layer components`. Covers `.btn` base, all variant classes (`.btn-primary`, `.btn-outline`, `.btn-outline-light`, `.btn-secondary`, `.btn-ghost`, `.btn-link`, `.btn-destructive`), and size modifiers (`.btn-sm`, `.btn-lg`, `.btn-icon`). Extracted from `voicetoneandstyle/client/src/index.css`. Hover opacity variants replaced from `hsl(var(--x) / 0.85)` to `color-mix(in srgb, var(--x) 85%, transparent)` for hex token compatibility.
+- **`components.css`** — Component classes in `@layer components`. Button variants + sizes (Phase 3). Brand layout components: `c-section`, `c-section__inner`, `c-section-header`, `c-section-header--centred`, `c-feature-card` and element variants (Phase 4). Covers `.btn` base, all variant classes (`.btn-primary`, `.btn-outline`, `.btn-outline-light`, `.btn-secondary`, `.btn-ghost`, `.btn-link`, `.btn-destructive`), and size modifiers (`.btn-sm`, `.btn-lg`, `.btn-icon`). Extracted from `voicetoneandstyle/client/src/index.css`. Hover opacity variants replaced from `hsl(var(--x) / 0.85)` to `color-mix(in srgb, var(--x) 85%, transparent)` for hex token compatibility.
 
 ### Changed
+
+- **`Section.tsx`** — `bg` prop now accepts a CSS value (`"var(--sorbet-900)"`) instead of a Tailwind class name (`"bg-sorbet-900"`). Renders with `style={{ backgroundColor: bg }}`.
+- **`SectionHeader.tsx`** — converted from Tailwind utilities to `c-section-header` BEM classes. Removed `text-4xl`, `text-xl`, `font-display`, `max-w-xl`, `mx-auto`, `text-center` utilities.
+- **`FeatureCard.tsx`** — converted from Tailwind utilities to `c-feature-card` BEM classes. Removed `border-0`, `rounded-xl`, `p-8`, `font-display`, `text-2xl`, `font-normal`, `text-lg`, `leading-relaxed` utilities.
 
 - **`palette.css` removed** — replaced by `tokens.css` (palette and semantic tokens) and `base.css` (fonts and element defaults).
 - **Theme files** — `@layer base` updated to `@layer theme` to match declared layer order.

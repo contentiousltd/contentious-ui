@@ -1,11 +1,11 @@
 import { cn } from "../lib/utils";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 interface SectionProps {
   id?: string;
   children: ReactNode;
   className?: string;
-  /** Background colour class, e.g. "bg-limestone-400" or "bg-sorbet-900" */
+  /** Background colour as a CSS value, e.g. "var(--sorbet-900)" or "#f97a62" */
   bg?: string;
 }
 
@@ -13,9 +13,10 @@ interface SectionProps {
  * Standard page section: vertical padding, centred container, optional background.
  */
 export default function Section({ id, children, className, bg }: SectionProps) {
+  const style: CSSProperties | undefined = bg ? { backgroundColor: bg } : undefined;
   return (
-    <section id={id} className={cn("py-20", bg)}>
-      <div className={cn("container max-w-7xl", className)}>
+    <section id={id} className="c-section" style={style}>
+      <div className={cn("c-section__inner", className)}>
         {children}
       </div>
     </section>

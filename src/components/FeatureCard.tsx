@@ -12,15 +12,15 @@ interface FeatureCardProps {
 
 /**
  * Brand-standard feature card: borderless, rounded-xl, generous padding,
- * Bely Display title at text-2xl, body text at text-lg.
+ * display-heading title, muted body text.
  */
 export default function FeatureCard({ title, children, className, accent }: FeatureCardProps) {
   return (
-    <Card className={cn("border-0 rounded-xl", className)}>
-      <CardContent className="p-8">
-        {accent && <div className="mb-3">{accent}</div>}
-        <h3 className="font-display text-2xl font-normal mb-4">{title}</h3>
-        <div className="text-lg text-muted-foreground leading-relaxed">
+    <Card className={cn("c-feature-card", className)}>
+      <CardContent className="c-feature-card__content">
+        {accent && <div className="c-feature-card__accent">{accent}</div>}
+        <h3 className="c-feature-card__title">{title}</h3>
+        <div className="c-feature-card__body">
           {children}
         </div>
       </CardContent>

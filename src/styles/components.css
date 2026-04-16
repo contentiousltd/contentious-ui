@@ -1,4 +1,114 @@
 /* ================================================================
+   Contentious brand component classes
+
+   c-section        — page section with vertical padding and centred container
+   c-section-header — section title + subtitle block
+   c-feature-card   — borderless card with display heading and body text
+
+   ================================================================ */
+
+@layer components {
+
+  /* ----------------------------------------------------------------
+     c-section
+     ---------------------------------------------------------------- */
+
+  .c-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .c-section__inner {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .c-section__inner {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .c-section__inner {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* ----------------------------------------------------------------
+     c-section-header
+     ---------------------------------------------------------------- */
+
+  .c-section-header {
+    margin-bottom: 3rem;
+  }
+
+  .c-section-header--centred {
+    text-align: center;
+  }
+
+  .c-section-header__title {
+    font-family: var(--font-heading-display);
+    font-size: var(--font-size-h2);
+    line-height: var(--heading-line-height);
+    font-weight: var(--font-weight-normal);
+    color: var(--foreground);
+    margin-bottom: 1rem;
+  }
+
+  .c-section-header__subtitle {
+    font-size: calc(1.15em * var(--text-multiplier));
+    line-height: var(--body-line-height);
+    color: var(--muted-foreground);
+    margin-bottom: 3rem;
+    max-width: 42rem;
+  }
+
+  .c-section-header--centred .c-section-header__subtitle {
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ----------------------------------------------------------------
+     c-feature-card
+     ---------------------------------------------------------------- */
+
+  .c-feature-card {
+    border: none;
+    border-radius: 0.75rem;
+  }
+
+  .c-feature-card__content {
+    padding: 2rem;
+  }
+
+  .c-feature-card__accent {
+    margin-bottom: 0.75rem;
+  }
+
+  .c-feature-card__title {
+    font-family: var(--font-heading-display);
+    font-size: var(--font-size-h3);
+    line-height: var(--heading-line-height);
+    font-weight: var(--font-weight-normal);
+    margin-bottom: 1rem;
+  }
+
+  .c-feature-card__body {
+    font-size: calc(1em * var(--text-multiplier));
+    line-height: var(--line-height-relaxed);
+    color: var(--muted-foreground);
+  }
+
+}
+
+/* ================================================================
    Contentious component classes
 
    Layer order (declared in layers.css):
