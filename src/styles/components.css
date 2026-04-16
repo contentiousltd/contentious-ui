@@ -121,6 +121,41 @@
     color: var(--muted-foreground);
   }
 
+  /* ----------------------------------------------------------------
+     c-hero — Above-the-fold entrance animations
+
+     Add these classes to hero section elements. Keyframes (hero-drop,
+     hero-fade) are defined in base.css.
+
+     .c-hero__eyebrow   — eyebrow label above the heading
+     .c-hero__heading   — main heading (wrap lines in <span> for per-line stagger)
+     .c-hero__intro     — lead paragraph
+     .c-hero__cta       — button group
+     .c-hero__image     — hero image (pure fade, no drop)
+     ---------------------------------------------------------------- */
+
+  /* Prevent long words overflowing on narrow screens */
+  .c-hero__heading {
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .c-hero__eyebrow { animation: hero-drop 550ms ease-out both; animation-delay:  80ms; }
+    .c-hero__heading { animation: hero-drop 550ms ease-out both; animation-delay: 180ms; }
+    .c-hero__intro   { animation: hero-drop 550ms ease-out both; animation-delay: 300ms; }
+    .c-hero__cta     { animation: hero-drop 550ms ease-out both; animation-delay: 420ms; }
+    .c-hero__image   { animation: hero-fade 1400ms ease-out both; animation-delay: 180ms; }
+
+    /* Per-line stagger when heading lines are wrapped in <span> */
+    .c-hero__heading span {
+      display: inline-block;
+      animation: hero-drop 550ms ease-out both;
+    }
+    .c-hero__heading span:first-of-type { animation-delay:  80ms; }
+    .c-hero__heading span:last-of-type  { animation-delay: 200ms; }
+  }
+
 }
 
 /* ================================================================
