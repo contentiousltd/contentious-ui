@@ -134,9 +134,13 @@
      .c-hero__image     — hero image (pure fade, no drop)
      ---------------------------------------------------------------- */
 
-  /* Prevent long words overflowing on narrow screens */
+  /* Auto-hyphenation with generous limits. Use &shy; (U+00AD) in source text
+     to control specific break points. overflow-wrap catches anything else. */
   .c-hero__heading {
     hyphens: auto;
+    hyphenate-limit-chars: 9 5 4;
+    -webkit-hyphenate-limit-before: 5;
+    -webkit-hyphenate-limit-after: 4;
     overflow-wrap: break-word;
   }
 
