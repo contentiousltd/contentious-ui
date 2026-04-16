@@ -79,9 +79,24 @@
      c-feature-card
      ---------------------------------------------------------------- */
 
-  .c-feature-card {
+  /* Two-class selector beats c-card's single-class border-radius */
+  .c-card.c-feature-card {
     border: none;
     border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .c-card.c-feature-card {
+      transition: transform 350ms ease, box-shadow 350ms ease;
+    }
+
+    .c-card.c-feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 4px 16px 0 color-mix(in srgb, var(--gloaming-900) 10%, transparent),
+        0 1px 4px 0 color-mix(in srgb, var(--gloaming-900) 6%, transparent);
+    }
   }
 
   .c-feature-card__content {
@@ -467,5 +482,19 @@
     height: 2.5rem;
     width: 2.5rem;
     padding: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btn {
+      transition:
+        background-color 200ms ease,
+        color 200ms ease,
+        border-color 200ms ease,
+        transform 200ms ease,
+        box-shadow 200ms ease;
+    }
+
+    .btn:hover  { transform: translateY(-1px); }
+    .btn:active { transform: translateY(1px); transition-duration: 100ms; }
   }
 }

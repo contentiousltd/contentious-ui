@@ -62,3 +62,7 @@ export { default as PageHeader } from "./components/PageHeader";
 export { default as Section } from "./components/Section";
 export { default as SectionHeader } from "./components/SectionHeader";
 export { default as FeatureCard } from "./components/FeatureCard";
+export { Reveal } from "./components/Reveal";
+
+// Hooks
+export { useScrollReveal } from "./hooks/useScrollReveal";
