@@ -1,0 +1,12 @@
+/* ================================================================
+   Contentious Design System — Cascade Layer Order
+
+   Layers are resolved in declaration order (lowest → highest priority):
+   1. tokens     Raw design decisions (colours, spacing, type scale)
+   2. theme      Semantic mapping (--background, --primary → token values)
+   3. base       Element defaults (body font, heading styles, reset)
+   4. components Component classes (c-button, c-card, type-* classes)
+   5. utilities  Layout helpers (.flex, .grid, .gap-md) — highest priority
+   ================================================================ */
+
+@layer tokens, theme, base, components, utilities;

@@ -3,7 +3,7 @@
    Primary: sorbet | Surfaces: limestone
    ================================================================ */
 
-@layer base {
+@layer theme {
   :root {
     --background: var(--limestone-300);
     --foreground: var(--gloaming-700);

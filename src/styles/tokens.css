@@ -1,0 +1,347 @@
+/* ================================================================
+   Contentious Design System — Design Tokens
+   Canonical source: style.contentious.ltd/code/tokens
+
+   All raw design decisions live here. Colour values match the
+   upstream hex definitions in contentious-astro/design-tokens.css.
+   ================================================================ */
+
+@layer tokens {
+  :root {
+    /* ============================================
+       COLOURS — 11 brand families, 17 shades each
+       ============================================ */
+
+    /* Limestone — warm cream neutral (base lightness: 93%) */
+    --limestone-900: #B6B6AD;
+    --limestone-850: #BDBDB5;
+    --limestone-800: #C5C5BC;
+    --limestone-750: #CCCCC3;
+    --limestone-700: #D4D4CA;
+    --limestone-650: #DBDBD1;
+    --limestone-600: #E3E3D9;
+    --limestone-550: #EAEAE0;
+    --limestone-500: #F2F2E7;
+    --limestone-450: #F4F4EA;
+    --limestone-400: #F5F5EC;
+    --limestone-350: #F6F6EF;
+    --limestone-300: #F8F8F2;
+    --limestone-250: #F9F9F5;
+    --limestone-200: #FBFBF7;
+    --limestone-150: #FCFCFA;
+    --limestone-100: #FEFEFD;
+
+    /* Gloaming — warm charcoal (base lightness: 30%) */
+    --gloaming-900: #080808;
+    --gloaming-850: #111010;
+    --gloaming-800: #1A1918;
+    --gloaming-750: #232221;
+    --gloaming-700: #2C2A29;
+    --gloaming-650: #343332;
+    --gloaming-600: #3D3C3A;
+    --gloaming-550: #464443;
+    --gloaming-500: #4F4D4B;
+    --gloaming-450: #63615F;
+    --gloaming-400: #777574;
+    --gloaming-350: #8A8988;
+    --gloaming-300: #9E9D9C;
+    --gloaming-250: #B2B1B0;
+    --gloaming-200: #C6C5C5;
+    --gloaming-150: #DAD9D9;
+    --gloaming-100: #EDEDED;
+
+    /* Sunshine — golden yellow (base lightness: 58%) */
+    --sunshine-900: #B97232;
+    --sunshine-850: #BF7934;
+    --sunshine-800: #C48036;
+    --sunshine-750: #CA8637;
+    --sunshine-700: #D08D39;
+    --sunshine-650: #D6953A;
+    --sunshine-600: #DB9C3C;
+    --sunshine-550: #E1A33D;
+    --sunshine-500: #E7AB3F;
+    --sunshine-450: #EAB455;
+    --sunshine-400: #ECBE6A;
+    --sunshine-350: #EFC780;
+    --sunshine-300: #F2D195;
+    --sunshine-250: #F5DAAB;
+    --sunshine-200: #F7E4C1;
+    --sunshine-150: #FAEDD6;
+    --sunshine-100: #FDF7EC;
+
+    /* Wave — teal/cyan (base lightness: 60%) */
+    --wave-900: #0E1111;
+    --wave-850: #1D2324;
+    --wave-800: #2D3638;
+    --wave-750: #3C494B;
+    --wave-700: #4B5B5E;
+    --wave-650: #5B6E71;
+    --wave-600: #6A8185;
+    --wave-550: #7A9398;
+    --wave-500: #89A6AB;
+    --wave-450: #96B0B4;
+    --wave-400: #A4BABE;
+    --wave-350: #B1C4C7;
+    --wave-300: #BECED1;
+    --wave-250: #CBD8DA;
+    --wave-200: #D9E2E4;
+    --wave-150: #E6ECED;
+    --wave-100: #F3F6F7;
+
+    /* Fire — coral red (base lightness: 57%) */
+    --fire-900: #2B1110;
+    --fire-850: #401918;
+    --fire-800: #552220;
+    --fire-750: #6B2A28;
+    --fire-700: #80322F;
+    --fire-650: #953B37;
+    --fire-600: #AA433F;
+    --fire-550: #C04C47;
+    --fire-500: #D5544F;
+    --fire-450: #D66D67;
+    --fire-400: #D8847D;
+    --fire-350: #DB9A93;
+    --fire-300: #DFAEA7;
+    --fire-250: #E4C1BB;
+    --fire-200: #E9D2CE;
+    --fire-150: #F0E3E0;
+    --fire-100: #F7F2F1;
+
+    /* Sapling — soft green (base lightness: 56%) */
+    --sapling-900: #1A2118;
+    --sapling-850: #273124;
+    --sapling-800: #344230;
+    --sapling-750: #41523D;
+    --sapling-700: #4D6249;
+    --sapling-650: #5A7355;
+    --sapling-600: #678361;
+    --sapling-550: #74946D;
+    --sapling-500: #81A479;
+    --sapling-450: #8FAE89;
+    --sapling-400: #9DB898;
+    --sapling-350: #ABC2A7;
+    --sapling-300: #B9CCB7;
+    --sapling-250: #C7D6C6;
+    --sapling-200: #D5E0D5;
+    --sapling-150: #E4EBE3;
+    --sapling-100: #F2F6F2;
+
+    /* Coffee — warm brown (base lightness: 62%) */
+    --coffee-900: #251D1A;
+    --coffee-850: #382C27;
+    --coffee-800: #4B3C34;
+    --coffee-750: #5E4C41;
+    --coffee-700: #705D4D;
+    --coffee-650: #836E5A;
+    --coffee-600: #967F67;
+    --coffee-550: #A89174;
+    --coffee-500: #BBA481;
+    --coffee-450: #C3AF8F;
+    --coffee-400: #CAB99E;
+    --coffee-350: #D2C4AC;
+    --coffee-300: #D9CEBA;
+    --coffee-250: #E1D8C8;
+    --coffee-200: #E9E3D6;
+    --coffee-150: #F0EDE5;
+    --coffee-100: #F8F6F3;
+
+    /* Sorbet — warm salmon (base lightness: 62%) */
+    --sorbet-900: #271A18;
+    --sorbet-850: #3A2725;
+    --sorbet-800: #4D3431;
+    --sorbet-750: #61413D;
+    --sorbet-700: #744E49;
+    --sorbet-650: #875B55;
+    --sorbet-600: #9A6862;
+    --sorbet-550: #AE756E;
+    --sorbet-500: #C1827A;
+    --sorbet-450: #C89189;
+    --sorbet-400: #CFA098;
+    --sorbet-350: #D6AEA7;
+    --sorbet-300: #DCBCB6;
+    --sorbet-250: #E3CAC5;
+    --sorbet-200: #EAD8D4;
+    --sorbet-150: #F2E6E3;
+    --sorbet-100: #F9F3F2;
+
+    /* Amber — warm orange (base: #DF824A) */
+    --amber-900: #2D1A0F;
+    --amber-850: #432716;
+    --amber-800: #59341E;
+    --amber-750: #704125;
+    --amber-700: #864E2C;
+    --amber-650: #9C5B34;
+    --amber-600: #B2683B;
+    --amber-550: #C97543;
+    --amber-500: #DF824A;
+    --amber-450: #E2905F;
+    --amber-400: #E59F74;
+    --amber-350: #E8AD89;
+    --amber-300: #EBBB9E;
+    --amber-250: #EFC9B2;
+    --amber-200: #F3D7C6;
+    --amber-150: #F7E5DA;
+    --amber-100: #FBF3EE;
+
+    /* Olive — yellow-green (base: #B4A75B) */
+    --olive-900: #242112;
+    --olive-850: #36321B;
+    --olive-800: #484324;
+    --olive-750: #5A542E;
+    --olive-700: #6C6437;
+    --olive-650: #7E7540;
+    --olive-600: #908649;
+    --olive-550: #A29652;
+    --olive-500: #B4A75B;
+    --olive-450: #BCB16E;
+    --olive-400: #C4BA81;
+    --olive-350: #CCC494;
+    --olive-300: #D5CEA6;
+    --olive-250: #DDD8B9;
+    --olive-200: #E6E2CB;
+    --olive-150: #EEECDD;
+    --olive-100: #F7F6EF;
+
+    /* Lichen — cool neutral grey (base: #DADAD2) */
+    --lichen-900: #575754;
+    --lichen-850: #686864;
+    --lichen-800: #787874;
+    --lichen-750: #888883;
+    --lichen-700: #999993;
+    --lichen-650: #A9A9A3;
+    --lichen-600: #B9B9B3;
+    --lichen-550: #CACAC2;
+    --lichen-500: #DADAD2;
+    --lichen-450: #DEDED7;
+    --lichen-400: #E3E3DD;
+    --lichen-350: #E7E7E2;
+    --lichen-300: #ECECE7;
+    --lichen-250: #F0F0ED;
+    --lichen-200: #F4F4F2;
+    --lichen-150: #F9F9F7;
+    --lichen-100: #FDFDFD;
+
+    /* ============================================
+       SEMANTIC COLOUR ALIASES
+       ============================================ */
+
+    /* Star rating gradient: poor (1) → excellent (5) */
+    --star-1: var(--fire-500);
+    --star-2: var(--amber-500);
+    --star-3: var(--sunshine-500);
+    --star-4: var(--olive-500);
+    --star-5: var(--sapling-500);
+
+    /* Status colours */
+    --success-subtle: var(--sapling-100);
+    --success-text: var(--sapling-800);
+    --warning-subtle: var(--sunshine-100);
+    --warning-text: var(--sunshine-900);
+    --error-subtle: var(--fire-100);
+    --error-text: var(--fire-800);
+    --info-subtle: var(--wave-100);
+    --info-text: var(--wave-800);
+
+    /* ============================================
+       SPACING — 4pt base with 12px included
+       (Impeccable: never skip 12px)
+       ============================================ */
+
+    --space-xs: 0.25rem;     /*  4px */
+    --space-sm: 0.5rem;      /*  8px */
+    --space-sm-plus: 0.75rem; /* 12px */
+    --space-md: 1rem;        /* 16px */
+    --space-lg: 1.5rem;      /* 24px */
+    --space-xl: 2rem;        /* 32px */
+    --space-2xl: 3rem;       /* 48px */
+    --space-3xl: 4rem;       /* 64px */
+    --space-4xl: 6rem;       /* 96px */
+    --space-5xl: 8rem;       /* 128px */
+    --space-6xl: 10rem;      /* 160px */
+
+    /* ============================================
+       BORDERS & RADIUS
+       ============================================ */
+
+    --radius: 0.25rem;
+    --border-radius-sm: 3px;
+    --border-radius-md: 6px;
+    --border-radius-lg: 12px;
+    --border-radius-full: 9999px;
+
+    --border-width-thin: 1px;
+    --border-width-medium: 2px;
+    --border-width-thick: 4px;
+
+    /* ============================================
+       SHADOWS
+       ============================================ */
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+    /* ============================================
+       MOTION — durations and easing
+       Follows Impeccable 100/300/500 rule
+       ============================================ */
+
+    /* Durations */
+    --duration-instant: 100ms;   /* Button press, toggle, colour change */
+    --duration-fast: 200ms;      /* Menu open, tooltip, hover states */
+    --duration-normal: 350ms;    /* Accordion, modal, drawer */
+    --duration-slow: 500ms;      /* Entrance animations, page reveals */
+    --duration-glacial: 800ms;   /* Hero reveals, dramatic entrances */
+
+    /* Exit = 75% of entrance (Impeccable: exits feel faster) */
+    --duration-fast-exit: 150ms;
+    --duration-normal-exit: 250ms;
+
+    /* Easing — exponential curves for natural deceleration */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);     /* Elements entering */
+    --ease-in: cubic-bezier(0.7, 0, 0.84, 0);       /* Elements leaving */
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* State toggles */
+
+    /* Legacy compat — Astro site transition tokens */
+    --transition-fast: 300ms ease-in-out;
+    --transition-base: 800ms ease-in-out;
+    --transition-slow: 1.5s ease-in-out;
+    --transition-slower: 3s ease-in-out;
+    --transition-extra-slow: 6s ease-in-out;
+
+    /* ============================================
+       Z-INDEX
+       ============================================ */
+
+    --z-base: 1;
+    --z-dropdown: 100;
+    --z-sticky: 1000;
+    --z-modal: 2000;
+    --z-tooltip: 3000;
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+
+    --container-max-width: 1080px;
+    --content-max-width: 1080px;
+    --width-narrow: 40rem;
+    --width-content: 80rem;
+    --width-prose: 65ch;
+    --page-padding: clamp(2rem, 6vw, 5rem);
+
+    /* ============================================
+       BREAKPOINTS (reference values)
+       CSS custom properties can't be used in
+       media queries directly, but these document
+       the scale and can be used in calc() or JS.
+       ============================================ */
+
+    --breakpoint-xs: 32rem;   /* 512px */
+    --breakpoint-sm: 40rem;   /* 640px */
+    --breakpoint-md: 48rem;   /* 768px */
+    --breakpoint-lg: 64rem;   /* 1024px */
+    --breakpoint-xl: 80rem;   /* 1280px */
+    --breakpoint-2xl: 96rem;  /* 1536px */
+  }
+}

@@ -1,0 +1,130 @@
+/* ================================================================
+   Contentious Design System — Base
+   @font-face declarations and element defaults.
+   Colour tokens live in tokens.css. Semantic mapping in themes/*.css.
+   ================================================================ */
+
+/* ── Self-hosted Bely fonts ── */
+
+@font-face {
+  font-family: 'bely';
+  src: url('../../fonts/Bely-Regular.woff2') format('woff2'),
+       url('../../fonts/Bely-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bely';
+  src: url('../../fonts/Bely-Bold.woff2') format('woff2'),
+       url('../../fonts/Bely-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bely';
+  src: url('../../fonts/Bely-Italic.woff2') format('woff2'),
+       url('../../fonts/Bely-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bely-display';
+  src: url('../../fonts/BelyDisplay-Regular.woff2') format('woff2'),
+       url('../../fonts/BelyDisplay-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Element defaults ── */
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'bely', serif;
+    font-size: 1.1rem;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'bely-display', serif;
+    font-weight: 400;
+  }
+}
+
+/* ── Animations ── */
+
+@keyframes loading-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-ring-spin {
+  animation: loading-ring-spin 3s linear infinite;
+}
+
+@keyframes rotate-ring {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rotating-ring {
+  animation: rotate-ring 30s ease-in-out infinite;
+}
+
+@layer components {
+  /* Mobile menu animations */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .animate-slide-in-1 {
+    animation: slideInFromTop 0.4s ease-out 0.1s both;
+  }
+
+  .animate-slide-in-2 {
+    animation: slideInFromTop 0.4s ease-out 0.2s both;
+  }
+
+  .animate-slide-in-3 {
+    animation: slideInFromTop 0.4s ease-out 0.3s both;
+  }
+
+  .animate-slide-in-4 {
+    animation: slideInFromTop 0.4s ease-out 0.4s both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile popover scrolling */
+  @media (max-width: 767px) {
+    .popover-mobile {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+  }
+}

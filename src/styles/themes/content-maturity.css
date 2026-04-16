@@ -3,7 +3,7 @@
    Primary: fire | Surfaces: lichen
    ================================================================ */
 
-@layer base {
+@layer theme {
   :root {
     --background: var(--lichen-300);
     --foreground: var(--gloaming-700);
