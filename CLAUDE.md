@@ -2,7 +2,21 @@
 
 ## Workflow
 
-- **After each item is complete: document then commit.** Update `CHANGELOG.md` before committing. Commit each logical change as its own commit with a clear message.
+**Document, then commit — every time, without exception.**
+
+For each piece of work, before committing:
+
+| Change type | What to update |
+|---|---|
+| New feature, component, or export | `CHANGELOG.md` under `[Unreleased] → Added` |
+| Modified behaviour or refactor | `CHANGELOG.md` under `[Unreleased] → Changed` |
+| Deprecated export or API | `CHANGELOG.md` under `[Unreleased] → Deprecated` |
+| Architectural decision (chose A over B) | New ADR in `docs/adr/`, update `docs/adr/README.md` |
+| Decision reversed or superseded | Mark old ADR as superseded, write new ADR |
+| New coding convention | Update `CLAUDE.md` — this file |
+| Convention changed | Update `CLAUDE.md` — and note why it changed |
+
+Commit each logical change as its own commit with a clear message. Do not batch unrelated changes.
 
 ## Documentation
 
