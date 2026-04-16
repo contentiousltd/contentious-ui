@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 - **`src/types/design-tokens.ts`** — `ColorScheme`, `BorderStyle`, `SectionLayout`, `SectionVariant`, `DeviceType` types ported from `contentious-astro`.
 - **`src/lib/colors.ts`** — colour utility functions: `getCssVar()`, `isDarkScheme()`, `getScoreColour()`, `CHART_COLOURS`, `getStatusColour()`. Ported and updated from `contentious-astro` and CHC local copy. All functions return CSS variable references (not HSL strings or Tailwind classes).
 - **`typography.css`** — Contentious responsive typography system in `@layer tokens` (type scale and weight tokens), `@layer base` (responsive `--text-multiplier` breakpoints), `@layer components` (`type-*` utility classes and `.display-heading`), and unlayered `.prose` styles for article content. Extracted from `voicetoneandstyle/client/src/index.css`. `hsl(var(--x))` colour references updated to plain `var(--x)` to match hex token format.
+- **`components.css`** — Button component classes in `@layer components`. Covers `.btn` base, all variant classes (`.btn-primary`, `.btn-outline`, `.btn-outline-light`, `.btn-secondary`, `.btn-ghost`, `.btn-link`, `.btn-destructive`), and size modifiers (`.btn-sm`, `.btn-lg`, `.btn-icon`). Extracted from `voicetoneandstyle/client/src/index.css`. Hover opacity variants replaced from `hsl(var(--x) / 0.85)` to `color-mix(in srgb, var(--x) 85%, transparent)` for hex token compatibility.
 
 ### Changed
 

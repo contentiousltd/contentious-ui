@@ -1,0 +1,148 @@
+/* ================================================================
+   Contentious component classes
+
+   Layer order (declared in layers.css):
+     @layer tokens, theme, base, components, utilities
+
+   All component classes live in @layer components.
+
+   Note on opacity variants: with hex-format tokens, HSL channel
+   opacity modifiers (hsl(var(--x) / 0.85)) are invalid. Hover
+   states use color-mix(in srgb, var(--x) N%, transparent) instead,
+   which achieves the same visual result and works with any format.
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Button
+   Variants: primary (default), outline, outline-light, ghost,
+             link, secondary, destructive
+   Sizes:    default, sm, lg, icon
+   ---------------------------------------------------------------- */
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    border-radius: var(--radius);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    height: 2.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ring);
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .btn svg {
+    pointer-events: none;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* --- Variants --- */
+
+  .btn-primary {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--primary) 85%, transparent);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--input);
+    background-color: transparent;
+    color: var(--foreground);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .btn-outline-light {
+    border: 1px solid var(--sorbet-700);
+    background-color: transparent;
+    color: var(--limestone-400);
+  }
+
+  .btn-outline-light:hover {
+    background-color: var(--sorbet-800);
+    color: var(--limestone-200);
+  }
+
+  .btn-secondary {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+
+  .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--secondary) 80%, transparent);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--foreground);
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .btn-link {
+    background-color: transparent;
+    color: var(--primary);
+    text-underline-offset: 4px;
+  }
+
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+
+  .btn-destructive {
+    background-color: var(--destructive);
+    color: var(--destructive-foreground);
+  }
+
+  .btn-destructive:hover {
+    background-color: color-mix(in srgb, var(--destructive) 85%, transparent);
+  }
+
+  /* --- Sizes --- */
+
+  .btn-sm {
+    height: 2.25rem;
+    padding: 0.25rem 0.75rem;
+    font-size: var(--font-size-sm);
+  }
+
+  .btn-lg {
+    height: 2.75rem;
+    padding: 0.5rem 2rem;
+  }
+
+  .btn-icon {
+    height: 2.5rem;
+    width: 2.5rem;
+    padding: 0;
+  }
+}
