@@ -33,30 +33,24 @@ export class ErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) return this.props.fallback;
 
       return (
-        <div className="min-h-screen w-full flex items-center justify-center bg-background px-4">
-          <div className="w-full max-w-md text-center space-y-6">
-            <div className="space-y-2">
-              <h1 className="font-display text-2xl text-foreground">Something went wrong</h1>
-              <p className="text-sm text-muted-foreground">
+        <div className="c-error">
+          <div className="c-error__inner">
+            <div className="c-error__heading-group">
+              <h1 className="c-error__heading">Something went wrong</h1>
+              <p className="c-error__message">
                 An unexpected error occurred. You can try recovering or return to the home page.
               </p>
             </div>
             {this.state.error && (
-              <pre className="text-left text-xs bg-muted text-muted-foreground rounded-md p-3 overflow-auto max-h-32">
+              <pre className="c-error__detail">
                 {this.state.error.message}
               </pre>
             )}
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button
-                onClick={this.handleReset}
-                className="px-4 py-2 rounded border border-border text-foreground hover:bg-muted"
-              >
+            <div className="c-error__actions">
+              <button onClick={this.handleReset} className="c-error__btn">
                 Try again
               </button>
-              <a
-                href="/"
-                className="px-4 py-2 rounded bg-primary text-primary-foreground hover:opacity-90"
-              >
+              <a href="/" className="c-error__btn c-error__btn--primary">
                 Go to home
               </a>
             </div>

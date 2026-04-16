@@ -42,14 +42,26 @@
   font-display: swap;
 }
 
-/* ── Element defaults ── */
+/* ── CSS reset and element defaults ── */
 
 @layer base {
-  * {
-    border-color: var(--border);
+  /* Modern CSS reset — replaces Tailwind Preflight */
+  *, ::before, ::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: var(--border, currentColor);
+  }
+
+  html {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
   }
 
   body {
+    margin: 0;
+    line-height: inherit;
     background-color: var(--background);
     color: var(--foreground);
     font-family: 'bely', serif;
@@ -57,12 +69,83 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
     font-family: 'bely-display', serif;
     font-weight: 400;
   }
+
+  p, blockquote, figure, pre { margin: 0; }
+
+  dl, dd { margin: 0; }
+
+  ul, ol { list-style: none; margin: 0; padding: 0; }
+
+  a { color: inherit; text-decoration: inherit; }
+
+  b, strong { font-weight: bolder; }
+
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+
+  button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  button, select { text-transform: none; }
+
+  button, [type='button'], [type='reset'], [type='submit'] {
+    -webkit-appearance: button;
+    background-color: transparent;
+    background-image: none;
+  }
+
+  ::-moz-focus-inner { border-style: none; padding: 0; }
+  :-moz-focusring { outline: auto; }
+  :-moz-ui-invalid { box-shadow: none; }
+
+  summary { display: list-item; }
+
+  abbr[title] {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+
+  [hidden] { display: none; }
 }
 
 /* ── Animations ── */
+
+/* Accordion open/close — Radix provides --radix-accordion-content-height */
+@keyframes accordion-down {
+  from { height: 0; }
+  to   { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to   { height: 0; }
+}
 
 @keyframes loading-ring-spin {
   from { transform: rotate(0deg); }
