@@ -408,7 +408,9 @@
     font-weight: var(--font-weight-medium);
     line-height: 1;
     cursor: pointer;
-    border: none;
+    /* Transparent border so filled and outline variants share the same box
+       model; outline variants override the colour, not the border-width. */
+    border: 1px solid transparent;
     text-decoration: none;
     transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
     height: 2.5rem;

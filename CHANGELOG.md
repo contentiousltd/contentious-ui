@@ -8,8 +8,25 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.2.0]
+
+### Changed
+
+- **`typography.css`** — `--base-font-size` raised from `19px` to `24px`. 24px is now the canonical brand default, matching how the Contentious website renders. Products that render at the previous 19px size (Voice Tone and Style, Content Maturity) now declare `--base-font-size: 19px` explicitly in their theme files as documented deviations from the brand standard. **Breaking for consumers who inherited the 19px default without declaring it**: such consumers must either adopt 24px (the new brand default) or add an explicit override in their theme file.
+- **`themes/voice-tone-style.css`** — adds explicit `--base-font-size: 19px` override so VTS continues to render at 19px after the brand default change.
+- **`themes/content-maturity.css`** — adds explicit `--base-font-size: 19px` override for the same reason.
+- **`accordion.tsx`** — converted from Tailwind utilities to `c-accordion` BEM classes. Removed `flex`, `flex-1`, `items-center`, `py-4`, `font-medium`, `transition-all`, `hover:underline`, `[&[data-state=open]>svg]:rotate-180`, `overflow-hidden`, `text-sm`, `data-[state=...]` animate utilities.
+- **`card.tsx`** — converted from Tailwind utilities to `c-card` BEM classes. Removed `rounded-lg`, `border`, `bg-card`, `text-card-foreground`, `shadow-sm`, `flex`, `flex-col`, `space-y-1.5`, `p-6`, `text-2xl`, `font-semibold`, `leading-none`, `tracking-tight`, `text-sm`.
+- **`ErrorBoundary.tsx`** — converted from Tailwind utilities to `c-error` BEM classes.
+- **`Section.tsx`** — `bg` prop now accepts a CSS value (`"var(--sorbet-900)"`) instead of a Tailwind class name (`"bg-sorbet-900"`). Renders with `style={{ backgroundColor: bg }}`.
+- **`SectionHeader.tsx`** — converted from Tailwind utilities to `c-section-header` BEM classes. Removed `text-4xl`, `text-xl`, `font-display`, `max-w-xl`, `mx-auto`, `text-center` utilities.
+- **`FeatureCard.tsx`** — converted from Tailwind utilities to `c-feature-card` BEM classes. Removed `border-0`, `rounded-xl`, `p-8`, `font-display`, `text-2xl`, `font-normal`, `text-lg`, `leading-relaxed` utilities.
+- **`palette.css` removed** — replaced by `tokens.css` (palette and semantic tokens) and `base.css` (fonts and element defaults).
+- **Theme files** — `@layer base` updated to `@layer theme` to match declared layer order.
+
 ### Added
 
+- **`themes/contentious-website.css`** — theme file for the contentious.ltd product. Minimal: the website expresses the brand most directly and inherits all brand defaults. Placeholder for future website-specific overrides.
 - **`tokens.css`** — canonical hex-format design token file in `@layer tokens`. Covers: full brand palette (11 colours × 17 shades), semantic colour aliases (status, star ratings), spacing scale (xs–6xl, including 12px), borders and radii, shadow scale, motion tokens (durations, easing), z-index scale, and layout tokens. Hex values match the upstream palette in `contentious-astro/design-tokens.css`.
 - **`layers.css`** — `@layer` order declaration: `tokens, theme, base, components, utilities`. Import first to establish cascade priority.
 - **`base.css`** — `@font-face` declarations for Bely (regular, bold, italic) and Bely Display, `@layer base` element defaults (body background/colour/font, heading font-family), and animation keyframes (loading ring, rotating ring, mobile menu slide/fade).
@@ -21,17 +38,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 - **`components.css`** — Component classes in `@layer components`. Button variants + sizes (Phase 3). Brand layout components: `c-section`, `c-section-header`, `c-feature-card` (Phase 4). Shadcn-derived components: `c-accordion`, `c-card`, `c-error` — full CSS replacements for the Tailwind utilities previously baked into these components (Phase 5).
 - **`base.css`** — Modern CSS reset added to `@layer base`, replacing Tailwind's Preflight. Accordion open/close keyframes (`accordion-down`, `accordion-up`) added to support Radix's `--radix-accordion-content-height` variable. Covers `.btn` base, all variant classes (`.btn-primary`, `.btn-outline`, `.btn-outline-light`, `.btn-secondary`, `.btn-ghost`, `.btn-link`, `.btn-destructive`), and size modifiers (`.btn-sm`, `.btn-lg`, `.btn-icon`). Extracted from `voicetoneandstyle/client/src/index.css`. Hover opacity variants replaced from `hsl(var(--x) / 0.85)` to `color-mix(in srgb, var(--x) 85%, transparent)` for hex token compatibility.
 
-### Changed
+### Fixed
 
-- **`accordion.tsx`** — converted from Tailwind utilities to `c-accordion` BEM classes. Removed `flex`, `flex-1`, `items-center`, `py-4`, `font-medium`, `transition-all`, `hover:underline`, `[&[data-state=open]>svg]:rotate-180`, `overflow-hidden`, `text-sm`, `data-[state=...]` animate utilities.
-- **`card.tsx`** — converted from Tailwind utilities to `c-card` BEM classes. Removed `rounded-lg`, `border`, `bg-card`, `text-card-foreground`, `shadow-sm`, `flex`, `flex-col`, `space-y-1.5`, `p-6`, `text-2xl`, `font-semibold`, `leading-none`, `tracking-tight`, `text-sm`.
-- **`ErrorBoundary.tsx`** — converted from Tailwind utilities to `c-error` BEM classes.
-- **`Section.tsx`** — `bg` prop now accepts a CSS value (`"var(--sorbet-900)"`) instead of a Tailwind class name (`"bg-sorbet-900"`). Renders with `style={{ backgroundColor: bg }}`.
-- **`SectionHeader.tsx`** — converted from Tailwind utilities to `c-section-header` BEM classes. Removed `text-4xl`, `text-xl`, `font-display`, `max-w-xl`, `mx-auto`, `text-center` utilities.
-- **`FeatureCard.tsx`** — converted from Tailwind utilities to `c-feature-card` BEM classes. Removed `border-0`, `rounded-xl`, `p-8`, `font-display`, `text-2xl`, `font-normal`, `text-lg`, `leading-relaxed` utilities.
-
-- **`palette.css` removed** — replaced by `tokens.css` (palette and semantic tokens) and `base.css` (fonts and element defaults).
-- **Theme files** — `@layer base` updated to `@layer theme` to match declared layer order.
+- **Button box-model parity** — `.btn` base now declares `border: 1px solid transparent` (was `border: none`). Variants like `.btn-outline-light` set the border colour without changing the border width, so filled and outline variants share an identical box model. Previously the 1px border on outline variants shrank the content box by 2px under `box-sizing: border-box`, causing subpixel disagreement on text vertical-centring between filled and outline buttons placed side-by-side.
 
 ---
 

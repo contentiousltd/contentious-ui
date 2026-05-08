@@ -14,7 +14,7 @@
 
 @layer tokens {
   :root {
-    --base-font-size: 19px;
+    --base-font-size: 24px;
     --text-multiplier: 1;
     --heading-line-height: 1.2em;
     --body-line-height: 1.4em;

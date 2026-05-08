@@ -5,6 +5,8 @@
 
 @layer theme {
   :root {
+    --base-font-size: 19px;
+
     --background: var(--lichen-300);
     --foreground: var(--gloaming-700);
     --card: var(--lichen-150);
