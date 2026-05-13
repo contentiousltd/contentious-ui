@@ -6,6 +6,20 @@ The canonical design reference is [style.contentious.ltd](https://style.contenti
 
 ---
 
+## Installing
+
+All Contentious apps install this package directly from GitHub — no npm registry needed:
+
+```json
+"@contentious/ui": "github:contentiousltd/contentious-ui#semver:^0.2"
+```
+
+npm resolves git tags. Tags matching `^0.2.x` are picked up automatically on `npm install`. A major version bump (`v1.0.0`) requires an explicit range update in each app.
+
+To release a new version, see [Releasing a new version](#releasing-a-new-version) in `CLAUDE.md`.
+
+---
+
 ## CSS architecture
 
 The package uses CSS cascade layers for predictable specificity. Import order matters.

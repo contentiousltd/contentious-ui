@@ -18,6 +18,16 @@ For each piece of work, before committing:
 
 Commit each logical change as its own commit with a clear message. Do not batch unrelated changes.
 
+## Releasing a new version
+
+1. Make and commit your changes following the workflow table above.
+2. Bump `version` in `package.json` — patch (`0.2.x`) for CSS fixes, minor (`0.x.0`) for new tokens or features, major (`x.0.0`) for breaking changes.
+3. Move `[Unreleased]` entries in `CHANGELOG.md` to a new `[x.y.z]` section.
+4. Commit: `git commit -m "Release vx.y.z"`
+5. Tag and push: `git tag vx.y.z && git push && git push origin vx.y.z`
+
+Apps using `#semver:^0.2` pick up patch and minor updates automatically on their next `npm install`. Major version bumps require an explicit range change in each consuming app's `package.json`.
+
 ## Documentation
 
 - **All cross-cutting docs live in `docs/`.** Token reference, theming guide, and architecture decisions are tracked there.
