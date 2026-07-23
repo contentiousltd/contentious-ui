@@ -9,6 +9,8 @@
     "./styles/typography.css": "./src/styles/typography.css",
     "./styles/*": "./src/styles/*",
     "./fonts/*": "./fonts/*",
+    "./brand": "./brand/index.ts",
+    "./brand/*": "./brand/*",
     "./types/design-tokens": "./src/types/design-tokens.ts",
     "./lib/colors": "./src/lib/colors.ts"
   },
