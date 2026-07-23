@@ -1,0 +1,16 @@
+/* ================================================================
+   Contentious website — theme for the contentious.ltd product.
+
+   The website expresses the brand most directly, so this file is
+   minimal: it declares the website's intent to inherit brand defaults.
+   Website-specific semantic aliases (currently in contentious-astro/
+   src/styles/design-tokens.css as --color-*) are a candidate to move
+   here in a later phase.
+   ================================================================ */
+
+@layer theme {
+  :root {
+    /* Website inherits all brand defaults — including
+       --base-font-size: 24px from typography.css. No overrides. */
+  }
+}

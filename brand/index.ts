@@ -28,10 +28,7 @@ export interface ProductBrand {
 export const PRODUCT_BRANDS: Record<string, ProductBrand> = {
   'content-health-check': {
     name: 'Content Health Check',
-    // No theme file yet: CHC currently runs on the base tokens, so a
-    // product-aware page shows the family default. Deliberate decision
-    // outstanding - see the auth pages design brief.
-    theme: null,
+    theme: 'styles/themes/content-health-check.css',
     mark: 'brand/content-health-check/logo.png',
     mark2x: 'brand/content-health-check/logo@2x.png',
   },

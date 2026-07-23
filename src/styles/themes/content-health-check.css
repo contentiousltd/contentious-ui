@@ -1,0 +1,37 @@
+/* ================================================================
+   Content Health Check — Semantic token mapping
+   Primary: fire | Surfaces: limestone | Focus ring: wave
+
+   Transcribed from the values the app already runs on
+   (contenthealthcheck client/src/index.css), not invented here, so
+   the hosted auth pages match the product a user was redirected from.
+   ================================================================ */
+
+@layer theme {
+  :root {
+    --base-font-size: 18px;
+
+    --background: var(--limestone-500);
+    --foreground: var(--gloaming-700);
+    --card: var(--limestone-600);
+    --card-foreground: var(--gloaming-700);
+    --popover: var(--limestone-500);
+    --popover-foreground: var(--gloaming-700);
+    --primary: var(--fire-500);
+    --primary-foreground: var(--limestone-500);
+    --secondary: var(--limestone-600);
+    --secondary-foreground: var(--gloaming-700);
+    --muted: var(--limestone-600);
+    --muted-foreground: var(--gloaming-500);
+    --accent: var(--sunshine-500);
+    --accent-foreground: var(--gloaming-800);
+    --destructive: var(--fire-600);
+    --destructive-foreground: var(--limestone-500);
+    --border: var(--limestone-600);
+    --input: var(--limestone-600);
+    /* Wave rather than fire: the accent is reserved for the primary
+       action, so focus gets its own colour and the two never compete. */
+    --ring: var(--wave-500);
+    --radius: 4px;
+  }
+}
