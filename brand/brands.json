@@ -1,0 +1,20 @@
+{
+  "content-health-check": {
+    "name": "Content Health Check",
+    "theme": "styles/themes/content-health-check.css",
+    "mark": "brand/content-health-check/logo.png",
+    "mark2x": "brand/content-health-check/logo@2x.png"
+  },
+  "content-maturity": {
+    "name": "Content Maturity",
+    "theme": "styles/themes/content-maturity.css",
+    "mark": "brand/content-maturity/logo.png",
+    "mark2x": "brand/content-maturity/logo@2x.png"
+  },
+  "voice-tone-style": {
+    "name": "Voice Tone & Style",
+    "theme": "styles/themes/voice-tone-style.css",
+    "mark": "brand/voice-tone-style/logo.png",
+    "mark2x": "brand/voice-tone-style/logo@2x.png"
+  }
+}
