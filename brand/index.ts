@@ -36,6 +36,29 @@ export interface ProductBrand {
 export const PRODUCT_BRANDS: Record<string, ProductBrand> = brands;
 
 /**
+ * Contentious itself, for the pages that belong to no product.
+ *
+ * Deliberately not in `brands.json`: that file is keyed by OIDC `client_id`, and
+ * Contentious is the company, not a product anyone signs into. It is here
+ * because the identity provider needs something to show when a visitor arrives
+ * without a product - typing `auth.contentious.ltd` directly, for instance.
+ *
+ * This is the mark served at contentious.ltd, byte for byte, and it must stay
+ * that way. A sign-in page is exactly where an invented approximation does
+ * damage: an icon that is nearly right is a worse trust signal than none at
+ * all, because it is what a phishing page looks like.
+ *
+ * The SVG carries its own `prefers-color-scheme` rule, so it inverts for dark
+ * browser chrome without a second file.
+ */
+export const CONTENTIOUS_MARK = {
+  /** Scales to any favicon size and adapts to dark mode. Prefer this. */
+  svg: "brand/contentious/mark.svg",
+  /** For clients that still demand a real .ico. */
+  ico: "brand/contentious/favicon.ico",
+} as const;
+
+/**
  * Look up a product by OIDC client id.
  *
  * Returns null for an unknown or absent id rather than guessing. A page with no
