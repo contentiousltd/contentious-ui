@@ -1,0 +1,24 @@
+/* ================================================================
+   Semantic layer — the design system's decisions, expressed as tokens.
+
+   This file deliberately holds no definitions of its own. The semantic
+   layer is authored by Claude Design and lives with the design system at
+   skills/contentious-design/tokens/semantic.css; this is the door into it
+   for consumers of the package, so there is ONE file rather than a copy
+   here that drifts from the copy there. See ADR-0004.
+
+   It provides the vocabulary the raw palette can't: --surface-*, --rule-*,
+   --text-*, --accent-*, --level-*, --data-*, chip tones, switch and type
+   roles. Use THESE in product UI, not raw family stops.
+
+   Imported into @layer theme, so a product theme can re-point a semantic
+   token and win, while the tokens layer underneath stays untouched. If a
+   consumer's bundler doesn't honour layer() on @import, the declarations
+   still land — unlayered rather than themed, which changes nothing unless
+   something tries to override them.
+
+   Layer order is declared in layers.css: tokens → theme → base →
+   components → utilities. Import that first.
+   ================================================================ */
+
+@import url("../../skills/contentious-design/tokens/semantic.css") layer(theme);
