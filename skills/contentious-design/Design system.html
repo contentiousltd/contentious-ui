@@ -92,6 +92,27 @@ pre .c{color:var(--text-muted)}
 .deck .d{font-size:13px;color:var(--text-muted);margin-top:4px;line-height:1.45}
 .split2{display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start;margin-top:18px}
 .frame-floor{height:46px;background:var(--limestone-450)}
+/* live type scale */
+.mult{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-bottom:18px;margin-bottom:4px;border-bottom:1px solid var(--rule-row)}
+.mult label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+.mult input[type=range]{width:210px;accent-color:var(--fire-500)}
+.mult output{font-family:var(--font-mono);font-size:13px;color:var(--text-strong);font-variant-numeric:tabular-nums;min-width:3.4ch}
+.mult__u{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.mult__u b{font-weight:400;color:var(--text-body)}
+.mult button{margin-left:auto}
+.scale-tbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.scale-tbl th{text-align:left;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:14px 14px 8px 0;border-bottom:1px solid var(--rule-field)}
+.scale-tbl th:nth-child(1){width:104px}.scale-tbl th:nth-child(2){width:62px}.scale-tbl th:nth-child(3){width:66px}
+.scale-tbl th.r,.scale-tbl td.r{text-align:right;padding-right:20px}
+.scale-tbl td{padding:9px 14px 9px 0;border-bottom:1px solid var(--rule-row);vertical-align:baseline}
+.scale-tbl tr:last-child td{border-bottom:0}
+.scale-tbl td.n{font-family:var(--font-mono);font-size:11.5px;color:var(--text-body);white-space:nowrap;font-variant-numeric:tabular-nums}
+.scale-tbl td.px{color:var(--text-muted)}
+.scale-tbl td.sp{color:var(--text-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.15}
+.scale-tbl td.sp.f-display{font-family:var(--font-heading-display);font-weight:400}
+.scale-tbl td.sp.f-heading{font-family:var(--font-heading);font-weight:400}
+.scale-tbl td.sp.f-body{font-family:var(--font-body);color:var(--text-body)}
+.scale-tbl td.sp.f-mono{font-family:var(--font-mono);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--text-muted)}
 </style>
 </head>
 <body>
@@ -257,36 +278,56 @@ pre .c{color:var(--text-muted)}
     <h2 class="big">Typography</h2>
     <p class="intro">Bely for everything – body, headings and UI all share one serif. That’s unusual and it’s the strongest thing about the identity, so don’t reach for a sans to "fix" a dense screen. Mono is the metadata voice and nothing else.</p>
 
-    <h3 class="sub">Bely Display – page titles and metric values only</h3>
-    <p class="why">A single 400 cut. <b>Never below 30px</b>, and never allowed to synthesise a bold: browsers default headings to 700 and fake it, which thickens the ink and breaks the cut’s proportions. <code>font-synthesis-weight: none</code> is set globally in <code>tokens/fonts.css</code>.</p>
-    <div class="demo">
-      <div style="font-family:var(--font-heading-display);font-weight:400;font-size:50px;line-height:1.02;color:var(--text-strong)">Which one am I in?</div>
-      <div class="c-metric__value" style="margin-top:20px">$41.28</div>
-      <div class="cap" style="margin:14px 0 0">--type-page-title 44px · --type-metric 30px</div>
-    </div>
+    <h3 class="sub">One scale, two inputs</h3>
+    <p class="why">Every size in the app is a multiple of <code>--u</code>. Two numbers feed it, and <b>both are owned by the library</b>:</p>
+    <p class="why"><code>--base-font-size</code> is <b>product density</b>. The library sets 24px for the website; each product theme overrides it. <code>themes/content-health-check.css</code> already ships <b>18px</b> — which is why these tools feel like an app rather than a marketing page.</p>
+    <p class="why"><code>--text-multiplier</code> is the <b>responsive step</b> — 1 below 48rem, 1.1 above it, 1.2 above 96rem, declared in <code>@layer base</code>. So this scale is responsive for free, and nothing here should ever assign it a density value. <b>Setting <code>--text-multiplier: 0.75</code> would be a bug</b>: it collides with the breakpoint rules and double-applies against the theme's 18px.</p>
+    <p class="why">The specimens below are rendered <b>from the live tokens</b>, and every px figure is read back off the DOM at load. Nothing on this page is transcribed, so it cannot drift from the CSS. Drag the slider to preview a breakpoint step.</p>
 
-    <h3 class="sub">Bely – headings, rows, UI</h3>
+    <div class="demo" id="scale-live">
+      <div class="mult">
+        <label for="mult">--text-multiplier</label>
+        <input id="mult" type="range" min="0.9" max="1.3" step="0.01" value="1"/>
+        <output id="mult-out">1.00</output>
+        <span class="mult__u">--u = <b id="u-out">18px</b></span>
+        <button id="mult-reset" class="c-button c-button--ghost c-button--sm" type="button">Reset</button>
+      </div>
+      <table class="scale-tbl">
+        <thead><tr><th>Token</th><th>×&nbsp;--u</th><th>Renders</th><th>Specimen</th></tr></thead>
+        <tbody>
+          <tr data-tok="--t-title"   data-mult="2.4"  data-face="display"><td class="n">--t-title</td><td class="n r">2.40</td><td class="n r px"></td><td class="sp">Which one am I in?</td></tr>
+          <tr data-tok="--t-metric"  data-mult="1.72" data-face="display"><td class="n">--t-metric</td><td class="n r">1.72</td><td class="n r px"></td><td class="sp">$41.28</td></tr>
+          <tr data-tok="--t-section" data-mult="1.25" data-face="heading"><td class="n">--t-section</td><td class="n r">1.25</td><td class="n r px"></td><td class="sp">Queue health</td></tr>
+          <tr data-tok="--t-lede"    data-mult="1.1"  data-face="body"><td class="n">--t-lede</td><td class="n r">1.10</td><td class="n r px"></td><td class="sp">Each client gets its own space.</td></tr>
+          <tr data-tok="--t-row"     data-mult="1.05" data-face="heading"><td class="n">--t-row</td><td class="n r">1.05</td><td class="n r px"></td><td class="sp">Oxfam 2</td></tr>
+          <tr data-tok="--t-body"    data-mult="1"    data-face="body"><td class="n">--t-body</td><td class="n r">1.00</td><td class="n r px"></td><td class="sp">The work comes out of your shared credits.</td></tr>
+          <tr data-tok="--t-ui"      data-mult="0.88" data-face="heading"><td class="n">--t-ui</td><td class="n r">0.88</td><td class="n r px"></td><td class="sp">Project settings</td></tr>
+          <tr data-tok="--t-hint"    data-mult="0.78" data-face="body"><td class="n">--t-hint</td><td class="n r">0.78</td><td class="n r px"></td><td class="sp">Leave this empty and the banner stays hidden.</td></tr>
+          <tr data-tok="--t-label"   data-mult="0.62" data-face="mono"><td class="n">--t-label</td><td class="n r">0.62</td><td class="n r px"></td><td class="sp">Total API cost</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="why">The slider is a <b>preview control on this page only</b> — it writes to this document, not to the tokens. In the product these values arrive from <code>tokens.css</code> and the theme file.</p>
+
+    <h3 class="sub">Bely Display – page titles and metric values only</h3>
+    <p class="why">A single 400 cut, used at exactly two sizes: <code>--t-title</code> and <code>--t-metric</code>. <b>Never below 30px</b>, and never allowed to synthesise a bold – browsers default headings to 700 and fake it, which thickens the ink and breaks the cut’s proportions. <code>font-synthesis-weight: none</code> is set globally in <code>tokens/fonts.css</code>.</p>
+    <p class="why"><b>Section headings are Bely at <code>--t-section</code>, not Display.</b> Display at section level competes with the page title and makes every group look like a new page.</p>
+
+    <h3 class="sub">The shorthands</h3>
+    <p class="why">Semantic <code>font:</code> shorthands bind a face, weight and line height to each role, so a section heading is one declaration rather than four. They compose from the same <code>--t-*</code> scale – until this pass they carried their own hard-coded px and quietly ignored the multiplier.</p>
     <div class="demo">
       <div class="setv">
-        <div><div style="font:var(--type-section);color:var(--text-strong)">Queue health</div><div class="cap" style="margin:4px 0 0">--type-section · 21px · section headers</div></div>
-        <div><div style="font:var(--type-row-title);color:var(--text-strong)">Oxfam 2</div><div class="cap" style="margin:4px 0 0">--type-row-title · 17px · list rows, card titles</div></div>
-        <div><div style="font:var(--type-ui);color:var(--text-secondary)">Project settings</div><div class="cap" style="margin:4px 0 0">--type-ui · 14px · tabs, menu items, buttons</div></div>
+        <div><div style="font:var(--type-section);color:var(--text-strong)">Queue health</div><div class="cap" style="margin:4px 0 0">--type-section · --t-section / 1.2 · Bely</div></div>
+        <div><div style="font:var(--type-row-title);color:var(--text-strong)">Oxfam 2</div><div class="cap" style="margin:4px 0 0">--type-row-title · --t-row / 1.28 · list rows, card titles</div></div>
+        <div><div style="font:var(--type-ui);color:var(--text-secondary)">Project settings</div><div class="cap" style="margin:4px 0 0">--type-ui · --t-ui / 1.2 · tabs, menu items, buttons</div></div>
       </div>
-    </div>
-    <p class="why"><b>Section headings are Bely 21px, not Display 34px.</b> Display at section level competes with the page title and makes every group look like a new page.</p>
-
-    <h3 class="sub">Body</h3>
-    <div class="demo">
-      <p style="font-size:17px;line-height:1.55;color:var(--text-secondary);margin:0 0 10px;max-width:62ch">Lede · 17px. Each client gets its own space holding one or more projects.</p>
-      <p style="font-size:15px;line-height:1.5;color:var(--text-body);margin:0 0 10px;max-width:64ch">Body · 15px. Everyone on your team can reach all of them, and the work comes out of your shared credits.</p>
-      <p style="font-size:13px;color:var(--text-muted);margin:0">Hint · 13px. Leave this empty and the banner stays hidden even when the switch is on.</p>
     </div>
 
     <h3 class="sub">Mono – the metadata voice</h3>
-    <p class="why">System monospace at <b>10px, 0.09em tracking, uppercase, gloaming-450 floor</b>. It labels; it never carries content. Two rules that get broken constantly: don’t go below 10px, and don’t go lighter than gloaming-450.</p>
+    <p class="why">System monospace at <code>--t-label</code>, <b>0.09em tracking, uppercase, gloaming-450 floor</b>. It labels; it never carries content. Two rules that get broken constantly: don’t set it below the token, and don’t go lighter than gloaming-450.</p>
     <div class="demo">
       <div class="set" style="gap:26px"><span class="c-label">Total API cost</span><span class="c-label">Account · Clients</span><span class="c-label">Project</span><span class="c-label">Switch to</span></div>
-      <div style="margin-top:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gloaming-300)">This is 9px at gloaming-300 – too light, too small</div>
+      <div style="margin-top:16px;font-family:var(--font-mono);font-size:calc(var(--t-label) * .82);letter-spacing:.1em;text-transform:uppercase;color:var(--gloaming-300)">Under the token, at gloaming-300 – too light, too small</div>
     </div>
   </section>
 
@@ -916,17 +957,51 @@ pre .c{color:var(--text-muted)}
     <h2 class="big">Where these rules came from</h2>
     <p class="intro">Each pattern page is the argument behind a rule, with the before-and-after. Read one when you want to know <i>why</i> rather than <i>what</i>.</p>
     <div class="deck">
-      <a href="Label chips.html"><div class="t">Label chips</div><div class="d">Three competing label styles → one geometry, six tones. Card placement.</div></a>
-      <a href="Navigation pattern.html"><div class="t">Navigation pattern</div><div class="d">Side nav and button-group tabs retired in favour of one strip.</div></a>
-      <a href="Nav hierarchy.html"><div class="t">Nav hierarchy</div><div class="d">The proximity bug, and the grouped cluster + stand-down fix.</div></a>
-      <a href="Admin - Monitoring.html"><div class="t">Monitoring</div><div class="d">A page redesign, and the six data patterns extracted from it.</div></a>
-      <a href="Toggle switch.html"><div class="t">Toggle switch</div><div class="d">Why off must give up the fill, and why on is fire not sapling.</div></a>
-      <a href="Project switcher v2.html"><div class="t">Project switcher</div><div class="d">Scaling one component from a single project to an agency.</div></a>
-      <a href="Account menu.html"><div class="t">Account menu</div><div class="d">Panel surface, row density, hover states.</div></a>
+      <a href="../explorations/Label chips.html"><div class="t">Label chips</div><div class="d">Three competing label styles → one geometry, six tones. Card placement.</div></a>
+      <a href="../explorations/Navigation pattern.html"><div class="t">Navigation pattern</div><div class="d">Side nav and button-group tabs retired in favour of one strip.</div></a>
+      <a href="../explorations/Nav hierarchy.html"><div class="t">Nav hierarchy</div><div class="d">The proximity bug, and the grouped cluster + stand-down fix.</div></a>
+      <a href="../explorations/Admin - Monitoring.html"><div class="t">Monitoring</div><div class="d">A page redesign, and the six data patterns extracted from it.</div></a>
+      <a href="../explorations/Toggle switch.html"><div class="t">Toggle switch</div><div class="d">Why off must give up the fill, and why on is fire not sapling.</div></a>
+      <a href="../explorations/Project switcher v2.html"><div class="t">Project switcher</div><div class="d">Scaling one component from a single project to an agency.</div></a>
+      <a href="../explorations/Account menu.html"><div class="t">Account menu</div><div class="d">Panel surface, row density, hover states.</div></a>
       <a href="ui_kits/content-health-check/index.html"><div class="t">UI kit →</div><div class="d">The product mock-up. Click Estate, then Account, to see the stand-down.</div></a>
     </div>
   </section>
 </main>
 </div>
+<script>
+(function(){
+  var host=document.getElementById('scale-live'); if(!host) return;
+  var rows=[].slice.call(host.querySelectorAll('.scale-tbl tbody tr'));
+  var slider=document.getElementById('mult'), out=document.getElementById('mult-out'),
+      uOut=document.getElementById('u-out'), reset=document.getElementById('mult-reset');
+  rows.forEach(function(r){
+    var sp=r.querySelector('.sp');
+    sp.classList.add('f-'+r.dataset.face);
+    sp.style.fontSize='var('+r.dataset.tok+')';
+  });
+  function round(n){return Math.round(n*100)/100}
+  /* --u reads back as the literal string "calc(24px * 0.75)", so resolve it the
+     same way the row cells do: off a real element's computed fontSize. */
+  var probe=document.createElement('span');
+  probe.style.cssText='position:absolute;visibility:hidden;font-size:var(--u)';
+  host.appendChild(probe);
+  function refresh(){
+    uOut.textContent=round(parseFloat(getComputedStyle(probe).fontSize))+'px';
+    rows.forEach(function(r){
+      r.querySelector('.px').textContent=round(parseFloat(getComputedStyle(r.querySelector('.sp')).fontSize))+'px';
+    });
+  }
+  function set(v){
+    document.documentElement.style.setProperty('--text-multiplier',v);
+    out.textContent=Number(v).toFixed(2);
+    requestAnimationFrame(refresh);
+  }
+  slider.addEventListener('input',function(){set(slider.value)});
+  reset.addEventListener('click',function(){slider.value='1';set('1')});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(refresh);
+  refresh();
+})();
+</script>
 </body>
 </html>

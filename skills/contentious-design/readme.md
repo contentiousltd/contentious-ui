@@ -144,7 +144,7 @@ Each component directory has `<Name>.prompt.md` with usage and the rules that ma
 
 Class names follow `@contentious/ui`: `c-<block>__<element>--<modifier>`, `is-<state>`, inside `@layer components`.
 
-Every size in `components/components.css` is a multiple of `--u` — one unit of body text, `calc(var(--base-font-size) * var(--text-multiplier))`. The app runs at `--text-multiplier: 0.75` against the library's 24px base, giving 18px body. **No literal font-size, padding or gap appears in the stylesheet**, so density is one number rather than sixty.
+`--base-font-size` is product density — 18px for Content Health Check, already shipping in `themes/content-health-check.css`. `--text-multiplier` is the library's responsive step (1 / 1.1 / 1.2 by breakpoint), **not** a density knob: setting it to 0.75 would take that 18px down to 13.5px and flatten the responsive behaviour. Assign neither in this system.
 
 Container width follows content shape: `--width-prose` for long-form reading, 1080px for standard pages, `--width-content` (1280px) for tables and dashboards.
 

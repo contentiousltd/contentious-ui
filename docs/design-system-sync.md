@@ -59,14 +59,25 @@ enough to actually happen. Roughly 2.3MB, down from 19MB, after the illustration
 resampled to 512px.
 
 ```bash
-rsync -a --delete \
-  --exclude 'fonts/' --exclude 'uploads/' --exclude '.DS_Store' \
+rsync -a --delete --delete-excluded \
+  --exclude 'fonts/' --exclude 'uploads/' --exclude '.DS_Store' --exclude '.thumbnail' \
   "<download>/design-system/" skills/contentious-design/
+# restore the family-wide description if the export reverted it (see below)
 npm run check:design-sync -- --update
 ```
 
 `--delete` is deliberate: an export is a replacement, not a merge, so a file removed
 upstream must disappear here too. That is also why nothing of ours may live in that tree.
+
+**`--delete-excluded` is not optional.** Without it, `--exclude` protects a matching
+directory in the *destination* from deletion as well as skipping it at the source, so a
+previously-committed `fonts/` survives every future export untouched. That happened on
+the first apply.
+
+**Expect to restore the description.** The `description:` in `SKILL.md` is authored in
+the design project, so an export overwrites it with whatever is there — and on the first
+apply it reverted to a Content Health Check-shaped one. `check:design-sync` catches it;
+re-apply the family-wide text before re-stamping.
 
 Two exclusions, both by rule rather than judgement, both enforced by the check:
 
@@ -75,6 +86,14 @@ Two exclusions, both by rule rather than judgement, both enforced by the check:
   `skills/contentious-design/tokens/`) and `../fonts/` only as a fallback, so a browser
   falls through on a 404 and the same file renders correctly whether the skill is in
   this repo or standing alone in the design project.
+
+  **This only holds while the authoritative set is a superset of what `fonts.css`
+  declares.** On the first apply it wasn't: `fonts.css` declares five faces and the
+  repo had four, so `Bely-BoldItalic` would have 404'd on both paths and the browser
+  would have synthesised a fake oblique — which the system forbids outright, since
+  `font-synthesis-weight: none` is set globally to stop faked ink. The cut was promoted
+  into `fonts/` and the shared cuts were verified byte-identical. If a future export
+  declares a new face, add it to `fonts/` in the same way.
 - **`uploads/`** — working screenshots, not system.
 
 ## Staleness

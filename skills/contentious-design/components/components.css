@@ -6,28 +6,14 @@
      - Cascade layer: @layer components
      - Class naming:  c-<block>__<element>--<modifier>, is-<state>
      - Sizing:        every size is a multiple of --u, one unit of body text.
-                      --u = --base-font-size x --text-multiplier (24px x 0.75 = 18px)
-                      Change the multiplier, the whole system scales. Never write
-                      a literal font-size here.
+                      --u and the --t-* roles are defined in tokens/typography.css.
+                      Change --text-multiplier there, the whole system scales.
+                      Never write a literal font-size here.
    ========================================================================== */
 
 @layer components {
 
-:root{
-  /* One unit of body text. Everything derives from this. */
-  --u: calc(var(--base-font-size, 24px) * var(--text-multiplier, 0.75));
-
-  /* Type roles as multiples of --u. */
-  --t-label:   calc(var(--u) * 0.62);   /* mono metadata, ~11px */
-  --t-hint:    calc(var(--u) * 0.78);   /* ~14px */
-  --t-ui:      calc(var(--u) * 0.88);   /* tabs, buttons, menu items, ~16px */
-  --t-body:    var(--u);                /* ~18px */
-  --t-row:     calc(var(--u) * 1.05);   /* row and card titles, ~19px */
-  --t-lede:    calc(var(--u) * 1.1);    /* ~20px */
-  --t-section: calc(var(--u) * 1.25);   /* section headings, ~23px */
-  --t-metric:  calc(var(--u) * 1.72);   /* metric values, ~31px */
-  --t-title:   calc(var(--u) * 2.4);    /* page titles, ~43px */
-}
+/* --u and --t-* come from tokens/typography.css. This file only consumes them. */
 
 /* ---- Chip ---------------------------------------------------------------- */
 .c-chip{display:inline-flex;align-items:center;gap:calc(var(--u) * .28);font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--chip-tracking);text-transform:uppercase;line-height:1;padding:calc(var(--u) * .28) calc(var(--u) * .44);border-radius:var(--radius-chip);white-space:nowrap;vertical-align:1px;background:var(--chip-neutral-bg);color:var(--chip-neutral-fg)}

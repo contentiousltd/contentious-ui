@@ -35,9 +35,8 @@
   --width-narrow:        40rem;    /* 640px - forms, single-column panels */
   --width-content:       80rem;    /* 1280px - tables and dashboards */
 
-  /* App density. See Type scale options.html - the app runs at three-quarters
-     of brand size. --base-font-size stays 24px, from the library. */
-  --text-multiplier:     0.75;
+  /* App density (--text-multiplier) lives in tokens/typography.css, with the
+     scale it drives. It used to be redeclared here, overriding that file. */
 
   /* Z-index, from @contentious/ui. Chrome had been hard-coding 5 and 20. */
   --z-base:      1;

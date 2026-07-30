@@ -156,12 +156,17 @@
 
   /* ---- Type roles ------------------------------------------------------ */
   /* Bely Display is for page titles and metric values only, never below 30px.
-     Section headings are Bely at 21px. */
-  --type-page-title:     400 48px/1.02 var(--font-heading-display);
-  --type-metric:         400 33px/1.05 var(--font-heading-display);
-  --type-section:        400 23px/1.2 var(--font-heading);
-  --type-row-title:      400 18px/1.28 var(--font-heading);
-  --type-ui:             400 15px/1.2 var(--font-heading);
+     Section headings are Bely. These are font shorthands over the --t-* scale
+     in tokens/typography.css - they used to carry their own hard-coded px,
+     which meant --text-multiplier moved the components but not these. */
+  --type-page-title:     400 var(--t-title)/1.02 var(--font-heading-display);
+  --type-metric:         400 var(--t-metric)/1.05 var(--font-heading-display);
+  --type-section:        400 var(--t-section)/1.2 var(--font-heading);
+  --type-row-title:      400 var(--t-row)/1.28 var(--font-heading);
+  --type-ui:             400 var(--t-ui)/1.2 var(--font-heading);
+  --type-lede:           400 var(--t-lede)/1.5 var(--font-body);
+  --type-body:           400 var(--t-body)/1.55 var(--font-body);
+  --type-hint:           400 var(--t-hint)/1.45 var(--font-body);
 
   /* ---- Navigation context --------------------------------------------- */
   /* The project cluster (switcher + its four sections) dims as ONE group in

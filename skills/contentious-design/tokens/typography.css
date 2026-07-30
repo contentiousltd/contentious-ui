@@ -15,10 +15,15 @@
   --font-weight-medium: 500;
   --font-weight-bold:   700;
 
-  --base-font-size:        24px;   /* from @contentious/ui. App density is
-                                      --text-multiplier (0.75), not a second
-                                      base size. See Type scale options.html. */
-  --text-multiplier:       1;
+  --base-font-size:        18px;   /* CHC density. The library sets 24px in
+                                      typography.css and each product theme
+                                      overrides it - themes/content-health-check.css
+                                      already ships 18px. This mirrors that file;
+                                      it is not a second opinion. */
+  --text-multiplier:       1;      /* DO NOT set a density value here. In the
+                                      library this token is the RESPONSIVE step
+                                      (1 / 1.1 / 1.2 by breakpoint, @layer base).
+                                      Density is --base-font-size. */
   --body-line-height:      1.55;
   --heading-line-height:   1.15;
   --line-height-tight:     1;
@@ -33,4 +38,24 @@
   --font-size-h2: 2.4rem;
   --font-size-h3: 1.5rem;
   --font-size-h4: 1.1rem;
+
+  /* ---- The app type scale ------------------------------------------------
+     One unit of body text. Every size in the app is a multiple of it.
+     Two inputs, both owned by the library:
+       --base-font-size   product density   (18px for CHC, from its theme file)
+       --text-multiplier  responsive step   (1 / 1.1 / 1.2 by breakpoint)
+     So this scale inherits the library's responsive behaviour for free. Set
+     neither here in production - they arrive from tokens.css and the theme.
+     px comments are the resolved value at 18px x 1. */
+  --u: calc(var(--base-font-size) * var(--text-multiplier));
+
+  --t-label:   calc(var(--u) * 0.62);   /* mono metadata      ~11px */
+  --t-hint:    calc(var(--u) * 0.78);   /*                    ~14px */
+  --t-ui:      calc(var(--u) * 0.88);   /* tabs, buttons      ~16px */
+  --t-body:    var(--u);                /*                    ~18px */
+  --t-row:     calc(var(--u) * 1.05);   /* row + card titles  ~19px */
+  --t-lede:    calc(var(--u) * 1.1);    /*                    ~20px */
+  --t-section: calc(var(--u) * 1.25);   /* section headings   ~23px */
+  --t-metric:  calc(var(--u) * 1.72);   /* metric values      ~31px */
+  --t-title:   calc(var(--u) * 2.4);    /* page titles        ~43px */
 }
