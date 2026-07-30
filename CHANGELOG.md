@@ -8,6 +8,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+### Added
+
+- **`skills/contentious-design/`** — the Contentious design system now lives in this repository as a Claude Code skill: semantic tokens with their reasoning, a plain-CSS implementation of every component, `<Name>.prompt.md` rules for each, 17 specimen cards, the UI kit, concept illustrations and the licensed Bely cuts. Symlinked from `~/.claude/skills/contentious-design`, so it is available in every repository in the suite from one checkout. See [ADR-0004](docs/adr/0004-design-system-as-a-skill.md).
+
+- **`styles/semantic.css`** — the semantic layer is now reachable by consumers as `@contentious/ui/styles/semantic.css`: 81 tokens giving the vocabulary the raw palette can't (`--surface-*`, `--rule-*`, `--text-*`, `--accent-*`, `--level-*`, `--data-*`, chip tones, switch and type roles). The file holds no definitions of its own — it imports the design system's `semantic.css` into `@layer theme`, so there is one file rather than a copy that drifts. Purely additive: nothing referenced these names before, so no rendering changes anywhere.
+
+- **`npm run check:design-sync`** — verifies the design system tree matches the stamp left by the last export. Fails on a hand-edit inside `skills/` (which the next export would silently destroy), on a `SKILL.md` description that stops naming the product family (which makes the skill get skipped in sibling repos), and on a missing file that `src/styles/semantic.css` imports. `docs/design-system-sync.md` records how the sync works and what is currently open.
+
+### Changed
+
+- **The role of this package.** `@contentious/ui` is now the home of the design system, of which the shipping React and CSS exports are one expression — rather than a code library that happens to carry tokens. Design is originated by Claude Design and implemented by Claude Code; where the plain CSS and a React component disagree on an exact value, the CSS is the reference.
+
 ## [0.2.0]
 
 ### Changed

@@ -1,5 +1,36 @@
 # Claude Code Instructions — @contentious/ui
 
+## The design system
+
+This repository is the home of the Contentious design system. It lives in
+`skills/contentious-design/` and is consumed as a Claude Code skill, symlinked from
+`~/.claude/skills/contentious-design` so it is available in every repo in the suite.
+See [ADR-0004](docs/adr/0004-design-system-as-a-skill.md).
+
+**Before writing or changing any UI, anywhere in the suite, invoke the
+`contentious-design` skill and follow it.** Start with its `readme.md`, then the
+`<Name>.prompt.md` beside the component you're touching.
+
+**Never edit anything inside `skills/contentious-design/`.** It is authored in the
+Claude Design project and arrives by export, which replaces the directory wholesale —
+so an edit there survives only until the next sync quietly destroys it. Corrections,
+decisions and notes go in [docs/design-system-sync.md](docs/design-system-sync.md).
+`npm run check:design-sync` enforces this and reports whether the copy is current.
+
+Non-negotiable, and it overrides efficiency, momentum and finishing a feature:
+
+- **Never originate a visual decision.** Not a colour, not a spacing value, not a
+  layout, not a component that doesn't exist, not a "reasonable-looking" placeholder.
+  Design is originated by Julius or by Claude Design. Claude Code implements to spec.
+- If the skill doesn't answer it, **say so and stop.** An unstyled element or an
+  unfinished screen is always the better outcome than invented design. It is not a
+  gap if you haven't looked — the foundations almost always answer the question.
+- **The plain CSS is the reference implementation.** Where `components/components.css`
+  and a React component disagree on an exact value, the CSS wins. The skill's
+  `components/*.jsx` are prototypes for static mocks and are never imported by a product.
+- **Tokens only, never raw values.** `var(--surface-card)`, not `#F8F8F2`. If no token
+  fits, ask — don't add a hex code.
+
 ## Workflow
 
 **Document, then commit — every time, without exception.**
