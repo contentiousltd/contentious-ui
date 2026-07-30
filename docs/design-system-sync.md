@@ -52,6 +52,13 @@ travels:
 | `design-system/` | `skills/contentious-design/` | Every export. This is the skill. |
 | `provenance/` | `docs/design-history/` | Once. Finished arguments behind settled rules. |
 | `explorations/` | nowhere | Never. Superseded work, historical interest only. |
+| `uploads/` | nowhere | Never. Working screenshots. |
+
+**Promotion runs one way.** Something is argued out in `explorations/`, and only once it
+is settled does it move into `design-system/`. Nothing moves back. So the presence of a
+component or rule in `design-system/` is itself the signal that it is decided — which is
+what makes "export that folder, wholesale, no judgement call" a safe instruction rather
+than a risky one.
 
 **Download `design-system/` and copy it wholesale.** There is no judgement call about
 what's in scope — that's the point of the split, and it's what keeps the export small
