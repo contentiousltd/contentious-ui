@@ -36,6 +36,16 @@ const REQUIRED = [
  *  gets skipped in the repo that needed it. See docs/design-system-sync.md. */
 const DESCRIPTION_MUST_MENTION = ['Content Health Check', 'Content Maturity', 'Voice Tone'];
 
+/** Excluded from the export by rule rather than judgement, so it can be checked. */
+const FORBIDDEN = [
+  [
+    'fonts',
+    "the repo's top-level fonts/ is authoritative, and tokens/fonts.css resolves to it\n" +
+      '      via ../../../fonts/ with ../fonts/ only as a standalone fallback. A copy here is\n' +
+      '      720KB of the same five Bely cuts, shipped to every consuming repo.',
+  ],
+];
+
 /** Binary assets are hashed like everything else, but listing them adds nothing. */
 const NOISE = new Set(['.DS_Store', '.thumbnail']);
 
@@ -78,6 +88,12 @@ if (!existsSync(SKILL_DIR)) {
 for (const rel of REQUIRED) {
   if (!existsSync(join(SKILL_DIR, rel))) {
     failures.push(`Missing ${rel}. src/styles/semantic.css imports tokens/semantic.css directly, so a rename here breaks every consumer silently.`);
+  }
+}
+
+for (const [rel, why] of FORBIDDEN) {
+  if (existsSync(join(SKILL_DIR, rel))) {
+    failures.push(`${rel}/ should not be in the export — ${why}\n      Drop it when applying, then re-stamp.`);
   }
 }
 

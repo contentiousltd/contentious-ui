@@ -42,6 +42,41 @@ the design project:
   **No export needed.** The `--text-multiplier` error below was found exactly this way.
 - **Anything about wiring, build, packaging or versions** — Claude Code's, never an export.
 
+## Applying an export
+
+The Claude Design project is split by change-rate, and only one of its three folders
+travels:
+
+| Folder there | Goes where | How often |
+| --- | --- | --- |
+| `design-system/` | `skills/contentious-design/` | Every export. This is the skill. |
+| `provenance/` | `docs/design-history/` | Once. Finished arguments behind settled rules. |
+| `explorations/` | nowhere | Never. Superseded work, historical interest only. |
+
+**Download `design-system/` and copy it wholesale.** There is no judgement call about
+what's in scope — that's the point of the split, and it's what keeps the export small
+enough to actually happen. Roughly 2.3MB, down from 19MB, after the illustrations were
+resampled to 512px.
+
+```bash
+rsync -a --delete \
+  --exclude 'fonts/' --exclude 'uploads/' --exclude '.DS_Store' \
+  "<download>/design-system/" skills/contentious-design/
+npm run check:design-sync -- --update
+```
+
+`--delete` is deliberate: an export is a replacement, not a merge, so a file removed
+upstream must disappear here too. That is also why nothing of ours may live in that tree.
+
+Two exclusions, both by rule rather than judgement, both enforced by the check:
+
+- **`fonts/`** — the repo's top-level `fonts/` is authoritative. `tokens/fonts.css`
+  lists `../../../fonts/` first (which resolves to it from
+  `skills/contentious-design/tokens/`) and `../fonts/` only as a fallback, so a browser
+  falls through on a 404 and the same file renders correctly whether the skill is in
+  this repo or standing alone in the design project.
+- **`uploads/`** — working screenshots, not system.
+
 ## Staleness
 
 `npm run check:design-sync` records and verifies a manifest hash of the skill tree.
@@ -115,9 +150,15 @@ components as such inside the one skill instead.
    spacing, motion, layout and z-index as well as colour, and pulling those in could
    change how the specimen pages render. Either the library splits colour into its own
    file, or `colors.css` becomes a pointer at that split.
-3. **Weight.** `skills/contentious-design/images/` is 17MB of the 19MB installed, and
-   `inventory.png` alone is 4.9MB — in a package four repos install from GitHub. The
-   text that matters is about 400KB. Compressed illustrations would make an export a
-   small, reviewable diff rather than a chore, which is what keeps the sync happening.
-4. **The Bely cuts exist twice** — top-level `fonts/` and `skills/contentious-design/fonts/`,
-   which adds `Bely-BoldItalic`. Confirmed identical otherwise.
+3. ~~**Weight.**~~ **Closed 30 July 2026.** Illustrations resampled 2048px → 512px
+   (16.7MB → 2.1MB), three unreferenced files dropped, and the project split so only
+   `design-system/` travels. Export weight is about 2.3MB, from 19MB — small enough to
+   review as a diff, which is what keeps the sync happening.
+4. ~~**The Bely cuts exist twice.**~~ **Closed 30 July 2026** by excluding
+   `design-system/fonts/` from the export, with `tokens/fonts.css` resolving to the
+   repo's top-level `fonts/` first and its local copy only as a standalone fallback.
+
+   **Until the next export is applied, `check:design-sync` fails on this**, because the
+   committed copy still carries `fonts/` and its `tokens/fonts.css` still points only at
+   `../fonts/`. Deleting the directory ahead of the export would break the specimen
+   pages. The failure is accurate — the repo is stale — and it clears on the next apply.
