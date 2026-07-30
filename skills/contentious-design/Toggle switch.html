@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Toggle switch</title>
+<link rel="stylesheet" href="tokens.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--limestone-500);font-family:var(--font-body);color:var(--gloaming-700);font-size:15px;-webkit-font-smoothing:antialiased;min-width:1100px}
+a{color:var(--fire-650);text-decoration:none}a:hover{color:var(--fire-800)}
+.mono{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--gloaming-400)}
+.wrap{max-width:1060px;margin:0 auto;padding:60px 40px 100px}
+h1{font-family:var(--font-heading-display);font-weight:400;font-size:48px;line-height:1.02;color:var(--gloaming-800);margin:8px 0 12px}
+.lede{font-size:17px;color:var(--gloaming-500);max-width:64ch;margin:0;line-height:1.55;text-wrap:pretty}
+h2.sec{font-family:var(--font-heading);font-weight:400;font-size:21px;color:var(--gloaming-800);margin:0;white-space:nowrap}
+.sh{display:flex;align-items:baseline;gap:14px;padding-bottom:11px;border-bottom:1px solid var(--limestone-700);margin:52px 0 22px}
+.sh p{margin:0;font-size:14px;color:var(--gloaming-400)}
+
+/* ── THE SWITCH ───────────────────────────────────────────── */
+.sw{display:inline-flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw .track{position:relative;width:46px;height:26px;border-radius:13px;background:var(--limestone-800);box-shadow:inset 0 1px 2px rgba(38,36,35,.14);transition:background var(--transition-fast)}
+.sw .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--limestone-100);box-shadow:0 1px 3px rgba(38,36,35,.28);transition:left var(--transition-fast),background var(--transition-fast)}
+.sw .txt{font-family:var(--font-heading);font-size:15px;color:var(--gloaming-500);transition:color var(--transition-fast)}
+.sw .txt .st{color:var(--gloaming-800)}
+.sw input:checked + .track{background:var(--fire-600)}
+.sw input:checked + .track .knob{left:23px}
+.sw input:focus-visible + .track{outline:2px solid var(--fire-350);outline-offset:3px}
+.sw:hover .track{background:var(--limestone-850)}
+.sw:hover input:checked + .track{background:var(--fire-650)}
+.sw.off-state .txt{color:var(--gloaming-450)}
+/* disabled */
+.sw.sap input:checked + .track{background:var(--sapling-600)}
+.sw.sap:hover input:checked + .track{background:var(--sapling-650)}
+.sw.dis{cursor:not-allowed;opacity:.55}
+/* card context */
+.card{background:var(--limestone-600);border-radius:10px;padding:30px 32px;max-width:640px}
+.card h3{font-family:var(--font-heading-display);font-weight:400;font-size:28px;color:var(--gloaming-800);margin:0 0 6px}
+.card .d{font-size:15px;color:var(--gloaming-500);margin:0 0 22px;line-height:1.5;max-width:52ch}
+.card label.fl{display:block;font-family:var(--font-heading);font-size:14px;color:var(--gloaming-700);margin:22px 0 7px}
+.card textarea{width:100%;min-height:84px;padding:12px 14px;border-radius:6px;border:1px solid var(--limestone-800);background:var(--limestone-200);font-family:var(--font-body);font-size:15px;color:var(--gloaming-800);resize:vertical}
+.card textarea::placeholder{color:var(--gloaming-300)}
+.card textarea:focus{outline:2px solid var(--fire-350);border-color:var(--fire-450)}
+.card .hint{font-size:13px;color:var(--gloaming-450);margin:9px 0 20px}
+.btn{font-family:var(--font-heading);font-size:15px;padding:11px 20px;border-radius:6px;border:0;cursor:pointer;background:var(--fire-500);color:var(--limestone-200)}
+.btn:hover{background:var(--fire-600)}
+.btn[disabled]{background:var(--limestone-750);color:var(--gloaming-350);cursor:not-allowed}
+.fade{opacity:.45;pointer-events:none;transition:opacity var(--transition-base)}
+/* comparison */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.stage{background:var(--limestone-400);border:1px solid var(--limestone-700);border-radius:10px;padding:24px}
+.stage .cap{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--gloaming-350);margin-bottom:18px}
+.row{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+/* old, for reference */
+.old{display:inline-flex;align-items:center;gap:12px}
+.old .t{position:relative;width:46px;height:26px;border-radius:13px;background:var(--fire-650)}
+.old .k{position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:var(--limestone-200)}
+/* spec */
+.spec{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--limestone-700);border-radius:8px;overflow:hidden;margin-top:22px}
+.spec > div{background:var(--limestone-300);padding:18px 20px}
+.spec dt{font-family:var(--font-heading);font-size:14px;color:var(--gloaming-800);margin-bottom:5px}
+.spec dd{margin:0;font-family:var(--font-mono);font-size:11px;color:var(--gloaming-500);line-height:1.7}
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.dd > div{border-radius:8px;padding:20px 22px}
+.dd .do{background:var(--sapling-150)}.dd .dont{background:var(--fire-150)}
+.dd h3{font-family:var(--font-heading);font-size:16px;font-weight:400;margin:0 0 10px}
+.dd .do h3{color:var(--sapling-800)}.dd .dont h3{color:var(--fire-700)}
+.dd ul{margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:var(--gloaming-600)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mono">Component · toggle switch</div>
+  <h1>Off is grey. On is fire.</h1>
+  <p class="lede">The current switch fills the track with fire in both states, so the only difference between on and off is which side a 20px circle sits on – and nothing tells you which side means what. Filling the track is what a switch uses to say "active", so the off state has to give it up: a recessed neutral track, and the accent earned only when the thing is actually on.</p>
+
+  <div class="sh"><h2 class="sec">Before / after</h2><p>Same geometry, different colour logic.</p></div>
+  <div class="pair">
+    <div class="stage">
+      <div class="cap">Now – fire in both states</div>
+      <div class="row" style="gap:34px">
+        <div class="old"><span class="t"><span class="k" style="left:3px"></span></span><span style="color:var(--gloaming-600)">Banner is hidden</span></div>
+        <div class="old"><span class="t"><span class="k" style="left:23px"></span></span><span style="color:var(--gloaming-600)">Banner is shown</span></div>
+      </div>
+      <p style="font-size:13px;color:var(--gloaming-450);margin:20px 0 0;line-height:1.5">Both read as "on". Glanced at out of context, neither state is legible – you have to read the sentence beside it to know what the control is doing.</p>
+    </div>
+    <div class="stage">
+      <div class="cap">Proposed – neutral off, accent on</div>
+      <div class="row" style="gap:34px">
+        <label class="sw off-state"><input type="checkbox"/><span class="track"><span class="knob"></span></span><span class="txt">Banner is <span class="st">hidden</span></span></label>
+        <label class="sw"><input type="checkbox" checked/><span class="track"><span class="knob"></span></span><span class="txt">Banner is <span class="st">shown</span></span></label>
+      </div>
+      <p style="font-size:13px;color:var(--gloaming-450);margin:20px 0 0;line-height:1.5">Off is an empty recess: inset shadow, limestone-800, knob left. On fills with fire-600 and pushes the knob right. Readable with the label covered.</p>
+    </div>
+  </div>
+
+  <div class="sh"><h2 class="sec">In context</h2><p>Try it – the dependent fields follow the switch.</p></div>
+  <div class="card">
+    <h3>Promotional banner</h3>
+    <p class="d">The notification bar shown to logged-out visitors at the top of the marketing pages.</p>
+    <label class="sw" id="mainSw"><input type="checkbox" id="cb"/><span class="track"><span class="knob"></span></span><span class="txt">Banner is <span class="st" id="stateWord">hidden</span></span></label>
+    <div id="deps" class="fade">
+      <label class="fl" for="bt">Banner text</label>
+      <textarea id="bt" placeholder="e.g. As a content health pioneer, use code EARLYADOPTER and we’ll give you 20% off."></textarea>
+      <p class="hint">Leave this empty and the banner stays hidden even when the switch is on.</p>
+      <button class="btn" id="save" disabled>Save banner</button>
+    </div>
+  </div>
+
+  <div class="sh"><h2 class="sec">Why not sapling</h2><p>The question is what the fill is claiming.</p></div>
+  <div class="pair">
+    <div class="stage">
+      <div class="cap">Fire – "this is live"</div>
+      <div class="row" style="gap:34px">
+        <label class="sw off-state"><input type="checkbox"/><span class="track"><span class="knob"></span></span><span class="txt">Weekly digest <span class="st">off</span></span></label>
+        <label class="sw"><input type="checkbox" checked/><span class="track"><span class="knob"></span></span><span class="txt">Weekly digest <span class="st">on</span></span></label>
+      </div>
+      <p style="font-size:13px;color:var(--gloaming-450);margin:20px 0 0;line-height:1.5">Matches what solid fire already means everywhere else – primary buttons, the active tab underline. The off switch makes no claim about whether off is a problem.</p>
+    </div>
+    <div class="stage">
+      <div class="cap">Sapling – "this is good"</div>
+      <div class="row" style="gap:34px">
+        <label class="sw sap off-state"><input type="checkbox"/><span class="track"><span class="knob"></span></span><span class="txt">Weekly digest <span class="st">off</span></span></label>
+        <label class="sw sap"><input type="checkbox" checked/><span class="track"><span class="knob"></span></span><span class="txt">Weekly digest <span class="st">on</span></span></label>
+      </div>
+      <p style="font-size:13px;color:var(--gloaming-450);margin:20px 0 0;line-height:1.5">Legible, but it borrows the colour that means <i>good outcome</i> in the data rules – so every off switch quietly implies something is wrong, and sapling stops meaning anything where it’s doing real work.</p>
+    </div>
+  </div>
+
+  <div class="sh"><h2 class="sec">Spec</h2><p>One switch, four states.</p></div>
+  <dl class="spec">
+    <div><dt>Track</dt><dd>46 × 26px, r 13px<br/>off: limestone-800<br/>+ inset 0 1px 2px 14%<br/>on: fire-600</dd></div>
+    <div><dt>Knob</dt><dd>20px, limestone-100<br/>3px inset, travels 20px<br/>shadow 0 1px 3px 28%<br/>180ms ease</dd></div>
+    <div><dt>Hover / focus</dt><dd>off: limestone-850<br/>on: fire-650<br/>focus: 2px fire-350<br/>offset 3px</dd></div>
+    <div><dt>Label</dt><dd>always states the<br/>resulting state, with<br/>the state word in<br/>gloaming-800</dd></div>
+  </dl>
+
+  <div class="dd">
+    <div class="do">
+      <h3>Do</h3>
+      <ul>
+        <li>Say the state, not the action: "Banner is hidden", never "Hide banner"</li>
+        <li>Emphasise the state word so it’s scannable without reading the sentence</li>
+        <li>Apply immediately, or fade the dependent fields until the switch is on</li>
+        <li>Keep the switch left of its label, 12px gap, one per row</li>
+        <li>Use a checkbox instead when the setting only takes effect on save</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h3>Don’t</h3>
+      <ul>
+        <li>Never colour the off track with the accent</li>
+        <li>Don’t use sapling/fire as on/off – this isn’t good vs bad, it’s active vs not</li>
+        <li>Don’t use a tint (fire-200) as the on fill – tints mean status, solids mean active</li>
+        <li>No "ON"/"OFF" text inside the track at this size</li>
+        <li>Don’t leave a disabled primary button looking like a pale accent button – grey it</li>
+        <li>Don’t stack a switch and its Save button with no visible relationship</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+const cb=document.getElementById('cb'),sw=document.getElementById('mainSw'),deps=document.getElementById('deps'),word=document.getElementById('stateWord'),bt=document.getElementById('bt'),save=document.getElementById('save');
+function sync(){const on=cb.checked;word.textContent=on?'shown':'hidden';sw.classList.toggle('off-state',!on);deps.classList.toggle('fade',!on);save.disabled=!on||!bt.value.trim()}
+cb.addEventListener('change',sync);bt.addEventListener('input',sync);sync();
+</script>
+</body>
+</html>

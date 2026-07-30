@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Type scale – app density against the brand base</title>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased;min-width:1120px}
+h1,h2,h3,h4{font-synthesis-weight:none}
+.wrap{max-width:1080px;margin:0 auto;padding:58px 40px 120px}
+h1.page{font-family:var(--font-heading-display);font-weight:400;font-size:54px;line-height:1;color:var(--text-strong);margin:10px 0 14px;letter-spacing:-.006em}
+.lede{font-size:18px;line-height:1.55;color:var(--text-secondary);max-width:70ch;margin:0 0 8px;text-wrap:pretty}
+h2.big{font-family:var(--font-heading-display);font-weight:400;font-size:34px;color:var(--text-strong);margin:0 0 8px}
+.part{padding-top:58px}
+.part>.intro{font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:74ch;margin:0 0 10px;text-wrap:pretty}
+.why{font-size:15px;line-height:1.6;color:var(--text-secondary);max-width:80ch;margin:14px 0 0;text-wrap:pretty}
+.why b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+code{font-family:var(--font-mono);font-size:13px;color:var(--text-body);background:rgba(38,36,35,.06);padding:2px 5px;border-radius:3px}
+
+/* ── the scale engine: everything below derives from two properties ── */
+.sample{
+  --app-base: 24px;          /* the brand base, unchanged */
+  --app-mult: 0.75;          /* the app's density multiplier */
+  --u: calc(var(--app-base) * var(--app-mult));   /* = 1 unit of body text */
+  background:var(--surface-card);border-radius:var(--radius-surface);
+  padding:calc(var(--u) * 1.4) calc(var(--u) * 1.5);margin-top:16px;
+}
+.sample .t-title{font-family:var(--font-heading-display);font-weight:400;font-size:calc(var(--u) * 2.4);line-height:1.04;color:var(--text-strong);margin:0 0 calc(var(--u) * .35);letter-spacing:-.008em}
+.sample .t-lede{font-size:calc(var(--u) * 1.05);line-height:1.5;color:var(--text-secondary);margin:0;max-width:52ch}
+.sample .t-section{font-family:var(--font-heading);font-weight:400;font-size:calc(var(--u) * 1.25);color:var(--text-strong);margin:calc(var(--u) * 1.5) 0 0;padding-bottom:calc(var(--u) * .5);border-bottom:1px solid var(--rule-section);display:flex;align-items:baseline;gap:calc(var(--u) * .7)}
+.sample .t-section span{font-size:calc(var(--u) * .82);color:var(--text-muted)}
+.sample .t-band{display:grid;grid-template-columns:repeat(3,1fr);background:var(--limestone-250);border-radius:var(--radius-surface);overflow:hidden;margin-top:calc(var(--u) * .9)}
+.sample .t-band>div{padding:calc(var(--u) * .95) calc(var(--u) * 1.1)}
+.sample .t-band>div+div{border-left:1px solid var(--rule-row)}
+.sample .t-label{font-family:var(--font-mono);font-size:calc(var(--u) * .62);letter-spacing:.09em;text-transform:uppercase;color:var(--label-color)}
+.sample .t-value{font-family:var(--font-heading-display);font-weight:400;font-size:calc(var(--u) * 1.72);line-height:1.05;color:var(--text-strong);font-variant-numeric:tabular-nums;letter-spacing:-.01em;margin:calc(var(--u) * .45) 0 calc(var(--u) * .3)}
+.sample .t-sub{font-size:calc(var(--u) * .78);color:var(--text-muted);line-height:1.4}
+.sample .t-rows{margin-top:calc(var(--u) * 1.2);background:var(--limestone-250);border-radius:var(--radius-surface);overflow:hidden}
+.sample .t-row{display:grid;grid-template-columns:1fr 90px 130px;gap:calc(var(--u) * 1.1);align-items:center;padding:calc(var(--u) * .85) calc(var(--u) * 1.1)}
+.sample .t-row+.t-row{border-top:1px solid var(--rule-row)}
+.sample .t-name{font-family:var(--font-heading);font-size:calc(var(--u) * 1.05);color:var(--text-strong);line-height:1.25}
+.sample .t-url{font-family:var(--font-mono);font-size:calc(var(--u) * .68);color:var(--text-muted);margin-top:calc(var(--u) * .18)}
+.sample .t-num{text-align:right;font-family:var(--font-mono);font-size:calc(var(--u) * .85);color:var(--text-secondary);font-variant-numeric:tabular-nums}
+.sample .t-chip{display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:calc(var(--u) * .62);letter-spacing:.07em;text-transform:uppercase;line-height:1;padding:calc(var(--u) * .3) calc(var(--u) * .45);border-radius:3px;background:var(--chip-good-bg);color:var(--chip-good-fg)}
+.sample .t-ui{font-family:var(--font-heading);font-size:calc(var(--u) * .88);color:var(--text-secondary);margin-top:calc(var(--u) * 1.1)}
+
+/* readout */
+.readout{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--rule-row);border-radius:var(--radius-surface);overflow:hidden;margin-top:14px}
+.readout>div{background:var(--surface-card);padding:13px 15px}
+.readout .k{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+.readout .v{font-family:var(--font-mono);font-size:16px;color:var(--text-strong);margin-top:6px;font-variant-numeric:tabular-nums}
+.readout .n{font-size:12px;color:var(--text-muted);margin-top:3px}
+
+/* option shell */
+.opt{margin-top:18px}
+.opt-head{display:flex;align-items:baseline;gap:13px;padding-bottom:10px;border-bottom:1px solid var(--rule-section)}
+.opt-head h3{font-family:var(--font-heading);font-weight:400;font-size:21px;color:var(--text-strong);margin:0;white-space:nowrap}
+.opt-head p{margin:0;font-size:14px;color:var(--text-muted)}
+.opt-head .tag{margin-left:auto;flex:none}
+.chip{display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;line-height:1;padding:5px 8px;border-radius:3px;white-space:nowrap;background:var(--chip-neutral-bg);color:var(--chip-neutral-fg)}
+.chip--good{background:var(--chip-good-bg);color:var(--chip-good-fg)}
+.chip--warn{background:var(--chip-warn-bg);color:var(--chip-warn-fg)}
+.chip--bad{background:var(--chip-bad-bg);color:var(--chip-bad-fg)}
+.sum{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
+.sum th{text-align:left;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--rule-field)}
+.sum td{padding:10px 14px 10px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;color:var(--text-secondary);line-height:1.45}
+.sum td.w{color:var(--text-strong);font-family:var(--font-heading);white-space:nowrap}
+.sum td.m{font-family:var(--font-mono);font-size:13px;color:var(--text-body);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sum tr:last-child td{border-bottom:0}
+.rec-block{background:var(--sapling-150);border-radius:var(--radius-surface);padding:22px 24px;margin-top:20px}
+.rec-block p{font-size:15px;line-height:1.6;color:var(--text-body);margin:12px 0 0;max-width:82ch}
+.rec-block p:first-child{margin-top:0}
+.rec-block b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+pre{font-family:var(--font-mono);font-size:12.5px;line-height:1.65;color:var(--text-body);background:var(--limestone-250);border-radius:6px;padding:15px 17px;overflow-x:auto;margin:16px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="label">Options · app type scale</div>
+  <h1 class="page">One base, one multiplier.</h1>
+  <p class="lede">The brand sets <code>--base-font-size: 24px</code> and scales the whole system from <code>--text-multiplier</code>, stepping 1 → 1.1 → 1.2. The app has been running a separate 15–16px base, diverging by more than a third – which is why the type kept feeling small no matter how I nudged it. Four options below, all rendered at real size on the same screen fragment.</p>
+
+  <section class="part">
+    <h2 class="big">Why a multiplier, not a second base</h2>
+    <p class="intro">If the app declares its own base size, the two systems drift permanently: a change to the brand scale doesn’t reach the app, and every app screen has to be re-eyeballed. If the app instead sets a <i>multiplier</i> on the brand base, one number controls density and the relationship survives.</p>
+    <pre>/* App theme — this is the whole change */
+:root {
+  /* --base-font-size stays 24px, from @contentious/ui */
+  --text-multiplier: 0.75;   /* dense app screens */
+}</pre>
+    <p class="why">Everything below derives from <code>calc(var(--base-font-size) * var(--text-multiplier))</code> as one unit, then scales in multiples of it. Nothing is a hard-coded pixel value, which is the other half of the problem: the current system has ~60 literal <code>font-size</code> declarations, so "make it bigger" means editing sixty numbers.</p>
+  </section>
+
+  <!-- ── OPTION A ─────────────────────────────────────── -->
+  <section class="part">
+    <div class="opt-head"><h3>Option A · 0.70</h3><p>Body 16.8px. Roughly where the app is now.</p><span class="tag"><span class="chip">Densest</span></span></div>
+    <div class="readout">
+      <div><div class="k">Body</div><div class="v">16.8px</div><div class="n">1 unit</div></div>
+      <div><div class="k">Label</div><div class="v">10.4px</div><div class="n">mono, .62u</div></div>
+      <div><div class="k">Row title</div><div class="v">17.6px</div><div class="n">1.05u</div></div>
+      <div><div class="k">Section</div><div class="v">21px</div><div class="n">1.25u</div></div>
+      <div><div class="k">Metric</div><div class="v">28.9px</div><div class="n">1.72u</div></div>
+      <div><div class="k">Page title</div><div class="v">40.3px</div><div class="n">2.4u</div></div>
+    </div>
+    <div class="sample" style="--app-mult:0.70">
+      <div class="t-title">Watchlist</div>
+      <p class="t-lede">The pages you want monitored. Depending on the size of your inventory and your account, this may be everything, or a curated sample.</p>
+      <div class="t-section">Queue health<span>Background job queue, right now.</span></div>
+      <div class="t-band">
+        <div><div class="t-label">Under watch</div><div class="t-value">81</div><div class="t-sub">80 assessed · 1 not yet</div></div>
+        <div><div class="t-label">This month</div><div class="t-value">15</div><div class="t-sub">of 10,000 allowance</div></div>
+        <div><div class="t-label">Checks left</div><div class="t-value">0</div><div class="t-sub">resets 14 Aug</div></div>
+      </div>
+      <div class="t-rows">
+        <div class="t-row"><div><div class="t-name">Commas, colons and capitalisation</div><div class="t-url">contentious.ltd/resources/commas-colons-and-capitalisation</div></div><div class="t-num">99</div><div><span class="t-chip">Healthy</span></div></div>
+        <div class="t-row"><div><div class="t-name">A plan for plan</div><div class="t-url">contentious.ltd/portfolio/a-plan-for-plan</div></div><div class="t-num">65</div><div><span class="t-chip">Healthy</span></div></div>
+      </div>
+      <div class="t-ui">Project settings · New project · All clients &amp; projects</div>
+    </div>
+    <p class="why"><b>Verdict:</b> the mono label lands at 10.4px, which is the floor. Everything works, but it reads as a tool that assumes you already know your way around – and it is the version you told me felt too small.</p>
+  </section>
+
+  <!-- ── OPTION B ─────────────────────────────────────── -->
+  <section class="part">
+    <div class="opt-head"><h3>Option B · 0.75</h3><p>Body 18px. One clear step up.</p><span class="tag"><span class="chip chip--good">Recommended</span></span></div>
+    <div class="readout">
+      <div><div class="k">Body</div><div class="v">18px</div><div class="n">1 unit</div></div>
+      <div><div class="k">Label</div><div class="v">11.2px</div><div class="n">mono, .62u</div></div>
+      <div><div class="k">Row title</div><div class="v">18.9px</div><div class="n">1.05u</div></div>
+      <div><div class="k">Section</div><div class="v">22.5px</div><div class="n">1.25u</div></div>
+      <div><div class="k">Metric</div><div class="v">31px</div><div class="n">1.72u</div></div>
+      <div><div class="k">Page title</div><div class="v">43.2px</div><div class="n">2.4u</div></div>
+    </div>
+    <div class="sample" style="--app-mult:0.75">
+      <div class="t-title">Watchlist</div>
+      <p class="t-lede">The pages you want monitored. Depending on the size of your inventory and your account, this may be everything, or a curated sample.</p>
+      <div class="t-section">Queue health<span>Background job queue, right now.</span></div>
+      <div class="t-band">
+        <div><div class="t-label">Under watch</div><div class="t-value">81</div><div class="t-sub">80 assessed · 1 not yet</div></div>
+        <div><div class="t-label">This month</div><div class="t-value">15</div><div class="t-sub">of 10,000 allowance</div></div>
+        <div><div class="t-label">Checks left</div><div class="t-value">0</div><div class="t-sub">resets 14 Aug</div></div>
+      </div>
+      <div class="t-rows">
+        <div class="t-row"><div><div class="t-name">Commas, colons and capitalisation</div><div class="t-url">contentious.ltd/resources/commas-colons-and-capitalisation</div></div><div class="t-num">99</div><div><span class="t-chip">Healthy</span></div></div>
+        <div class="t-row"><div><div class="t-name">A plan for plan</div><div class="t-url">contentious.ltd/portfolio/a-plan-for-plan</div></div><div class="t-num">65</div><div><span class="t-chip">Healthy</span></div></div>
+      </div>
+      <div class="t-ui">Project settings · New project · All clients &amp; projects</div>
+    </div>
+    <p class="why"><b>Verdict:</b> the sweet spot. 18px body is generous for a data tool, the mono label clears the floor at 11.2px, and Bely’s forms have room to be recognisable rather than merely legible. A five-column table still fits comfortably at 1080px.</p>
+    <p class="why">It is also an easy number to explain: <b>the app runs at three-quarters of brand size</b>.</p>
+  </section>
+
+  <!-- ── OPTION C ─────────────────────────────────────── -->
+  <section class="part">
+    <div class="opt-head"><h3>Option C · 0.85</h3><p>Body 20.4px. Closest to the brand.</p><span class="tag"><span class="chip chip--warn">Costs a column</span></span></div>
+    <div class="readout">
+      <div><div class="k">Body</div><div class="v">20.4px</div><div class="n">1 unit</div></div>
+      <div><div class="k">Label</div><div class="v">12.6px</div><div class="n">mono, .62u</div></div>
+      <div><div class="k">Row title</div><div class="v">21.4px</div><div class="n">1.05u</div></div>
+      <div><div class="k">Section</div><div class="v">25.5px</div><div class="n">1.25u</div></div>
+      <div><div class="k">Metric</div><div class="v">35.1px</div><div class="n">1.72u</div></div>
+      <div><div class="k">Page title</div><div class="v">49px</div><div class="n">2.4u</div></div>
+    </div>
+    <div class="sample" style="--app-mult:0.85">
+      <div class="t-title">Watchlist</div>
+      <p class="t-lede">The pages you want monitored. Depending on the size of your inventory and your account, this may be everything, or a curated sample.</p>
+      <div class="t-section">Queue health<span>Background job queue, right now.</span></div>
+      <div class="t-band">
+        <div><div class="t-label">Under watch</div><div class="t-value">81</div><div class="t-sub">80 assessed · 1 not yet</div></div>
+        <div><div class="t-label">This month</div><div class="t-value">15</div><div class="t-sub">of 10,000 allowance</div></div>
+        <div><div class="t-label">Checks left</div><div class="t-value">0</div><div class="t-sub">resets 14 Aug</div></div>
+      </div>
+      <div class="t-rows">
+        <div class="t-row"><div><div class="t-name">Commas, colons and capitalisation</div><div class="t-url">contentious.ltd/resources/commas-colons-and-capitalisation</div></div><div class="t-num">99</div><div><span class="t-chip">Healthy</span></div></div>
+        <div class="t-row"><div><div class="t-name">A plan for plan</div><div class="t-url">contentious.ltd/portfolio/a-plan-for-plan</div></div><div class="t-num">65</div><div><span class="t-chip">Healthy</span></div></div>
+      </div>
+      <div class="t-ui">Project settings · New project · All clients &amp; projects</div>
+    </div>
+    <p class="why"><b>Verdict:</b> handsome, and unmistakably the same brand as the website. But watch the long URL in the second row – at 12.6px mono it is close to wrapping, and the Inventory table has five columns plus a checkbox. I’d expect to lose one column or start truncating.</p>
+    <p class="why">Worth it if the app is mostly read rather than scanned. Given Inventory and Watchlist are 50-row tables, I don’t think it is.</p>
+  </section>
+
+  <!-- ── OPTION D ─────────────────────────────────────── -->
+  <section class="part">
+    <div class="opt-head"><h3>Option D · responsive, 0.70 → 0.80</h3><p>Follows the brand’s own stepping behaviour.</p><span class="tag"><span class="chip">Worth adding later</span></span></div>
+    <p class="why">The brand base steps at 48rem and 96rem. The app could do the same, one notch narrower: <code>0.70</code> below 48rem, <code>0.75</code> from 48rem, <code>0.80</code> from 96rem. On a 27-inch screen the app grows to 19.2px body without costing anything on a laptop.</p>
+    <pre>@media (min-width: 48rem) { :root { --text-multiplier: 0.75; } }
+@media (min-width: 96rem) { :root { --text-multiplier: 0.80; } }</pre>
+    <div class="sample" style="--app-mult:0.80">
+      <div class="t-title">Watchlist</div>
+      <p class="t-lede">The pages you want monitored. Depending on the size of your inventory and your account, this may be everything, or a curated sample.</p>
+      <div class="t-band" style="margin-top:calc(var(--u) * 1.2)">
+        <div><div class="t-label">Under watch</div><div class="t-value">81</div><div class="t-sub">80 assessed · 1 not yet</div></div>
+        <div><div class="t-label">This month</div><div class="t-value">15</div><div class="t-sub">of 10,000 allowance</div></div>
+        <div><div class="t-label">Checks left</div><div class="t-value">0</div><div class="t-sub">resets 14 Aug</div></div>
+      </div>
+      <div class="t-ui">Shown at 0.80 — the wide-screen step</div>
+    </div>
+    <p class="why"><b>Verdict:</b> the right end state, but don’t start here. Ship a fixed 0.75 first, live with it for a fortnight, then add the steps once you know 0.75 is the middle you want.</p>
+  </section>
+
+  <!-- ── COMPARISON ───────────────────────────────────── -->
+  <section class="part">
+    <h2 class="big">Side by side</h2>
+    <table class="sum">
+      <tr><th>Role</th><th>Multiple</th><th>Now</th><th>A · 0.70</th><th>B · 0.75</th><th>C · 0.85</th><th>Brand · 1.0</th></tr>
+      <tr><td class="w">Mono label</td><td class="m">0.62u</td><td class="m">11</td><td class="m">10.4</td><td class="m">11.2</td><td class="m">12.6</td><td class="m">14.9</td></tr>
+      <tr><td class="w">Hint</td><td class="m">0.78u</td><td class="m">14</td><td class="m">13.1</td><td class="m">14.0</td><td class="m">15.9</td><td class="m">18.7</td></tr>
+      <tr><td class="w">UI / tabs</td><td class="m">0.88u</td><td class="m">15</td><td class="m">14.8</td><td class="m">15.8</td><td class="m">18.0</td><td class="m">21.1</td></tr>
+      <tr><td class="w">Body</td><td class="m">1u</td><td class="m">16</td><td class="m">16.8</td><td class="m">18.0</td><td class="m">20.4</td><td class="m">24.0</td></tr>
+      <tr><td class="w">Row title</td><td class="m">1.05u</td><td class="m">18</td><td class="m">17.6</td><td class="m">18.9</td><td class="m">21.4</td><td class="m">25.2</td></tr>
+      <tr><td class="w">Section heading</td><td class="m">1.25u</td><td class="m">23</td><td class="m">21.0</td><td class="m">22.5</td><td class="m">25.5</td><td class="m">30.0</td></tr>
+      <tr><td class="w">Metric value</td><td class="m">1.72u</td><td class="m">33</td><td class="m">28.9</td><td class="m">31.0</td><td class="m">35.1</td><td class="m">41.3</td></tr>
+      <tr><td class="w">Page title</td><td class="m">2.4u</td><td class="m">48</td><td class="m">40.3</td><td class="m">43.2</td><td class="m">49.0</td><td class="m">57.6</td></tr>
+    </table>
+    <p class="why">Note what the "Now" column shows: the current scale isn’t proportional to anything. The page title is relatively larger than the brand ratio while the metric value is relatively smaller, because I set each number by eye. Deriving them from one unit fixes that as a side effect – <b>the ratios become consistent, not just the sizes</b>.</p>
+  </section>
+
+  <section class="part">
+    <h2 class="big">Recommendation</h2>
+    <div class="rec-block">
+      <p><b>Option B, 0.75.</b> Body 18px, mono labels clear of the floor at 11.2px, tables still fit, and it explains itself in one sentence: the app runs at three-quarters of brand size.</p>
+      <p><b>Add Option D’s steps in a fortnight</b>, once 0.75 has proved itself as the middle. Not before – you want to be adjusting around a number you trust.</p>
+      <p><b>The real work isn’t the number.</b> It’s replacing ~60 hard-coded <code>font-size</code> declarations in <code>components/components.css</code> with multiples of one unit. That’s what makes the next adjustment a one-line change instead of another sixty-number pass, and it should happen at the same time as the <code>c-*</code> rename so the CSS is only rewritten once.</p>
+      <p><b>One thing to check before committing:</b> the repo’s <code>--text-multiplier</code> is currently used by <code>type-h1</code>, <code>type-body</code> and friends. If any app screen already uses those classes, changing the multiplier will move them too – which is the point, but worth knowing rather than discovering.</p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

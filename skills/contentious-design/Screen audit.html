@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Screen audit – the live app against the system</title>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased;min-width:1120px}
+h1,h2,h3,h4{font-synthesis-weight:none}
+.wrap{max-width:1080px;margin:0 auto;padding:58px 40px 120px}
+h1{font-family:var(--font-heading-display);font-weight:400;font-size:54px;line-height:1;color:var(--text-strong);margin:10px 0 14px;letter-spacing:-.006em}
+.lede{font-size:var(--text-lede);line-height:1.55;color:var(--text-secondary);max-width:68ch;margin:0 0 8px;text-wrap:pretty}
+h2.big{font-family:var(--font-heading-display);font-weight:400;font-size:34px;color:var(--text-strong);margin:0 0 8px}
+.part{padding-top:64px}
+.part>.intro{font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:72ch;margin:0 0 10px;text-wrap:pretty}
+.issue{background:var(--surface-card);border-radius:var(--radius-surface);padding:24px 26px;margin-top:16px}
+.issue.high{background:var(--fire-150)}
+.issue.med{background:var(--sunshine-150)}
+.issue.ok{background:var(--sapling-150)}
+.ihead{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.ihead h3{font-family:var(--font-heading);font-weight:400;font-size:20px;color:var(--text-strong);margin:0}
+.ihead .n{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;color:var(--text-muted);flex:none}
+.ihead .tag{margin-left:auto;flex:none}
+.issue p{font-size:15px;line-height:1.6;color:var(--text-body);margin:12px 0 0;max-width:80ch;text-wrap:pretty}
+.issue p.why{color:var(--text-secondary)}
+.issue p b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+.rec{margin-top:15px;padding-top:13px;border-top:1px solid rgba(38,36,35,.1)}
+.rec .h{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.rec .b{font-size:15px;line-height:1.55;color:var(--text-strong);max-width:80ch}
+code{font-family:var(--font-mono);font-size:13px;color:var(--text-body);background:rgba(38,36,35,.06);padding:2px 5px;border-radius:3px}
+.ramp{display:flex;gap:6px;margin-top:12px;max-width:520px}
+.ramp div{flex:1;text-align:center}
+.ramp .c{height:38px;border-radius:4px}
+.ramp .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-top:6px}
+.demo{background:var(--limestone-250);border-radius:6px;padding:16px 18px;margin-top:14px}
+.scorerow{display:flex;gap:26px;align-items:baseline;font-family:var(--font-heading-display);font-weight:400;font-size:26px}
+.sum{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
+.sum th{text-align:left;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--rule-field)}
+.sum td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;color:var(--text-secondary);line-height:1.45}
+.sum td.w{color:var(--text-strong);font-family:var(--font-heading);white-space:nowrap}
+.sum tr:last-child td{border-bottom:0}
+.stats{display:inline-flex;align-items:stretch;background:var(--surface-card);border-radius:var(--radius-surface);overflow:hidden;margin-top:14px}
+.stats>div{padding:11px 18px;display:flex;align-items:baseline;gap:7px}
+.stats>div+div{border-left:1px solid var(--rule-row)}
+.stats .v{font-family:var(--font-heading-display);font-weight:400;font-size:20px;color:var(--text-strong)}
+.stats .k{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
+.prio{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+.prio i{width:6px;height:6px;border-radius:50%;flex:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="label">Audit · live screens against the design system</div>
+  <h1>The app knows things my system didn’t.</h1>
+  <p class="lede">Eight screens reviewed against the system. Five of my rules need changing, ten components exist in the app but not in the system, and there are six places the app diverges from itself. Terminology first: the fourth tier is <b>Watchlist</b>, not Catalogue – I’ve corrected that everywhere.</p>
+
+  <section class="part">
+    <h2 class="big">My rules that are wrong</h2>
+    <p class="intro">The app is right and the system needs updating. Two of these are consequences of the level-ramp discovery.</p>
+
+    <div class="issue high">
+      <div class="ihead"><span class="n">01</span><h3>Scores are coloured, and my rule forbade it</h3><span class="tag"><span class="chip chip--bad">System wrong</span></span></div>
+      <p>The system says numbers are neutral by default and colour is reserved for good/bad. The app disagrees, and the app is right: a score is the most important thing on the screen and it earns colour. But the two places it does this don’t agree with each other.</p>
+      <div class="demo">
+        <div class="cap" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:9px">Current – Watchlist score column · two states, threshold at 80</div>
+        <div class="scorerow">
+          <span style="color:var(--gloaming-800)">99</span><span style="color:var(--gloaming-800)">93</span><span style="color:var(--gloaming-800)">85</span><span style="color:var(--gloaming-800)">81</span><span style="color:var(--sunshine-700)">79</span><span style="color:var(--sunshine-700)">68</span><span style="color:var(--sunshine-700)">52</span>
+        </div>
+        <div class="cap" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin:18px 0 9px">Current – Results charts · the full five-level ramp</div>
+        <div class="ramp" style="margin-top:0">
+          <div><div class="c" style="background:var(--level-5)"></div><div class="l">5</div></div>
+          <div><div class="c" style="background:var(--level-4)"></div><div class="l">4</div></div>
+          <div><div class="c" style="background:var(--level-3)"></div><div class="l">3</div></div>
+          <div><div class="c" style="background:var(--level-2)"></div><div class="l">2</div></div>
+          <div><div class="c" style="background:var(--level-1)"></div><div class="l">1</div></div>
+        </div>
+      </div>
+      <p><b>Watchlist uses two states, not five.</b> Everything at 80 and above is the same dark charcoal – 81, 93 and 99 are indistinguishable – and everything below is the same amber, so 52 looks identical to 79. Meanwhile the Results score distribution, quality bars and criteria gauges all use the full five-level ramp. Same underlying number, two different visual languages.</p>
+      <p class="why"><b>The distinction my system missed</b> is nevertheless real: a <i>score</i> is a level and takes level colour; a <i>quantity</i> – page count, API cost, tokens – is not, and stays neutral until something is wrong. I only wrote the second rule.</p>
+      <p class="why"><b>The individual result page settles this.</b> Each of the fifteen criteria is scored as a <b>five-star rating</b>, coloured on the level ramp – so the product already has a five-level primitive, and the framework already draws its meaning in fives. Watchlist’s two-band column is the outlier, not the standard.</p>
+      <div class="rec"><div class="h">Change</div><div class="b">Five bands everywhere, mapped to the star levels the framework already uses. Watchlist adopts the ramp. Quantities stay neutral and never share a column with scores. Bands confirmed at 20/40/60/80 – a 1–5 rating as a percentage. Which also explains Watchlist’s threshold at 80: it isn’t an arbitrary pass mark, it is the top band edge, so its two-state column was showing “five stars or not”.</div></div>
+    </div>
+
+    <div class="issue high">
+      <div class="ihead"><span class="n">02</span><h3>The level ramp is also used categorically, and that collides</h3><span class="tag"><span class="chip chip--bad">Real conflict</span></span></div>
+      <p>On Estate, the “Top sections” and “Pages by property” bars give each row its own colour – blue, green, orange, red, grey. On Watchlist, the “Latest analysis” progress panel colours its stages orange, amber, olive, green, red. Both are using ramp colours as a <i>categorical</i> palette.</p>
+      <p>The problem: an orange bar now reads as “level 2” whether you mean it or not. Sitting eight inches from a score column where orange genuinely means 68, that’s a real misread – and the failed-analysis bar being red is doubly confusing, because red is both “failed” and “level 1”.</p>
+      <div class="ramp">
+        <div><div class="c" style="background:var(--level-1)"></div><div class="l">Level 1</div></div>
+        <div><div class="c" style="background:var(--level-2)"></div><div class="l">Level 2</div></div>
+        <div><div class="c" style="background:var(--level-3)"></div><div class="l">Level 3</div></div>
+        <div><div class="c" style="background:var(--level-4)"></div><div class="l">Level 4</div></div>
+        <div><div class="c" style="background:var(--level-5)"></div><div class="l">Level 5</div></div>
+      </div>
+      <p class="why"><b>My recommendation:</b> categorical bars shouldn’t be multicoloured at all. In “Top sections”, colour carries no information – the label already names the section and the number already gives the value, so five colours are decoration that now actively misleads. Make them all <code>--wave-500</code>, or use a single-hue sequence.</p>
+      <p class="why">The analysis progress panel is different: those stages <i>are</i> ordered, so a ramp is defensible – but it should be a neutral-to-fire process ramp, not the score ramp. Failed stays fire; everything else moves to wave.</p>
+      <div class="rec"><div class="h">Change</div><div class="b">Reserve the five level colours for scores only. Give categorical bars one colour, and give process states a wave-based ramp with fire for failure.</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">03</span><h3>Donuts aren’t only for freshness</h3><span class="tag"><span class="chip chip--warn">System too narrow</span></span></div>
+      <p>The system says donuts are reserved for content freshness. But Results uses sixteen donut gauges for criteria performance, and they work well – a ring reading 76 out of 100 with a coloured arc is instantly legible, and sixteen of them tile into a scannable grid that bars couldn’t.</p>
+      <p class="why">Two legitimate donut uses, then: <b>composition</b> (freshness – slices of a whole) and <b>gauge</b> (a single score out of 100, arc coloured on the level ramp). They look similar but mean different things, so they need documenting as separate components with a rule about not putting them adjacent.</p>
+      <div class="rec"><div class="h">Change</div><div class="b">Add a <code>ScoreGauge</code> component alongside the freshness donut, and drop the “donuts only for freshness” rule.</div></div>
+    </div>
+  </section>
+
+  <section class="part">
+    <h2 class="big">In the app, missing from the system</h2>
+    <p class="intro">Four components I should add, plus one page-level pattern I’d missed entirely.</p>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">04</span><h3>Section illustrations</h3><span class="tag"><span class="chip">Missing</span></span></div>
+      <p>Every top-level page carries a large brand illustration top-right – houses for Estate, bottles for Inventory, books for Watchlist, the waveform for Results. They’re the strongest brand moment in the whole product and my system doesn’t mention them, which means Claude Code would build a new page without one.</p>
+      <p class="why">They also do real work: they make four structurally similar list pages instantly distinguishable. The system should treat them as a required part of the page header for any top-level section, not decoration.</p>
+      <div class="rec"><div class="h">Add</div><div class="b"><code>PageHeader</code> with a required illustration slot for top-level sections, and document the existing set. The marketing site pairs the same illustrations with the same four words, so they’re effectively part of the terminology.</div></div>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">05</span><h3>Stats bar</h3><span class="tag"><span class="chip">Missing</span></span></div>
+      <p>A horizontal strip of value-plus-mono-label pairs under the page header: <i>4 properties · 84 pages · 81 in watchlist</i>. Appears on Estate, Inventory and Watchlist.</p>
+      <div class="stats">
+        <div><span class="v">4</span><span class="k">Properties</span></div>
+        <div><span class="v">84</span><span class="k">Pages</span></div>
+        <div><span class="v">81</span><span class="k">In watchlist</span></div>
+      </div>
+      <p class="why">It’s effectively a horizontal <code>MetricBand</code> with no sub-lines – close enough that it should be a variant rather than a new component, which also stops the two drifting apart.</p>
+      <div class="rec"><div class="h">Add</div><div class="b"><code>MetricBand</code> variant: <code>compact</code>, value and label inline, no context line.</div></div>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">06</span><h3>Priority marker</h3><span class="tag"><span class="chip">Missing</span></span></div>
+      <p>The Report page marks each opportunity <i>high priority</i> or <i>medium priority</i> with a coloured dot and mono text – no chip background.</p>
+      <div class="demo" style="display:flex;gap:28px">
+        <span class="prio"><i style="background:var(--fire-500)"></i>High priority</span>
+        <span class="prio"><i style="background:var(--sunshine-500)"></i>Medium priority</span>
+        <span class="prio"><i style="background:var(--wave-500)"></i>Low priority</span>
+      </div>
+      <p class="why">This is a third label form alongside chips and plain mono labels, which is exactly the proliferation the chip work was meant to end. But it’s justified here: five stacked opportunity cards each with a filled chip would be very loud, and the dot carries the same information quietly.</p>
+      <div class="rec"><div class="h">Add</div><div class="b">Document it as a <code>Chip</code> variant – <code>tone</code> plus <code>bare</code> – so it shares the type and tone scale rather than being a separate thing. Note that the dot here is static; the pulsing dot stays exclusive to live states.</div></div>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">07</span><h3>Result card with screenshot thumbnail</h3><span class="tag"><span class="chip">Missing</span></span></div>
+      <p>The Individual results grid pairs a page screenshot with a score gauge top-left, then title, section and date. Four across. Nothing like it in the system.</p>
+      <div class="rec"><div class="h">Add</div><div class="b"><code>ResultCard</code>, and check the brand guide’s “Device screenshots” page first – it may already specify how screenshots are framed, in which case this should follow it rather than invent.</div></div>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">08</span><h3>Footer with grouped links</h3><span class="tag"><span class="chip">Missing</span></span></div>
+      <p>Two mono-labelled link groups (<i>Core</i>, <i>Learn</i>) plus a product description, brand attribution and legal line. Consistent across every page including the marketing site.</p>
+      <div class="rec"><div class="h">Add</div><div class="b"><code>AppFooter</code>. Low effort, and its absence means my UI kit screens all end abruptly.</div></div>
+    </div>
+  </section>
+
+  <section class="part">
+    <h2 class="big">The individual result page</h2>
+    <p class="intro">The densest screen in the product, and the one with most that the system doesn’t cover. It also contradicts two of my rules outright.</p>
+
+    <div class="issue high">
+      <div class="ihead"><span class="n">09</span><h3>Star rating – the missing primitive</h3><span class="tag"><span class="chip chip--bad">Important</span></span></div>
+      <p>Every criterion carries a five-star rating, coloured on the level ramp: five green stars for Error-free, three amber for Convincing, two orange for Shareable and On-brand. <b>This is the product’s core score primitive and my system doesn’t contain it.</b></p>
+      <p class="why" style="font-size:14px"><b>Note on this demo:</b> the stars below are the unicode glyph, standing in for the drawn star asset the app uses. The system forbids unicode glyphs as icons, so the real component needs the app’s own star shape – I need that asset from you, or its path in the codebase.</p>
+      <div class="demo" style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;gap:16px;align-items:center"><span style="font-family:var(--font-heading);font-size:15px;color:var(--text-strong);width:110px">Error-free</span><span style="color:var(--level-5);letter-spacing:3px;font-size:17px">★★★★★</span></div>
+        <div style="display:flex;gap:16px;align-items:center"><span style="font-family:var(--font-heading);font-size:15px;color:var(--text-strong);width:110px">Readable</span><span style="color:var(--level-4);letter-spacing:3px;font-size:17px">★★★★<span style="color:var(--limestone-750)">★</span></span></div>
+        <div style="display:flex;gap:16px;align-items:center"><span style="font-family:var(--font-heading);font-size:15px;color:var(--text-strong);width:110px">Convincing</span><span style="color:var(--level-3);letter-spacing:3px;font-size:17px">★★★<span style="color:var(--limestone-750)">★★</span></span></div>
+        <div style="display:flex;gap:16px;align-items:center"><span style="font-family:var(--font-heading);font-size:15px;color:var(--text-strong);width:110px">On-brand</span><span style="color:var(--level-2);letter-spacing:3px;font-size:17px">★★<span style="color:var(--limestone-750)">★★★</span></span></div>
+      </div>
+      <p class="why">Stars are an unusual choice for a professional analysis tool – they carry a consumer-review association – but they work here, because five discrete levels are easier to compare across fifteen criteria than fifteen two-digit numbers. And they are the reason the level ramp has exactly five rungs, which I had inferred from the colour guide without knowing why.</p>
+      <div class="rec"><div class="h">Add</div><div class="b"><code>StarRating</code> as a core component, tied to <code>--level-1</code>…<code>5</code>. Empty stars in limestone-750. This should be the canonical way a criterion score is shown anywhere in the product.</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">10</span><h3>Centred metrics, and my rule says never</h3><span class="tag"><span class="chip chip--warn">Rule needs nuance</span></span></div>
+      <p>The Metrics panel is a 3×2 grid of centred figures – 419 words, 21 sentences, 6 paragraphs, 4 headings, 0 links, 20.0 words per sentence. My system says metrics are never centred because centred numbers can’t be compared down a column.</p>
+      <p class="why">The rule holds where comparison is the point – the Monitoring bands, a score column. Here nothing is being compared: six unrelated counts about one page, in a grid, read individually. Centring is defensible.</p>
+      <p class="why">What I would change is <code>0 links</code>: it renders in the same weight as the others, where the system’s <code>--data-zero</code> exists exactly for this. A page with no links is a finding, not a neutral fact – and on this page it’s arguably the single most actionable number, given “Shareable” scores two stars.</p>
+      <div class="rec"><div class="h">Change</div><div class="b">Narrow the rule: metrics in a <i>band</i> are left-aligned for comparison; a <i>figures grid</i> of unrelated counts may be centred. Add the grid as a documented <code>MetricBand</code> variant so it isn’t reinvented, and apply <code>--data-zero</code> to genuine zeros.</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">11</span><h3>The score-history chart has axes, which I’d ruled out</h3><span class="tag"><span class="chip chip--warn">Rule too narrow</span></span></div>
+      <p>Score history is a line chart with a labelled Y axis, gridlines and dated points. My chart rules say no axes, no gridlines, no tooltips – but that rule was written for the <code>MicroSeries</code> sparkline, where the shape is the whole message.</p>
+      <p class="why">A history chart is a different job: the reader wants to know <i>when</i> a score moved and by how much, which needs both axes. The rule should be scoped to sparklines rather than applied to all charts.</p>
+      <p class="why">One thing to fix on the current version: with a single data point the chart renders as a flat line spanning the full width, which reads as “no change over time” rather than “only measured once”. An empty state saying so would be more honest.</p>
+      <div class="rec"><div class="h">Add</div><div class="b"><code>ScoreHistory</code> as a third chart type – axes permitted, level-ramp point colour, and a documented single-point empty state.</div></div>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">12</span><h3>Three more components</h3><span class="tag"><span class="chip">Missing</span></span></div>
+      <p><b>Breadcrumb.</b> <i>Results › Individual results › About</i>. This is the drill-down path, and it’s the first breadcrumb in the product – worth noting it sits <i>inside</i> the page rather than in the chrome, which is right, because it describes where this record sits rather than which realm you’re in.</p>
+      <p><b>Criterion card.</b> Name, star rating, an Analysis paragraph and a How to improve paragraph, three across. Fifteen of them. The most repeated block in the product and entirely undocumented.</p>
+      <p><b>Arc gauge.</b> The large <span style="font-family:var(--font-heading-display);font-size:22px;color:var(--text-strong)">68</span> in an open ring – distinct from both the freshness donut and the criteria gauges, because it’s one headline score at display size. Also the clearest instance of Bely Display doing what it’s best at.</p>
+      <div class="rec"><div class="h">Add</div><div class="b"><code>Breadcrumb</code>, <code>CriterionCard</code>, <code>ScoreGauge</code> with a <code>large</code> variant for the headline arc. With finding 04–08 that’s nine components to add – enough that I’d build them as one batch rather than piecemeal.</div></div>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">13</span><h3>Device frame for screenshots</h3><span class="tag"><span class="chip">Check brand guide</span></span></div>
+      <p>The page screenshot sits in a drawn monitor illustration. The brand guide has a dedicated <a href="https://style.contentious.ltd/design/devices">Device screenshots</a> page which I haven’t read – this should follow whatever it specifies rather than being documented independently.</p>
+      <div class="rec"><div class="h">Next</div><div class="b">Read that page before I document any screenshot treatment, including the <code>ResultCard</code> thumbnails in finding 07.</div></div>
+    </div>
+  </section>
+
+  <section class="part">
+    <h2 class="big">Where the app diverges from itself</h2>
+    <p class="intro">Inconsistencies within the live product, ordered by how much they cost.</p>
+    <table class="sum">
+      <tr><th>What</th><th>Where</th><th>Suggested resolution</th></tr>
+      <tr>
+        <td class="w">Slab inside a slab</td>
+        <td>Estate property cards contain a nested “Classified as non-content” box; the whole card sits inside the section card.</td>
+        <td>Three depths on one screen. Replace the inner box with a hairline rule and a mono label, per the one-depth rule.</td>
+      </tr>
+      <tr>
+        <td class="w">Zebra striping</td>
+        <td>Inventory alternates row backgrounds; Watchlist does too. The system uses hairlines and a hover state.</td>
+        <td>Genuinely arguable at 50 rows across five columns. I’d keep hairlines and add a stronger hover, but if striping is helping people track across, keep it and I’ll document it as the pattern for tables over ~20 rows.</td>
+      </tr>
+      <tr>
+        <td class="w">In-page tabs on Results</td>
+        <td>Overview / Individual results / Report sit inside the page body, below the header – not in the chrome strip.</td>
+        <td>This breaks “the strip is chrome, never in the page body”. But they’re too substantial to be a segmented control. I’d make Results three chrome tabs with realm label <code>Oxfam 2 · Results</code> – which is also what the nav pattern predicts.</td>
+      </tr>
+      <tr>
+        <td class="w">Two section-header styles</td>
+        <td>Estate uses mono uppercase labels (“Top sections”, “Content freshness”); Results uses Bely headings (“Score distribution”, “Criteria performance”).</td>
+        <td>Bely 23px for anything that names a section of content; mono only for labels on a chart axis or a metric. Estate’s are section headers doing a label’s job.</td>
+      </tr>
+      <tr>
+        <td class="w">Score colour banding</td>
+        <td>Covered in finding 01: Watchlist bands at 80 into two states, Results uses five. The same score is coloured differently depending on which page you are on.</td>
+        <td>Needs your decision on bands before it can be documented – see finding 01.</td>
+      </tr>
+      <tr>
+        <td class="w">Mono for URLs</td>
+        <td>Inventory renders URLs in mono with the path emphasised; Watchlist renders them in mono at full length with no emphasis.</td>
+        <td>Adopt Inventory’s treatment everywhere – dimming the domain and emphasising the path is the right call when 50 rows share four domains.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="part">
+    <h2 class="big">What the screens confirmed</h2>
+    <div class="issue ok">
+      <p style="margin-top:0"><b>Mono as the metadata voice is already the app’s established language</b> – properties, pages, in watchlist, unknown cms, top sections, content freshness, domain, display name, every URL, every date. That settles discrepancy 01 in the style-guide audit in practice: mono-for-metadata isn’t a proposal, it’s what the product does. I’d now firmly recommend extending the brand guide with a UI-metadata mono role rather than trying to remove it.</p>
+      <p><b>The four tiers, the illustration set, the fire primary button, limestone surfaces, hairline dividers and the donut-for-freshness pattern all match</b> what the system describes. The chrome – lockup, switcher, four sections, avatar – matches too, and the switcher/sections split is exactly the proximity problem the nav work identified, now visible on real screens.</p>
+      <p><b>Base font size:</b> looking at these at full size, I agree with you. I’ve raised the app base from 15px to 16px body, 18px lede, 23px section headings, 33px metric values and 11px mono labels – roughly one step throughout. That’s noticeably more generous without costing a column, and Bely benefits from it more than a sans would. Worth viewing the UI kit and the system doc now and telling me whether to push further.</p>
+    </div>
+  </section>
+
+  <section class="part">
+    <h2 class="big">Order I’d tackle these</h2>
+    <div class="issue">
+      <p style="margin-top:0"><b>1. The level ramp.</b> Take it out of categorical bars – that is the one place the current design actively misleads. Then settle the score bands (finding 01) so Watchlist and Results stop disagreeing, and document one score-value rule.</p>
+      <p><b>2. The score primitives.</b> <code>StarRating</code> first – it is the core of the product and the reason the ramp has five rungs – then <code>ScoreGauge</code> (with its large arc variant), <code>ScoreHistory</code> and the <code>CriterionCard</code> that wraps them. These four carry the actual analysis and are the ones worth getting exactly right.</p>
+      <p><b>3. Page furniture.</b> Illustrated page header, compact metric band variant, footer, result card, breadcrumb and the bare priority-marker chip variant. Straightforward, but their absence is why anything Claude Code builds next won’t match.</p>
+      <p><b>4. Results tabs into the chrome strip.</b> Bigger change, so worth deciding before more work lands on that page.</p>
+      <p><b>5. The nested slab on Estate and the two section-header styles.</b> Cosmetic but cheap.</p>
+      <p>Tell me which of these you want and I’ll build them into the system properly – components, tokens and documentation together, rather than as one-off pages.</p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

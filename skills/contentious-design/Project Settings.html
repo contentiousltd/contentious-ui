@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"/>
+<title>Project settings – variations</title>
+<link rel="stylesheet" href="tokens.css"/>
+<style>
+  html, body { margin:0; padding:0; background:#f0eee9; }
+  * { box-sizing: border-box; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="variants/shared.jsx"></script>
+<script type="text/babel" src="variants/VariantA.jsx"></script>
+<script type="text/babel" src="variants/VariantB.jsx"></script>
+<script type="text/babel" src="variants/VariantC.jsx"></script>
+<script type="text/babel" src="variants/VariantD.jsx"></script>
+
+<script type="text/babel">
+const TWEAKS = /*EDITMODE-BEGIN*/{
+  "accent": "fire",
+  "showA": true,
+  "showB": true,
+  "showC": true,
+  "showD": true
+}/*EDITMODE-END*/;
+
+const ACCENTS = {
+  fire:     getComputedStyle(document.documentElement).getPropertyValue('--fire-500').trim() || '#D5544F',
+  sapling:  getComputedStyle(document.documentElement).getPropertyValue('--sapling-extra-dark').trim() || '#4D6249',
+  wave:     getComputedStyle(document.documentElement).getPropertyValue('--wave-extra-dark').trim() || '#4B5B5E',
+  sunshine: getComputedStyle(document.documentElement).getPropertyValue('--sunshine-extra-dark').trim() || '#BF7934',
+};
+
+function TweaksPanel({ state, setState, onClose }) {
+  const swatch = (k) => (
+    <button key={k} onClick={()=>setState(s=>({...s, accent:k}))} style={{
+      width:32, height:32, borderRadius:'50%', border: state.accent===k ? '2px solid #1a1918' : '2px solid transparent',
+      background: ACCENTS[k], cursor:'pointer', padding:0, outline:'2px solid rgba(0,0,0,0.06)', outlineOffset:-2,
+    }} title={k}/>
+  );
+  const toggle = (key, label) => (
+    <label style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 0', fontSize:13, fontFamily:'var(--font-body)', color:'var(--gloaming-dark)', cursor:'pointer' }}>
+      <input type="checkbox" checked={state[key]} onChange={e=>setState(s=>({...s, [key]:e.target.checked}))}/>
+      {label}
+    </label>
+  );
+  return (
+    <div style={{
+      position:'fixed', right:20, bottom:20, width:280,
+      background:'var(--limestone-pale)', color:'var(--gloaming-dark)',
+      borderRadius:10, border:'1px solid var(--limestone-extra-dark)',
+      boxShadow:'0 12px 32px rgba(0,0,0,0.18)', padding:18, zIndex:1000,
+      fontFamily:'var(--font-body)',
+    }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
+        <b style={{ fontFamily:'var(--font-heading-display)', fontSize:20, fontWeight:400 }}>Tweaks</b>
+        <button onClick={onClose} style={{ border:'none', background:'transparent', cursor:'pointer', fontSize:20, color:'var(--gloaming-pale)' }}>×</button>
+      </div>
+      <div style={{ fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gloaming-pale)', marginBottom:8 }}>Accent colour</div>
+      <div style={{ display:'flex', gap:10, marginBottom:16 }}>
+        {Object.keys(ACCENTS).map(swatch)}
+      </div>
+      <div style={{ fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'.08em', textTransform:'uppercase', color:'var(--gloaming-pale)', marginBottom:4 }}>Layouts on canvas</div>
+      {toggle('showA', 'A · Editorial refresh')}
+      {toggle('showB', 'B · Settings sidebar')}
+      {toggle('showC', 'C · Card gallery')}
+      {toggle('showD', 'D · Single-page editorial')}
+    </div>
+  );
+}
+
+function App() {
+  const [state, setState] = React.useState(TWEAKS);
+  const [showTweaks, setShowTweaks] = React.useState(false);
+  const accent = ACCENTS[state.accent] || ACCENTS.fire;
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      if (e.data?.type === '__activate_edit_mode') setShowTweaks(true);
+      if (e.data?.type === '__deactivate_edit_mode') setShowTweaks(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({type:'__edit_mode_available'}, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  React.useEffect(() => {
+    window.parent.postMessage({ type:'__edit_mode_set_keys', edits: state }, '*');
+  }, [state]);
+
+  const artboards = [
+    state.showA && { key:'A', label:'A · Editorial refresh – tabs kept, richer', Comp:VariantA, w:1100, h:1000, note:"Closest to current: same IA, better hierarchy. Current-project hero card with at-a-glance stats; richer table (health, sparkline, members, sortable header tone)." },
+    state.showB && { key:'B', label:'B · Settings sidebar + sub-nav', Comp:VariantB, w:1200, h:900, note:"Replaces tabs with a left settings nav. Leaves room to add Members, Notifications, Integrations, Danger zone without overloading one page." },
+    state.showC && { key:'C', label:'C · Project gallery', Comp:VariantC, w:1200, h:1000, note:"Each project becomes a card with health gauge + trend. Reads like a product portfolio. Good when you have ~3-8 projects and each one matters." },
+    state.showD && { key:'D', label:'D · Single-page editorial', Comp:VariantD, w:1200, h:2400, note:"No tabs. One long editorial page with anchor nav. Puts everything for the current workspace in reading order – very on-brand, very Bely-Display." },
+  ].filter(Boolean);
+
+  return (
+    <>
+      <DesignCanvas>
+        {/* Intro / design notes */}
+        <div style={{ padding:'0 60px 40px', maxWidth:980 }}>
+          <div style={{ fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(60,50,40,0.6)', marginBottom:10 }}>Exploration</div>
+          <h1 style={{ fontFamily:'var(--font-heading-display)', fontSize:56, fontWeight:400, color:'#1a1918', margin:'0 0 12px', lineHeight:1.02 }}>Project settings – four directions.</h1>
+          <p style={{ fontFamily:'var(--font-body)', fontSize:16, color:'#3d3c3a', maxWidth:'62ch', lineHeight:1.55, margin:'0 0 18px' }}>
+            Starting from the current page, I’m exploring four directions ranging from "same IA, just better" to "rethink the whole page." All four use the Contentious design tokens – Bely Display for display type, limestone page, fire accent – and share the same top bar so you can compare like-for-like.
+          </p>
+          <p style={{ fontFamily:'var(--font-body)', fontSize:15, color:'#5a524a', maxWidth:'62ch', margin:'0 0 18px' }}>
+            <b>Things I changed in all four:</b> the current project gets real weight (it’s the most important decision on the page, so it should look like one); the project list carries actual metadata (health, last audit, pages, members) rather than just a description; the "Active" vs "Current" labelling is consistent; the primary action uses the brand accent, not raw fire-500 on a button.
+          </p>
+          <p style={{ fontFamily:'var(--font-body)', fontSize:14, color:'rgba(60,50,40,0.7)', maxWidth:'62ch', margin:0 }}>
+            Turn on <b>Tweaks</b> (toolbar) to change the accent colour or hide variants.
+          </p>
+        </div>
+
+        <DCSection
+          title="The four variants"
+          subtitle="Pan / pinch to explore. Each artboard is interactive."
+          gap={80}
+        >
+          {artboards.map(a => (
+            <div key={a.key} style={{ position:'relative' }}>
+              <DCArtboard label={a.label} width={a.w} height={a.h}>
+                <a.Comp accent={accent}/>
+              </DCArtboard>
+              <DCPostIt top={-10} right={-140} rotate={3} width={210}>
+                {a.note}
+              </DCPostIt>
+            </div>
+          ))}
+        </DCSection>
+
+        {/* Closing note */}
+        <div style={{ padding:'20px 60px 60px', maxWidth:900 }}>
+          <div style={{ fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'.08em', textTransform:'uppercase', color:'rgba(60,50,40,0.6)', marginBottom:10 }}>My recommendation</div>
+          <p style={{ fontFamily:'var(--font-body)', fontSize:16, color:'#3d3c3a', maxWidth:'62ch', lineHeight:1.55, margin:'0 0 10px' }}>
+            <b>B (settings sidebar)</b> is the strongest structural answer – it scales to the other settings you’ll want (members, integrations, notifications, billing) without a tab-bar rebuild. <b>D (single-page editorial)</b> is the most on-brand for Contentious if you want a distinctive, quietly confident settings page. <b>A</b> is the safest incremental change; <b>C</b> is overkill for settings but great if projects become a top-level concept.
+          </p>
+          <p style={{ fontFamily:'var(--font-body)', fontSize:14, color:'rgba(60,50,40,0.7)', margin:0 }}>
+            Happy to combine: e.g. B’s structure with D’s editorial tone inside each section. Let me know which direction to push further.
+          </p>
+        </div>
+      </DesignCanvas>
+
+      {showTweaks && <TweaksPanel state={state} setState={setState} onClose={()=>setShowTweaks(false)}/>}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

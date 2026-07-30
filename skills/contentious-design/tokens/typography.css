@@ -1,0 +1,36 @@
+:root {
+--font-heading-display: 'Bely Display', 'Bely', Georgia, serif;
+  --font-heading:         'Bely', Georgia, 'Times New Roman', serif;
+  --font-body:            'Bely', Georgia, 'Times New Roman', serif;
+  /* The app’s metadata voice. Every label, chip and mono column in the product
+     resolves through this, so it stays on the system stack until discrepancy 01
+     in Style guide audit.html is settled. */
+  --font-mono:            ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  /* The brand mono face (style.contentious.ltd/design/typography), which the
+     brand guide reserves for code. Defined, deliberately unreferenced: point
+     --font-mono here only if the decision goes that way. */
+  --font-mono-brand:      'Courier New', Courier, monospace;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold:   700;
+
+  --base-font-size:        24px;   /* from @contentious/ui. App density is
+                                      --text-multiplier (0.75), not a second
+                                      base size. See Type scale options.html. */
+  --text-multiplier:       1;
+  --body-line-height:      1.55;
+  --heading-line-height:   1.15;
+  --line-height-tight:     1;
+  --line-height-snug:      1.2;
+  --line-height-normal:    1.4;
+  --line-height-relaxed:   1.7;
+  --line-height-loose:     1.8;
+  --font-size-xs:          12px;
+  --font-size-sm:          14px;
+
+  --font-size-h1: 3.5rem;
+  --font-size-h2: 2.4rem;
+  --font-size-h3: 1.5rem;
+  --font-size-h4: 1.1rem;
+}

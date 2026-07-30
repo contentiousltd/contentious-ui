@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Contentious Design System</title>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-synthesis-weight:none}
+a{color:var(--accent-link);text-decoration:none}a:hover{color:var(--accent-link-hover)}
+/* shell */
+.doc{display:grid;grid-template-columns:236px 1fr;align-items:start;min-width:1180px}
+.doc{display:grid;grid-template-columns:236px 1fr;align-items:start;min-width:1180px;background:linear-gradient(to right,var(--surface-chrome) 0 236px,transparent 236px)}
+nav.toc{position:sticky;top:0;height:100vh;overflow-y:auto;padding:38px 20px 40px 32px;background:var(--surface-chrome);border-right:1px solid var(--rule-section)}
+.doc>main{border-left:1px solid var(--rule-section);margin-left:-1px}
+nav.toc .mark{display:flex;align-items:center;gap:10px;font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--text-strong);white-space:nowrap;margin-bottom:4px}
+nav.toc .mark img{height:24px}
+nav.toc .sub{font-size:12.5px;color:var(--text-muted);margin-bottom:26px}
+nav.toc h4{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin:22px 0 7px}
+nav.toc a{display:block;font-family:var(--font-heading);font-size:14px;color:var(--text-secondary);padding:4px 0;line-height:1.3}
+nav.toc a:hover{color:var(--text-strong)}
+main{padding:56px 48px 120px;max-width:1080px}
+/* headings */
+.hero h1{font-family:var(--font-heading-display);font-weight:400;font-size:60px;line-height:.98;color:var(--text-strong);margin:10px 0 16px;letter-spacing:-.008em}
+.hero p{font-size:18px;line-height:1.55;color:var(--text-secondary);max-width:64ch;margin:0 0 12px;text-wrap:pretty}
+h2.big{font-family:var(--font-heading-display);font-weight:400;font-size:38px;color:var(--text-strong);margin:0 0 10px;letter-spacing:-.005em}
+section.part{padding-top:78px;scroll-margin-top:20px}
+section.part > .intro{font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:70ch;margin:0 0 8px;text-wrap:pretty}
+h3.sub{font-family:var(--font-heading);font-weight:400;font-size:21px;color:var(--text-strong);margin:44px 0 0;padding-bottom:10px;border-bottom:1px solid var(--rule-section)}
+h3.sub + .why{margin-top:14px}
+.why{font-size:14.5px;line-height:1.6;color:var(--text-secondary);max-width:72ch;margin:14px 0 0;text-wrap:pretty}
+.why b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+.why + .why{margin-top:10px}
+/* demo surface – everything shown sits on one of these */
+.demo{background:var(--surface-card);border-radius:var(--radius-surface);padding:24px 26px;margin-top:18px}
+.demo.plain{background:transparent;padding:0}
+.demo.chrome{background:var(--surface-chrome);padding:0;overflow:hidden;border:1px solid var(--rule-section)}
+.set{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.setv{display:flex;flex-direction:column;gap:20px}
+.cap{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+/* token tables */
+.tok{width:100%;border-collapse:collapse;margin-top:18px;font-size:13.5px}
+.tok th{text-align:left;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-field)}
+.tok td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;color:var(--text-secondary);line-height:1.45}
+.tok td.n{font-family:var(--font-mono);font-size:12px;color:var(--text-body);white-space:nowrap}
+.tok td.sw span{display:inline-block;width:34px;height:16px;border-radius:3px;vertical-align:-3px}
+.tok tr:last-child td{border-bottom:0}
+/* colour scales */
+.scale{display:grid;grid-template-columns:repeat(17,1fr);gap:2px}
+.scale div{height:48px;border-radius:3px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-family:var(--font-mono);font-size:8px}
+.families{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-top:18px}
+.families .fam .c{height:46px;border-radius:4px}
+.families .fam .n{font-family:var(--font-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-top:6px}
+.families .fam .u{font-size:11.5px;color:var(--text-secondary);margin-top:2px;line-height:1.3}
+/* rules: do / don’t */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.dd > div{border-radius:var(--radius-surface);padding:19px 22px}
+.dd .do{background:var(--sapling-150)}
+.dd .dont{background:var(--fire-150)}
+.dd h5{font-family:var(--font-heading);font-size:15px;font-weight:400;margin:0 0 9px}
+.dd .do h5{color:var(--sapling-800)}
+.dd .dont h5{color:var(--fire-700)}
+.dd ul{margin:0;padding-left:17px;font-size:13.5px;line-height:1.65;color:var(--text-body)}
+/* wrong / right */
+.wr{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+.wr > div{border-radius:var(--radius-surface);padding:20px 22px}
+.wr .bad{background:var(--fire-150)}
+.wr .good{background:var(--sapling-150)}
+.wr h5{font-family:var(--font-heading);font-size:14px;font-weight:400;margin:0 0 14px}
+.wr .bad h5{color:var(--fire-700)}
+.wr .good h5{color:var(--sapling-800)}
+.wr .note{margin:14px 0 0;font-size:12.5px;line-height:1.5;color:var(--text-secondary)}
+/* code */
+code{font-family:var(--font-mono);font-size:12.5px;color:var(--text-body);background:var(--limestone-600);padding:2px 5px;border-radius:3px}
+pre{font-family:var(--font-mono);font-size:12.5px;line-height:1.65;color:var(--text-body);background:var(--limestone-250);border-radius:6px;padding:15px 17px;overflow-x:auto;margin:16px 0 0}
+pre .c{color:var(--text-muted)}
+/* legacy / deprecated demos */
+.old-pill{display:inline-flex;align-items:center;font-family:var(--font-heading);font-size:13px;padding:6px 14px;border-radius:999px;background:var(--fire-500);color:var(--limestone-200)}
+.old-sw{display:inline-flex;align-items:center;gap:12px}
+.old-sw .t{position:relative;width:46px;height:26px;border-radius:13px;background:var(--fire-650)}
+.old-sw .k{position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:var(--limestone-200)}
+/* misc */
+.files{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule-section);border-radius:var(--radius-surface);overflow:hidden;margin-top:20px}
+.files > div{background:var(--surface-card);padding:15px 20px;display:grid;grid-template-columns:270px 1fr;gap:22px;align-items:baseline}
+.files .p{font-family:var(--font-mono);font-size:12px;color:var(--text-body)}
+.files .d{font-size:13.5px;color:var(--text-secondary);line-height:1.45}
+.deck{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+.deck a{display:block;background:var(--surface-card);border-radius:var(--radius-surface);padding:17px 20px}
+.deck a:hover{background:var(--limestone-450)}
+.deck .t{font-family:var(--font-heading);font-size:16px;color:var(--text-strong)}
+.deck .d{font-size:13px;color:var(--text-muted);margin-top:4px;line-height:1.45}
+.split2{display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start;margin-top:18px}
+.frame-floor{height:46px;background:var(--limestone-450)}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<nav class="toc">
+  <div class="mark"><img src="images/contentious-monogram.png" alt=""/>Design system</div>
+  <div class="sub">Contentious · Content Health Check</div>
+  <h4>Foundations</h4>
+  <a href="#principles">Principles</a>
+  <a href="#colour">Colour</a>
+  <a href="#type">Typography</a>
+  <a href="#surfaces">Surfaces &amp; depth</a>
+  <a href="#space">Space, radii, motion</a>
+  <h4>Scores</h4>
+  <a href="#scores">The level ramp</a>
+  <a href="#stars">Star rating</a>
+  <a href="#gauge">Score gauge</a>
+  <a href="#history">Score history</a>
+  <a href="#criterion">Criterion card</a>
+  <h4>Components</h4>
+  <a href="#chip">Chip</a>
+  <a href="#button">Button</a>
+  <a href="#switch">Switch</a>
+  <a href="#field">Field</a>
+  <a href="#card">Card</a>
+  <a href="#metric">Metric &amp; band</a>
+  <a href="#sectionheader">Section header</a>
+  <a href="#charts">Charts</a>
+  <a href="#list">List</a>
+  <a href="#nav">Navigation</a>
+  <a href="#menu">Menu &amp; switcher</a>
+  <a href="#furniture">Page furniture</a>
+  <h4>Writing</h4>
+  <a href="#copy">Copy rules</a>
+  <h4>Reference</h4>
+  <a href="#files">File map</a>
+  <a href="#sources">Where rules came from</a>
+</nav>
+
+<main>
+  <div class="hero">
+    <div class="c-label">Design system · v1</div>
+    <h1>Warm, quiet, and strict about colour.</h1>
+    <p>One serif for everything. Cream surfaces, never white. Quantities that stay neutral until they have something to tell you, and a five-level ramp reserved for scores. This document is the reference – every rule here exists because something shipped wrong first, and the fix is recorded next to it.</p>
+  </div>
+
+  <!-- ══ PRINCIPLES ══ -->
+  <section class="part" id="principles">
+    <h2 class="big">Five principles</h2>
+    <p class="intro">If you remember nothing else, these five decide most questions.</p>
+    <table class="tok">
+      <tr><td class="n" style="width:220px">One surface depth</td><td>A slab inside a slab is always wrong. Groups are made by a hairline rule and the space around them, not by a box.</td></tr>
+      <tr><td class="n">Colour means something</td><td>Quantities are neutral by default. Sapling is good news, fire needs action. Accent-by-default spends the alarm colour on nothing.</td></tr>
+      <tr><td class="n">Scores are the exception</td><td>A score is a level, so it takes the five-level ramp. A quantity is not a level, so it stays neutral. Never mix the two in one column.</td></tr>
+      <tr><td class="n">Solid vs tint</td><td>Solid fire = active or primary. Fire tint = status. This division is what lets one family be both accent and alarm without ambiguity.</td></tr>
+      <tr><td class="n">Chrome is forever</td><td>Explanation belongs in a tooltip or a menu header, not in the bar. A label you only need twice costs you on every page load.</td></tr>
+      <tr><td class="n">Nothing before it’s needed</td><td>Search appears past six items. Client grouping appears when a client has two projects. Empty structure is worse than no structure.</td></tr>
+    </table>
+  </section>
+
+  <!-- ══ COLOUR ══ -->
+  <section class="part" id="colour">
+    <h2 class="big">Colour</h2>
+    <p class="intro">Eleven families, seventeen stops each – 100 lightest to 900 darkest, in fifties. The brand true colour of each family is the 500 stop. Only three families do structural work; the rest are chart colour or carry a single meaning.</p>
+
+    <h3 class="sub">Limestone – every surface</h3>
+    <p class="why">Warm cream. <b>Pure white appears nowhere in the system</b> – a white panel against this palette reads as a system alert rather than part of the product, which is why dropdown menus sit on limestone-150 and not <code>#fff</code>.</p>
+    <div class="demo plain">
+      <div class="scale">
+        <div style="background:var(--limestone-100);color:var(--gloaming-400)">100</div><div style="background:var(--limestone-150);color:var(--gloaming-400)">150</div><div style="background:var(--limestone-200);color:var(--gloaming-400)">200</div><div style="background:var(--limestone-250);color:var(--gloaming-400)">250</div><div style="background:var(--limestone-300);color:var(--gloaming-400)">300</div><div style="background:var(--limestone-350);color:var(--gloaming-400)">350</div><div style="background:var(--limestone-400);color:var(--gloaming-400)">400</div><div style="background:var(--limestone-450);color:var(--gloaming-400)">450</div><div style="background:var(--limestone-500);color:var(--gloaming-400)">500</div><div style="background:var(--limestone-550);color:var(--gloaming-400)">550</div><div style="background:var(--limestone-600);color:var(--gloaming-400)">600</div><div style="background:var(--limestone-650);color:var(--gloaming-400)">650</div><div style="background:var(--limestone-700);color:var(--gloaming-400)">700</div><div style="background:var(--limestone-750);color:var(--gloaming-700)">750</div><div style="background:var(--limestone-800);color:var(--gloaming-700)">800</div><div style="background:var(--limestone-850);color:var(--gloaming-700)">850</div><div style="background:var(--limestone-900);color:var(--gloaming-700)">900</div>
+      </div>
+    </div>
+    <table class="tok">
+      <tr><th>Token</th><th>Stop</th><th>Where</th></tr>
+      <tr><td class="n">--surface-page</td><td class="sw"><span style="background:var(--limestone-500)"></span> 500</td><td>The page itself</td></tr>
+      <tr><td class="n">--surface-chrome</td><td class="sw"><span style="background:var(--limestone-400)"></span> 400</td><td>Top bar, secondary nav</td></tr>
+      <tr><td class="n">--surface-card</td><td class="sw"><span style="background:var(--limestone-300)"></span> 300</td><td>Data surfaces, list rows, metric bands</td></tr>
+      <tr><td class="n">--surface-raised</td><td class="sw"><span style="background:var(--limestone-600)"></span> 600</td><td>Intro and aside blocks that sit <i>on</i> the page; segmented-control track</td></tr>
+      <tr><td class="n">--surface-menu</td><td class="sw"><span style="background:var(--limestone-150)"></span> 150</td><td>Dropdown panels</td></tr>
+      <tr><td class="n">--surface-field</td><td class="sw"><span style="background:var(--limestone-200)"></span> 200</td><td>Text inputs</td></tr>
+      <tr><td class="n">--rule-section</td><td class="sw"><span style="background:var(--limestone-700)"></span> 700</td><td>Section headers, chrome edges</td></tr>
+      <tr><td class="n">--rule-row</td><td class="sw"><span style="background:var(--limestone-600)"></span> 600</td><td>Between rows inside one surface</td></tr>
+      <tr><td class="n">--rule-field</td><td class="sw"><span style="background:var(--limestone-750)"></span> 750</td><td>Input and ghost-button borders</td></tr>
+    </table>
+
+    <h3 class="sub">Gloaming – all text</h3>
+    <p class="why">Warm charcoal, never pure black. <b>gloaming-450 is the floor for mono labels</b> – anything lighter fails contrast at 10px, and that’s the most common defect that reaches review.</p>
+    <div class="demo plain">
+      <div class="scale">
+        <div style="background:var(--gloaming-100);color:var(--gloaming-700)">100</div><div style="background:var(--gloaming-150);color:var(--gloaming-700)">150</div><div style="background:var(--gloaming-200);color:var(--gloaming-700)">200</div><div style="background:var(--gloaming-250);color:var(--gloaming-700)">250</div><div style="background:var(--gloaming-300);color:var(--gloaming-700)">300</div><div style="background:var(--gloaming-350);color:var(--gloaming-700)">350</div><div style="background:var(--gloaming-400);color:var(--gloaming-700)">400</div><div style="background:var(--gloaming-450);color:var(--limestone-400)">450</div><div style="background:var(--gloaming-500);color:var(--limestone-400)">500</div><div style="background:var(--gloaming-550);color:var(--limestone-400)">550</div><div style="background:var(--gloaming-600);color:var(--limestone-400)">600</div><div style="background:var(--gloaming-650);color:var(--limestone-400)">650</div><div style="background:var(--gloaming-700);color:var(--limestone-400)">700</div><div style="background:var(--gloaming-750);color:var(--limestone-400)">750</div><div style="background:var(--gloaming-800);color:var(--limestone-400)">800</div><div style="background:var(--gloaming-850);color:var(--limestone-400)">850</div><div style="background:var(--gloaming-900);color:var(--limestone-400)">900</div>
+      </div>
+    </div>
+    <table class="tok">
+      <tr><th>Token</th><th>Stop</th><th>Where</th></tr>
+      <tr><td class="n">--text-strong</td><td class="n">800</td><td>Headings, values, active states</td></tr>
+      <tr><td class="n">--text-body</td><td class="n">700</td><td>Body copy</td></tr>
+      <tr><td class="n">--text-secondary</td><td class="n">500</td><td>Ledes, supporting copy</td></tr>
+      <tr><td class="n">--text-muted</td><td class="n">450</td><td>Mono labels, hints. The floor – <code>--label-color</code> resolves here too.</td></tr>
+      <tr><td class="n">--data-zero</td><td class="n">400</td><td>Genuine zeros only. Passes at 30px Display; never use 400 for 10px text.</td></tr>
+      <tr><td class="n">--surface-inverse</td><td class="n">800</td><td>Tooltips</td></tr>
+    </table>
+
+    <h3 class="sub">Fire – the accent, doing two jobs safely</h3>
+    <p class="why">Fire is both the brand accent and the alarm colour. That’s only workable because of one strict division: <b>solid fire means active or primary; a fire tint means status.</b> Solid fire is a button, an active tab underline, a switch that’s on. Fire-200 with fire-700 text is a chip. They never swap.</p>
+    <div class="demo plain">
+      <div class="scale">
+        <div style="background:var(--fire-100);color:var(--fire-800)">100</div><div style="background:var(--fire-150);color:var(--fire-800)">150</div><div style="background:var(--fire-200);color:var(--fire-800)">200</div><div style="background:var(--fire-250);color:var(--fire-800)">250</div><div style="background:var(--fire-300);color:var(--fire-800)">300</div><div style="background:var(--fire-350);color:var(--fire-800)">350</div><div style="background:var(--fire-400);color:var(--fire-800)">400</div><div style="background:var(--fire-450);color:var(--fire-900)">450</div><div style="background:var(--fire-500);color:var(--limestone-300)">500</div><div style="background:var(--fire-550);color:var(--limestone-300)">550</div><div style="background:var(--fire-600);color:var(--limestone-300)">600</div><div style="background:var(--fire-650);color:var(--limestone-300)">650</div><div style="background:var(--fire-700);color:var(--limestone-300)">700</div><div style="background:var(--fire-750);color:var(--limestone-300)">750</div><div style="background:var(--fire-800);color:var(--limestone-300)">800</div><div style="background:var(--fire-850);color:var(--limestone-300)">850</div><div style="background:var(--fire-900);color:var(--limestone-300)">900</div>
+      </div>
+    </div>
+    <div class="wr">
+      <div class="good"><h5>Solid – active / primary</h5>
+        <div class="set"><button class="c-button">Add client</button><label class="c-switch"><input type="checkbox" checked/><span class="c-switch__track"><span class="c-switch__knob"></span></span></label></div>
+        <p class="note">fire-500 buttons, fire-600 switch on, fire-500 tab underline.</p>
+      </div>
+      <div class="good"><h5>Tint – status</h5>
+        <div class="set"><span class="c-chip c-chip--bad">Failed</span><span class="c-chip c-chip--bad">Owner</span><span style="font-family:var(--font-heading);font-size:14px;color:var(--fire-600)">Danger zone</span></div>
+        <p class="note">fire-200 chips, fire-600 text. Destructive is always a tint, never a fill.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Supporting families</h3>
+    <p class="why">Sunshine, wave and sapling carry meaning. Coffee, olive, amber and sorbet are chart colour only – never state, never UI.</p>
+    <div class="families">
+      <div class="fam"><div class="c" style="background:var(--sunshine-500)"></div><div class="n">sunshine</div><div class="u">warn</div></div>
+      <div class="fam"><div class="c" style="background:var(--wave-500)"></div><div class="n">wave</div><div class="u">info, series</div></div>
+      <div class="fam"><div class="c" style="background:var(--sapling-500)"></div><div class="n">sapling</div><div class="u">good</div></div>
+      <div class="fam"><div class="c" style="background:var(--fire-500)"></div><div class="n">fire</div><div class="u">accent, bad</div></div>
+      <div class="fam"><div class="c" style="background:var(--coffee-500)"></div><div class="n">coffee</div><div class="u">chart</div></div>
+      <div class="fam"><div class="c" style="background:var(--amber-500)"></div><div class="n">amber</div><div class="u">warn text</div></div>
+      <div class="fam"><div class="c" style="background:var(--olive-500)"></div><div class="n">olive</div><div class="u">chart</div></div>
+      <div class="fam"><div class="c" style="background:var(--sorbet-500)"></div><div class="n">sorbet</div><div class="u">chart</div></div>
+    </div>
+
+    <h3 class="sub">The level ramp – five rungs, scores only</h3>
+    <p class="why">The framework scores each criterion out of five stars, which is why the ramp has exactly five rungs. The brand guide fixes two of them: amber is the level 2 colour, olive the level 4, each halfway between its neighbours.</p>
+    <div class="demo plain" id="scores">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:620px">
+        <div><div style="height:44px;border-radius:4px;background:var(--level-1)"></div><div class="cap" style="margin:7px 0 0">Level 1 · fire</div></div>
+        <div><div style="height:44px;border-radius:4px;background:var(--level-2)"></div><div class="cap" style="margin:7px 0 0">Level 2 · amber</div></div>
+        <div><div style="height:44px;border-radius:4px;background:var(--level-3)"></div><div class="cap" style="margin:7px 0 0">Level 3 · sunshine</div></div>
+        <div><div style="height:44px;border-radius:4px;background:var(--level-4)"></div><div class="cap" style="margin:7px 0 0">Level 4 · olive</div></div>
+        <div><div style="height:44px;border-radius:4px;background:var(--level-5)"></div><div class="cap" style="margin:7px 0 0">Level 5 · sapling</div></div>
+      </div>
+    </div>
+    <p class="why"><b>Reserved.</b> These five colours mean a score and nothing else. They are not a categorical palette – an orange bar in a "top sections" chart reads as level 2 whether you mean it or not, and sitting near a score column that is a real misread. Categorical bars use one colour (<code>--categorical</code>); ordered process stages use a wave ramp with fire for failure (<code>--process-*</code>).</p>
+    <p class="why"><b>Band thresholds are provisional</b> – <code>--score-band-5</code> and friends currently sit on 90/80/70/60. They should be replaced with the framework's real star boundaries, so the colour changes where meaning changes rather than on round numbers.</p>
+
+    <h3 class="sub">Data colour – quantities stay neutral</h3>
+    <p class="why">The Monitoring page originally rendered <i>every</i> value in accent red, including <code>$0.0000</code> and <code>0%</code>. That spends the alarm colour on nothing and leaves nothing to signal a real problem with. Numbers are neutral until they’ve earned a colour.</p>
+    <div class="demo plain">
+      <div class="c-band" style="grid-template-columns:repeat(4,1fr)">
+        <div class="c-metric"><div class="c-metric__label">Default</div><div class="c-metric__value">$41.28</div><div class="c-metric__sub">--data-default · gloaming-800</div></div>
+        <div class="c-metric"><div class="c-metric__label">Good news</div><div class="c-metric__value c-metric__value--good">$12.90</div><div class="c-metric__sub">--data-good · sapling-700</div></div>
+        <div class="c-metric"><div class="c-metric__label">Needs action</div><div class="c-metric__value c-metric__value--bad">7</div><div class="c-metric__sub">--data-bad · fire-600</div></div>
+        <div class="c-metric"><div class="c-metric__label">Genuine zero</div><div class="c-metric__value c-metric__value--zero">0</div><div class="c-metric__sub">--data-zero · gloaming-400</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TYPE ══ -->
+  <section class="part" id="type">
+    <h2 class="big">Typography</h2>
+    <p class="intro">Bely for everything – body, headings and UI all share one serif. That’s unusual and it’s the strongest thing about the identity, so don’t reach for a sans to "fix" a dense screen. Mono is the metadata voice and nothing else.</p>
+
+    <h3 class="sub">Bely Display – page titles and metric values only</h3>
+    <p class="why">A single 400 cut. <b>Never below 30px</b>, and never allowed to synthesise a bold: browsers default headings to 700 and fake it, which thickens the ink and breaks the cut’s proportions. <code>font-synthesis-weight: none</code> is set globally in <code>tokens/fonts.css</code>.</p>
+    <div class="demo">
+      <div style="font-family:var(--font-heading-display);font-weight:400;font-size:50px;line-height:1.02;color:var(--text-strong)">Which one am I in?</div>
+      <div class="c-metric__value" style="margin-top:20px">$41.28</div>
+      <div class="cap" style="margin:14px 0 0">--type-page-title 44px · --type-metric 30px</div>
+    </div>
+
+    <h3 class="sub">Bely – headings, rows, UI</h3>
+    <div class="demo">
+      <div class="setv">
+        <div><div style="font:var(--type-section);color:var(--text-strong)">Queue health</div><div class="cap" style="margin:4px 0 0">--type-section · 21px · section headers</div></div>
+        <div><div style="font:var(--type-row-title);color:var(--text-strong)">Oxfam 2</div><div class="cap" style="margin:4px 0 0">--type-row-title · 17px · list rows, card titles</div></div>
+        <div><div style="font:var(--type-ui);color:var(--text-secondary)">Project settings</div><div class="cap" style="margin:4px 0 0">--type-ui · 14px · tabs, menu items, buttons</div></div>
+      </div>
+    </div>
+    <p class="why"><b>Section headings are Bely 21px, not Display 34px.</b> Display at section level competes with the page title and makes every group look like a new page.</p>
+
+    <h3 class="sub">Body</h3>
+    <div class="demo">
+      <p style="font-size:17px;line-height:1.55;color:var(--text-secondary);margin:0 0 10px;max-width:62ch">Lede · 17px. Each client gets its own space holding one or more projects.</p>
+      <p style="font-size:15px;line-height:1.5;color:var(--text-body);margin:0 0 10px;max-width:64ch">Body · 15px. Everyone on your team can reach all of them, and the work comes out of your shared credits.</p>
+      <p style="font-size:13px;color:var(--text-muted);margin:0">Hint · 13px. Leave this empty and the banner stays hidden even when the switch is on.</p>
+    </div>
+
+    <h3 class="sub">Mono – the metadata voice</h3>
+    <p class="why">System monospace at <b>10px, 0.09em tracking, uppercase, gloaming-450 floor</b>. It labels; it never carries content. Two rules that get broken constantly: don’t go below 10px, and don’t go lighter than gloaming-450.</p>
+    <div class="demo">
+      <div class="set" style="gap:26px"><span class="c-label">Total API cost</span><span class="c-label">Account · Clients</span><span class="c-label">Project</span><span class="c-label">Switch to</span></div>
+      <div style="margin-top:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gloaming-300)">This is 9px at gloaming-300 – too light, too small</div>
+    </div>
+  </section>
+
+  <!-- ══ SURFACES ══ -->
+  <section class="part" id="surfaces">
+    <h2 class="big">Surfaces &amp; depth</h2>
+    <p class="intro">One surface depth per page. This is the rule that most changes how a screen looks, and the one most often broken – the original Monitoring page had five nested slab layers.</p>
+    <p class="why"><b>Cards and data surfaces have no border and no shadow.</b> Rows inside one surface are separated by hairlines. A group of related metrics is one surface divided by rules, not four cards with gaps – it reads as a single instrument panel and removes three layers of box.</p>
+    <p class="why"><b>Shadows mean only "this floats above the page"</b> – <code>--shadow-md</code> for tooltips, <code>--shadow-lg</code> for menus. Nothing in the page body casts one.</p>
+    <div class="wr">
+      <div class="bad"><h5>Wrong – slab in a slab</h5>
+        <div style="background:var(--limestone-600);border-radius:8px;padding:12px">
+          <div style="font-family:var(--font-heading);font-size:13px;color:var(--text-strong)">Cost</div>
+          <div style="background:var(--limestone-300);border-radius:6px;padding:11px 13px;margin-top:8px"><div class="c-label">Total</div><div style="font-family:var(--font-heading-display);font-weight:400;font-size:22px;color:var(--text-strong);margin-top:5px">$41.28</div></div>
+          <div style="background:var(--limestone-300);border-radius:6px;padding:11px 13px;margin-top:8px"><div class="c-label">Per assessment</div><div style="font-family:var(--font-heading-display);font-weight:400;font-size:22px;color:var(--text-strong);margin-top:5px">$0.0134</div></div>
+        </div>
+        <p class="note">Three depths, two boxes doing the job of one rule, and the numbers can’t be compared across a row.</p>
+      </div>
+      <div class="good"><h5>Right – rule plus one band</h5>
+        <div class="c-section-header" style="margin-bottom:12px"><h2 style="font-size:16px">Cost</h2><p>last 7 days</p></div>
+        <div class="c-band" style="grid-template-columns:1fr 1fr">
+          <div class="c-metric" style="padding:12px 14px"><div class="c-label">Total</div><div style="font-family:var(--font-heading-display);font-weight:400;font-size:22px;color:var(--text-strong);margin-top:5px">$41.28</div></div>
+          <div class="c-metric" style="padding:12px 14px"><div class="c-label">Per assessment</div><div style="font-family:var(--font-heading-display);font-weight:400;font-size:22px;color:var(--text-strong);margin-top:5px">$0.0134</div></div>
+        </div>
+        <p class="note">One depth. The group is defined by the rule above it and the space around it, which costs nothing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SPACE ══ -->
+  <section class="part" id="space">
+    <h2 class="big">Space, radii, motion</h2>
+    <h3 class="sub">Radii</h3>
+    <p class="why"><b>Never full-radius on a label.</b> A pill reads as a button and invites a click a status never honours – that single change is most of what fixed the chips.</p>
+    <div class="demo plain">
+      <div class="set" style="gap:14px">
+        <div style="background:var(--surface-card);width:110px;height:64px;display:grid;place-items:center;font-family:var(--font-mono);font-size:9px;color:var(--text-muted);border-radius:var(--radius-chip)">chip · 3</div>
+        <div style="background:var(--surface-card);width:110px;height:64px;display:grid;place-items:center;font-family:var(--font-mono);font-size:9px;color:var(--text-muted);border-radius:var(--radius-control)">control · 6</div>
+        <div style="background:var(--surface-card);width:110px;height:64px;display:grid;place-items:center;font-family:var(--font-mono);font-size:9px;color:var(--text-muted);border-radius:var(--radius-surface)">surface · 6</div>
+        <div style="background:var(--surface-card);width:110px;height:64px;display:grid;place-items:center;font-family:var(--font-mono);font-size:9px;color:var(--text-muted);border-radius:var(--radius-frame)">frame · 12</div>
+        <div style="background:var(--fire-150);color:var(--fire-700);width:110px;height:64px;display:grid;place-items:center;font-family:var(--font-mono);font-size:9px;border-radius:999px">never 999</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Vertical rhythm</h3>
+    <table class="tok">
+      <tr><th>Where</th><th>Value</th></tr>
+      <tr><td>Section header rule → above / below</td><td class="n">42px / 18px</td></tr>
+      <tr><td>Metric padding</td><td class="n">17px 20px 18px</td></tr>
+      <tr><td>List row padding</td><td class="n">16px 22px</td></tr>
+      <tr><td>Menu row height / panel padding</td><td class="n">34px / 6px</td></tr>
+      <tr><td>Card row clearance (for edge chips)</td><td class="n">36px</td></tr>
+      <tr><td>Page gutters / max width</td><td class="n">28–40px / 1200px</td></tr>
+    </table>
+
+    <h3 class="sub">Motion, hover, focus</h3>
+    <p class="why"><code>--transition-fast</code> 180ms for state, <code>--transition-base</code> 280ms for reveals. No bounce, no spring, no entrance animation. The only loop in the system is the 1.6s chip dot pulse, reserved for genuinely live states.</p>
+    <p class="why"><b>Hover is a background step, not a colour shift.</b> Transparent → limestone-600 for menu rows and controls; limestone-450 for list rows. Row actions are hidden at rest and revealed on hover. Focus is <code>--focus-ring</code> (fire-350) at 2px with 2px offset – browser-default blue is the only non-palette colour that ever appears, and it’s always a bug.</p>
+  </section>
+
+  <!-- ══ SCORE PRIMITIVES ══ -->
+  <section class="part" id="stars">
+    <h2 class="big">Star rating</h2>
+    <p class="intro">The product's core score primitive. Five discrete levels are easier to compare across fifteen criteria than fifteen two-digit numbers.</p>
+    <div class="demo">
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;gap:18px;align-items:center"><span style="font-family:var(--font-heading);font-size:16px;color:var(--text-strong);width:120px">Error-free</span><span class="c-stars c-stars--l5"><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span></span></div>
+        <div style="display:flex;gap:18px;align-items:center"><span style="font-family:var(--font-heading);font-size:16px;color:var(--text-strong);width:120px">Readable</span><span class="c-stars c-stars--l4"><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span></span></div>
+        <div style="display:flex;gap:18px;align-items:center"><span style="font-family:var(--font-heading);font-size:16px;color:var(--text-strong);width:120px">Convincing</span><span class="c-stars c-stars--l3"><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span></span></div>
+        <div style="display:flex;gap:18px;align-items:center"><span style="font-family:var(--font-heading);font-size:16px;color:var(--text-strong);width:120px">On-brand</span><span class="c-stars c-stars--l2"><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span></span></div>
+      </div>
+    </div>
+    <p class="why">Filled stars take the matching <code>--level-N</code>; empty stars take <code>--level-empty</code>. The star is an <b>inline SVG in currentColor</b>, per the icon rule – never a unicode glyph. The shape here is a stand-in; swap in the app's own star asset.</p>
+    <p class="why">Always pass a label. Five identical shapes are unreadable to a screen reader.</p>
+  </section>
+
+  <section class="part" id="gauge">
+    <h2 class="big">Score gauge</h2>
+    <p class="intro">One score out of 100 in an open ring. Not the freshness donut – that shows slices of a whole, this shows one value against a maximum.</p>
+    <div class="demo" style="display:flex;align-items:center;gap:50px">
+      <div class="c-gauge c-gauge--lg c-gauge--l2">
+        <svg width="200" height="200" style="transform:rotate(-57.6deg)">
+          <circle class="c-gauge__track" cx="100" cy="100" r="93" stroke-width="14" stroke-dasharray="479 585" stroke-linecap="round"></circle>
+          <circle class="c-gauge__arc" cx="100" cy="100" r="93" stroke-width="14" stroke-dasharray="326 585"></circle>
+        </svg>
+        <span class="c-gauge__value">68</span>
+      </div>
+      <div style="display:flex;gap:26px;align-items:center">
+        <div class="c-gauge c-gauge--md c-gauge--l4"><svg width="86" height="86" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="203 248" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="167 248"></circle></svg><span class="c-gauge__value">82</span></div>
+        <div class="c-gauge c-gauge--md c-gauge--l3"><svg width="86" height="86" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="203 248" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="154 248"></circle></svg><span class="c-gauge__value">76</span></div>
+        <div class="c-gauge c-gauge--md c-gauge--l5"><svg width="86" height="86" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="203 248" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="187 248"></circle></svg><span class="c-gauge__value">92</span></div>
+      </div>
+    </div>
+    <p class="why">Arc colour comes from the same score-to-level mapping as the stars, so a gauge and a rating for one score always agree. <code>lg</code> renders the value at 64px in Bely Display – the clearest use of the display cut in the product, and one per page.</p>
+    <p class="why"><b>Two legitimate ring types, then:</b> a <i>composition</i> donut for content freshness (slices of a whole) and this <i>gauge</i> for a single score. They look similar, so never place them adjacent without a heading on each.</p>
+  </section>
+
+  <section class="part" id="history">
+    <h2 class="big">Score history</h2>
+    <p class="intro">The one chart type in the system allowed axes.</p>
+    <div class="demo plain">
+      <div class="c-history">
+        <p class="c-history__note">Recorded each time the page changes and is re-scored.</p>
+        <div class="c-history__plot">
+          <div class="c-history__grid"><i style="bottom:0%"></i><i style="bottom:25%"></i><i style="bottom:50%"></i><i style="bottom:75%"></i><i style="bottom:100%"></i></div>
+          <span class="c-history__ylabel" style="bottom:0%">0</span><span class="c-history__ylabel" style="bottom:25%">25</span><span class="c-history__ylabel" style="bottom:50%">50</span><span class="c-history__ylabel" style="bottom:75%">75</span><span class="c-history__ylabel" style="bottom:100%">100</span>
+          <svg class="c-history__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,48 33.33333333333333,39 66.66666666666666,32 100,17"></polyline></svg>
+          <span class="c-history__point" style="left:0%;bottom:52%;background:var(--level-1)"></span>
+          <span class="c-history__point" style="left:33.33333333333333%;bottom:61%;background:var(--level-2)"></span>
+          <span class="c-history__point" style="left:66.66666666666666%;bottom:68%;background:var(--level-2)"></span>
+          <span class="c-history__point" style="left:100%;bottom:83%;background:var(--level-4)"></span>
+          <span class="c-history__xlabel" style="left:0%">12 Mar 26</span>
+          <span class="c-history__xlabel" style="left:33.33333333333333%">04 Apr 26</span>
+          <span class="c-history__xlabel" style="left:66.66666666666666%">19 May 26</span>
+          <span class="c-history__xlabel" style="left:100%">17 Jun 26</span>
+        </div>
+        <div class="c-history__foot"></div>
+      </div>
+    </div>
+    <p class="why">The "no axes, no gridlines" rule was written for <code>MicroSeries</code>, where the shape is the whole message. A history chart has a different job – the reader needs to know <i>when</i> a score moved and by how much – so axes are permitted here and nowhere else.</p>
+    <p class="why"><b>Fewer than two points renders an honest empty state.</b> A single point drawn as a flat line across the full width reads as "no change over time" rather than "only measured once".</p>
+  </section>
+
+  <section class="part" id="criterion">
+    <h2 class="big">Criterion card</h2>
+    <p class="intro">One of the fifteen framework criteria, scored and explained. The most repeated block in the product – fifteen per result page, three across.</p>
+    <div class="demo plain">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <div class="c-criterion">
+          <div class="c-criterion__head"><span class="c-criterion__name">Error-free</span>
+            <span class="c-stars c-stars--l5"><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span></span>
+          </div>
+          <h4>Analysis</h4><p>The page contains no discernible spelling, grammar or punctuation errors, and reads as carefully edited throughout.</p>
+        </div>
+        <div class="c-criterion">
+          <div class="c-criterion__head"><span class="c-criterion__name">On-brand</span>
+            <span class="c-stars c-stars--l2"><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span></span>
+          </div>
+          <h4>Analysis</h4><p>The content is clear and well written, but does little to distinguish itself from any other supplier in the category.</p>
+          <div class="c-criterion__improve"><h4>How to improve</h4><p>Rewrite the opening section to lead with the position only you can hold, and carry that voice through the body copy.</p></div>
+        </div>
+        <div class="c-criterion">
+          <div class="c-criterion__head"><span class="c-criterion__name">Shareable</span>
+            <span class="c-stars c-stars--l2"><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="on"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span><span class="off"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.86 3.94 4.14.6-3 3.02.71 4.24L8 11.4l-3.71 2 .71-4.24-3-3.02 4.14-.6z" fill="currentColor"/></svg></span></span>
+          </div>
+          <h4>Analysis</h4><p>There is nothing on the page a reader could quote, pass on or subscribe to – and no links out at all.</p>
+          <div class="c-criterion__improve"><h4>How to improve</h4><p>Add one strong, quotable sentence and mark it up for sharing.</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="why">Name and rating centred above a hairline; prose left-aligned below. Centring the head is the exception that keeps a three-across grid scannable. Section labels are Bely bold at 14px, not mono – they head prose rather than label data.</p>
+    <p class="why"><b>Drop "How to improve" at level 5.</b> "No errors were found" as improvement advice is filler, and every element has to earn its place.</p>
+  </section>
+
+  <!-- ══ CHIP ══ -->
+  <section class="part" id="chip">
+    <h2 class="big">Chip</h2>
+    <p class="intro">Every status, role and type annotation in the product. One geometry, six tones – the tone carries the meaning and the shape never changes.</p>
+    <div class="demo">
+      <div class="set">
+        <span class="c-chip">Member</span><span class="c-chip c-chip--info">Current</span><span class="c-chip c-chip--good">Healthy · 78</span><span class="c-chip c-chip--warn">Invited</span><span class="c-chip c-chip--bad">Failed</span><span class="c-chip c-chip--info"><span class="c-chip__dot"></span>Analysing</span><span class="c-chip c-chip--promo">2 months free</span>
+      </div>
+    </div>
+    <table class="tok">
+      <tr><th>Tone</th><th>Meaning</th><th>Tokens</th></tr>
+      <tr><td class="n">neutral</td><td>Plain fact – roles, types, counts. No judgement.</td><td class="n">limestone-700 / gloaming-600</td></tr>
+      <tr><td class="n">info</td><td>Positional or in-flight: where you are, what’s running.</td><td class="n">wave-200 / wave-700</td></tr>
+      <tr><td class="n">good</td><td>A good outcome.</td><td class="n">sapling-200 / sapling-800</td></tr>
+      <tr><td class="n">warn</td><td>Incomplete, awaiting action. Not an error.</td><td class="n">sunshine-200 / amber-800</td></tr>
+      <tr><td class="n">bad</td><td>Broken, expired, over limit.</td><td class="n">fire-200 / fire-700</td></tr>
+      <tr><td class="n">promo</td><td><b>The one exception.</b> Solid fill, commercial offers only, never a state. Cap at one per screen.</td><td class="n">fire-650 / limestone-100</td></tr>
+    </table>
+    <p class="why"><b>Why not pills:</b> the original design used full-radius saturated fills with body type. That reads as a button – it promises a click a status label never honours, and at full saturation it outranks the content it’s annotating. Mono uppercase on a soft tint reads as metadata, which is what these are.</p>
+
+    <h3 class="sub">Bare variant – the priority marker</h3>
+    <p class="why">A static dot plus mono text, no background. For a label that repeats down a long list, where filled chips would shout: five stacked opportunity cards each with a solid chip is too loud, and the dot carries the same information quietly. It is a variant rather than a new component so it can't drift into a third label style.</p>
+    <div class="demo" style="display:flex;gap:30px">
+      <span class="c-chip c-chip--bare c-chip--bad"><span class="dot"></span>High priority</span>
+      <span class="c-chip c-chip--bare c-chip--warn"><span class="dot"></span>Medium priority</span>
+      <span class="c-chip c-chip--bare c-chip--info"><span class="dot"></span>Low priority</span>
+    </div>
+    <p class="why">The dot here is <b>static</b>. The pulsing dot stays exclusive to genuinely live states.</p>
+
+    <h3 class="sub">On cards</h3>
+    <p class="why">Chips straddle the card’s top edge – <code>top:-10px; left:20px</code>. That’s deliberate: it reads as a tag applied <i>to</i> the card rather than content inside it, and it costs no vertical space, so chipped and chipless cards in a row keep their headings level.</p>
+    <div class="wr">
+      <div class="bad"><h5>Wrong – split to opposite corners</h5>
+        <div style="position:relative;background:var(--surface-card);border-radius:8px;padding:18px 20px;outline:2px solid var(--fire-450);margin-top:16px">
+          <div style="position:absolute;top:-14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 16px">
+            <span style="display:inline-flex;font-family:var(--font-mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:3px;background:var(--fire-200);color:var(--fire-700)">Selected</span>
+            <span style="display:inline-flex;font-family:var(--font-mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:3px;background:var(--wave-200);color:var(--wave-700)">Current</span>
+          </div>
+          <div class="c-card__title" style="margin-top:14px">Agency</div><div class="c-card__sub">10,000 checks / month</div>
+        </div>
+        <p class="note">14px type in 8/14 padding – roughly double spec on both axes. Split to opposite corners, they read as two tabs rather than two notes about one card.</p>
+      </div>
+      <div class="good"><h5>Right – grouped left, at spec</h5>
+        <div class="c-card c-card--selected" style="margin-top:24px"><div class="c-card__chips"><span class="c-chip c-chip--bad">Selected</span><span class="c-chip c-chip--info">Current</span></div><div class="c-card__title">Agency</div><div class="c-card__sub">10,000 checks / month</div></div>
+        <p class="note">10px mono, 5/7 padding, 3px radius. Both together at top-left, 20px in, 6px apart.</p>
+      </div>
+    </div>
+    <div class="dd">
+      <div class="do"><h5>Do</h5><ul>
+        <li>One or two words. Three at a push, never a sentence</li>
+        <li>Pair the value with the label when it’s short: "Healthy · 78"</li>
+        <li>Two chips maximum, and only for the Selected / Current pairing</li>
+        <li>Reserve the dot for genuinely live, moving states</li>
+      </ul></div>
+      <div class="dont"><h5>Don’t</h5><ul>
+        <li>No full-radius pills – they read as buttons</li>
+        <li>No body or heading type inside a chip</li>
+        <li>No solid fills except a commercial offer</li>
+        <li>Don’t make a chip the only place a fact appears</li>
+        <li>Don’t invent a seventh tone; map onto the nearest six</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- ══ BUTTON ══ -->
+  <section class="part" id="button">
+    <h2 class="big">Button</h2>
+    <div class="demo">
+      <div class="set">
+        <button class="c-button">Add client</button>
+        <button class="c-button c-button--ghost">Manage credits</button>
+        <button class="c-button c-button--quiet c-button--sm">Settings</button>
+        <button class="c-button c-button--danger c-button--sm">Delete project</button>
+        <button class="c-button" disabled>Save banner</button>
+      </div>
+      <div class="cap" style="margin:16px 0 0">primary · ghost · quiet (sm) · danger (sm) · disabled</div>
+    </div>
+    <p class="why"><b>One primary per view.</b> Two solid fire buttons compete and neither wins. Ghost sits on the page, quiet sits on a surface, danger is a fire hairline – destructive actions never get a solid fill.</p>
+    <p class="why"><b>Disabled greys out completely.</b> A washed-out accent button reads as a weak button rather than an unavailable one, which is a real failure – people click it and nothing happens.</p>
+  </section>
+
+  <!-- ══ SWITCH ══ -->
+  <section class="part" id="switch">
+    <h2 class="big">Switch</h2>
+    <p class="intro">Immediate on/off. Off is an empty recess; on fills with fire.</p>
+    <div class="wr">
+      <div class="bad"><h5>Wrong – fire in both states</h5>
+        <div class="set" style="gap:24px;margin-top:6px">
+          <span class="old-sw"><span class="t"><span class="k" style="left:3px"></span></span><span style="color:var(--text-secondary)">Banner is hidden</span></span>
+        </div>
+        <div class="set" style="gap:24px;margin-top:14px">
+          <span class="old-sw"><span class="t"><span class="k" style="left:23px"></span></span><span style="color:var(--text-secondary)">Banner is shown</span></span>
+        </div>
+        <p class="note">Both read as "on". The only difference between states is which side a 20px circle sits on, and nothing says which side means what.</p>
+      </div>
+      <div class="good"><h5>Right – neutral off, accent on</h5>
+        <div style="margin-top:6px"><label class="c-switch"><input type="checkbox"/><span class="c-switch__track"><span class="c-switch__knob"></span></span><span class="c-switch__label">Banner is <b>hidden</b></span></label></div>
+        <div style="margin-top:14px"><label class="c-switch"><input type="checkbox" checked/><span class="c-switch__track"><span class="c-switch__knob"></span></span><span class="c-switch__label">Banner is <b>shown</b></span></label></div>
+        <p class="note">Off is limestone-800 with an inset shadow. Readable with the label covered.</p>
+      </div>
+    </div>
+    <p class="why"><b>Why fire and not sapling for on:</b> sapling means "good outcome" in the data rules. If on = sapling, every off switch implies something is wrong – and plenty of settings are deliberately off. What the filled track actually says is "this is live", which is fire’s job everywhere else.</p>
+    <div class="dd">
+      <div class="do"><h5>Do</h5><ul>
+        <li>Say the state, not the action: "Banner is hidden", never "Hide banner"</li>
+        <li>Emphasise the state word so it’s scannable without reading the sentence</li>
+        <li>Fade dependent fields to 45% until the switch is on</li>
+        <li>Use a checkbox instead when the setting only takes effect on save</li>
+      </ul></div>
+      <div class="dont"><h5>Don’t</h5><ul>
+        <li>Never colour the off track with the accent</li>
+        <li>Not sapling/fire as on/off – this is active vs not, not good vs bad</li>
+        <li>No "ON"/"OFF" text inside the track at this size</li>
+        <li>Don’t leave a disabled save button looking like pale accent</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- ══ FIELD ══ -->
+  <section class="part" id="field">
+    <h2 class="big">Field</h2>
+    <p class="intro">One component for input, textarea and select – the source pages styled these three separately with identical shells, which is how they drift.</p>
+    <div class="demo">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:760px">
+        <div>
+          <label class="c-field__label">Add a client</label>
+          <input class="c-field__input" placeholder="Their organisation’s name"/>
+          <p class="c-field__hint">You can add projects to a client once it exists.</p>
+        </div>
+        <div>
+          <label class="c-field__label">Runs on</label>
+          <select class="c-field__select"><option>The 1st of the month</option></select>
+        </div>
+      </div>
+    </div>
+    <p class="why">Label in Bely 14px above, hint 13px muted below. <b>The hint says the consequence</b>, not the obvious – "Leave this empty and the banner stays hidden even when the switch is on", never "Enter your banner text below".</p>
+  </section>
+
+  <!-- ══ CARD ══ -->
+  <section class="part" id="card">
+    <h2 class="big">Card</h2>
+    <div class="demo plain">
+      <div class="c-card-row" style="grid-template-columns:repeat(3,1fr)">
+        <div class="c-card"><div class="c-card__title">Organisation</div><div class="c-card__sub">5,000 checks / month</div></div>
+        <div class="c-card c-card--selected"><div class="c-card__chips"><span class="c-chip c-chip--info">Current</span></div><div class="c-card__title">Agency</div><div class="c-card__sub">10,000 checks / month</div></div>
+        <div class="c-card c-card--raised"><div class="c-card__title">Raised</div><div class="c-card__sub">For intro and aside blocks</div></div>
+      </div>
+    </div>
+    <p class="why"><code>card</code> (limestone-300) for data. <code>card--raised</code> (limestone-600) for intro and aside blocks that sit <i>on</i> the page – the "how this works" explainer, the add-a-client form. Never a card inside a card.</p>
+  </section>
+
+  <!-- ══ METRIC ══ -->
+  <section class="part" id="metric">
+    <h2 class="big">Metric &amp; band</h2>
+    <p class="intro">One way to present a number, everywhere: mono label, value, one line of context. Always left-aligned, always tabular numerals.</p>
+    <div class="demo plain">
+      <div class="c-band" style="grid-template-columns:repeat(4,1fr)">
+        <div class="c-metric"><div class="c-metric__label">Total API cost</div><div class="c-metric__value">$41.28</div><div class="c-metric__sub">3,074 calls · $0.0134 each</div></div>
+        <div class="c-metric"><div class="c-metric__label">Cost per assessment</div><div class="c-metric__value">$0.0134</div><div class="c-metric__sub">$0.0111 AI + $0.0023 overhead</div></div>
+        <div class="c-metric"><div class="c-metric__label">Cache savings <span class="c-chip c-chip--good">31%</span></div><div class="c-metric__value c-metric__value--good">$12.90</div><div class="c-metric__sub">31.2% hit rate across 3,074 calls</div></div>
+        <div class="c-metric"><div class="c-metric__label">Tokens processed</div><div class="c-metric__value">18.4<small>M</small></div><div class="c-metric__sub">14.1M in · 4.3M out</div></div>
+      </div>
+    </div>
+    <p class="why"><b>Never centred.</b> Centred numbers can’t be compared down a column – different digit counts put the decimal in a different place on every row.</p>
+    <p class="why"><b>Always pair the headline number with the figure it came from.</b> "$41.28" is a fact; "3,074 calls · $0.0134 each" is useful. And round to the precision someone can act on: $41.28, not $41.2847.</p>
+    <p class="why">Three or four metrics per band; five means two bands. The label may carry one chip; the value may carry a small unit.</p>
+  </section>
+
+  <!-- ══ SECTION HEADER ══ -->
+  <section class="part" id="sectionheader">
+    <h2 class="big">Section header</h2>
+    <p class="intro">A hairline rule with heading, one-line note and an optional action. This replaces the wrapper slab entirely.</p>
+    <div class="demo plain">
+      <div class="c-section-header"><h2>Queue health</h2><p>Background job queue, right now.</p><span class="action">View failed jobs →</span></div>
+      <div class="c-band" style="grid-template-columns:repeat(3,1fr)">
+        <div class="c-metric"><div class="c-metric__label">Pending</div><div class="c-metric__value">3</div><div class="c-metric__sub">oldest queued 40s ago</div></div>
+        <div class="c-metric"><div class="c-metric__label">Active <span class="c-chip c-chip--info"><span class="c-chip__dot"></span>Running</span></div><div class="c-metric__value">2</div><div class="c-metric__sub">avg 14s per job</div></div>
+        <div class="c-metric"><div class="c-metric__label">Failed <span class="c-chip c-chip--bad">Needs attention</span></div><div class="c-metric__value c-metric__value--bad">7</div><div class="c-metric__sub">last 24h · 5 are Firecrawl timeouts</div></div>
+      </div>
+    </div>
+    <p class="why"><b>Give data sections a real action</b> – export, view failures, settings. A section with nothing to do about it is usually a section that shouldn’t be separate.</p>
+  </section>
+
+  <!-- ══ CHARTS ══ -->
+  <section class="part" id="charts">
+    <h2 class="big">Charts</h2>
+    <p class="intro">Two chart types, both deliberately minimal. Bar over donut, always.</p>
+
+    <h3 class="sub">Composition bar</h3>
+    <p class="why">Any "where did this total go" breakdown: one 9px stacked bar plus an inline legend carrying the values. Cheaper than a donut, reads at a glance, works down to a 320px column. Max four segments; anything under 5% folds into "Other", and loss or waste goes last in <code>--comp-4</code>.</p>
+    <div class="split2">
+      <div class="c-card">
+        <div class="c-comp"><i style="width:63%;background:var(--comp-1)"></i><i style="width:29%;background:var(--comp-2)"></i><i style="width:8%;background:var(--comp-4)"></i></div>
+        <div class="c-comp__legend">
+          <div><span class="sw" style="background:var(--comp-1)"></span>AI analysis <b>$0.0084</b></div>
+          <div><span class="sw" style="background:var(--comp-2)"></span>Content extraction <b>$0.0039</b></div>
+          <div><span class="sw" style="background:var(--comp-4)"></span>Waste <b>$0.0011</b></div>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:16px">Waste is retries and failed jobs. Anything over 10% is worth investigating.</div>
+      </div>
+      <div class="c-band" style="grid-template-columns:1fr">
+        <div class="c-metric"><div class="c-metric__label">All-in, per assessment</div><div class="c-metric__value">$0.0134</div><div class="c-metric__sub">$41.28 across 3,074 assessments</div></div>
+      </div>
+    </div>
+    <p class="why">Donuts are reserved for content freshness on the estate pages, where the "slice of a whole" metaphor genuinely earns itself.</p>
+
+    <h3 class="sub">Micro series</h3>
+    <p class="why">Trend over a small fixed window. Bars in wave-400, current period in wave-600. <b>No axes, no gridlines, no tooltips</b> – it’s a shape, not a chart. When someone needs the figures they use the metric beside it or the CSV export.</p>
+    <div class="demo">
+      <div class="c-series" style="height:64px"><i style="height:34%"></i><i style="height:52%"></i><i style="height:41%"></i><i style="height:78%"></i><i style="height:63%"></i><i style="height:22%"></i><i class="is-current" style="height:88%"></i></div>
+      <div class="c-series__labels"><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span></div>
+    </div>
+  </section>
+
+  <!-- ══ LIST ══ -->
+  <section class="part" id="list">
+    <h2 class="big">List</h2>
+    <p class="intro">One set of mono column headers above the surface; rows inside it separated by hairlines. This replaced a stack of per-group cards, and the reason is simple: aligned columns can be compared, boxes can’t.</p>
+    <div class="demo plain">
+      <div class="c-list__head" style="grid-template-columns:1fr 108px 150px 150px 132px"><div>Project</div><div style="text-align:right">Pages</div><div>Last audit</div><div>Health</div><div></div></div>
+      <div class="c-list__body">
+        <div class="c-row" style="grid-template-columns:1fr 108px 150px 150px 132px">
+          <div><div class="c-row__name">Oxfam</div><div class="c-row__sub">oxfam.org.uk</div></div>
+          <div class="c-row__num">874</div><div class="c-row__when">2 days ago</div><div><span class="c-chip c-chip--good">Healthy · 78</span></div>
+          <div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Settings</button><button class="c-button c-button--quiet c-button--sm">Open</button></div>
+        </div>
+        <div class="c-row" style="grid-template-columns:1fr 108px 150px 150px 132px">
+          <div><div class="c-row__name">Oxfam 2 <span class="c-chip c-chip--info">Current</span></div><div class="c-row__sub">shop.oxfam.org.uk</div></div>
+          <div class="c-row__num">538</div><div class="c-row__when">Running now</div><div><span class="c-chip c-chip--info"><span class="c-chip__dot"></span>Analysing</span></div>
+          <div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Settings</button><button class="c-button c-button--quiet c-button--sm">Open</button></div>
+        </div>
+      </div>
+      <div class="cap" style="margin:12px 0 0">Hover a row – actions are hidden at rest</div>
+    </div>
+    <p class="why"><b>Row actions live on hover</b> so they stop shouting. <b>Group headings go between surfaces</b>, not inside rows. <b>Numeric columns right-align</b>, and their headers align with them.</p>
+    <p class="why">The secondary line is always the domain – it disambiguates "Oxfam" from "Oxfam 2" where a name can’t, and it’s the thing actually being audited.</p>
+  </section>
+
+  <!-- ══ NAV ══ -->
+  <section class="part" id="nav">
+    <h2 class="big">Navigation</h2>
+    <p class="intro">Three levels, and only the first two are navigation. There is exactly one secondary-nav component – the side rail and the button-group tabs are both retired.</p>
+
+    <h3 class="sub">The whole thing, assembled</h3>
+    <div class="demo chrome">
+      <div class="c-topbar" style="padding:12px 24px">
+        <div class="c-topbar__brand" style="font-size:17px"><img src="images/contentious-monogram.png" alt="" style="height:25px"/>Content Health Check</div>
+        <div class="c-topbar__divider"></div>
+        <div class="c-topbar__cluster is-standdown">
+          <span class="c-switcher">Oxfam 2 <svg width="10" height="6" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+          <div class="c-topbar__sections" style="font-size:15px"><span>Estate</span><span>Inventory</span><span>Watchlist</span><span class="is-active">Results</span></div>
+        </div>
+        <div class="c-topbar__right"><span class="c-avatar" style="width:30px;height:30px;font-size:10px">JH</span></div>
+      </div>
+      <div class="c-strip" style="padding:0 24px"><span class="c-strip__realm">Admin</span><span class="c-strip__tab">User management</span><span class="c-strip__tab is-active">Monitoring</span><span class="c-strip__tab">Emails</span><span class="c-strip__tab is-danger">Danger zone</span><span class="c-strip__exit">← Back to Oxfam 2</span></div>
+      <div style="padding:18px 24px;background:var(--limestone-450)"><div class="c-seg"><span class="is-active">Last 7 days</span><span>30 days</span><span>All time</span></div></div>
+    </div>
+    <table class="tok">
+      <tr><th>Level</th><th>What</th><th>Rules</th></tr>
+      <tr><td class="n">1 · Top bar</td><td>The work. Estate, Inventory, Watchlist, Results – project-scoped, never changes.</td><td>The switcher and its four sections form <b>one cluster</b> immediately after the wordmark. Avatar alone on the right.</td></tr>
+      <tr><td class="n">2 · The strip</td><td>Sections of a realm: Account, Billing, Project settings, Admin.</td><td>Realm label left, exit right. 2px fire underline for active. Max ~7 tabs, destructive last.</td></tr>
+      <tr><td class="n">3 · Not navigation</td><td>Sub-views inside a section: Monthly/Yearly, time ranges.</td><td>A segmented control <b>inside the content</b>. Never a second strip, never a rail.</td></tr>
+    </table>
+    <p class="why"><b>Why the cluster:</b> with the switcher at the far left and its sections at the far right, nothing but convention connects them – and the moment a strip appears the switcher is touching <i>that</i> instead, 6px from tabs it doesn’t govern and ~700px from the pages it does. Proximity wins over intent every time.</p>
+    <p class="why"><b>Why the stand-down:</b> in an admin realm the cluster dims to 42% (<code>--nav-context-standdown</code>) as one unit. That says two things at once – these five things are a group, and this group is not the page you’re on. They stay clickable; it’s de-emphasis, not disabling.</p>
+    <p class="why"><b>Why no side rail:</b> Billing had one for four items, which didn’t earn 280px of permanent chrome and squeezed the plan cards into a narrower column than they needed. As tabs, the page gets its full width back and stops looking like a different app.</p>
+    <p class="why"><b>Repeat the active tab as the page h1.</b> Redundant on purpose: it anchors the page when someone arrives from a deep link or a back button.</p>
+  </section>
+
+  <!-- ══ MENU ══ -->
+  <section class="part" id="menu">
+    <h2 class="big">Menu &amp; project switcher</h2>
+    <p class="intro">Panels sit on limestone-150 with a hairline. Rows are 34px with a real hover.</p>
+    <div class="demo" style="background:var(--limestone-450)">
+      <div style="display:flex;gap:22px;align-items:flex-start">
+        <div class="c-menu" style="width:232px">
+          <div style="padding:10px 10px 11px">
+            <div style="font-family:var(--font-heading);font-size:15px;color:var(--text-strong)">Julius Honnor</div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:4px">julius@contentious.ltd</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:9px"><span style="font-family:var(--font-heading);font-size:13px;color:var(--text-secondary)">Contentious</span><span class="c-chip c-chip--bad">Owner</span></div>
+          </div>
+          <div class="c-menu__sep"></div>
+          <div class="c-menu__item"><span class="t">Account</span></div>
+          <div class="c-menu__item"><span class="t">Billing</span></div>
+          <div class="c-menu__item"><span class="t">Admin</span></div>
+          <div class="c-menu__sep"></div>
+          <div class="c-menu__item c-menu__item--danger"><span class="t">Sign out</span></div>
+        </div>
+        <div>
+          <div class="c-tip-wrap"><span class="c-switcher is-open">Oxfam 2 <svg width="10" height="6" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+            <span class="c-tip" style="width:224px">Your current project. Estate, inventory, watchlist and results all belong to <b>Oxfam 2</b>.</span></div>
+          <div class="c-menu" style="width:284px;margin-top:10px">
+            <div class="c-menu__header"><span class="k">Project</span><span class="v">Oxfam 2</span></div>
+            <input class="c-menu__search" placeholder="Search projects…"/>
+            <div class="c-menu__label">Switch to</div>
+            <div class="c-menu__label" style="padding-top:11px">Oxfam · 2 projects</div>
+            <div class="c-menu__item c-menu__item--self"><div><div class="t">Oxfam 2</div><div class="s">shop.oxfam.org.uk · 538 pages</div></div><div class="r"><span class="c-chip">You’re here</span></div></div>
+            <div class="c-menu__item"><div><div class="t">Oxfam</div><div class="s">oxfam.org.uk · 874 pages</div></div></div>
+            <div class="c-menu__sep" style="margin:9px 4px 3px"></div>
+            <div class="c-menu__item"><div><div class="t">Acme Retail</div><div class="s">acmeretail.com · 306 pages</div></div></div>
+            <div class="c-menu__item"><div><div class="t">Northwind Trading</div><div class="s">northwind.co</div></div><div class="r"><span class="c-chip c-chip--warn">Not mapped</span></div></div>
+            <div class="c-menu__sep"></div>
+            <div class="c-menu__item"><span class="t">Project settings</span></div>
+            <div class="c-menu__item"><span class="t">All clients &amp; projects</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap" style="margin:16px 0 0">Hover the rows, and the switcher trigger</div>
+    </div>
+    <p class="why"><b>Never pure white.</b> The original menu was <code>#fff</code> at ~72px row spacing with no hover – it read as a system alert, and nothing in it felt clickable.</p>
+    <p class="why"><b>Sign out gets a fire hover</b> so it announces itself on approach rather than looking permanently disabled. <b>Icons are all-or-nothing</b> within a panel.</p>
+    <p class="why"><b>The switcher scales to the account.</b> One project: header row plus two actions, no list, no search, no client structure. Several projects: a flat "Switch to" list. Agency: a client header appears <i>only</i> above a client with two or more projects, so a one-project client renders as a plain row and its name is never printed twice. Search past six.</p>
+    <p class="why"><b>The bar shows the name only</b> – no mono label, no client prefix. Explanation lives in the menu header (<code>Project · Oxfam 2</code>) and a 500ms hover tooltip, because chrome is permanent and the explanation is needed twice.</p>
+  </section>
+
+  <!-- ══ FURNITURE ══ -->
+  <section class="part" id="furniture">
+    <h2 class="big">Page furniture</h2>
+    <p class="intro">The pieces that frame a page. All four were in the app before they were in this system.</p>
+
+    <h3 class="sub">Page header – the illustration is required</h3>
+    <p class="why">Estate, Inventory, Watchlist and Results are four structurally identical list pages. <b>The illustration is what makes them instantly distinguishable</b>, and the marketing site pairs the same four images with the same four words, so they are effectively part of the terminology. Never build a top-level section without one, and never invent a new one – ask.</p>
+    <div class="demo plain">
+      <div style="background:var(--surface-card);border-radius:var(--radius-surface);padding:0 26px">
+        <div class="c-page-header">
+          <div class="c-page-header__text">
+            <h1 style="font-size:44px">Watchlist</h1>
+            <p>The pages you want monitored. Depending on the size of your inventory and your account, this may be everything, or a curated sample.</p>
+          </div>
+          <div class="c-page-header__illo" style="width:190px"><img src="images/catalogue.png" alt=""/></div>
+        </div>
+      </div>
+    </div>
+    <div class="demo plain" style="margin-top:14px">
+      <div style="display:flex;gap:26px;align-items:center;flex-wrap:wrap">
+        <img src="images/estate.png" alt="" style="height:76px"/>
+        <img src="images/inventory.png" alt="" style="height:76px"/>
+        <img src="images/catalogue.png" alt="" style="height:76px"/>
+        <img src="images/analysis.png" alt="" style="height:76px"/>
+      </div>
+      <div class="cap" style="margin-top:10px">Estate · Inventory · Watchlist · Results</div>
+    </div>
+
+    <h3 class="sub">Breadcrumb – in the page, not the chrome</h3>
+    <p class="why">It says where <i>this record</i> sits; the nav strip says which realm you are in. Use it for drill-down only – a single result inside Results – never to restate the top-level navigation.</p>
+    <div class="demo">
+      <div class="c-crumbs" style="padding:0"><a href="#furniture">Results</a><span class="sep">›</span><a href="#furniture">Individual results</a><span class="sep">›</span><span class="here">About</span></div>
+    </div>
+
+    <h3 class="sub">Compact band and figures grid</h3>
+    <p class="why">Two <code>MetricBand</code> variants. <b>Compact</b> is the stats strip under a page header. <b>Grid</b> is unrelated counts about one object – and it is the only place centring is allowed, because nothing is being compared down a column.</p>
+    <div class="demo plain">
+      <div class="c-band c-band--compact">
+        <div class="c-metric"><span class="c-metric__value">4</span><span class="c-metric__label">Properties</span></div>
+        <div class="c-metric"><span class="c-metric__value">84</span><span class="c-metric__label">Pages</span></div>
+        <div class="c-metric"><span class="c-metric__value">81</span><span class="c-metric__label">In watchlist</span></div>
+      </div>
+      <div class="c-band c-band--grid" style="grid-template-columns:repeat(3,1fr);margin-top:14px;max-width:620px">
+        <div class="c-metric"><div class="c-metric__label">Words</div><div class="c-metric__value">419</div></div>
+        <div class="c-metric"><div class="c-metric__label">Sentences</div><div class="c-metric__value">21</div></div>
+        <div class="c-metric"><div class="c-metric__label">Paragraphs</div><div class="c-metric__value">6</div></div>
+        <div class="c-metric"><div class="c-metric__label">Headings</div><div class="c-metric__value">4</div></div>
+        <div class="c-metric"><div class="c-metric__label">Links</div><div class="c-metric__value c-metric__value--zero">0</div></div>
+        <div class="c-metric"><div class="c-metric__label">Words per sentence</div><div class="c-metric__value">20.0</div></div>
+      </div>
+    </div>
+    <p class="why"><b>Apply <code>--data-zero</code> to genuine zeros.</b> On the live result page "0 links" renders in the same weight as every other count, which hides it – and given Shareable scores two stars, it is arguably the most actionable number on the screen.</p>
+
+    <h3 class="sub">Process bar – wave, never the level ramp</h3>
+    <p class="why">A queued job is not a low score. The live version coloured its stages orange, amber, olive and green, which put "queued" in the same colour as "scores 68" a few inches away and made the red failure bar read simultaneously as level 1.</p>
+    <div class="demo">
+      <div class="c-process">
+        <div class="c-process__row c-process__row--done"><span class="c-process__label">Queued</span><span class="c-process__track"><i style="width:100%"></i></span><span class="c-process__count">4/4</span></div>
+        <div class="c-process__row c-process__row--done"><span class="c-process__label">Fetched</span><span class="c-process__track"><i style="width:75%"></i></span><span class="c-process__count">3/4</span></div>
+        <div class="c-process__row"><span class="c-process__label">Analysed</span><span class="c-process__track"><i style="width:75%"></i></span><span class="c-process__count">3/4</span></div>
+        <div class="c-process__row c-process__row--done"><span class="c-process__label">Completed</span><span class="c-process__track"><i style="width:75%"></i></span><span class="c-process__count">3/4</span></div>
+        <div class="c-process__row c-process__row--failed"><span class="c-process__label">Failed</span><span class="c-process__track"><i style="width:25%"></i></span><span class="c-process__count">1/4</span></div>
+      </div>
+    </div>
+
+    <h3 class="sub">Result card</h3>
+    <div class="demo plain">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l5"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="99 132"></circle></svg><span class="c-gauge__value">92</span></span></span></div><div class="c-result__body"><div class="c-result__title">How and why to move from WordPress to Astro</div><div class="c-result__meta">Resources · 17 Jun 26</div></div></div>
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l4"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="89 132"></circle></svg><span class="c-gauge__value">83</span></span></span></div><div class="c-result__body"><div class="c-result__title">Portfolio</div><div class="c-result__meta">Portfolio · 25 Jun 26</div></div></div>
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l2"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="73 132"></circle></svg><span class="c-gauge__value">68</span></span></span></div><div class="c-result__body"><div class="c-result__title">About Content Maturity</div><div class="c-result__meta">About · 17 Jun 26</div></div></div>
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l1"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="56 132"></circle></svg><span class="c-gauge__value">52</span></span></span></div><div class="c-result__body"><div class="c-result__title">New website and content strategy for ActionAid</div><div class="c-result__meta">Portfolio · 24 Jun 26</div></div></div>
+      </div>
+      <div class="cap" style="margin-top:10px">Screenshots omitted – read the brand guide's Device screenshots page before framing them</div>
+    </div>
+
+    <h3 class="sub">Footer</h3>
+    <div class="demo plain">
+      <div class="c-footer" style="margin-top:0;border-radius:var(--radius-surface)">
+        <div class="c-footer__in">
+          <div>
+            <div class="c-footer__brand"><img src="images/contentious-monogram.png" alt=""/>Content Health Check</div>
+            <p>Keeping track of the health and fitness of your content across multiple criteria.</p>
+            <p>Built by Contentious, the strategic content practice, who also make Content Maturity and Voice, Tone &amp; Style.</p>
+          </div>
+          <div class="c-footer__groups">
+            <div class="c-footer__group"><div class="c-label">Core</div><div class="c-footer__links"><a href="#furniture">Framework</a><a href="#furniture">Pricing</a><a href="#furniture">Privacy</a><a href="#furniture">Terms</a></div></div>
+            <div class="c-footer__group"><div class="c-label">Learn</div><div class="c-footer__links"><a href="#furniture">What is a health check?</a><a href="#furniture">Quality vs traffic</a></div></div>
+          </div>
+        </div>
+        <div class="c-footer__legal">© 2026 Contentious Ltd. All rights reserved.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ COPY ══ -->
+  <section class="part" id="copy">
+    <h2 class="big">Copy</h2>
+    <p class="intro">British English, sentence case, second person, present tense. Dry and specific – slightly understated rather than encouraging.</p>
+    <table class="tok">
+      <tr><th>Rule</th><th>Instead of</th><th>Write</th></tr>
+      <tr><td>State the state, not the action</td><td>Hide banner</td><td>Banner is hidden</td></tr>
+      <tr><td>Say the consequence</td><td>Enter your banner text below</td><td>Leave this empty and the banner stays hidden even when the switch is on</td></tr>
+      <tr><td>Pair the number with its source</td><td>$41.28</td><td>$41.28 · 3,074 calls at $0.0134 each</td></tr>
+      <tr><td>Actionable precision</td><td>$41.2847</td><td>$41.28</td></tr>
+      <tr><td>Name the target</td><td>Settings</td><td>Settings for Oxfam 2</td></tr>
+      <tr><td>Explain what failed</td><td>Something went wrong</td><td>7 failed in the last 24h · 5 are Firecrawl timeouts</td></tr>
+    </table>
+    <div class="dd">
+      <div class="do"><h5>Do</h5><ul>
+        <li>Sentence case everywhere – headings, buttons, tabs, labels</li>
+        <li>Analyse, colour, organisation, prioritise</li>
+        <li>Explain the model once, quietly, where the confusion happens</li>
+        <li>Let a 12px line at the foot of a menu do the work of a modal</li>
+      </ul></div>
+      <div class="dont"><h5>Don’t</h5><ul>
+        <li>No emoji, no exclamation marks</li>
+        <li>No "Oops", no "Let’s get started", no "the user"</li>
+        <li>No Title Case except proper nouns</li>
+        <li>No copy that only restates the field it sits under</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- ══ FILES ══ -->
+  <section class="part" id="files">
+    <h2 class="big">File map</h2>
+    <p class="intro">Link one stylesheet and use the classes. There’s no build step.</p>
+    <pre><span class="c">&lt;!-- everything below is available from this one link --&gt;</span>
+&lt;link rel="stylesheet" href="styles.css"/&gt;
+
+&lt;span class="c-chip c-chip--good"&gt;Healthy · 78&lt;/span&gt;
+&lt;div class="c-metric"&gt;
+  &lt;div class="c-metric__label"&gt;Total API cost&lt;/div&gt;
+  &lt;div class="c-metric__value"&gt;$41.28&lt;/div&gt;
+  &lt;div class="c-metric__sub"&gt;3,074 calls · $0.0134 each&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <div class="files">
+      <div><div class="p">styles.css</div><div class="d">The entry point. An <code>@import</code> list only – link this one file.</div></div>
+      <div><div class="p">tokens/semantic.css</div><div class="d"><b>Start here.</b> Every decision as a token, with the reasoning in comments: surfaces, hairlines, data colour, chip tones, switch, type roles.</div></div>
+      <div><div class="p">tokens/colors.css</div><div class="d">11 families × 17 stops, plus friendly aliases.</div></div>
+      <div><div class="p">tokens/fonts.css</div><div class="d">Bely <code>@font-face</code> rules and the synthesis-weight guard.</div></div>
+      <div><div class="p">components/components.css</div><div class="d">Plain-CSS implementation of every component. What this page and the UI kit run on.</div></div>
+      <div><div class="p">components/core/</div><div class="d">Chip, Button, Switch, Field, Card, <b>StarRating</b></div></div>
+      <div><div class="p">components/data/</div><div class="d">Metric, MetricBand, SectionHeader, CompositionBar, MicroSeries, ListRow, <b>ScoreGauge</b>, <b>ScoreHistory</b>, <b>CriterionCard</b>, <b>ResultCard</b>, <b>ProcessBar</b></div></div>
+      <div><div class="p">components/navigation/</div><div class="d">TopBar, SecondaryNav, SegmentedControl, Menu, Tooltip, ProjectSwitcher, <b>PageHeader</b>, <b>Breadcrumb</b>, <b>AppFooter</b></div></div>
+      <div><div class="p">components/*/*.jsx + .d.ts</div><div class="d">React implementations with props contracts, for production code. Kept in step with the CSS by hand.</div></div>
+      <div><div class="p">components/*/*.prompt.md</div><div class="d">Per-component usage notes and the rules that matter.</div></div>
+      <div><div class="p">ui_kits/content-health-check/</div><div class="d">Click-through product mock-up – four admin realms, built only from these components.</div></div>
+      <div><div class="p">guidelines/</div><div class="d">17 small specimen cards, one concept each.</div></div>
+      <div><div class="p">images/ · fonts/</div><div class="d">Logos, concept illustrations, Bely webfonts.</div></div>
+    </div>
+    <p class="why"><b>Iconography:</b> no icon library. UI icons are hand-written inline SVG at 14–16px, 1.2px stroke, <code>currentColor</code> – about a dozen in total. Concept illustrations are the flat PNGs in <code>images/</code>. No emoji, no unicode glyphs as icons; the one exception is the arrow in link text ("Export CSV →"), which is typographic.</p>
+  </section>
+
+  <!-- ══ SOURCES ══ -->
+  <section class="part" id="sources">
+    <h2 class="big">Where these rules came from</h2>
+    <p class="intro">Each pattern page is the argument behind a rule, with the before-and-after. Read one when you want to know <i>why</i> rather than <i>what</i>.</p>
+    <div class="deck">
+      <a href="Label chips.html"><div class="t">Label chips</div><div class="d">Three competing label styles → one geometry, six tones. Card placement.</div></a>
+      <a href="Navigation pattern.html"><div class="t">Navigation pattern</div><div class="d">Side nav and button-group tabs retired in favour of one strip.</div></a>
+      <a href="Nav hierarchy.html"><div class="t">Nav hierarchy</div><div class="d">The proximity bug, and the grouped cluster + stand-down fix.</div></a>
+      <a href="Admin - Monitoring.html"><div class="t">Monitoring</div><div class="d">A page redesign, and the six data patterns extracted from it.</div></a>
+      <a href="Toggle switch.html"><div class="t">Toggle switch</div><div class="d">Why off must give up the fill, and why on is fire not sapling.</div></a>
+      <a href="Project switcher v2.html"><div class="t">Project switcher</div><div class="d">Scaling one component from a single project to an agency.</div></a>
+      <a href="Account menu.html"><div class="t">Account menu</div><div class="d">Panel surface, row density, hover states.</div></a>
+      <a href="ui_kits/content-health-check/index.html"><div class="t">UI kit →</div><div class="d">The product mock-up. Click Estate, then Account, to see the stand-down.</div></a>
+    </div>
+  </section>
+</main>
+</div>
+</body>
+</html>

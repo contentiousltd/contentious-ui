@@ -1,0 +1,47 @@
+<!-- @dsCard group="Components" viewport="700x450" name="Navigation – the strip, menus, switcher" subtitle="One secondary nav; limestone menu panels; grouped project cluster" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Navigation components</title>
+<link rel="stylesheet" href="../../styles.css"/>
+<style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-synthesis-weight:none}a{color:var(--accent-link);text-decoration:none}a:hover{color:var(--accent-link-hover)}
+.pad{padding:20px 24px}.stack{display:flex;flex-direction:column;gap:18px}
+.set{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:9px}</style>
+</head><body>
+<div class="c-strip"><span class="c-strip__realm">Admin</span><span class="c-strip__tab">User management</span><span class="c-strip__tab is-active">Monitoring</span><span class="c-strip__tab">Emails</span><span class="c-strip__tab is-danger">Danger zone</span><span class="c-strip__exit">← Back to Oxfam 2</span></div>
+<div class="pad">
+<div class="cap">Segmented control · level 3 is not navigation</div>
+<div class="c-seg"><span class="is-active">Last 7 days</span><span>30 days</span><span>All time</span></div>
+<div class="cap" style="margin-top:24px">Menus – hover the rows, and the switcher</div>
+<div style="display:flex;gap:20px;align-items:flex-start">
+<div class="c-menu" style="width:230px">
+<div style="padding:10px 10px 11px">
+<div style="font-family:var(--font-heading);font-size:15px;color:var(--text-strong)">Julius Honnor</div>
+<div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:4px">julius@contentious.ltd</div>
+<div style="display:flex;align-items:center;gap:7px;margin-top:9px"><span style="font-family:var(--font-heading);font-size:13px;color:var(--text-secondary)">Contentious</span><span class="c-chip c-chip--bad">Owner</span></div>
+</div>
+<div class="c-menu__sep"></div>
+<div class="c-menu__item"><span class="t">Account</span></div>
+<div class="c-menu__item"><span class="t">Billing</span></div>
+<div class="c-menu__item"><span class="t">Admin</span></div>
+<div class="c-menu__sep"></div>
+<div class="c-menu__item c-menu__item--danger"><span class="t">Sign out</span></div>
+</div>
+<div>
+<div class="c-tip-wrap"><span class="c-switcher is-open">Oxfam 2 <svg width="10" height="6" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+<span class="c-tip" style="width:224px">Your current project. Estate, inventory, watchlist and results all belong to <b>Oxfam 2</b>.</span></div>
+<div class="c-menu" style="width:284px;margin-top:10px">
+<div class="c-menu__header"><span class="k">Project</span><span class="v">Oxfam 2</span></div>
+<input class="c-menu__search" placeholder="Search projects…"/>
+<div class="c-menu__label">Switch to</div>
+<div class="c-menu__label" style="padding-top:11px">Oxfam · 2 projects</div>
+<div class="c-menu__item c-menu__item--self"><div><div class="t">Oxfam 2</div><div class="s">shop.oxfam.org.uk · 538 pages</div></div><div class="r"><span class="c-chip">You’re here</span></div></div>
+<div class="c-menu__item"><div><div class="t">Oxfam</div><div class="s">oxfam.org.uk · 874 pages</div></div></div>
+<div class="c-menu__sep" style="margin:9px 4px 3px"></div>
+<div class="c-menu__item"><div><div class="t">Acme Retail</div><div class="s">acmeretail.com · 306 pages</div></div></div>
+<div class="c-menu__item"><div><div class="t">Northwind Trading</div><div class="s">northwind.co</div></div><div class="r"><span class="c-chip c-chip--warn">Not mapped</span></div></div>
+<div class="c-menu__sep"></div>
+<div class="c-menu__item"><span class="t">Project settings</span></div>
+<div class="c-menu__item"><span class="t">All clients &amp; projects</span></div>
+</div></div></div>
+</div></body></html>

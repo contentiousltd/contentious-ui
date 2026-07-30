@@ -1,0 +1,26 @@
+/* Radii, borders, shadows, motion */
+:root {
+  /* Matches @contentious/ui. Do not change without changing the library. */
+  --border-radius-sm:   3px;
+  --border-radius-md:   6px;
+  --border-radius-lg:   12px;
+  --border-radius-full: 9999px;
+
+  --border-width-thin:   1px;
+  --border-width:        2px;
+  --border-width-thick:  4px;
+
+  /* Warm shadows, tinted to gloaming. @contentious/ui uses neutral
+     rgba(0,0,0,...) at 0.05/0.1/0.15 with different offsets — an open
+     difference, see Repo reconciliation.html. */
+  --shadow-sm: 0 1px 2px rgba(38, 36, 35, 0.08);
+  --shadow-md: 0 4px 12px rgba(38, 36, 35, 0.10);
+  --shadow-lg: 0 12px 32px rgba(38, 36, 35, 0.14);
+
+  /* DO NOT PORT --transition-*. @contentious/ui owns those names
+     (300ms/800ms/1.5s, legacy Astro tokens). This system uses
+     --motion-state / --motion-reveal / --motion-exit from tokens/semantic.css,
+     which resolve through the repo's --duration-* and --ease-* scale.
+     The old 180/280/500ms declarations were deleted, not kept, so porting
+     tokens/ cannot retime the Astro site. */
+}

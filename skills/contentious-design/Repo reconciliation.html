@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Repo reconciliation – this system against @contentious/ui</title>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased;min-width:1120px}
+h1,h2,h3,h4{font-synthesis-weight:none}
+.wrap{max-width:1080px;margin:0 auto;padding:58px 40px 120px}
+h1{font-family:var(--font-heading-display);font-weight:400;font-size:54px;line-height:1;color:var(--text-strong);margin:10px 0 14px;letter-spacing:-.006em}
+.lede{font-size:var(--text-lede);line-height:1.55;color:var(--text-secondary);max-width:70ch;margin:0 0 8px;text-wrap:pretty}
+h2.big{font-family:var(--font-heading-display);font-weight:400;font-size:34px;color:var(--text-strong);margin:0 0 8px}
+.part{padding-top:62px}
+.part>.intro{font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:74ch;margin:0 0 10px;text-wrap:pretty}
+.issue{background:var(--surface-card);border-radius:var(--radius-surface);padding:23px 25px;margin-top:16px}
+.issue.high{background:var(--fire-150)}
+.issue.med{background:var(--sunshine-150)}
+.issue.ok{background:var(--sapling-150)}
+.ihead{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.ihead h3{font-family:var(--font-heading);font-weight:400;font-size:20px;color:var(--text-strong);margin:0}
+.ihead .n{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;color:var(--text-muted);flex:none}
+.ihead .tag{margin-left:auto;flex:none}
+.issue p{font-size:15px;line-height:1.6;color:var(--text-body);margin:12px 0 0;max-width:82ch;text-wrap:pretty}
+.issue p.why{color:var(--text-secondary)}
+.issue p b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+.rec{margin-top:15px;padding-top:13px;border-top:1px solid rgba(38,36,35,.1)}
+.rec .h{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.rec .b{font-size:15px;line-height:1.55;color:var(--text-strong);max-width:82ch}
+code{font-family:var(--font-mono);font-size:13px;color:var(--text-body);background:rgba(38,36,35,.06);padding:2px 5px;border-radius:3px}
+pre{font-family:var(--font-mono);font-size:12.5px;line-height:1.6;color:var(--text-body);background:var(--limestone-250);border-radius:6px;padding:14px 16px;overflow-x:auto;margin:14px 0 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+.col .h{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:7px}
+.col .b{font-size:14px;line-height:1.55;color:var(--text-body)}
+.sum{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
+.sum th{text-align:left;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--rule-field)}
+.sum td{padding:10px 14px 10px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;color:var(--text-secondary);line-height:1.45}
+.sum td.w{color:var(--text-strong);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap}
+.sum tr:last-child td{border-bottom:0}
+.ramp{display:flex;gap:6px;margin-top:12px;max-width:520px}
+.ramp div{flex:1;text-align:center}
+.ramp .c{height:38px;border-radius:4px}
+.ramp .l{font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="label">Audit · contentiousltd/contentious-ui @ main</div>
+  <h1>The repo knew more than you thought.</h1>
+  <p class="lede">You said Contentious UI "isn’t visual and misses a lot of things". Half right. It has no visual layer and no product components – but its token foundation is more complete than this system’s was, and it already contains the score ramp I spent a turn reconstructing. Four token collisions would have broken this system inside an app; I’ve fixed those. Seven decisions are yours.</p>
+
+  <section class="part">
+    <h2 class="big">Fixed – collisions that would have broken things</h2>
+    <p class="intro">These weren’t differences of opinion. Same token name, different value, silent breakage.</p>
+
+    <div class="issue ok">
+      <div class="ihead"><span class="n">01</span><h3>The score ramp already exists as <code>--star-1..5</code></h3><span class="tag"><span class="chip chip--good">Aliased</span></span></div>
+      <p>I reconstructed the five-level ramp from the brand colour guide’s two "halfway between" notes. The repo has had it all along, with exactly the values I derived – and a <code>getScoreColour(score, prefix)</code> helper to go with it.</p>
+      <div class="ramp">
+        <div><div class="c" style="background:var(--star-1)"></div><div class="l">star-1</div></div>
+        <div><div class="c" style="background:var(--star-2)"></div><div class="l">star-2</div></div>
+        <div><div class="c" style="background:var(--star-3)"></div><div class="l">star-3</div></div>
+        <div><div class="c" style="background:var(--star-4)"></div><div class="l">star-4</div></div>
+        <div><div class="c" style="background:var(--star-5)"></div><div class="l">star-5</div></div>
+      </div>
+      <p><b>The repo’s names win</b> – they’re in shipping code and in the product themes. <code>--star-*</code> is now primary here and <code>--level-*</code> is an alias, so nothing in this project breaks. New work uses <code>--star-*</code>.</p>
+      <p class="why">Worth noting the <code>prefix</code> parameter: <code>getScoreColour(3, 'maturity')</code> gives <code>var(--maturity-3)</code>. So the ramp is designed to be re-skinned per product, which is more thought than I’d credited it with – and something this system should document rather than hard-code.</p>
+    </div>
+
+    <div class="issue high">
+      <div class="ihead"><span class="n">02</span><h3><code>--transition-fast</code> means 300ms in the repo, 180ms here</h3><span class="tag"><span class="chip chip--bad">Was broken</span></span></div>
+      <div class="two">
+        <div class="col"><div class="h">Repo (legacy Astro token)</div><div class="b"><code>--transition-fast: 300ms ease-in-out</code><br/><code>--transition-base: 800ms ease-in-out</code><br/><code>--transition-slow: 1.5s ease-in-out</code></div></div>
+        <div class="col"><div class="h">This system, as authored</div><div class="b"><code>--transition-fast: 180ms ease</code><br/><code>--transition-base: 280ms ease</code><br/><code>--transition-slow: 500ms ease</code></div></div>
+      </div>
+      <p><b>This was a real bug, not a difference.</b> Every hover, every switch, every menu in this system used <code>var(--transition-fast)</code>. Dropped into an app, they’d have resolved to the repo’s 300ms and run 120ms slow – and <code>--transition-base</code> would have tripled to 800ms. Nothing would look obviously wrong; it would just feel sluggish, and nobody would find the cause.</p>
+      <p class="why">The repo also has a proper motion scale that the legacy tokens predate: <code>--duration-instant/fast/normal/slow/glacial</code> at 100/200/350/500/800, exits at 75% of entrances, and three exponential easing curves. That’s better than what I had.</p>
+      <div class="rec"><div class="h">Fixed</div><div class="b">This system now uses <code>--motion-state</code>, <code>--motion-reveal</code> and <code>--motion-exit</code>, which resolve through the repo’s duration and easing tokens with fallbacks. The colliding <code>--transition-*</code> declarations have been <b>deleted</b>, not just unused — so porting <code>tokens/</code> cannot retime the Astro site in the opposite direction.</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">03</span><h3>Radii, spacing, layout and z-index all differed</h3><span class="tag"><span class="chip chip--warn">Adopted</span></span></div>
+      <table class="sum">
+        <tr><th>Token</th><th>Repo</th><th>Was here</th><th>Now</th></tr>
+        <tr><td class="w">--border-radius-sm/md/lg</td><td>3 / 6 / 12</td><td>4 / 8 / 16</td><td>Repo’s, and <code>--border-radius-full</code> added. Surfaces round to 6, since the repo has no 8px step.</td></tr>
+        <tr><td class="w">--space-sm-plus</td><td>0.75rem</td><td>absent</td><td>Added. The repo calls it "never skip this".</td></tr>
+        <tr><td class="w">--space-4xl / 5xl / 6xl</td><td>6 / 8 / 10rem</td><td>4 / 6 / 8rem</td><td>Repo’s – one step longer throughout.</td></tr>
+        <tr><td class="w">--container-max-width</td><td>1080px</td><td>1400px</td><td>Repo’s. App screens here were designed 320px wider than the library allows.</td></tr>
+        <tr><td class="w">--page-padding</td><td>clamp(2rem, 6vw, 5rem)</td><td>clamp(1rem, 4vw, 3rem)</td><td>Repo’s.</td></tr>
+        <tr><td class="w">--z-*</td><td>base/dropdown/sticky/modal/tooltip</td><td>absent</td><td>Added. Chrome here had been hard-coding 5 and 20.</td></tr>
+      </table>
+      <p class="why">The container width is the one with visible consequences: every screen in this project’s UI kit is laid out to 1200px, wider than the library’s 1080px. Not wrong, but it means the kit’s proportions won’t survive being rebuilt on the real container.</p>
+    </div>
+  </section>
+
+  <section class="part">
+    <h2 class="big">Your decisions</h2>
+    <p class="intro">Six places where the repo and this system disagree and neither is obviously right.</p>
+
+    <div class="issue high">
+      <div class="ihead"><span class="n">04</span><h3>The repo already ships Courier New as <code>--font-mono</code></h3><span class="tag"><span class="chip chip--bad">Escalated</span></span></div>
+      <p>Discrepancy 01 in the style-guide audit was framed as a proposal. It isn’t – <code>src/styles/typography.css</code> sets <code>--font-mono: 'Courier New', monospace</code>, so the brand’s code-only mono rule is already implemented in shipping code.</p>
+      <p><b>Which means the live app is in an odd position:</b> its metadata labels are mono, but the token they’d resolve through is Courier. Either the app isn’t using <code>--font-mono</code> for labels (and has its own font stack somewhere), or those labels are already rendering in Courier and the screenshots are showing me that. Worth checking which.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Add a second token to the repo – <code>--font-mono-ui</code> or similar – for the metadata voice, distinct from Courier-for-code. That’s a small, additive change to the library and it makes the app’s existing practice legitimate. The alternative is rebuilding every label in Bely.</div></div>
+    </div>
+
+    <div class="issue high">
+      <div class="ihead"><span class="n">05</span><h3>0–100 scores have no mapping anywhere</h3><span class="tag"><span class="chip chip--bad">Real gap</span></span></div>
+      <p><code>getScoreColour</code> takes a <b>1–5</b> score, not 0–100 – so criteria, which are scored in stars, are fully handled. But Watchlist’s score column and the headline gauge show 0–100, and nothing in the repo says how those band.</p>
+      <p class="why">That explains the inconsistency the screen audit found: Watchlist invented a two-band threshold at 80 because there was no shared rule to follow. This is a genuine gap in the library, not something I duplicated.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Add <code>scoreToStars(score)</code> to <code>src/lib/colors.ts</code> beside <code>getScoreColour</code>, with the real framework boundaries. My provisional 90/80/70/60 is in <code>--score-band-*</code> here and should not ship as-is.</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">06</span><h3>Base font size: 24px there, 19px here</h3><span class="tag"><span class="chip chip--warn">Decide</span></span></div>
+      <p>The repo sets <code>--base-font-size: 24px</code> with a responsive <code>--text-multiplier</code> stepping 1 → 1.1 → 1.2 at 48rem and 96rem. So on a large screen the effective base is <b>28.8px</b>.</p>
+      <p>You said the app’s type felt too small and I raised it from 15px to 16px. Against 24px scaling to 28.8px, 16px is still a long way off – which is probably why it kept feeling small: the app has been diverging from the brand base by more than a third.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">The right answer is probably a documented app multiplier rather than a separate base – e.g. keep <code>--base-font-size: 24px</code> and set <code>--text-multiplier: 0.75</code> for dense app screens, giving 18px that still scales with the brand. That keeps one system instead of two. Want me to work that through and show it at a few sizes?</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">07</span><h3>Status colours already exist, and one fails contrast</h3><span class="tag"><span class="chip chip--warn">Decide</span></span></div>
+      <div class="two">
+        <div class="col"><div class="h">Repo</div><div class="b"><code>--warning-subtle</code> sunshine-100<br/><code>--warning-text</code> sunshine-900<br/><code>--error-text</code> fire-800<br/><code>--info-text</code> wave-800</div></div>
+        <div class="col"><div class="h">This system’s chips</div><div class="b"><code>--chip-warn-bg</code> sunshine-200<br/><code>--chip-warn-fg</code> amber-800<br/><code>--chip-bad-fg</code> fire-700<br/><code>--chip-info-fg</code> wave-700</div></div>
+      </div>
+      <p><b>The repo’s <code>--warning-text: sunshine-900</code> is the value I measured as failing AA</b> at 10–11px – it’s the reason chips here use amber-800 instead. So this isn’t only a duplication; the library is carrying a contrast problem that any small warning text inherits.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Either the chip tones map onto <code>--success-*</code>/<code>--warning-*</code>/<code>--error-*</code>/<code>--info-*</code> and those get corrected in the repo, or chips stay separate and the two coexist. I’d fix the repo – but changing <code>--warning-text</code> affects every app, so it’s not mine to do quietly.</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">08</span><h3>Class naming: <code>c-*</code> BEM there, plain names here</h3><span class="tag"><span class="chip chip--warn">Rename before porting</span></span></div>
+      <div class="two">
+        <div class="col"><div class="h">Repo convention</div><div class="b"><code>c-button</code> · <code>c-button--primary</code><br/><code>c-card__header</code><br/><code>type-h1</code> · <code>type-body</code> · <code>type-sm</code><br/>five cascade layers</div></div>
+        <div class="col"><div class="h">This system</div><div class="b"><code>.btn</code> · <code>.btn--ghost</code><br/><code>.metric__value</code><br/>no type utilities<br/>no layers</div></div>
+      </div>
+      <p>The modifier and element conventions already match – it’s only the prefix and the layer wrapper that differ. Mechanical to fix, but it must happen before <code>components.css</code> goes anywhere near the repo, or you’ll have two naming schemes in one stylesheet.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Shall I rename everything to <code>c-*</code> and wrap it in <code>@layer components</code>? It also means this project’s pages get rewritten, so it’s worth doing once, deliberately.</div></div>
+    </div>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">09</span><h3>Several components here duplicate shadcn ones there</h3><span class="tag"><span class="chip chip--warn">Decide</span></span></div>
+      <p>The repo is shadcn-based and already exports Button, Badge, Card, Switch, Input, Select, Tabs, Tooltip, DropdownMenu, Progress, Table, Separator, Dialog and Toast – plus its own PageHeader, SectionHeader, Section, EmptyState, FeatureCard and LoadingRing.</p>
+      <p><b>So roughly half of what I built already exists.</b> My <code>Chip</code> is its <code>Badge</code>; my <code>Field</code> is its <code>Input</code>/<code>Select</code>/<code>Textarea</code>; my <code>Menu</code> is its <code>DropdownMenu</code>; my <code>SecondaryNav</code> is its <code>Tabs</code>; my <code>ProcessBar</code> is its <code>Progress</code>. My <code>PageHeader</code> and <code>SectionHeader</code> collide by name with different implementations.</p>
+      <p class="why">The value in what I built isn’t the components – it’s the <b>rules</b> attached to them. "Never full-radius on a label" is a fact about <code>Badge</code>. "Off must give up the fill" is a fact about <code>Switch</code>. Those belong on the repo’s existing components, not on parallel ones.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b">Don’t port the duplicates. Instead, write the <code>.prompt.md</code> rules against the repo’s existing components, and port only what genuinely doesn’t exist: StarRating, ScoreGauge, ScoreHistory, CriterionCard, ResultCard, Metric/MetricBand, CompositionBar, MicroSeries, ListRow, ProjectSwitcher, Breadcrumb, AppFooter. That’s twelve, not twenty-five.</div></div>
+    </div>
+  </section>
+
+    <div class="issue med">
+      <div class="ihead"><span class="n">10</span><h3>Shadows: warm here, neutral there</h3><span class="tag"><span class="chip chip--warn">Decide</span></span></div>
+      <div class="two">
+        <div class="col"><div class="h">Repo</div><div class="b"><code>0 1px 2px rgba(0,0,0,.05)</code><br/><code>0 2px 10px rgba(0,0,0,.1)</code><br/><code>0 4px 20px rgba(0,0,0,.15)</code></div></div>
+        <div class="col"><div class="h">This system</div><div class="b"><code>0 1px 2px rgba(38,36,35,.08)</code><br/><code>0 4px 12px rgba(38,36,35,.10)</code><br/><code>0 12px 32px rgba(38,36,35,.14)</code></div></div>
+      </div>
+      <p>Different tints and different geometry. Mine are tinted to gloaming, which sits better on limestone – a neutral black shadow on a warm cream surface reads slightly grey and cold. But the difference is subtle enough that it isn’t worth two scales.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">I’d take the warm tint into the repo and keep the repo’s geometry. Small change, one scale, and shadows only appear on menus and tooltips so the risk is low.</div></div>
+    </div>
+  </section>
+
+  <section class="part">
+    <h2 class="big">What the repo is genuinely missing</h2>
+    <p class="intro">You were right about this part. The foundation is strong; nothing sits on top of it.</p>
+    <table class="sum">
+      <tr><th>Missing</th><th>Why it matters</th></tr>
+      <tr><td class="w">Anything visual</td><td>No specimen cards, no rendered examples, no way to see a component before using it. <code>docs/tokens.md</code> lists names and values but you can’t look at them.</td></tr>
+      <tr><td class="w">Usage rules</td><td>The tokens are documented; the <i>decisions</i> aren’t. Nothing says solid fire means active and a fire tint means status, or that a score takes the star ramp while a quantity stays neutral. Every one of those has to be re-derived by whoever’s next.</td></tr>
+      <tr><td class="w">Product components</td><td>The primitives are generic shadcn. Nothing knows what a criterion, a score, an estate or a watchlist is – so every product rebuilds them, differently.</td></tr>
+      <tr><td class="w">The section illustrations</td><td><code>brand/</code> holds product logos but not the estate / inventory / watchlist / results illustration set, which is the product’s strongest brand moment.</td></tr>
+      <tr><td class="w">Semantic surface names</td><td>Themes map <code>--background</code>, <code>--card</code>, <code>--muted</code> per product, but nothing distinguishes a chrome surface from a data surface from a menu panel – which is how a slab ends up inside a slab.</td></tr>
+      <tr><td class="w">Contrast floors</td><td>Nothing records that gloaming-450 is the floor for small text, so <code>--warning-text</code> ships at sunshine-900 and every label is one careless edit from failing.</td></tr>
+    </table>
+    <p class="intro" style="margin-top:22px">All six are things this system has. That’s the actual division of labour: the repo owns values and code, this owns meaning and appearance – and the <code>.prompt.md</code> files are the bridge, because they’re rules written where an agent will read them.</p>
+  </section>
+
+  <section class="part">
+    <h2 class="big">Order I’d do it in</h2>
+    <div class="issue">
+      <p style="margin-top:0"><b>1. Add the two missing tokens to the repo.</b> <code>--font-mono-ui</code> and a <code>scoreToStars</code> mapping. Small, additive, and everything else depends on them.</p>
+      <p><b>2. Fix <code>--warning-text</code>.</b> It fails contrast at small sizes today, in every app.</p>
+      <p><b>3. Settle the type scale.</b> Probably an app <code>--text-multiplier</code> rather than a second base size – I’ll show you options.</p>
+      <p><b>4. Rename this system’s CSS to <code>c-*</code> and layer it.</b> Then it can be ported as-is.</p>
+      <p><b>5. Write <code>.prompt.md</code> files against the repo’s existing components</b> – Badge, Switch, Tabs, Input, DropdownMenu, Progress – rather than porting my duplicates.</p>
+      <p><b>6. Port the twelve components that genuinely don’t exist</b>, starting with StarRating.</p>
+      <p class="why">I can do 4, 5 and 6 as pull-request-ready files in the repo’s conventions. 1, 2 and 3 need your call first, because they change behaviour in every app that consumes the library.</p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

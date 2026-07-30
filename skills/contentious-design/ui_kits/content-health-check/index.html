@@ -1,0 +1,441 @@
+<!-- @dsCard group="Content Health Check" viewport="1200x760" -->
+<!-- @startingPoint section="Screens" subtitle="Content Health Check app – account, billing, settings, admin" viewport="1200x760" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Content Health Check – UI kit</title>
+<link rel="stylesheet" href="../../styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased;min-width:1200px}
+h1,h2,h3,h4{font-synthesis-weight:none}
+a{color:var(--accent-link);text-decoration:none}a:hover{color:var(--accent-link-hover)}
+.chrome{position:relative;z-index:5}
+.pop{position:absolute;top:calc(100% + 10px);z-index:20;display:none}
+.pop.is-open{display:block}
+.screen{display:none}
+.screen.is-active{display:block}
+.client-head{display:flex;align-items:baseline;gap:16px;padding:26px 22px 12px}
+.client-head h2{font-family:var(--font-heading-display);font-weight:400;font-size:27px;line-height:1;color:var(--text-strong);margin:0}
+.client-head .meta{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);white-space:nowrap}
+.client-head .new{margin-left:auto;font-family:var(--font-heading);font-size:14px;color:var(--label-color);cursor:pointer}
+.fieldrow{display:grid;grid-template-columns:200px 1fr auto;gap:24px;padding:16px 0;border-top:1px solid var(--rule-section)}
+.fieldrow:last-child{border-bottom:1px solid var(--rule-section)}
+.fieldrow .l{font-family:var(--font-heading);font-size:14px;color:var(--text-strong)}
+.fieldrow .v{font-size:15px;color:var(--text-secondary)}
+.fieldrow .e{font-size:13px;color:var(--label-color);cursor:pointer}
+.deps{opacity:.45;pointer-events:none;transition:opacity var(--transition-base)}
+.deps.is-on{opacity:1;pointer-events:auto}
+.stamp{text-align:right;white-space:nowrap}
+.toolbar{display:flex;align-items:center;gap:12px;padding-bottom:22px;border-bottom:1px solid var(--rule-section);margin-bottom:26px}
+.toolbar .live{margin-left:auto;display:flex;align-items:center;gap:6px}
+.split{display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start}
+.hint-empty{padding:60px 0;font-size:15px;color:var(--text-muted)}
+</style>
+</head>
+<body>
+
+<div class="chrome">
+  <div class="c-topbar">
+    <div class="c-topbar__brand"><img src="../../images/contentious-monogram.png" alt=""/>Content Health Check</div>
+    <div class="c-topbar__divider"></div>
+    <div class="c-topbar__cluster is-standdown" id="cluster">
+      <span style="position:relative">
+        <span class="c-tip-wrap"><span class="c-switcher" id="switcherTrigger">Oxfam 2 <svg width="10" height="6" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+          <span class="c-tip" style="width:224px">Your current project. Estate, inventory, watchlist and results all belong to <b>Oxfam 2</b>.</span></span>
+        <span class="pop" id="switcherMenu" style="left:0">
+          <span class="c-menu" style="width:284px;display:block">
+            <span class="c-menu__header" style="display:flex"><span class="k">Project</span><span class="v">Oxfam 2</span></span>
+            <input class="c-menu__search" placeholder="Search projects…"/>
+            <span class="c-menu__label" style="display:block">Switch to</span>
+            <span class="c-menu__label" style="display:block;padding-top:11px">Oxfam · 2 projects</span>
+            <span class="c-menu__item c-menu__item--self" style="display:flex"><span><span class="t" style="display:block">Oxfam 2</span><span class="s" style="display:block">shop.oxfam.org.uk · 538 pages</span></span><span class="r"><span class="c-chip">You’re here</span></span></span>
+            <span class="c-menu__item" style="display:flex"><span><span class="t" style="display:block">Oxfam</span><span class="s" style="display:block">oxfam.org.uk · 874 pages</span></span></span>
+            <span class="c-menu__sep" style="display:block;margin:9px 4px 3px"></span>
+            <span class="c-menu__item" style="display:flex"><span><span class="t" style="display:block">Acme Retail</span><span class="s" style="display:block">acmeretail.com · 306 pages</span></span></span>
+            <span class="c-menu__item" style="display:flex"><span><span class="t" style="display:block">Northwind Trading</span><span class="s" style="display:block">northwind.co</span></span><span class="r"><span class="c-chip c-chip--warn">Not mapped</span></span></span>
+            <span class="c-menu__item" style="display:flex"><span><span class="t" style="display:block">Bevan Foundation</span><span class="s" style="display:block">bevanfoundation.org · 121 pages</span></span></span>
+            <span class="c-menu__sep" style="display:block"></span>
+            <span class="c-menu__item" style="display:flex" data-go="settings"><span class="t">Project settings</span></span>
+            <span class="c-menu__item" style="display:flex" data-go="account"><span class="t">All clients &amp; projects</span></span>
+          </span>
+        </span>
+      </span>
+      <div class="c-topbar__sections">
+        <span data-work="Estate">Estate</span><span data-work="Inventory">Inventory</span><span data-work="Watchlist">Watchlist</span><span data-work="Results" class="is-active">Results</span>
+      </div>
+    </div>
+    <div class="c-topbar__right">
+      <span style="position:relative">
+        <span class="c-avatar" id="avatarTrigger">JH</span>
+        <span class="pop" id="acctMenu" style="right:0">
+          <span class="c-menu" style="display:block">
+            <span style="display:block;padding:10px 10px 11px">
+              <span style="display:block;font-family:var(--font-heading);font-size:15px;color:var(--text-strong)">Julius Honnor</span>
+              <span style="display:block;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:4px">julius@contentious.ltd</span>
+              <span style="display:flex;align-items:center;gap:7px;margin-top:9px"><span style="font-family:var(--font-heading);font-size:13px;color:var(--text-secondary)">Contentious</span><span class="c-chip c-chip--bad">Owner</span></span>
+            </span>
+            <span class="c-menu__sep" style="display:block"></span>
+            <span class="c-menu__item" style="display:flex" data-go="account"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.6" r="2.4" stroke="currentColor" stroke-width="1.2"/><path d="M2.2 12.2c0-2.4 2.1-3.6 4.8-3.6s4.8 1.2 4.8 3.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="t">Account</span></span>
+            <span class="c-menu__item" style="display:flex" data-go="billing"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.6" y="3.2" width="10.8" height="7.6" rx="1.4" stroke="currentColor" stroke-width="1.2"/><path d="M1.6 6h10.8" stroke="currentColor" stroke-width="1.2"/></svg><span class="t">Billing</span></span>
+            <span class="c-menu__item" style="display:flex" data-go="admin"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.1" stroke="currentColor" stroke-width="1.2"/><path d="M7 1.4v1.6M7 11v1.6M2.05 4.2l1.38.8M10.57 9l1.38.8M2.05 9.8l1.38-.8M10.57 5l1.38-.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="t">Admin</span></span>
+            <span class="c-menu__sep" style="display:block"></span>
+            <span class="c-menu__item c-menu__item--danger" style="display:flex"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.4 12.2H2.6a1 1 0 01-1-1V2.8a1 1 0 011-1h2.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M8.6 4.4L11.6 7l-3 2.6M11.4 7H5.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="t">Sign out</span></span>
+          </span>
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="c-strip" id="strip"></div>
+</div>
+
+<!-- ── Account · Clients & projects ─────────────────────────── -->
+<div class="screen" data-screen="account/Clients &amp; projects" data-screen-label="Account · Clients">
+  <div class="c-page">
+    <div class="c-page-head">
+      <div>
+        <div class="c-label" style="margin-bottom:12px">Account · Clients</div>
+        <h1>Clients &amp; projects</h1>
+        <p class="lede">Each client gets its own space holding one or more projects. Everyone on your team can reach all of them, and the work comes out of your shared credits.</p>
+      </div>
+      <button class="c-button c-button--ghost">Manage credits</button>
+    </div>
+    <div class="c-list__head" style="grid-template-columns:1fr 108px 150px 150px 132px">
+      <div>Project</div><div style="text-align:right">Pages</div><div>Last audit</div><div>Health</div><div></div>
+    </div>
+    <div class="client-head"><h2>Oxfam</h2><span class="meta">2 projects · 1,412 pages</span><span class="new">+ New project</span></div>
+    <div class="c-list__body" style="margin-top:0">
+      <div class="c-row" style="grid-template-columns:1fr 108px 150px 150px 132px">
+        <div><div class="c-row__name">Oxfam</div><div class="c-row__sub">oxfam.org.uk</div></div>
+        <div class="c-row__num">874</div><div class="c-row__when">2 days ago</div>
+        <div><span class="c-chip c-chip--good">Healthy · 78</span></div>
+        <div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Settings</button><button class="c-button c-button--quiet c-button--sm">Open</button></div>
+      </div>
+      <div class="c-row" style="grid-template-columns:1fr 108px 150px 150px 132px">
+        <div><div class="c-row__name">Oxfam 2 <span class="c-chip c-chip--info">Current</span></div><div class="c-row__sub">shop.oxfam.org.uk</div></div>
+        <div class="c-row__num">538</div><div class="c-row__when">Running now</div>
+        <div><span class="c-chip c-chip--info"><span class="c-chip__dot"></span>Analysing</span></div>
+        <div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Settings</button><button class="c-button c-button--quiet c-button--sm">Open</button></div>
+      </div>
+    </div>
+    <div class="client-head"><h2>Acme Retail</h2><span class="meta">1 project · 306 pages</span><span class="new">+ New project</span></div>
+    <div class="c-list__body" style="margin-top:0">
+      <div class="c-row" style="grid-template-columns:1fr 108px 150px 150px 132px">
+        <div><div class="c-row__name">Acme Retail</div><div class="c-row__sub">acmeretail.com</div></div>
+        <div class="c-row__num">306</div><div class="c-row__when">3 weeks ago</div>
+        <div><span class="c-chip c-chip--good">63</span></div>
+        <div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Settings</button><button class="c-button c-button--quiet c-button--sm">Open</button></div>
+      </div>
+    </div>
+    <div class="client-head"><h2>Northwind Trading</h2><span class="meta">1 project · not yet mapped</span><span class="new">+ New project</span></div>
+    <div class="c-list__body" style="margin-top:0">
+      <div class="c-row" style="grid-template-columns:1fr 108px 150px 150px 132px">
+        <div><div class="c-row__name">Northwind Trading</div><div class="c-row__sub">northwind.co</div></div>
+        <div class="c-row__num"> – </div><div class="c-row__when">Never</div>
+        <div><span class="c-chip c-chip--warn">Not mapped</span></div>
+        <div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Settings</button><button class="c-button c-button--quiet c-button--sm">Open</button></div>
+      </div>
+    </div>
+    <div class="c-card c-card--raised" style="margin-top:46px;padding:24px 26px;display:flex;align-items:flex-end;gap:16px">
+      <div style="flex:1;max-width:420px">
+        <label class="c-field__label" for="cn">Add a client</label>
+        <input class="c-field__input" id="cn" placeholder="Their organisation’s name"/>
+      </div>
+      <button class="c-button">+ Add client</button>
+      <p style="margin-left:auto;text-align:right;font-size:13px;color:var(--text-muted);max-width:30ch;line-height:1.45">You can add projects to a client once it exists.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── Account · People ─────────────────────────────────────── -->
+<div class="screen" data-screen="account/People" data-screen-label="Account · People">
+  <div class="c-page">
+    <div class="c-page-head">
+      <div>
+        <div class="c-label" style="margin-bottom:12px">Account · People</div>
+        <h1>People</h1>
+        <p class="lede">Everyone here can reach every client and project in the account. Roles control what they can change, not what they can see.</p>
+      </div>
+      <button class="c-button">+ Invite someone</button>
+    </div>
+    <div class="c-list__head" style="grid-template-columns:1fr 150px 150px 130px">
+      <div>Person</div><div>Role</div><div>Last active</div><div></div>
+    </div>
+    <div class="c-list__body">
+      <div class="c-row" style="grid-template-columns:1fr 150px 150px 130px"><div><div class="c-row__name">Julius Honnor</div><div class="c-row__sub">julius@contentious.ltd</div></div><div><span class="c-chip c-chip--bad">Owner</span></div><div class="c-row__when">Now</div><div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Change role</button></div></div>
+      <div class="c-row" style="grid-template-columns:1fr 150px 150px 130px"><div><div class="c-row__name">Mara Ellis</div><div class="c-row__sub">mara@contentious.ltd</div></div><div><span class="c-chip c-chip--info">Admin</span></div><div class="c-row__when">4 hours ago</div><div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Change role</button></div></div>
+      <div class="c-row" style="grid-template-columns:1fr 150px 150px 130px"><div><div class="c-row__name">Tom Whitby</div><div class="c-row__sub">tom@contentious.ltd</div></div><div><span class="c-chip">Member</span></div><div class="c-row__when">Yesterday</div><div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Change role</button></div></div>
+      <div class="c-row" style="grid-template-columns:1fr 150px 150px 130px"><div><div class="c-row__name">Priya Nandi <span class="c-chip c-chip--warn">Invited</span></div><div class="c-row__sub">priya@oxfam.org.uk</div></div><div><span class="c-chip">Viewer</span></div><div class="c-row__when"> – </div><div class="c-row__actions"><button class="c-button c-button--quiet c-button--sm">Resend</button></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Billing · Plan ───────────────────────────────────────── -->
+<div class="screen" data-screen="billing/Plan" data-screen-label="Billing · Plan">
+  <div class="c-page">
+    <div class="c-page-head"><div>
+      <div class="c-label" style="margin-bottom:12px">Account · Billing</div>
+      <h1>Plan</h1>
+      <p class="lede">You’re on the Agency plan, billed monthly. Upgrades apply now and are pro-rated; downgrades take effect at the end of the period.</p>
+    </div></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:34px">
+      <div class="c-seg" id="periodSeg"><span class="is-active" data-period="Monthly">Monthly</span><span data-period="Yearly">Yearly</span></div>
+      <span class="c-chip c-chip--promo">2 months free</span>
+    </div>
+    <div class="c-card-row" style="grid-template-columns:repeat(4,1fr)">
+      <div class="c-card"><div class="c-card__title">Creator</div><div class="c-card__sub">100 checks / month</div><div style="font-family:var(--font-heading);font-size:22px;color:var(--text-strong);margin-top:14px"><span data-price="20">£20</span><span style="font-size:13px;color:var(--text-muted)"> /<span class="per">mo</span></span></div></div>
+      <div class="c-card"><div class="c-card__title">Team</div><div class="c-card__sub">500 checks / month</div><div style="font-family:var(--font-heading);font-size:22px;color:var(--text-strong);margin-top:14px"><span data-price="80">£80</span><span style="font-size:13px;color:var(--text-muted)"> /<span class="per">mo</span></span></div></div>
+      <div class="c-card"><div class="c-card__title">Organisation</div><div class="c-card__sub">5,000 checks / month</div><div style="font-family:var(--font-heading);font-size:22px;color:var(--text-strong);margin-top:14px"><span data-price="600">£600</span><span style="font-size:13px;color:var(--text-muted)"> /<span class="per">mo</span></span></div></div>
+      <div class="c-card c-card--selected"><div class="c-card__chips"><span class="c-chip c-chip--info">Current</span></div><div class="c-card__title">Agency</div><div class="c-card__sub">10,000 checks / month</div><div style="font-family:var(--font-heading);font-size:22px;color:var(--text-strong);margin-top:14px"><span data-price="1000">£1,000</span><span style="font-size:13px;color:var(--text-muted)"> /<span class="per">mo</span></span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Billing · Usage ──────────────────────────────────────── -->
+<div class="screen" data-screen="billing/Usage" data-screen-label="Billing · Usage">
+  <div class="c-page">
+    <div class="c-page-head"><div>
+      <div class="c-label" style="margin-bottom:12px">Account · Billing</div>
+      <h1>Usage</h1>
+      <p class="lede">Checks consumed this period, across every client.</p>
+    </div></div>
+    <div class="c-band" style="grid-template-columns:repeat(3,1fr)">
+      <div class="c-metric"><div class="c-metric__label">Checks used</div><div class="c-metric__value">3,074<small> / 10,000</small></div><div class="c-metric__sub">31% of the Agency allowance</div></div>
+      <div class="c-metric"><div class="c-metric__label">Period ends</div><div class="c-metric__value">14 Aug</div><div class="c-metric__sub">15 days remaining</div></div>
+      <div class="c-metric"><div class="c-metric__label">Busiest client</div><div class="c-metric__value">Oxfam</div><div class="c-metric__sub">1,412 checks · 46%</div></div>
+    </div>
+    <div class="c-section">
+      <div class="c-section-header"><h2>Daily volume</h2><p>Last seven days.</p><span class="action">Export CSV →</span></div>
+      <div class="c-card">
+        <div class="c-series" style="height:72px"><i style="height:34%"></i><i style="height:52%"></i><i style="height:41%"></i><i style="height:78%"></i><i style="height:63%"></i><i style="height:22%"></i><i class="is-current" style="height:88%"></i></div>
+        <div class="c-series__labels"><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Project settings · Overview ─────────────────────────── -->
+<div class="screen" data-screen="settings/Overview" data-screen-label="Settings · Overview">
+  <div class="c-page">
+    <div class="c-page-head"><div>
+      <div class="c-label" style="margin-bottom:12px">Oxfam 2 · Settings</div>
+      <h1>Overview</h1>
+      <p class="lede">Metadata for this project. Everything else lives in its own tab above.</p>
+    </div></div>
+    <div style="max-width:760px">
+      <div class="fieldrow"><div class="l">Project name</div><div class="v">Oxfam 2</div><div class="e">Edit</div></div>
+      <div class="fieldrow"><div class="l">Primary URL</div><div class="v">https://shop.oxfam.org.uk</div><div class="e">Edit</div></div>
+      <div class="fieldrow"><div class="l">Industry</div><div class="v">Non-profit · Retail</div><div class="e">Edit</div></div>
+      <div class="fieldrow"><div class="l">Client</div><div class="v">Oxfam</div><div class="e">Edit</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Project settings · Audit schedule ───────────────────── -->
+<div class="screen" data-screen="settings/Audit schedule" data-screen-label="Settings · Audit schedule">
+  <div class="c-page">
+    <div class="c-page-head"><div>
+      <div class="c-label" style="margin-bottom:12px">Oxfam 2 · Settings</div>
+      <h1>Audit schedule</h1>
+      <p class="lede">A monthly re-assessment checks every page in the catalogue for changes. Only changed pages are re-scored, so an unchanged estate costs nothing.</p>
+    </div></div>
+    <div class="c-card c-card--raised" style="padding:30px 32px;max-width:640px">
+      <label class="c-switch"><input type="checkbox" id="schedSw"/><span class="c-switch__track"><span class="c-switch__knob"></span></span><span class="c-switch__label">Monthly re-assessment is <b id="schedWord">off</b></span></label>
+      <div class="deps" id="schedDeps">
+        <label class="c-field__label" for="day" style="margin-top:22px">Runs on</label>
+        <select class="c-field__select" id="day" style="max-width:260px"><option>The 1st of the month</option><option>The 15th of the month</option></select>
+        <label class="c-field__label" for="notify" style="margin-top:20px">Notify</label>
+        <textarea class="c-field__textarea" id="notify" placeholder="julius@contentious.ltd"></textarea>
+        <p class="c-field__hint">One address per line. Everyone listed gets the summary, not the full report.</p>
+        <button class="c-button" id="schedSave" style="margin-top:16px" disabled>Save schedule</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Admin · Monitoring ──────────────────────────────────── -->
+<div class="screen" data-screen="admin/Monitoring" data-screen-label="Admin · Monitoring">
+  <div class="c-page">
+    <div class="c-page-head">
+      <div><h1>Monitoring</h1><p class="lede">API cost, cache performance and queue health.</p></div>
+      <div class="stamp"><div class="c-label">Updated 2 min ago</div><button class="c-button c-button--ghost" style="margin-top:8px">Refresh</button></div>
+    </div>
+    <div class="toolbar">
+      <div class="c-seg" id="rangeSeg"><span class="is-active">Last 7 days</span><span>30 days</span><span>All time</span></div>
+      <select class="c-field__select" style="width:150px"><option>All models</option><option>Sonnet</option><option>Haiku</option></select>
+      <div class="live"><span class="c-chip c-chip--info"><span class="c-chip__dot"></span>Live</span><span class="c-label">refreshes every 30s</span></div>
+    </div>
+    <div class="c-band" style="grid-template-columns:repeat(4,1fr)">
+      <div class="c-metric"><div class="c-metric__label">Total API cost</div><div class="c-metric__value">$41.28</div><div class="c-metric__sub">3,074 calls · $0.0134 each</div></div>
+      <div class="c-metric"><div class="c-metric__label">Cost per assessment</div><div class="c-metric__value">$0.0134</div><div class="c-metric__sub">$0.0111 AI + $0.0023 overhead</div></div>
+      <div class="c-metric"><div class="c-metric__label">Cache savings <span class="c-chip c-chip--good">31%</span></div><div class="c-metric__value c-metric__value--good">$12.90</div><div class="c-metric__sub">31.2% hit rate across 3,074 calls</div></div>
+      <div class="c-metric"><div class="c-metric__label">Tokens processed</div><div class="c-metric__value">18.4<small>M</small></div><div class="c-metric__sub">14.1M in · 4.3M out</div></div>
+    </div>
+    <div class="c-section">
+      <div class="c-section-header"><h2>Cost per assessment</h2><p>Where the money goes, all-in against AI-only.</p><span class="action">Export CSV →</span></div>
+      <div class="split">
+        <div class="c-card">
+          <div class="c-comp"><i style="width:63%;background:var(--comp-1)"></i><i style="width:29%;background:var(--comp-2)"></i><i style="width:8%;background:var(--comp-4)"></i></div>
+          <div class="c-comp__legend">
+            <div><span class="sw" style="background:var(--comp-1)"></span>AI analysis <b>$0.0084</b></div>
+            <div><span class="sw" style="background:var(--comp-2)"></span>Content extraction <b>$0.0039</b></div>
+            <div><span class="sw" style="background:var(--comp-4)"></span>Waste <b>$0.0011</b></div>
+          </div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:16px">Waste is retries and failed jobs. Anything over 10% is worth investigating.</div>
+        </div>
+        <div class="c-band" style="grid-template-columns:1fr">
+          <div class="c-metric"><div class="c-metric__label">All-in, per assessment</div><div class="c-metric__value">$0.0134</div><div class="c-metric__sub">$41.28 across 3,074 assessments</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="c-section">
+      <div class="c-section-header"><h2>Queue health</h2><p>Background job queue, right now.</p><span class="action">View failed jobs →</span></div>
+      <div class="c-band" style="grid-template-columns:repeat(3,1fr)">
+        <div class="c-metric"><div class="c-metric__label">Pending</div><div class="c-metric__value">3</div><div class="c-metric__sub">oldest queued 40s ago</div></div>
+        <div class="c-metric"><div class="c-metric__label">Active <span class="c-chip c-chip--info"><span class="c-chip__dot"></span>Running</span></div><div class="c-metric__value">2</div><div class="c-metric__sub">avg 14s per job</div></div>
+        <div class="c-metric"><div class="c-metric__label">Failed <span class="c-chip c-chip--bad">Needs attention</span></div><div class="c-metric__value c-metric__value--bad">7</div><div class="c-metric__sub">last 24h · 5 are Firecrawl timeouts</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Placeholder for undesigned tabs ─────────────────────── -->
+<div class="screen" data-screen="__empty">
+  <div class="c-page"><div class="c-page-head"><div><h1 id="emptyTitle">Not designed yet</h1><p class="lede" id="emptyLede">This tab is a placeholder in the kit – the realm’s structure is real, its content isn’t designed.</p></div></div></div>
+</div>
+
+<script>
+const REALMS = {
+  account:  { realm: 'Account', exit: '← Back to Oxfam 2', tabs: ['Clients & projects','People','Billing'] },
+  billing:  { realm: 'Account · Billing', exit: '← Back to Oxfam 2', tabs: ['Plan','Usage','Payment & invoices','Support'] },
+  settings: { realm: 'Oxfam 2 · Settings', exit: '← Back to Oxfam 2', tabs: ['Overview','Properties','Brand & strategy','Taxonomy','Audit schedule',{label:'Danger zone',danger:true}] },
+  admin:    { realm: 'Admin', exit: '← Back to Oxfam 2', tabs: ['User management','Monitoring','Emails','System'] },
+  work:     { realm: null, tabs: [] },
+};
+const strip = document.getElementById('strip');
+const cluster = document.getElementById('cluster');
+let realm = 'admin', tab = 'Monitoring';
+
+function label(t){ return typeof t === 'string' ? t : t.label; }
+
+function renderStrip(){
+  const cfg = REALMS[realm];
+  if (!cfg.realm) { strip.style.display = 'none'; return; }
+  strip.style.display = 'flex';
+  strip.innerHTML = '';
+  const r = document.createElement('span');
+  r.className = 'c-strip__realm'; r.textContent = cfg.realm;
+  strip.appendChild(r);
+  cfg.tabs.forEach((t) => {
+    const name = label(t);
+    const el = document.createElement('span');
+    el.className = 'c-strip__tab' + (name === tab ? ' is-active' : '') + (typeof t === 'object' && t.danger ? ' is-danger' : '');
+    el.textContent = name;
+    el.addEventListener('click', () => {
+      if (realm === 'account' && name === 'Billing') return go('billing');
+      tab = name; render();
+    });
+    strip.appendChild(el);
+  });
+  const ex = document.createElement('span');
+  ex.className = 'c-strip__exit'; ex.textContent = cfg.exit;
+  ex.addEventListener('click', () => go('work'));
+  strip.appendChild(ex);
+}
+
+function render(){
+  renderStrip();
+  cluster.classList.toggle('is-standdown', realm !== 'work');
+  const key = realm + '/' + tab;
+  let found = false;
+  document.querySelectorAll('.screen').forEach((s) => {
+    const on = s.dataset.screen === key;
+    s.classList.toggle('is-active', on);
+    if (on) found = true;
+  });
+  if (!found) {
+    const empty = document.querySelector('[data-screen="__empty"]');
+    empty.classList.add('is-active');
+    document.getElementById('emptyTitle').textContent = realm === 'work' ? tab : tab;
+    document.getElementById('emptyLede').textContent = realm === 'work'
+      ? 'Designed in the root-level exploration files, not yet rebuilt on the component library.'
+      : "This tab is a placeholder in the kit – the realm’s structure is real, its content isn’t designed.";
+  }
+}
+
+function go(r){
+  realm = r;
+  const cfg = REALMS[r];
+  tab = cfg.tabs.length ? label(cfg.tabs[0]) : 'Results';
+  closeMenus(); render();
+}
+
+/* menus */
+const switcherMenu = document.getElementById('switcherMenu');
+const acctMenu = document.getElementById('acctMenu');
+const switcherTrigger = document.getElementById('switcherTrigger');
+function closeMenus(){
+  switcherMenu.classList.remove('is-open');
+  acctMenu.classList.remove('is-open');
+  switcherTrigger.classList.remove('is-open');
+}
+switcherTrigger.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = switcherMenu.classList.contains('is-open');
+  closeMenus();
+  if (!open) { switcherMenu.classList.add('is-open'); switcherTrigger.classList.add('is-open'); }
+});
+document.getElementById('avatarTrigger').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = acctMenu.classList.contains('is-open');
+  closeMenus();
+  if (!open) acctMenu.classList.add('is-open');
+});
+document.addEventListener('click', closeMenus);
+document.querySelectorAll('[data-go]').forEach((el) => {
+  el.addEventListener('click', (e) => { e.stopPropagation(); go(el.dataset.go); });
+});
+document.querySelectorAll('[data-work]').forEach((el) => {
+  el.addEventListener('click', () => {
+    realm = 'work'; tab = el.dataset.work;
+    document.querySelectorAll('[data-work]').forEach((s) => s.classList.toggle('is-active', s === el));
+    closeMenus(); render();
+  });
+});
+
+/* billing period */
+document.querySelectorAll('#periodSeg span').forEach((el) => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('#periodSeg span').forEach((s) => s.classList.toggle('is-active', s === el));
+    const yearly = el.dataset.period === 'Yearly';
+    document.querySelectorAll('[data-price]').forEach((p) => {
+      const m = parseInt(p.dataset.price, 10);
+      p.textContent = '£' + (yearly ? m * 10 : m).toLocaleString();
+    });
+    document.querySelectorAll('.per').forEach((p) => { p.textContent = yearly ? 'yr' : 'mo'; });
+  });
+});
+document.querySelectorAll('#rangeSeg span').forEach((el) => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('#rangeSeg span').forEach((s) => s.classList.toggle('is-active', s === el));
+  });
+});
+
+/* audit schedule switch */
+const sw = document.getElementById('schedSw');
+const notify = document.getElementById('notify');
+function syncSched(){
+  const on = sw.checked;
+  document.getElementById('schedWord').textContent = on ? 'on' : 'off';
+  document.getElementById('schedDeps').classList.toggle('is-on', on);
+  document.getElementById('schedSave').disabled = !on || !notify.value.trim();
+}
+sw.addEventListener('change', syncSched);
+notify.addEventListener('input', syncSched);
+syncSched();
+
+render();
+</script>
+</body>
+</html>

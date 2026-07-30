@@ -1,0 +1,48 @@
+/* Bely – the brand type. Paths are relative to this file. */
+@font-face {
+  font-family: 'Bely';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Bely-Regular.woff2') format('woff2'),
+       url('../fonts/Bely-Regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Bely';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/Bely-Italic.woff2') format('woff2'),
+       url('../fonts/Bely-Italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Bely';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Bely-Bold.woff2') format('woff2'),
+       url('../fonts/Bely-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Bely';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Bely-BoldItalic.woff2') format('woff2'),
+       url('../fonts/Bely-BoldItalic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Bely Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/BelyDisplay-Regular.woff') format('woff'),
+       url('../fonts/BelyDisplay-Regular.woff2') format('woff2');
+}
+
+/* Bely Display is a single cut: always render at weight 400.
+   Browsers default h1..h6 to 700; without this rule they synthesize a fake
+   bold, which thickens the ink and breaks the display-cut’s proportions. */
+[style*="--font-heading-display"],
+.font-display,
+h1, h2, h3, h4, h5, h6 { font-synthesis-weight: none; }

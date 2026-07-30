@@ -1,0 +1,188 @@
+/* =============================================================================
+   Semantic layer – the decisions, expressed as tokens.
+   Every rule here was argued out in a pattern page; see readme.md.
+   Use THESE in product UI, not raw family stops.
+   ========================================================================== */
+:root {
+  /* ---- Surfaces -------------------------------------------------------- */
+  /* One surface depth per page. A slab inside a slab is always wrong. */
+  --surface-page:        var(--limestone-500);   /* the page itself */
+  --surface-chrome:      var(--limestone-400);   /* top bar, secondary nav */
+  --surface-card:        var(--limestone-300);   /* data surfaces, list rows */
+  --surface-raised:      var(--limestone-600);   /* intro/aside blocks, seg control track */
+  --surface-menu:        var(--limestone-150);   /* dropdown panels – never #fff */
+  --surface-field:       var(--limestone-200);   /* text inputs */
+  --surface-inverse:     var(--gloaming-800);    /* tooltips */
+  /* Lichen is the background neutral of the Content Maturity app, per the brand
+     style guide. Reserved: do not use it in Content Health Check. */
+
+  /* ---- Hairlines ------------------------------------------------------- */
+  /* Groups are defined by a rule and the space around them, not by a box. */
+  --rule-section:        var(--limestone-700);   /* section headers, chrome edges */
+  --rule-row:            var(--limestone-600);   /* between rows inside one surface */
+  --rule-field:          var(--limestone-750);   /* input + ghost-button borders */
+
+  /* ---- Text ------------------------------------------------------------ */
+  --text-strong:         var(--gloaming-800);
+  --text-body:           var(--gloaming-700);
+  --text-secondary:      var(--gloaming-500);
+  --text-muted:          var(--gloaming-450);    /* floor for mono labels at 10px */
+  --text-inverse:        var(--limestone-300);
+  --text-on-accent:      var(--limestone-200);
+
+  /* ---- Accent / interaction -------------------------------------------- */
+  /* Solid fire = active or primary. Fire TINT = status. Never interchange. */
+  --accent:              var(--fire-500);
+  --accent-hover:        var(--fire-600);
+  --accent-marker:       var(--fire-500);        /* active tab underline */
+  --accent-link:         var(--fire-650);
+  --accent-link-hover:   var(--fire-800);
+  --link-underline:      var(--sunshine-500);   /* on hover, per brand guide */
+  --focus-ring:          var(--fire-350);
+  --focus-ring-width:    2px;
+  --focus-ring-offset:   2px;
+
+  /* ---- Data colour ----------------------------------------------------- */
+  /* Numbers are neutral by default. Colour is reserved for meaning –
+     never accent-by-default, or you have nothing left to raise an alarm with. */
+  --data-default:        var(--gloaming-800);
+  --data-good:           var(--sapling-700);
+  --data-bad:            var(--fire-600);
+  --data-zero:           var(--gloaming-400);    /* a genuine zero / empty */
+
+  /* ---- Content Health Check score levels ------------------------------- */
+  /* The five-level ramp, per style.contentious.ltd/design/colours: amber is
+     "the level 2 colour in the Content Health Check, halfway between fire and
+     sunshine"; olive is "the level 4 colour ... halfway between sapling and
+     sunshine". These five are RESERVED for scores – never reuse them as
+     arbitrary chart colour, or a bar will imply a health level it doesn’t mean. */
+  /* @contentious/ui already defines this ramp as --star-1..5 and exposes
+     getScoreColour(score, prefix). Those names win: they are in shipping code
+     and in the CHC/CM themes. --level-* is kept as an alias so nothing here
+     breaks, but new work should use --star-*. */
+  --star-1:              var(--fire-500);
+  --star-2:              var(--amber-500);
+  --star-3:              var(--sunshine-500);
+  --star-4:              var(--olive-500);
+  --star-5:              var(--sapling-500);
+  --level-1:             var(--star-1);
+  --level-2:             var(--star-2);
+  --level-3:             var(--star-3);
+  --level-4:             var(--star-4);
+  --level-5:             var(--star-5);
+
+  /* Score bands. A 1-5 rating expressed as a percentage: five fifths is 100%,
+     so the band edges fall at 20 / 40 / 60 / 80. CONFIRMED, not provisional.
+
+       80-100  5 stars      40-59  3 stars      0-19  1 star
+       60-79   4 stars      20-39  2 stars
+
+     Note this explains Watchlist's existing threshold at 80: it is not an
+     arbitrary pass mark, it is the top band edge. Its two-state column was
+     showing "five stars or not". */
+  --score-band-5:        80;   /* and above */
+  --score-band-4:        60;
+  --score-band-3:        40;
+  --score-band-2:        20;
+  /* below --score-band-2 is one star */
+
+  /* Empty star / unfilled track for a rating */
+  --level-empty:         var(--limestone-750);
+
+  /* Process states. NOT the level ramp - a queued job is not a low score.
+     Wave for progress, fire for failure only. */
+  --process-waiting:     var(--limestone-750);
+  --process-active:      var(--wave-500);
+  --process-done:        var(--wave-650);
+  --process-failed:      var(--fire-500);
+
+  /* Categorical bars carry no meaning in their colour: the label names the
+     item and the number gives the value. ONE colour, or a single-hue
+     sequence. Never the level ramp - an orange bar would imply level 2. */
+  --categorical:         var(--wave-500);
+
+  /* Series + composition palette, in application order */
+  --series-bar:          var(--wave-400);
+  --series-bar-current:  var(--wave-600);
+  --comp-track:          var(--limestone-600);
+  --comp-1:              var(--wave-500);
+  --comp-2:              var(--coffee-500);
+  --comp-3:              var(--sorbet-500);      /* NOT olive – olive means level 4 */
+  --comp-4:              var(--fire-450);        /* waste / loss, last only */
+
+  /* ---- Chip tones ------------------------------------------------------ */
+  /* One geometry, six tones. Tone carries meaning; the shape never changes. */
+  --chip-radius:         3px;
+  --chip-padding:        5px 8px;
+  --chip-font-size:      11px;
+  --chip-tracking:       0.07em;
+  --chip-neutral-bg:     var(--limestone-700);
+  --chip-neutral-fg:     var(--gloaming-600);
+  --chip-info-bg:        var(--wave-200);
+  --chip-info-fg:        var(--wave-700);
+  --chip-good-bg:        var(--sapling-200);
+  --chip-good-fg:        var(--sapling-800);
+  --chip-warn-bg:        var(--sunshine-200);
+  --chip-warn-fg:        var(--amber-800);        /* not sunshine-900 – fails at 10px */
+  --chip-bad-bg:         var(--fire-200);
+  --chip-bad-fg:         var(--fire-700);
+  --chip-promo-bg:       var(--fire-650);         /* the ONE solid fill; offers only */
+  --chip-promo-fg:       var(--limestone-100);
+
+  /* ---- Switch ---------------------------------------------------------- */
+  /* Off must give up the fill – filling the track is how a switch says "on". */
+  --switch-track-off:       var(--limestone-800);
+  --switch-track-off-hover: var(--limestone-850);
+  --switch-track-on:        var(--fire-600);
+  --switch-track-on-hover:  var(--fire-650);
+  --switch-knob:            var(--limestone-100);
+  --switch-inset:           inset 0 1px 2px rgba(38, 36, 35, 0.14);
+  --switch-knob-shadow:     0 1px 3px rgba(38, 36, 35, 0.28);
+
+  /* ---- Body sizes ------------------------------------------------------ */
+  /* Raised one step from the original 15px base: Bely's large x-height and
+     generous forms want more room than a neutral sans at the same size, and
+     the brand sets 24px on the website. The app can't go that far without
+     halving the information on screen, but 16px body is the floor. */
+  --text-lede:           18px;
+  --text-body-size:      16px;
+  --text-support:        15px;
+  --text-hint:           14px;
+
+  /* ---- Mono label (the metadata voice) --------------------------------- */
+  --label-font-size:     11px;
+  --label-tracking:      0.09em;
+  --label-color:         var(--gloaming-450);  /* NOT 400 – fails AA at 10px */
+
+  /* ---- Type roles ------------------------------------------------------ */
+  /* Bely Display is for page titles and metric values only, never below 30px.
+     Section headings are Bely at 21px. */
+  --type-page-title:     400 48px/1.02 var(--font-heading-display);
+  --type-metric:         400 33px/1.05 var(--font-heading-display);
+  --type-section:        400 23px/1.2 var(--font-heading);
+  --type-row-title:      400 18px/1.28 var(--font-heading);
+  --type-ui:             400 15px/1.2 var(--font-heading);
+
+  /* ---- Navigation context --------------------------------------------- */
+  /* The project cluster (switcher + its four sections) dims as ONE group in
+     admin realms. De-emphasis, not disabling – the links still work. */
+  --nav-context-standdown: 0.42;
+
+  /* ---- Motion ---------------------------------------------------------- */
+  /* WARNING: @contentious/ui defines --transition-fast as 300ms ease-in-out
+     (a legacy Astro-site token). This system was authored against 180ms.
+     Inside an app, --transition-fast resolves to the REPO's value and every
+     state change here runs 120ms slow. Use these instead - they map onto the
+     repo's duration and easing scale. */
+  --motion-state:        var(--duration-fast, 200ms) var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1));
+  --motion-reveal:       var(--duration-normal, 350ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  --motion-exit:         var(--duration-fast-exit, 150ms) var(--ease-in, cubic-bezier(0.7, 0, 0.84, 0));
+
+  /* ---- Component radii ------------------------------------------------- */
+  /* Mapped onto @contentious/ui's --border-radius-sm/md/lg (3/6/12). The repo
+     has no 8px step, so surfaces round to 6 rather than inventing one. */
+  --radius-chip:         var(--border-radius-sm, 3px);
+  --radius-control:      var(--border-radius-md, 6px);
+  --radius-surface:      var(--border-radius-md, 6px);
+  --radius-frame:        var(--border-radius-lg, 12px);
+}

@@ -1,0 +1,22 @@
+<!-- @dsCard group="Patterns" viewport="700x180" name="Three navigation levels" subtitle="Bar = the work. Strip = sections of a realm. Level 3 is not navigation." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><link rel="stylesheet" href="../styles.css"/>
+<style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);padding:18px 20px;-webkit-font-smoothing:antialiased}
+.mono{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
+.bar{display:flex;align-items:center;gap:14px;padding:9px 14px;background:var(--surface-chrome);border-bottom:1px solid var(--rule-field);font-family:var(--font-heading);font-size:12px;color:var(--text-secondary)}
+.bar b{font-weight:700;color:var(--text-strong);font-size:13px}
+.strip{display:flex;align-items:center;gap:14px;padding:0 14px;background:var(--surface-chrome);border-bottom:1px solid var(--rule-field)}
+.realm{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);padding-right:13px;border-right:1px solid var(--rule-section)}
+.tab{font-family:var(--font-heading);font-size:12px;color:var(--text-muted);padding:11px 1px;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--text-strong);border-bottom-color:var(--accent-marker)}
+.exit{margin-left:auto;font-family:var(--font-heading);font-size:11px;color:var(--label-color)}
+.body{padding:14px;background:var(--limestone-450)}
+.seg{display:inline-flex;background:var(--surface-raised);border-radius:6px;padding:3px;gap:2px}
+.seg span{font-family:var(--font-heading);font-size:11px;padding:5px 11px;border-radius:4px;color:var(--text-secondary)}
+.seg span.on{background:var(--limestone-200);color:var(--text-strong)}
+.frame{border-radius:8px;overflow:hidden;border:1px solid var(--rule-section)}</style></head><body><div class="frame">
+<div class="bar"><b>Content Health Check</b><span>Oxfam 2 ⌄</span><span style="margin-left:auto">Estate · Inventory · Watchlist · Results</span></div>
+<div class="strip"><span class="realm">Admin</span><span class="tab">User management</span><span class="tab on">Monitoring</span><span class="tab">Emails</span><span class="exit">← Back to Oxfam 2</span></div>
+<div class="body"><div class="seg"><span class="on">Last 7 days</span><span>30 days</span><span>All time</span></div></div>
+</div></body></html>

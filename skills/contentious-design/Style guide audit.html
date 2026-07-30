@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Style guide audit – app system vs brand system</title>
+<link rel="stylesheet" href="styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased;min-width:1120px}
+h1,h2,h3,h4{font-synthesis-weight:none}
+.wrap{max-width:1080px;margin:0 auto;padding:58px 40px 120px}
+h1{font-family:var(--font-heading-display);font-weight:400;font-size:54px;line-height:1;color:var(--text-strong);margin:10px 0 14px;letter-spacing:-.006em}
+.lede{font-size:18px;line-height:1.55;color:var(--text-secondary);max-width:68ch;margin:0 0 8px;text-wrap:pretty}
+h2.big{font-family:var(--font-heading-display);font-weight:400;font-size:34px;color:var(--text-strong);margin:0 0 8px}
+.part{padding-top:66px}
+.part>.intro{font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:70ch;margin:0 0 10px;text-wrap:pretty}
+/* issue block */
+.issue{background:var(--surface-card);border-radius:var(--radius-surface);padding:24px 26px;margin-top:16px}
+.issue.sev-high{background:var(--fire-150)}
+.issue.sev-med{background:var(--sunshine-150)}
+.issue.sev-fixed{background:var(--sapling-150)}
+.ihead{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.ihead h3{font-family:var(--font-heading);font-weight:400;font-size:20px;color:var(--text-strong);margin:0}
+.ihead .n{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;color:var(--text-muted);flex:none}
+.ihead .tag{margin-left:auto;flex:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0 0}
+.col .h{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.col .b{font-size:14px;line-height:1.55;color:var(--text-body)}
+.col .b code{font-size:12.5px}
+.issue p{font-size:14.5px;line-height:1.6;color:var(--text-body);margin:14px 0 0;max-width:78ch;text-wrap:pretty}
+.issue p.why{color:var(--text-secondary)}
+.issue p b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+.rec{margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-row)}
+.rec .h{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:7px}
+.rec .b{font-size:14.5px;line-height:1.55;color:var(--text-strong);max-width:78ch}
+.sev-high .rec,.sev-med .rec,.sev-fixed .rec{border-top-color:rgba(38,36,35,.1)}
+code{font-family:var(--font-mono);font-size:12.5px;color:var(--text-body);background:rgba(38,36,35,.06);padding:2px 5px;border-radius:3px}
+.quote{font-size:14px;line-height:1.55;color:var(--text-secondary);border-left:2px solid var(--rule-field);padding-left:14px;margin:14px 0 0;max-width:74ch}
+/* swatch strips */
+.ramp{display:flex;gap:6px;margin-top:12px}
+.ramp div{flex:1;text-align:center}
+.ramp .c{height:44px;border-radius:4px}
+.ramp .l{font-family:var(--font-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-top:6px}
+.ramp .v{font-size:11.5px;color:var(--text-secondary);margin-top:2px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+/* summary table */
+.sum{width:100%;border-collapse:collapse;margin-top:20px;font-size:13.5px}
+.sum th{text-align:left;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--rule-field)}
+.sum td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;color:var(--text-secondary);line-height:1.45}
+.sum td.w{color:var(--text-strong);font-family:var(--font-heading);white-space:nowrap}
+.sum tr:last-child td{border-bottom:0}
+.dash-demo{font-size:15px;color:var(--text-body);line-height:1.7}
+.dash-demo .bad{color:var(--fire-700)}
+.dash-demo .good{color:var(--sapling-800)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="label">Audit · app system vs style.contentious.ltd</div>
+  <h1>Twelve discrepancies.</h1>
+  <p class="lede">Cross-checked the app design system against the brand style guide – colours, typography, tokens and writing style. You spotted lichen; there’s a bigger one underneath it. Four are already fixed, five need a decision from you, three are divergences I’d argue are correct but should be recorded as deliberate.</p>
+
+  <!-- ══ HIGH ══ -->
+  <section class="part">
+    <h2 class="big">Needs your decision</h2>
+    <p class="intro">These are genuine conflicts where the app system and the brand system disagree and I can’t resolve it without you.</p>
+
+    <div class="issue sev-high">
+      <div class="ihead"><span class="n">01</span><h3>Mono is Courier New, and it’s reserved for code</h3><span class="tag"><span class="chip chip--bad">Conflict</span></span></div>
+      <div class="grid2">
+        <div class="col"><div class="h">Brand style guide</div><div class="b">Courier New is the mono face, and it is <i>reserved for code</i>. Nothing else uses it.</div></div>
+        <div class="col"><div class="h">App system</div><div class="b">System monospace at 10px uppercase is the entire metadata voice – every column header, every metric label, every realm label, every chip. Roughly 40% of the text in the admin UI.</div></div>
+      </div>
+      <div class="quote">"Courier New is a monospaced font reserved for code."</div>
+      <p>This is the most consequential discrepancy in the audit, and it cuts both ways. If the app honours the brand rule, the mono label voice disappears entirely and every label becomes small Bely – which is legible but loses the visual separation between <i>data</i> and <i>labels about data</i> that makes the metric band readable. If the app keeps mono labels but switches to Courier New, they’ll look like code, because Courier is a much wider, more mechanical face than the system monospace I’ve been designing with.</p>
+      <p class="why"><b>My view:</b> the app is a data tool and needs a metadata voice that Bely can’t provide. I’d propose extending the brand guide rather than the app – adding a documented "UI metadata" role for a neutral monospace, distinct from Courier-for-code. That’s a change to the brand system, so it’s your call. I’ve left <code>--font-mono</code> on the system stack that every screen in this project was designed against, and parked the brand face in <code>--font-mono-brand</code>, referenced by nothing. Point one at the other when you’ve decided – nothing else needs to change.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Extend the brand guide with a UI-metadata mono role, or drop mono labels from the app and rebuild the label voice in Bely?</div></div>
+    </div>
+
+    <div class="issue sev-high">
+      <div class="ihead"><span class="n">02</span><h3>Em dashes are banned; I’ve used them everywhere</h3><span class="tag"><span class="chip chip--bad">Conflict</span></span></div>
+      <div class="quote">"Spaced en dashes are used parenthetically in text. Never em dashes, and never space hyphens."</div>
+      <p class="dash-demo"><span class="bad">Wrong – as currently written throughout</span><br/><span class="good">Right – spaced en dashes, per the guide</span></p>
+      <p>Every pattern page, this system’s documentation, the readme, and the component prompt files use em dashes parenthetically. It’s my habit, not a design decision, and it’s wrong against a rule the brand states plainly.</p>
+      <p class="why">Worth noting the guide has linting for exactly this, so anything I hand to Claude Code will be flagged by your own tooling.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Shall I sweep every file in this project and replace <code> – </code> with a spaced en dash? It touches most of them, so I’d rather do it in one pass than piecemeal.</div></div>
+    </div>
+
+    <div class="issue sev-high">
+      <div class="ihead"><span class="n">03</span><h3>Straight apostrophes, not curly</h3><span class="tag"><span class="chip chip--bad">Conflict</span></span></div>
+      <div class="grid2">
+        <div class="col"><div class="h">Brand style guide</div><div class="b">Curly quotes throughout, including curly apostrophes. Double quotes first, single inside those.</div></div>
+        <div class="col"><div class="h">App system</div><div class="b">Straight apostrophes in every string: <code>You’re here</code>, <code>Don’t</code>, <code>project’s</code>.</div></div>
+      </div>
+      <p>The guide notes Smartypants handles this in Markdown but that HTML needs the characters typed directly, which is exactly the case here.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Include in the same sweep as the dashes? Both are mechanical find-and-replace.</div></div>
+    </div>
+
+    <div class="issue sev-med">
+      <div class="ihead"><span class="n">04</span><h3>Semantic token naming diverges</h3><span class="tag"><span class="chip chip--warn">Drift</span></span></div>
+      <div class="grid2">
+        <div class="col"><div class="h">Brand style guide</div><div class="b"><code>--colour-text-default</code><br/><code>--colour-surface-default</code><br/><code>--colour-border-subtle</code><br/>and, in the tokens page, <code>--color-text-primary</code>, <code>--color-bg-body</code></div></div>
+        <div class="col"><div class="h">App system</div><div class="b"><code>--text-strong</code><br/><code>--surface-card</code><br/><code>--rule-section</code><br/>no <code>colour</code>/<code>color</code> prefix at all</div></div>
+      </div>
+      <p>The brand guide itself is inconsistent here – the colours page uses British <code>--colour-*</code> and the tokens page uses American <code>--color-*</code>. The original <code>tokens.css</code> in this project had <code>--color-bg-body</code> and <code>--color-text</code>, which I kept but then built a parallel set alongside.</p>
+      <p class="why"><b>My view:</b> the app names are better – <code>--surface-card</code> and <code>--rule-row</code> say what the thing is, where <code>--colour-surface-default</code> only says it’s a surface colour. But two naming schemes in one codebase is worse than either one alone.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Rename the app tokens to the brand convention, or update the brand guide to the app convention? And settle <code>colour</code> vs <code>color</code> while we’re here.</div></div>
+    </div>
+
+    <div class="issue sev-med">
+      <div class="ihead"><span class="n">05</span><h3>Legacy alias mappings don’t match</h3><span class="tag"><span class="chip chip--warn">Drift</span></span></div>
+      <div class="quote">"Default mapping: base → 500, dark → 550, extra-dark → 600, pale → 450, extra-pale → 400. Sunshine / Gloaming / Limestone: base → 500, dark → 600, extra-dark → 700, pale → 400, extra-pale → 300."</div>
+      <p>This project’s <code>tokens/colors.css</code> maps <code>--fire-dark</code> to fire-650 (should be 550), <code>--fire-extra-dark</code> to fire-800 (should be 600), <code>--gloaming-dark</code> to gloaming-800 (should be 600) and <code>--limestone-dark</code> to limestone-600 (should be 600 – this one is right).</p>
+      <p class="why">These aliases are legacy and nothing new should use them, so the practical risk is low. But anything old that does use them renders a different colour here than on the website.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Correct the aliases to the documented mappings, or drop them from the app system entirely and require numbered stops?</div></div>
+    </div>
+  </section>
+
+  <!-- ══ FIXED ══ -->
+  <section class="part">
+    <h2 class="big">Already fixed</h2>
+    <p class="intro">Unambiguous. Applied to <code>tokens/</code> and <code>components/components.css</code>.</p>
+
+    <div class="issue sev-fixed">
+      <div class="ihead"><span class="n">06</span><h3>Amber and olive are score levels, not chart colour</h3><span class="tag"><span class="chip chip--good">Fixed</span></span></div>
+      <div class="quote">"Amber … is used as the level 2 colour in the Content Health Check, halfway between fire and sunshine." · "Olive … is used as the level 4 colour in the Content Health Check, halfway between sapling and sunshine."</div>
+      <p><b>This is the real find, and it’s bigger than the missing lichen.</b> My system described amber and olive as "chart colour only" – but they’re two rungs of the Content Health Check’s five-level score ramp, which is the core semantic scale of the entire product. It was missing from the design system altogether.</p>
+      <div class="ramp">
+        <div><div class="c" style="background:var(--level-1)"></div><div class="l">Level 1</div><div class="v">fire</div></div>
+        <div><div class="c" style="background:var(--level-2)"></div><div class="l">Level 2</div><div class="v">amber</div></div>
+        <div><div class="c" style="background:var(--level-3)"></div><div class="l">Level 3</div><div class="v">sunshine</div></div>
+        <div><div class="c" style="background:var(--level-4)"></div><div class="l">Level 4</div><div class="v">olive</div></div>
+        <div><div class="c" style="background:var(--level-5)"></div><div class="l">Level 5</div><div class="v">sapling</div></div>
+      </div>
+      <p>The two "halfway between" notes in the guide let the whole ramp be reconstructed: fire, amber, sunshine, olive, sapling. Now <code>--level-1</code> through <code>--level-5</code>.</p>
+      <p class="why">Worse than the omission: I’d used <code>olive-500</code> as the third composition-bar segment, and as a health bar in the clients list. Any olive bar in this product now implies "level 4" whether you mean it or not. <code>--comp-3</code> is reassigned to sorbet, and the level ramp is marked reserved.</p>
+      <div class="rec"><div class="h">Also worth doing</div><div class="b">The Results and Estate screens presumably already use this ramp. When you send those screenshots I’ll check the app matches it, since this is the one scale a user actually learns to read.</div></div>
+    </div>
+
+    <div class="issue sev-fixed">
+      <div class="ihead"><span class="n">07</span><h3>Lichen was undocumented</h3><span class="tag"><span class="chip chip--good">Fixed</span></span></div>
+      <div class="quote">"Lichen is a cooler, slightly greyer alternative to limestone, used as the background neutral in the Content Maturity app."</div>
+      <div class="ramp" style="gap:2px">
+        <div><div class="c" style="background:var(--lichen-100)"></div></div><div><div class="c" style="background:var(--lichen-200)"></div></div><div><div class="c" style="background:var(--lichen-300)"></div></div><div><div class="c" style="background:var(--lichen-400)"></div></div><div><div class="c" style="background:var(--lichen-500)"></div><div class="l">500</div></div><div><div class="c" style="background:var(--lichen-600)"></div></div><div><div class="c" style="background:var(--lichen-700)"></div></div><div><div class="c" style="background:var(--lichen-800)"></div></div><div><div class="c" style="background:var(--lichen-900)"></div></div>
+      </div>
+      <p>The scale was always in <code>tokens/colors.css</code> – it just never appeared in the documentation or the family swatches, so it read as missing. Now documented, and marked <b>reserved</b>: it’s Content Maturity’s background neutral, so it should not appear in Content Health Check at all. Limestone and lichen are close enough that mixing them across products would blur the distinction between the two apps.</p>
+    </div>
+
+    <div class="issue sev-fixed">
+      <div class="ihead" id="i08"><span class="n">08</span><h3>Links had no sunshine hover underline</h3><span class="tag"><span class="chip chip--good">Fixed</span></span></div>
+      <div class="quote">"Inline links are standardly fire, with a sunshine underline on hover … Headings use a slightly thinner underline on hover than body links."</div>
+      <p>My pages set <code>a:hover</code> to darken from fire-650 to fire-800 and nothing else. The sunshine underline is a distinctive brand detail and I’d simply missed it – <code>--color-link-underline</code> even existed in the original tokens, unused.</p>
+      <p>Now in <code>components/components.css</code>: 2px sunshine underline with a 3px offset on body links, 1px on headings. <a href="#i08">Hover this link</a> to see it.</p>
+    </div>
+
+    <div class="issue sev-fixed">
+      <div class="ihead"><span class="n">09</span><h3>Line-height and font-size scales were incomplete</h3><span class="tag"><span class="chip chip--good">Fixed</span></span></div>
+      <p>The brand guide defines a five-step line-height scale (<code>tight</code> 1 · <code>snug</code> 1.2 · <code>normal</code> 1.4 · <code>relaxed</code> 1.7 · <code>loose</code> 1.8) and <code>--font-size-xs</code> / <code>--font-size-sm</code>. This project had only <code>normal</code> and <code>relaxed</code>, and had <code>normal</code> at 1.5 rather than 1.4. All six now match the guide.</p>
+      <p class="why">Note the guide’s <code>--body-line-height</code> is 1.4 where this project had 1.55. I’ve left the app’s body line-height alone – see divergence 12.</p>
+    </div>
+  </section>
+
+  <!-- ══ DELIBERATE ══ -->
+  <section class="part">
+    <h2 class="big">Deliberate divergences</h2>
+    <p class="intro">Places the app system departs from the brand system on purpose. Worth recording so they don’t read as mistakes – but tell me if you disagree with any.</p>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">10</span><h3>Textures are excluded from the app</h3><span class="tag"><span class="chip">Deliberate</span></span></div>
+      <div class="quote">"Combined with our textures it’s bold and organic, suggestive of craft rather than mechanisation."</div>
+      <p>The brand has a texture system (<code>--texture-watercolour</code> and friends) and treats it as central to the identity. The app system says no texture, no grain, no gradient.</p>
+      <p class="why"><b>Why:</b> texture behind dense tabular data costs legibility for no gain, and this app is almost entirely tables and numbers. The brand character carries through the type and the palette instead. I’d revisit this for empty states, onboarding and the marketing-facing parts of the app, where texture would land well and there’s nothing to read through.</p>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">11</span><h3>Base font size 17px, not 24px</h3><span class="tag"><span class="chip">Deliberate</span></span></div>
+      <p>The website sets <code>--base-font-size: 24px</code> with a responsive <code>--text-multiplier</code>. The app uses 17px with a fixed multiplier of 1.</p>
+      <p class="why"><b>Why:</b> 24px body is right for a marketing site where reading is the task. In an admin tool with five columns and a metric band, it would halve the information on screen. The app’s own minimum floors still hold – 10px mono, 13px hint, 14px UI.</p>
+    </div>
+
+    <div class="issue">
+      <div class="ihead"><span class="n">12</span><h3>Bold used for emphasis in documentation</h3><span class="tag"><span class="chip">Deliberate</span></span></div>
+      <div class="quote">"We use bold, italic and underlining very sparingly indeed."</div>
+      <p>These audit and system pages use bold heavily to make rules scannable, and the do/don’t lists use sentence fragments rather than the full sentences with punctuation the guide asks for.</p>
+      <p class="why"><b>Why:</b> internal reference documentation is scanned, not read – someone looking up "what colour is a warn chip" needs to find it in two seconds. Product copy and anything user-facing follows the guide properly. If you’d rather the documentation matched too, it’s an easy change.</p>
+    </div>
+  </section>
+
+  <!-- ══ MISSING ══ -->
+  <section class="part">
+    <h2 class="big">In the brand guide, absent here</h2>
+    <p class="intro">Not contradictions – just areas the app system doesn’t cover yet. Most are only relevant to marketing surfaces, but the first three will matter as soon as the app grows past admin screens.</p>
+    <table class="sum">
+      <tr><th>Brand guide area</th><th>Status in the app system</th><th>Worth adding?</th></tr>
+      <tr><td class="w">Shapes</td><td>Nothing. The app uses only rectangles and one circle (the avatar).</td><td>Yes, for empty states and onboarding</td></tr>
+      <tr><td class="w">Diagrams</td><td>Nothing, though the four-tier explainer on the Inventory page is effectively one.</td><td>Yes – the estate → inventory → watchlist → results diagram should follow brand rules</td></tr>
+      <tr><td class="w">Device screenshots</td><td>Nothing. Relevant because Content Health Check captures desktop and mobile screenshots.</td><td>Yes, and it may already be defined for you</td></tr>
+      <tr><td class="w">Logo rules</td><td>Only the app lockup (monogram + product name in Bely 700 at 20px). No clear-space or minimum-size rules.</td><td>Reference the brand page rather than duplicating</td></tr>
+      <tr><td class="w">Layouts</td><td>App-specific: 1200px max, 28–40px gutters. Doesn’t reference the brand layout system.</td><td>Check for conflict</td></tr>
+      <tr><td class="w">Z-index tokens</td><td>Absent. The app hard-codes <code>z-index: 5</code> and <code>20</code> for chrome and menus.</td><td>Yes – adopt <code>--z-*</code></td></tr>
+      <tr><td class="w">Breakpoint tokens</td><td>Absent. The app is fixed at a 1200px minimum with no responsive behaviour.</td><td>Only when the app goes responsive</td></tr>
+      <tr><td class="w">Lexicon</td><td>Not consulted. The app invents terms – estate, inventory, catalogue, watchlist, results.</td><td><b>Yes, check this.</b> If the lexicon already fixes these words, the app should match it exactly</td></tr>
+      <tr><td class="w">Guardian style</td><td>Not referenced. My copy rules were derived from your existing product copy.</td><td>Reference it as the baseline, with the app rules as additions</td></tr>
+    </table>
+  </section>
+
+  <section class="part">
+    <h2 class="big">What I’d do next</h2>
+    <div class="issue">
+      <p style="margin-top:0"><b>One.</b> Tell me on 01 (mono) – it’s the only one that changes how the app looks, and everything else is bookkeeping.</p>
+      <p><b>Two.</b> Let me run the dash and quote sweep across the project in a single pass.</p>
+      <p><b>Three.</b> Send me the <a href="https://style.contentious.ltd/words/lexicon">lexicon</a> check, or let me read it – if estate, inventory, catalogue and watchlist are already defined terms, the app must use them as written, and if they’re not, they should probably be added.</p>
+      <p><b>Four.</b> Then the screenshots, so I can verify the level ramp is applied correctly on Results. That’s the one scale users actually learn to read, and it’s the one my system had missing entirely.</p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

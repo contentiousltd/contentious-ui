@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"/>
+<title>Analysis — Catalogue &amp; Runs</title>
+<link rel="stylesheet" href="tokens.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; }
+  * { box-sizing: border-box; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="variants/shared.jsx"></script>
+<script type="text/babel" src="variants/shared_v2.jsx"></script>
+<script type="text/babel" src="variants/inventory_estate.jsx"></script>
+<script type="text/babel" src="variants/analysis_catalogue.jsx"></script>
+
+<script type="text/babel">
+const accent = getComputedStyle(document.documentElement).getPropertyValue('--fire-500').trim() || '#D5544F';
+
+function App() {
+  return (
+    <DesignCanvas>
+
+      {/* ── Catalogue view ─────────────────────────────────────────────────── */}
+      <DCSection
+        title="1 · Analysis — Catalogue"
+        subtitle="Single flat table, unanalysed pages first. Stats bar: 68 in catalogue · 9 not yet analysed · 59 analysed · credits · schedule. Clicking 'Analyse' opens the modal (artboard 2). Previous analyses at the bottom with expand/collapse and failure handling."
+        gap={100}
+      >
+        <div style={{ position: 'relative' }}>
+          <DCArtboard label="Analysis · Catalogue" width={1200} height={1200}>
+            <AB_RefinedC accent={accent}/>
+          </DCArtboard>
+          <DCPostIt top={80} right={-230} rotate={2} width={220}>
+            Stats bar items are filterable — clicking "9 Not yet analysed" narrows the table to those entries. "View all 68 →" in the table footer loads the full set. Filter button opens a section/status filter panel.
+          </DCPostIt>
+          <DCPostIt top={420} right={-230} rotate={-2} width={220}>
+            Status column is a flag column — blank for analysed rows (the date says it all), badge only when action is needed. The table is quiet when everything is in order.
+          </DCPostIt>
+          <DCPostIt top={760} right={-230} rotate={1} width={220}>
+            Previous analyses: collapsed rows show date · URL count · Complete or X failed badge · View results · delete. Rows with failures expand to show the summary and "View failed URLs" — matching the current product's analysis history pattern.
+          </DCPostIt>
+        </div>
+      </DCSection>
+
+      {/* ── Run trigger modal ──────────────────────────────────────────────── */}
+      <DCSection
+        title="2 · Analyse — run trigger modal"
+        subtitle="Two options: analyse only unscored pages (faster, default when unscored pages exist), or analyse the full catalogue (re-analyses where content has changed, keeps existing scores where it hasn't). No technical detail — just clear scope choice."
+        gap={100}
+      >
+        <div style={{ position: 'relative' }}>
+          <DCArtboard label="Analyse · Run trigger modal" width={1200} height={870}>
+            <AB_RunTrigger accent={accent}/>
+          </DCArtboard>
+          <DCPostIt top={200} right={-230} rotate={-2} width={220}>
+            Default is always the targeted option: analyse only unscored pages. Once all pages have a score, Option 1 disappears and Option 2 becomes the only choice — the button on the catalogue page changes to reflect this.
+          </DCPostIt>
+          <DCPostIt top={480} right={-230} rotate={2} width={220}>
+            Option 2 copy avoids all technical terms. "Pages that haven't changed since their last analysis will keep their existing score" tells users everything they need without mentioning Firecrawl or change detection.
+          </DCPostIt>
+        </div>
+      </DCSection>
+
+      {/* ── In-progress state ──────────────────────────────────────────────── */}
+      <DCSection
+        title="3 · Analyse — in-progress"
+        subtitle="While a run is active: the pipeline progress card shows all five stages (Queued, Fetched, Analysed, Completed, Failed) as animated horizontal bars, each with its own count and colour — matching the current product's detail view. The bars pulse while active. The catalogue table shows live row statuses beneath."
+        gap={100}
+      >
+        <div style={{ position: 'relative' }}>
+          <DCArtboard label="Analyse · In progress" width={1200} height={960}>
+            <AB_InProgress accent={accent}/>
+          </DCArtboard>
+          <DCPostIt top={80} right={-230} rotate={2} width={220}>
+            Progress shows "3/9 complete" — the count of unscored pages being run, not the total catalogue size. If "check all for changes" was chosen instead, it would read "12/68 checked · 2 changes found".
+          </DCPostIt>
+          <DCPostIt top={400} right={-230} rotate={-2} width={220}>
+            Open question: should newly-completed rows show their new score immediately, or wait until the full run finishes? Showing live is more satisfying; batching is simpler to implement.
+          </DCPostIt>
+        </div>
+      </DCSection>
+
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
