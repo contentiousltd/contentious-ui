@@ -10,6 +10,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.7.3] – 2026-08-01
+
+### Fixed
+
+- **The semantic and product-signature layers never reached a Tailwind 4 consumer.** Both door files pulled the design system in with `@import url("…")`. That is valid CSS, and Vite followed it, but **Tailwind 4 follows only the bare-string form and drops `url()` silently** – no warning, no error. So a product that imported `styles/semantic.css` and `styles/products.css` got neither: `--surface-hover`, `--text-strong`, `--accent`, `--scrim-*` and every `[data-product]` block were simply absent, and any utility referencing them resolved to nothing. It surfaced in Content Health Check's Tailwind 4 cutover, where it had been invisible under Tailwind 3 an hour earlier.
+- **`type-roles.css` is now imported at the door too**, because the design system's own `semantic.css` pulls it in with the same `url()` form. Without it `--label-font-size`, the `--type-*` shorthands and the whole `--t-*` scale resolve to nothing under Tailwind 4 – the same defect v0.7.0's split was written to fix, arriving by a different route. Raised in `GAPS.md` for the design system's own files, which still use `url()` and would break the same way if loaded directly under Tailwind 4.
+- **`./skills/*` is now an export.** The design system tree was reachable on disk but not by specifier, which left no supported way to import it deliberately.
+
+### Changed
+
+- The `products.css` header no longer warns against importing into a shadcn product. That was true before v0.7.0 and is now actively misleading: the `--accent` collision is settled, and the file is safe provided the consumer runs the rename codemod with it.
+
 ## [0.7.2] – 2026-08-01
 
 ### Fixed

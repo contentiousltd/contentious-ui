@@ -21,4 +21,15 @@
    components → utilities. Import that first.
    ================================================================ */
 
-@import url("../../skills/contentious-design/tokens/semantic.css") layer(theme);
+/* Bare-string form, NOT @import url(...). Both are valid CSS, but Tailwind 4
+   does not follow the url() form: it drops the import silently, so every token
+   below simply never exists in a Tailwind 4 consumer. See the note in
+   docs/design-system-sync.md.
+
+   type-roles.css is imported HERE as well as inside the file below, and that is
+   not redundancy: the design system's semantic.css pulls it in with the url()
+   form, which Tailwind 4 ignores, so --t-label and the --type-* shorthands
+   would resolve to nothing. Importing it at the door is what makes them hold
+   across the package boundary. */
+@import "../../skills/contentious-design/tokens/type-roles.css" layer(theme);
+@import "../../skills/contentious-design/tokens/semantic.css" layer(theme);

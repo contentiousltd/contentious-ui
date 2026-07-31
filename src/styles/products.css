@@ -49,26 +49,19 @@
    those utilities do NOT take an opacity modifier. bg-surface-card/50
    renders opaque. Reach for a numbered shade instead.
 
-   ⚠ DO NOT IMPORT THIS INTO A SHADCN-BASED PRODUCT YET — CHC and CM.
-   `--accent` is defined twice with two different meanings, and this file
-   makes the collision decisive. shadcn's `--accent` (themes/*.css) is the
-   MUTED HOVER/SELECTED background, paired with `--accent-foreground`; the
-   design system's `--accent` (semantic.css, re-pointed here) is the
-   PRIMARY INTERACTIVE colour, paired with `--accent-hover`/`--accent-link`.
-   Importing this sets `--accent` to fire-500 at [data-product], so every
-   stock shadcn hover and selected state — 10 components in CHC, including
-   dropdown-menu, select, command and sidebar — flips from a soft sunshine
-   tint to solid primary-action orange. `bg-accent/50` renders fully opaque
-   on top of that, since the token is now a var().
-
-   This is the `.c-card` collision one layer down, and it is Claude Design's
-   to settle: one of the two meanings gives up the name. Tracked in GAPS.md.
-   Until then this file is safe for a product with no shadcn layer, and
-   semantic.css alone remains safe for everyone — it is only the pairing
-   that bites.
+   SAFE IN A SHADCN PRODUCT since v0.7.0. It was not before: `--accent` meant
+   the design system's primary interactive colour here and shadcn's recessive
+   hover surface in themes/*.css, so importing this put solid fire-500 on every
+   hover state. That is settled — shadcn's pair was renamed to --surface-hover
+   and --text-on-hover, and there are now no token-name collisions between the
+   theme files and this layer. A shadcn product does have to run the codemod
+   with it: bg-accent -> bg-surface-hover, text-accent-foreground ->
+   text-on-hover.
 
    Layer order is declared in layers.css: tokens → theme → base →
    components → utilities. Import that first.
    ================================================================ */
 
-@import url("../../skills/contentious-design/tokens/products.css") layer(theme);
+/* Bare-string form, not @import url(...) — Tailwind 4 silently drops the
+   url() form, which would leave every [data-product] block unloaded. */
+@import "../../skills/contentious-design/tokens/products.css" layer(theme);

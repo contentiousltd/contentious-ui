@@ -24,6 +24,28 @@ in this file, and do not answer them in product code.
 
 ## Open
 
+- **`@import url(...)` in the design system's own CSS is invisible to Tailwind 4.** Found by
+  Claude Code, 1 August 2026, while moving Content Health Check to Tailwind 4. Both forms
+  are valid CSS, but Tailwind 4 follows only the bare-string form (`@import "x.css"`) and
+  drops the `url()` form **silently** — no warning, no error, the tokens simply never
+  exist.
+
+  `skills/contentious-design/styles.css` and `tokens.css` use the `url()` form throughout,
+  and so does `tokens/semantic.css` where it pulls in `type-roles.css`. That last one bit:
+  `--label-font-size`, every `--type-*` shorthand and the whole `--t-*` scale resolved to
+  nothing in a Tailwind 4 consumer, which is the same defect the type-roles split was
+  written to fix, arriving by a different route.
+
+  **Worked around, not fixed.** `@contentious/ui`'s door files now use the bare-string form
+  and import `type-roles.css` explicitly, which is why they hold today. The design system's
+  own files still use `url()`, so anything loading `styles.css` directly — a specimen page,
+  a UI kit, a prototype — is fine in a browser and would break under Tailwind 4.
+
+  **The ask:** switch `@import url('x')` to `@import 'x'` throughout the design system. It
+  is mechanical, changes nothing in a browser, and removes a trap that fails silently. If
+  there is a reason the `url()` form is preferred there, say so and we will keep the
+  workaround at the door instead.
+
 - **Two literal limestone stops in `components.css` break on a dark ground.** Raised by
   Claude Design, 31 July 2026, while answering the accent decision, and deliberately kept
   out of it. `.c-row:hover` and `.c-button--ghost:hover` are `var(--limestone-450)`
