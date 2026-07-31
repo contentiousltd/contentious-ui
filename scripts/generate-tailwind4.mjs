@@ -208,8 +208,41 @@ const target = {
 /** The token a row points at — fonts carry their own, everything else is its own name. */
 const source = (key, row) => (key === 'font' ? row[1] : row);
 
-/** Literal sections resolve the value; everything else keeps the var() reference. */
-const rhs = (key, row) => (key === 'colour' ? literal(row) : `var(--${source(key, row)})`);
+/**
+ * Follow a var() chain to a concrete value. Unlike `literal`, this does not care
+ * whether the token is product-themed — it is for the non-colour namespaces,
+ * none of which a product re-points.
+ */
+function resolved(name, seen = new Set()) {
+  if (seen.has(name)) return null;
+  seen.add(name);
+  const token = tokens.get(name);
+  if (!token) return null;
+  const ref = token.value.match(/^var\(\s*--([a-z0-9-]+)\s*\)$/i);
+  return ref ? resolved(ref[1], seen) : token.value;
+}
+
+/**
+ * Literal sections resolve the value; everything else keeps the var() reference.
+ *
+ * EXCEPT when the Tailwind name and the source token name are identical, which
+ * would emit `--radius: var(--radius)`. That is circular, so the declaration is
+ * invalid and the utility silently produces nothing. It is not hypothetical: it
+ * shipped, and it cost Content Health Check its shadows and every rounded corner
+ * the moment it moved to Tailwind 4 — `--radius`, `--shadow-sm|md|lg` and
+ * `--font-mono` all collide this way, because the design system already names
+ * them what Tailwind names them. Those resolve to their value instead.
+ */
+const rhs = (key, row) => {
+  if (key === 'colour') return literal(row);
+  const src = source(key, row);
+  if (target[key](row) === `--${src}`) {
+    const value = resolved(src);
+    if (!value) throw new Error(`Cannot resolve self-referential token --${src}`);
+    return value;
+  }
+  return `var(--${src})`;
+};
 
 const section = (title, key, note) => {
   const rows = groups[key];

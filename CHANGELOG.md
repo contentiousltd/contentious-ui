@@ -10,6 +10,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.7.4] – 2026-08-01
+
+### Fixed
+
+- **The bridge emitted self-referential declarations, so shadows and rounded corners silently vanished.** Where the design system already names a token what Tailwind names it, the generator produced `--radius: var(--radius)`, `--shadow-sm: var(--shadow-sm)` and `--font-mono: var(--font-mono)`. Each is circular, so the declaration is invalid and the utility resolves to nothing – `shadow-sm` drew no shadow, `rounded-lg` drew no corner. Because the `@theme` block loads after a consumer's own `:root`, the broken value won. Found in Content Health Check's Tailwind 4 cutover: the nav bar lost its shadow and every card went square. Those three names now emit their resolved value instead of a reference, and the generator throws rather than emitting a cycle it cannot resolve.
+
 ## [0.7.3] – 2026-08-01
 
 ### Fixed
