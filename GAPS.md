@@ -24,65 +24,29 @@ in this file, and do not answer them in product code.
 
 ## Open
 
-- **`--accent` means two different things, and `products.css` makes the collision
-  decisive.** Found by Claude Code, 31 July 2026, while wiring the signature layer into
-  the package. This is the `.c-card` collision one layer down, with the same shape: two
-  systems, one name, source order silently picking the winner.
+- **Two literal limestone stops in `components.css` break on a dark ground.** Raised by
+  Claude Design, 31 July 2026, while answering the accent decision, and deliberately kept
+  out of it. `.c-row:hover` and `.c-button--ghost:hover` are `var(--limestone-450)`
+  outright. On CHC, CM and the studio site that is correct and is the documented list-row
+  step. **On VTS it hovers a dark row to near-white.** It has never shown, because VTS
+  runs no design-system components yet.
 
-  | Where | Value | What it means |
-  |---|---|---|
-  | `src/styles/themes/*.css` | `sunshine-500` | **shadcn's** accent — the muted hover / selected background, paired with `--accent-foreground` |
-  | `tokens/semantic.css`, re-pointed per product in `tokens/products.css` | `fire-500` (CHC) | **the design system's** accent — the primary interactive colour, paired with `--accent-hover`, `--accent-link`, `--accent-marker` |
+  Fixing it properly means either a 30th signature token (`--surface-hover-row`, which
+  every product would then have to declare) or deriving the row step from the card. That
+  is a real argument and it wants its own brief. **Find it before VTS adopts, not after.**
 
-  They are not two dialects of one token; they are opposites. One is deliberately
-  recessive (a hover tint behind a menu item), the other is the loudest colour on the
-  page. A product importing both gets solid primary-action orange on every stock shadcn
-  hover and selected state — in CHC that is **10 components**: `dropdown-menu`, `select`,
-  `command`, `context-menu`, `menubar`, `sidebar`, `calendar`, `dialog`,
-  `navigation-menu`, `toggle`. `bg-accent/50` compounds it, rendering fully opaque now
-  that the token is themed.
-
-  The collision predates the signature layer — the bridge already resolved `bg-accent` to
-  fire-500, so shadcn's accent was losing quietly. What `products.css` changes is that it
-  now loses *loudly and per product*, which is the useful part: it surfaced.
-
-  **The decision needed:** which meaning keeps the name `--accent`, and what the other
-  becomes. `.c-card` → `.c-frame` is the precedent, and the same argument applies — picking
-  a winner without renaming just moves the damage. Worth noting the design system's set is
-  the one with the coherent family (`--accent-hover`, `--accent-link`, `--accent-marker`,
-  `--accent-link-hover`), while shadcn's is a two-token pair that products could rename
-  locally to something like `--muted-hover` — but that is a suite decision, not CHC's.
-
-  **Blocks chc-367** in its current shape: CHC cannot import `products.css` until this is
-  settled. `semantic.css` alone is safe, so the cutover can proceed without the signature
-  layer if the decision takes a while. Guarded in the meantime by a warning at the top of
-  `src/styles/products.css`.
+  Related but distinct from `--surface-hover`, which is now settled: that one is the step
+  for menus and controls; this is the step for a list row inside a card.
 
 ---
 
-The two below were found while wiring in the answers to
-[docs/design-brief-2026-07-31.md](docs/design-brief-2026-07-31.md), and both block the
-same thing: making the design system's `components.css` this package's component layer.
-The `.c-card` collision that blocked it is resolved (the bordered container is now
-`.c-frame`), so the name is free — but the import itself still can't be turned on.
+The one below was found while wiring in the answers to
+[docs/design-brief-2026-07-31.md](docs/design-brief-2026-07-31.md), and it is the last
+thing blocking one goal: making the design system's `components.css` this package's
+component layer. The `.c-card` collision that blocked it is resolved (the bordered
+container is now `.c-frame`) and the `typography.css` split has now shipped, so this is
+what remains.
 
-- **`tokens/typography.css` can't be imported the way `semantic.css` is — and as of the
-  31 July export this now breaks a token consumers already ship.** The design
-  system's component CSS sizes everything in `--u` and the `--t-*` roles, which live in
-  that file — but so do standalone defaults that must not ship to consumers:
-  `--base-font-size` and `--text-multiplier: 1` (which would flatten the library's
-  responsive 1 / 1.1 / 1.2 step). Importing it would force one density on the 24px
-  website and the 19px apps. Needs the same split `semantic.css` got: the roles in an
-  importable file, the standalone defaults kept for prototyping.
-
-  **What changed on 31 July:** `semantic.css` now sets `--label-font-size: var(--t-label)`
-  — correctly, since a hard-coded 11px did not move with density. But `semantic.css` *is*
-  importable and `typography.css` is not, so across the package boundary `--t-label` is
-  undefined, the declaration is invalid at computed-value time, and every mono metadata
-  label falls back to the inherited size. Inside the skill tree it is fine, because
-  `styles.css` loads both. This is the first token to cross the boundary and land
-  broken; it reaches VTS and Maturity Tool on their next bump and CHC at chc-367. The
-  split is no longer just what unblocks `components.css` — it is a live defect.
 - **`.c-section` and `.c-section-header` collide, exactly as `.c-card` did.** The answers
   recorded these as marketing-only with no app equivalent, but the design system defines
   both: here `.c-section` is a marketing page section (`padding: 5rem 0`), there it is app
@@ -142,3 +106,30 @@ Answered 31 July 2026 in the product-signatures export and applied in `src/` the
   design argument, 19 is the base the component CSS was eyeballed against, and adopting
   it changes one theme file that renders on no screen today. Applied in all four themes,
   each of which now records the reason it previously lacked.
+
+Answered 31 July 2026 in `provenance/Accent decision 2026-07-31.html`, applied in v0.7.0:
+
+- **Which meaning keeps `--accent`?** → **The design system's.** shadcn's
+  `--accent` / `--accent-foreground` become `--surface-hover` / `--text-on-hover`. Three
+  reasons, and the third settles it: `accent` is one of the six signature dimensions, so
+  the dimension and the token have to share a name; shadcn's use is the anomaly (in
+  shadcn the loud colour is `--primary`, and `--accent` is a recessive hover surface,
+  which is the opposite of what the word means in every brand vocabulary); and **the
+  value was wrong too**. "Hover is a background step, not a colour shift" is a settled
+  rule, and `--accent: sunshine-500` paints hover in a brand colour, which that rule
+  forbids. Since the bridge already resolved `bg-accent` to fire-500, no shipping
+  appearance existed on either side – so it is a correction that happens to need a new
+  name, not a migration.
+- **Does the closed set grow?** → **Yes, to 29**, and `--surface-hover` joins the
+  **ground** group, not the accent one. The first answer made it an alias of
+  `--surface-raised` and was wrong on half the suite: VTS sets raised and menu to the
+  same `sorbet-800`, so a row would hover to the colour it already sits on, and
+  contentious.ltd's raised is the lichen band, so rows would hover to a green. Raised is
+  a band; hover is a step off the surface being hovered, and only CHC's ground makes them
+  coincide. `--text-on-hover` is **not** in the set – it equals `--text-strong` in every
+  product and exists only so the shadcn codemod stays mechanical.
+- **The `tokens/typography.css` split** → **done**, in the same export. `type-roles.css`
+  holds the roles and is importable alone; `semantic.css` imports it itself, so
+  `--label-font-size` and the `--type-*` shorthands now hold across the package boundary.
+  `typography.css` keeps `--base-font-size` and `--text-multiplier` as prototyping
+  defaults, and every existing import path still works.

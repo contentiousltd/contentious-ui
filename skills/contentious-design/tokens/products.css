@@ -27,13 +27,14 @@
    THE CONTRACT — read before adding a product
    1. A product overrides tokens in THIS FILE ONLY. No product-specific hex
       anywhere else in the system, in @contentious/ui, or in product code.
-   2. The overridable set is CLOSED. It is the 28 tokens listed under "THE
-      SIGNATURE SET" below. Adding a 29th is a system decision, not a product
-      decision — argue it out and record it here. It has grown twice, both
-      times because a real product would not fit: --text-inset (see VTS) and
-      --signature-deployment (see contentious.ltd). Both growths are the layer
-      working — a signature that cannot describe a shipping product is the
-      thing being fixed here.
+   2. The overridable set is CLOSED. It is the 29 tokens listed under "THE
+      SIGNATURE SET" below. Adding a 30th is a system decision, not a product
+      decision — argue it out and record it here. It has grown three times,
+      every time because a real product would not fit: --text-inset (see VTS),
+      --signature-deployment (see contentious.ltd) and --surface-hover (VTS
+      again, plus contentious.ltd — see the Hover note below). Every growth is
+      the layer working — a signature that cannot describe a shipping product
+      is the thing being fixed here.
    3. Everything not in the set is the family resemblance and never varies:
       Bely + Bely Display and all --type-* roles, the spacing scale, radii
       (3/6/12), motion (200/350/150), chip geometry and tones, --star-1..5 and
@@ -75,20 +76,41 @@
                        Banded / marketing = the brand's 24px. See "Density" at
                        the foot of this file.
 
-   THE SIGNATURE SET (28)
+   THE SIGNATURE SET (29)
       ground      --surface-page --surface-chrome --surface-card
                   --surface-raised --surface-menu --surface-field
-                  --surface-inverse
+                  --surface-inverse --surface-hover
       hairlines   --rule-section --rule-row --rule-field
       text        --text-strong --text-body --text-secondary --text-muted
                   --text-inverse --text-on-accent
                   --text-inset-strong --text-inset
       accent      --accent --accent-hover --accent-marker --accent-link
                   --accent-link-hover --focus-ring
+                  NOT --surface-hover — hover is a GROUND token, not an accent
+                  one. That is the whole of the decision in
+                  provenance/Accent decision 2026-07-31.html.
       ratings     --level-empty            (dark grounds need a lighter track)
       display     --signature-display-scale
       audit       --signature-illustration --signature-app-ground
                   --signature-deployment
+
+   HOVER — the 29th token, and why it is not derived
+      Hover is a background STEP, not a colour shift: a menu row or control
+      goes transparent -> --surface-hover. The first answer made it an alias of
+      --surface-raised, on the reasoning that every product already declares a
+      raised step. That is wrong on half the suite, and wrong on exactly the
+      products the argument leaned on:
+        VTS              --surface-raised and --surface-menu are BOTH
+                         sorbet-800, so a menu item would hover to the colour
+                         it already sits on. No hover state at all.
+        contentious.ltd  --surface-raised is lichen-300, the light alternating
+                         band. Menu rows would hover to a green — the colour
+                         shift the rule exists to forbid.
+      Raised is a BAND (an aside, a section of a marketing page); hover is a
+      STEP off the surface being hovered. Two jobs, and only CHC's ground makes
+      them coincide. So it is declared, per product, and it is neutral: take
+      the step from the family the MENU and FIELD surfaces are in, not the one
+      the page bands in. On a dark ground it lightens.
 
    ACCENT ALLOCATION — narrower than it first looked, and that is a relief
    The score ramp reserves five of eleven families at the 500 stop (fire, amber,
@@ -124,6 +146,7 @@
   --surface-menu:        var(--limestone-150);
   --surface-field:       var(--limestone-200);
   --surface-inverse:     var(--gloaming-800);
+  --surface-hover:       var(--limestone-600);   /* step off the limestone-150 menu */
 
   --rule-section:        var(--limestone-700);
   --rule-row:            var(--limestone-600);
@@ -173,6 +196,7 @@
   --surface-menu:        var(--limestone-150);
   --surface-field:       var(--limestone-150);
   --surface-inverse:     var(--gloaming-800);
+  --surface-hover:       var(--limestone-600);   /* menus are limestone here, not lichen */
 
   --rule-section:        var(--lichen-700);
   --rule-row:            var(--lichen-600);
@@ -242,6 +266,7 @@
   --surface-menu:        var(--sorbet-800);
   --surface-field:       var(--limestone-200);
   --surface-inverse:     var(--limestone-200);   /* inverse of a dark page is light */
+  --surface-hover:       var(--sorbet-750);      /* LIGHTENS - raised is 800, same as the menu */
 
   --rule-section:        var(--sorbet-750);
   --rule-row:            var(--sorbet-800);
@@ -306,6 +331,7 @@
   --surface-menu:        var(--limestone-150);
   --surface-field:       var(--limestone-200);
   --surface-inverse:     var(--gloaming-750);    /* the dark alternating band */
+  --surface-hover:       var(--limestone-600);   /* neutral - raised is the lichen band */
 
   --rule-section:        var(--limestone-700);
   --rule-row:            var(--limestone-600);
@@ -364,7 +390,7 @@
       metrics only, where density moves everything. A marketing surface does
       not need it: its 24px base already lifts --t-title from ~46px to ~58px.
       Cap 1.3, and check what it compounds with before using it at all.
-   6. Set the full 28. A partial signature inherits CHC and that is the bug
+   6. Set the full 29. A partial signature inherits CHC and that is the bug
       this whole layer exists to prevent. If the product mixes light and dark
       surfaces in either direction, --text-inset is the pair that saves you.
    7. Decide --signature-app-ground: "own" if the product's app carries the
@@ -372,8 +398,8 @@
       whoever builds the third screen.
 
    OPEN ITEM — --signature-display-scale is declared here and read by the
-   specimen page, but tokens/typography.css does not yet multiply --t-title
-   and --t-metric by it. Wiring that up is a one-line change in typography.css
+   specimen page, but tokens/type-roles.css does not yet multiply --t-title
+   and --t-metric by it. Wiring that up is a one-line change in type-roles.css
    and should land with the first product that needs a scale other than 1.
 -------------------------------------------------------------------------------- */
 /* -----------------------------------------------------------------------------

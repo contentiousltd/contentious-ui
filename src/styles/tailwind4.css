@@ -25,7 +25,7 @@
    stay as var() so theming keeps working, and do NOT take a modifier.
    Reach for a numbered shade rather than an opacity step on those.
 
-   243 literal colours · 44 themed · 5 fonts · 4 weights · 5 radii · 11 spacing · 3 shadows
+   243 literal colours · 45 themed · 5 fonts · 4 weights · 5 radii · 11 spacing · 3 shadows
    ================================================================ */
 
 @theme {
@@ -316,7 +316,6 @@
   /* A theme file re-points these, so they must stay references. bg-primary */
   /* works; bg-primary/50 renders opaque. Use a shade instead. */
   --color-accent                : var(--accent);
-  --color-accent-foreground     : var(--accent-foreground);
   --color-accent-hover          : var(--accent-hover);
   --color-accent-link           : var(--accent-link);
   --color-accent-link-hover     : var(--accent-link-hover);
@@ -346,6 +345,7 @@
   --color-surface-card          : var(--surface-card);
   --color-surface-chrome        : var(--surface-chrome);
   --color-surface-field         : var(--surface-field);
+  --color-surface-hover         : var(--surface-hover);
   --color-surface-inverse       : var(--surface-inverse);
   --color-surface-menu          : var(--surface-menu);
   --color-surface-page          : var(--surface-page);
@@ -357,6 +357,7 @@
   --color-text-multiplier       : var(--text-multiplier);
   --color-text-muted            : var(--text-muted);
   --color-text-on-accent        : var(--text-on-accent);
+  --color-text-on-hover         : var(--text-on-hover);
   --color-text-secondary        : var(--text-secondary);
   --color-text-strong           : var(--text-strong);
 }

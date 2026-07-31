@@ -10,6 +10,25 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.7.0] – 2026-07-31
+
+Implements [`provenance/Accent decision 2026-07-31.html`](docs/design-system-sync.md), which answers the brief in [`docs/design-brief-accent-2026-07-31.md`](docs/design-brief-accent-2026-07-31.md).
+
+### Changed
+
+- **BREAKING – shadcn's `--accent` / `--accent-foreground` are renamed to `--surface-hover` / `--text-on-hover`.** `--accent` meant two opposite things: the design system's primary interactive colour, and shadcn's recessive hover surface. The design system keeps the name. Three reasons, and the third is the one that settles it: `accent` is one of the six signature dimensions, so the dimension and the token have to share a name; shadcn's use is the anomaly (there the loud colour is `--primary`); and **the value was wrong too** – "hover is a background step, not a colour shift" is a settled rule, and `--accent: sunshine-500` painted hover in a brand colour, which that rule forbids. Because the bridge already resolved `bg-accent` to fire-500, there was **no shipping appearance to preserve on either side**, so this is a correction that happened to need a new name rather than a migration. **Migration:** in a shadcn-based product, `bg-accent` → `bg-surface-hover` and `text-accent-foreground` → `text-on-hover` across roughly ten component files. Find-and-replace, no judgement. Content Health Check and Content Maturity each have ten; Voice Tone & Style and the website have no shadcn layer.
+- **The signature set grows to 29: `--surface-hover` joins the ground group**, and every product declares it. It is deliberately **not** an alias of `--surface-raised`, which was the first answer and was wrong on half the suite: VTS sets raised and menu to the same `sorbet-800`, so a menu row would hover to the colour it already sits on, and contentious.ltd's raised is `lichen-300`, the alternating band, so rows would hover to a green. Raised is a *band*; hover is a *step off the surface being hovered* – two jobs that coincide only on CHC's ground, which is why the conflation survived a first reading. Values: CHC, CM and the website take `limestone-600`; VTS takes `sorbet-750`, which **lightens**. `--text-on-hover` is not in the set – it equals `--text-strong` in every product and exists only so the codemod stays mechanical.
+- **All four theme files drop their shadcn `--accent` pair.** VTS had one too and it had no shadcn layer to serve, so it was silently re-pointing the design system's `--accent` to `sorbet-400` and overriding its own signature. There are now **zero token-name collisions** between the theme files and the semantic and signature layers, verified by name intersection.
+
+### Added
+
+- **`tokens/type-roles.css` – the importable half of the type layer**, which closes the defect 0.6.0 shipped with. `semantic.css` sets `--label-font-size: var(--t-label)` and the `--type-*` shorthands off `--t-*`, but `--t-*` lived in `typography.css`, which consumers can't import because it also carries the density inputs. The roles now sit in their own file, `semantic.css` imports it directly rather than assuming a consumer loaded it, and `--u` carries `19px` / `1` fallbacks so a consumer importing it alone renders at app density rather than not at all. `typography.css` keeps `--base-font-size` and `--text-multiplier` as prototyping defaults and every existing import path is unchanged.
+- Bridge gains `bg-surface-hover` and `text-on-hover`; `--color-accent-foreground` is gone. 243 literal / 45 themed.
+
+### Known issues
+
+- **Two literal limestone stops in the design system's `components.css` break on a dark ground.** `.c-row:hover` and `.c-button--ghost:hover` are `var(--limestone-450)` outright, which is the correct documented list-row step on CHC, CM and the website, and hovers a dark row to near-white on VTS. Raised by Claude Design while answering the accent decision and deliberately kept out of it, since fixing it properly means either a 30th signature token or deriving the row step from the card. It has never shown, because VTS runs no design-system components yet. Tracked in `GAPS.md`; find it before VTS adopts, not after.
+
 ## [0.6.0] – 2026-07-31
 
 ### Added

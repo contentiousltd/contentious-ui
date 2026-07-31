@@ -24,8 +24,13 @@
     --secondary-foreground: var(--gloaming-700);
     --muted: var(--lichen-400);
     --muted-foreground: var(--gloaming-500);
-    --accent: var(--sunshine-500);
-    --accent-foreground: var(--gloaming-700);
+    /* shadcn's --accent / --accent-foreground pair is GONE, renamed to
+       --surface-hover / --text-on-hover (Accent decision, 31 July 2026).
+       --surface-hover is declared per product in the design system's
+       tokens/products.css; CM takes limestone-600, because its menus and
+       fields are limestone even though its page and chrome are lichen.
+       --text-on-hover is a suite constant in semantic.css and is not set
+       here. */
     --destructive: var(--fire-600);
     --destructive-foreground: var(--limestone-100);
     --border: var(--lichen-500);

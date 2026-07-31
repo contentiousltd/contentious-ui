@@ -24,8 +24,16 @@
     --secondary-foreground: var(--gloaming-700);
     --muted: var(--limestone-500);
     --muted-foreground: var(--gloaming-500);
-    --accent: var(--sorbet-400);
-    --accent-foreground: var(--gloaming-700);
+    /* shadcn's --accent / --accent-foreground pair is GONE, renamed to
+       --surface-hover / --text-on-hover (Accent decision, 31 July 2026).
+       VTS has no shadcn layer, so nothing consumed these - but the name has
+       to be freed here too, or the theme would keep re-pointing the design
+       system's --accent to sorbet-400 and quietly override the signature.
+       --surface-hover is sorbet-750 in products.css: it LIGHTENS, because
+       VTS's raised and menu surfaces are both sorbet-800 and a hover to the
+       colour you are already sitting on is no hover at all.
+       --text-on-hover is a suite constant in semantic.css and is not set
+       here. */
     --destructive: var(--fire-600);
     --destructive-foreground: var(--limestone-100);
     --border: var(--limestone-600);

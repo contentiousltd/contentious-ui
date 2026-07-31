@@ -2,7 +2,13 @@
    Semantic layer – the decisions, expressed as tokens.
    Every rule here was argued out in a pattern page; see readme.md.
    Use THESE in product UI, not raw family stops.
+
+   This file is importable on its own, and it reads --t-label and the --t-*
+   steps, so it pulls the roles in itself rather than assuming a consumer
+   loaded them. type-roles.css sits beside this file and travels with it.
    ========================================================================== */
+@import url('type-roles.css');
+
 :root {
   /* ---- Surfaces -------------------------------------------------------- */
   /* One surface depth per page. A slab inside a slab is always wrong. */
@@ -49,6 +55,27 @@
   --focus-ring:          var(--fire-350);
   --focus-ring-width:    2px;
   --focus-ring-offset:   2px;
+
+  /* ---- Hover surface --------------------------------------------------- */
+  /* Hover is a background STEP, not a colour shift. It is a GROUND token and a
+     product declares it — the 29th in the signature set, added 31 July 2026.
+     It is deliberately NOT an alias of --surface-raised, which was the first
+     answer and was wrong on half the suite: VTS sets raised and menu to the
+     same sorbet-800 (a menu item would hover to the colour it sits on), and
+     contentious.ltd's raised is lichen-300, the alternating band, so rows
+     would hover to a green. Raised is a band; hover is a step off the surface
+     being hovered. Only CHC's ground makes the two coincide.
+     These two names are also what shadcn's --accent / --accent-foreground pair
+     becomes in this system: theirs means the RECESSIVE hover surface, close to
+     the opposite of --accent here. Settled in
+     provenance/Accent decision 2026-07-31.html — ours keeps the name, theirs is
+     renamed to these, and its sunshine-500 value goes with it, because a hover
+     painted in a brand colour is the colour shift this rule forbids. */
+  --surface-hover:       var(--limestone-600);
+  --text-on-hover:       var(--text-strong);   /* not in the set: --text-strong
+                                                  in every product. Exists so
+                                                  the shadcn codemod stays
+                                                  mechanical. */
 
   /* ---- Data colour ----------------------------------------------------- */
   /* Numbers are neutral by default. Colour is reserved for meaning –
@@ -170,14 +197,16 @@
      same file as the --type-* roles, and only one of the two responded to
      density: change --base-font-size and the roles moved while these did not.
      Nothing referenced them, so they are gone rather than rewired.
-     There is one app type scale and it is --t-* in tokens/typography.css,
+     There is one app type scale and it is --t-* in tokens/type-roles.css,
      derived from --base-font-size. If you want a size, take a --t-* step or a
      --type-* role. Never add a literal px size to this file. */
 
   /* ---- Mono label (the metadata voice) --------------------------------- */
   /* Derived, not literal: the metadata voice breathes with density like every
      other size. Was 11px hard-coded, which meant a density change moved the
-     body and left the labels behind. ~11.8px at the 19px app base. */
+     body and left the labels behind. ~11.8px at the 19px app base.
+     --t-label arrives via the @import at the head of this file, so this holds
+     across the package boundary and not only inside styles.css. */
   --label-font-size:     var(--t-label);
   --label-tracking:      0.09em;
   --label-color:         var(--gloaming-450);  /* NOT 400 – fails AA at 10px */
@@ -185,7 +214,7 @@
   /* ---- Type roles ------------------------------------------------------ */
   /* Bely Display is for page titles and metric values only, never below 30px.
      Section headings are Bely. These are font shorthands over the --t-* scale
-     in tokens/typography.css - they used to carry their own hard-coded px,
+     in tokens/type-roles.css - they used to carry their own hard-coded px,
      which meant --text-multiplier moved the components but not these. */
   --type-page-title:     400 var(--t-title)/1.02 var(--font-heading-display);
   --type-metric:         400 var(--t-metric)/1.05 var(--font-heading-display);

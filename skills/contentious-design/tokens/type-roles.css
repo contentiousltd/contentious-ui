@@ -1,0 +1,75 @@
+/* =============================================================================
+   Type roles — the importable half of the type layer.
+
+   Split out of tokens/typography.css on 31 July 2026, for the same reason
+   semantic.css carries no literal sizes: a file a consumer can import must not
+   depend on a file it can't. semantic.css sets --label-font-size: var(--t-label)
+   and the --type-* shorthands off --t-*, so those tokens have to travel with it
+   across the package boundary. When they didn't, the declarations were invalid
+   at computed-value time and mono labels silently fell back to inherited size.
+
+   What's here: the faces, weights, line heights and the --u / --t-* scale.
+   Everything in this file is a ROLE and never varies by product.
+   What's NOT here: --base-font-size and --text-multiplier, the two inputs. They
+   are the theme's to set, and their prototyping defaults live in
+   tokens/typography.css. Import that file, or set both yourself, or take the
+   fallbacks below.
+   ========================================================================== */
+
+:root {
+  --font-heading-display: 'Bely Display', 'Bely', Georgia, serif;
+  --font-heading:         'Bely', Georgia, 'Times New Roman', serif;
+  --font-body:            'Bely', Georgia, 'Times New Roman', serif;
+  /* The app’s metadata voice. Every label, chip and mono column in the product
+     resolves through this, so it stays on the system stack until discrepancy 01
+     in Style guide audit.html is settled. */
+  --font-mono:            ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  /* The brand mono face (style.contentious.ltd/design/typography), which the
+     brand guide reserves for code. Defined, deliberately unreferenced: point
+     --font-mono here only if the decision goes that way. */
+  --font-mono-brand:      'Courier New', Courier, monospace;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold:   700;
+
+  --body-line-height:      1.55;
+  --heading-line-height:   1.15;
+  --line-height-tight:     1;
+  --line-height-snug:      1.2;
+  --line-height-normal:    1.4;
+  --line-height-relaxed:   1.7;
+  --line-height-loose:     1.8;
+  --font-size-xs:          12px;
+  --font-size-sm:          14px;
+
+  --font-size-h1: 3.5rem;
+  --font-size-h2: 2.4rem;
+  --font-size-h3: 1.5rem;
+  --font-size-h4: 1.1rem;
+
+  /* ---- The app type scale ------------------------------------------------
+     One unit of body text. Every size in the app is a multiple of it.
+     Two inputs, both owned by the library:
+       --base-font-size   density   (19px every app, 24px marketing — derived
+                                     from deployment mode, not chosen per
+                                     product; see tokens/products.css)
+       --text-multiplier  responsive step   (1 / 1.1 / 1.2 by breakpoint)
+     So this scale inherits the library's responsive behaviour for free. Set
+     neither here in production — they arrive from tokens.css and the theme.
+     The fallbacks are the app defaults, and they exist so a consumer that
+     imports this file alone renders at app density rather than not at all.
+     px comments are the resolved value at the 19px app base x 1. Marketing
+     surfaces resolve the same ratios against 24px. */
+  --u: calc(var(--base-font-size, 19px) * var(--text-multiplier, 1));
+
+  --t-label:   calc(var(--u) * 0.62);   /* mono metadata    ~12px · 15px */
+  --t-hint:    calc(var(--u) * 0.78);   /*                  ~15px · 19px */
+  --t-ui:      calc(var(--u) * 0.88);   /* tabs, buttons    ~17px · 21px */
+  --t-body:    var(--u);                /*                   19px · 24px */
+  --t-row:     calc(var(--u) * 1.05);   /* row + card title ~20px · 25px */
+  --t-lede:    calc(var(--u) * 1.1);    /*                  ~21px · 26px */
+  --t-section: calc(var(--u) * 1.25);   /* section heading  ~24px · 30px */
+  --t-metric:  calc(var(--u) * 1.72);   /* metric values    ~33px · 41px */
+  --t-title:   calc(var(--u) * 2.4);    /* page titles      ~46px · 58px */
+}

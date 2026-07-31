@@ -103,6 +103,35 @@ Two exclusions, both by rule rather than judgement, both enforced by the check:
   declares a new face, add it to `fonts/` in the same way.
 - **`uploads/`** — working screenshots, not system.
 
+## One export arrived by MCP, not by rsync (31 July 2026)
+
+The Accent decision export was applied through the `claude_design` MCP rather than the
+download-and-rsync above, because the decision was published while the work was in
+flight and the MCP can read the project directly.
+
+**It was a targeted pull, not a full replacement.** Applied: `styles.css`, and in
+`tokens/` — `type-roles.css` (new), `typography.css`, `semantic.css`, `products.css`.
+That is the whole functional token layer, and it is faithful to the project.
+
+**What was not pulled: the prose and the specimens** — `readme.md`,
+`Design system.html`, `guidelines/pattern-product-signatures.html`. Those very likely
+changed in the same export (the signature set went from 28 to 29), so anything in them
+quoting a count or the token list should be treated as one revision behind until a
+normal full rsync lands. Nothing imports them, so nothing renders wrong; an agent
+reading the skill could quote a stale number.
+
+**`provenance/Accent decision 2026-07-31.html` has not been copied to
+`docs/design-history/` either.** It is the finished argument behind a settled rule, so it
+belongs there by the promotion rule above. It was read in full through the MCP and its
+content is reflected in `GAPS.md`, the `CHANGELOG` and the token comments, but the
+document itself should travel on the next export rather than be transcribed by hand.
+
+**A full rsync is still owed, and it is the fix.** It replaces the tree wholesale, so it
+will pick the rest up with no special handling. Re-stamp after it, as usual.
+
+The stamp below therefore records a tree that is correct in its CSS and one revision
+behind in its documentation. That is a deliberate, temporary state, not a hand-edit.
+
 ## Staleness
 
 `npm run check:design-sync` records and verifies a manifest hash of the skill tree.

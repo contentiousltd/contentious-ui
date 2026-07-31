@@ -1,20 +1,19 @@
+/* =============================================================================
+   Typography entry point: the two DENSITY INPUTS, plus the roles.
+
+   The roles — faces, line heights, --u and the --t-* scale — moved to
+   tokens/type-roles.css on 31 July 2026 so that semantic.css, which reads
+   --t-label and the --t-* steps, can carry them across the package boundary.
+   Import order is unchanged for anyone linking styles.css or this file.
+
+   What stays here is the pair of inputs the theme owns. In the library these
+   arrive from tokens.css and themes/<product>.css; the values below are
+   PROTOTYPING DEFAULTS, so a standalone page renders at app density. A theme
+   that sets its own always wins — this file is imported before the theme.
+   ========================================================================== */
+@import url('type-roles.css');
+
 :root {
---font-heading-display: 'Bely Display', 'Bely', Georgia, serif;
-  --font-heading:         'Bely', Georgia, 'Times New Roman', serif;
-  --font-body:            'Bely', Georgia, 'Times New Roman', serif;
-  /* The app’s metadata voice. Every label, chip and mono column in the product
-     resolves through this, so it stays on the system stack until discrepancy 01
-     in Style guide audit.html is settled. */
-  --font-mono:            ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  /* The brand mono face (style.contentious.ltd/design/typography), which the
-     brand guide reserves for code. Defined, deliberately unreferenced: point
-     --font-mono here only if the decision goes that way. */
-  --font-mono-brand:      'Courier New', Courier, monospace;
-
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-bold:   700;
-
   /* APP DENSITY. 19px, and it is a rule now rather than a coincidence — see
      "Density" in tokens/products.css. Every reserved-deployment product (every
      app) shares this value; banded/marketing surfaces take the brand's 24px.
@@ -30,41 +29,4 @@
                                       library this token is the RESPONSIVE step
                                       (1 / 1.1 / 1.2 by breakpoint, @layer base).
                                       Density is --base-font-size. */
-  --body-line-height:      1.55;
-  --heading-line-height:   1.15;
-  --line-height-tight:     1;
-  --line-height-snug:      1.2;
-  --line-height-normal:    1.4;
-  --line-height-relaxed:   1.7;
-  --line-height-loose:     1.8;
-  --font-size-xs:          12px;
-  --font-size-sm:          14px;
-
-  --font-size-h1: 3.5rem;
-  --font-size-h2: 2.4rem;
-  --font-size-h3: 1.5rem;
-  --font-size-h4: 1.1rem;
-
-  /* ---- The app type scale ------------------------------------------------
-     One unit of body text. Every size in the app is a multiple of it.
-     Two inputs, both owned by the library:
-       --base-font-size   density   (19px every app, 24px marketing — derived
-                                     from deployment mode, not chosen per
-                                     product; see tokens/products.css)
-       --text-multiplier  responsive step   (1 / 1.1 / 1.2 by breakpoint)
-     So this scale inherits the library's responsive behaviour for free. Set
-     neither here in production - they arrive from tokens.css and the theme.
-     px comments are the resolved value at the 19px app base x 1. Marketing
-     surfaces resolve the same ratios against 24px. */
-  --u: calc(var(--base-font-size) * var(--text-multiplier));
-
-  --t-label:   calc(var(--u) * 0.62);   /* mono metadata    ~12px · 15px */
-  --t-hint:    calc(var(--u) * 0.78);   /*                  ~15px · 19px */
-  --t-ui:      calc(var(--u) * 0.88);   /* tabs, buttons    ~17px · 21px */
-  --t-body:    var(--u);                /*                   19px · 24px */
-  --t-row:     calc(var(--u) * 1.05);   /* row + card title ~20px · 25px */
-  --t-lede:    calc(var(--u) * 1.1);    /*                  ~21px · 26px */
-  --t-section: calc(var(--u) * 1.25);   /* section heading  ~24px · 30px */
-  --t-metric:  calc(var(--u) * 1.72);   /* metric values    ~33px · 41px */
-  --t-title:   calc(var(--u) * 2.4);    /* page titles      ~46px · 58px */
 }

@@ -29,8 +29,17 @@
     --secondary-foreground: var(--gloaming-700);
     --muted: var(--limestone-600);
     --muted-foreground: var(--gloaming-500);
-    --accent: var(--sunshine-500);
-    --accent-foreground: var(--gloaming-800);
+    /* shadcn's --accent / --accent-foreground pair is GONE, renamed to
+       --surface-hover / --text-on-hover (Accent decision, 31 July 2026).
+       Theirs meant the recessive hover surface; ours means the primary
+       interactive colour, and the two collided on one name. --surface-hover
+       is declared per product in the design system's tokens/products.css as
+       the 29th signature token, and --text-on-hover in semantic.css, so
+       neither is set here. The old sunshine-500 value went with the name: a
+       hover painted in a brand colour is the colour shift the system forbids,
+       and it never rendered anyway. Neither name is set here: a theme that
+       re-declared --text-on-hover would just be a second writer of a suite
+       constant, which is the shape this decision existed to remove. */
     --destructive: var(--fire-600);
     --destructive-foreground: var(--limestone-500);
     --border: var(--limestone-600);
