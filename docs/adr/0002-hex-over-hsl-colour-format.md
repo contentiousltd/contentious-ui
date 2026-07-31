@@ -59,3 +59,31 @@ CHC and CM have 193+ opacity modifier usages. Their migration to hex happens whe
 **Watch for:**
 - Any component or utility that wraps token values in `hsl()` — these must be updated.
 - The Tailwind preset's `fullScale()` helper references token values — it needs updating to work with hex vars (Tailwind 3 can use `var(--hex-value)` for colour application, just not for opacity modifiers).
+
+## Reaffirmed — 31 July 2026 (OKLCH considered and rejected)
+
+Tailwind 4 ships its own default palette in OKLCH, which raised whether ours should
+follow. It would have superseded this ADR, so it was decided rather than find-and-replaced.
+**Outcome: no.** Neither a format conversion nor a re-derivation of the ramps; hex stays
+the storage format.
+
+The argument usually given for OKLCH does not survive checking. Tailwind 4.3 emits
+`color-mix(in srgb, …)` regardless of the source format — verified by compiling
+`bg-red-500/50` from Tailwind's *own* OKLCH palette, which still interpolates in sRGB. So
+"OKLCH blends better in Tailwind" is not true today, and since our palette replaces
+Tailwind's entirely we inherit nothing from their choice either way.
+
+What was accepted instead: OKLCH is the space to **review** a ramp in, not to store it in.
+The design system's `colors.css` now carries each family's rationale inline and one hard
+rule — no two adjacent stops may sit closer than **1.0 L** in OKLCH, the threshold the eye
+reads on a flat area. That is precisely what the limestone light end failed, and it is now
+documented rather than re-spaced: `limestone-150 / 250 / 350 / 450` are **aliases of the
+stop below, not steps**, which is the honest account of the `-400`/`-450` collision Content
+Health Check hit. Re-deriving the ramps remains the only route to fixing that for real, and
+it is a visible brand change rather than a technical one — so it stays undone deliberately.
+
+**One passage above is now stale.** The Consequences section says CHC and CM keep private
+HSL-channel token copies until they "remove their own Tailwind in Phase 5". They no longer
+have to remove Tailwind at all: `styles/tailwind4.css` (v0.5.0) resolves suite-constant
+colours to literals so Tailwind 4 builds `color-mix()` opacity modifiers from hex directly.
+Deleting the private copies is what chc-367 does, on Tailwind rather than after it.

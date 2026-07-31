@@ -24,75 +24,8 @@ in this file, and do not answer them in product code.
 
 ## Open
 
-- **Should the palette move to OKLCH?** Raised by Julius, 31 July 2026, prompted by
-  Tailwind 4 shipping its own default palette in OKLCH. This would supersede
-  [ADR-0002](docs/adr/0002-hex-over-hsl-colour-format.md), so it needs a decision rather
-  than a find-and-replace.
-
-  One argument for it does **not** survive checking, and it is the one usually given.
-  Tailwind 4.3 emits `color-mix(in srgb, …)` regardless of the source format — verified by
-  compiling `bg-red-500/50` from Tailwind's *own* OKLCH palette, which still interpolates
-  in sRGB. So "OKLCH gives better blending in Tailwind" is not true today. Our palette
-  replaces Tailwind's entirely, so we also inherit nothing from their choice.
-
-  What would genuinely be gained, and these are two different sizes of change:
-
-  - **Format conversion only.** Same colours, written as `oklch()`. Mechanical and
-    visually identical, but it rewrites the canonical token file, every hex quoted in the
-    guidelines and specimen pages, and what style.contentious.ltd publishes — so it is a
-    brand-surface change even though nothing renders differently.
-  - **Re-deriving the ramps in OKLCH.** The real prize. Seventeen stops per family are
-    currently spaced by eye in hex; OKLCH would let them be perceptually even, so
-    `limestone-400` and `-450` could not silently collapse into each other the way they
-    did in CHC. This **changes many stops visibly** and is squarely a design decision.
-    It would also make the "base shade" question answerable rather than conventional.
-  - **Wider gamut.** OKLCH can express colours outside sRGB. On a P3 display the brand
-    could be more saturated than it can be today — a genuine identity question, not a
-    technical one.
-
-  The cost is concentrated in one place: hex appears throughout the design system's own
-  HTML, the UI kits and the public style guide, so a conversion is not confined to
-  `tokens.css`. Worth deciding *whether* before deciding *when*.
-
-- **Is density actually a per-product knob, or should it be one suite value?** Raised by
-  Julius, 31 July 2026, and worth settling **before Content Health Check adopts the package
-  (chc-367)**, because that is the moment CHC declares a density for real for the first time.
-
-  The current spread reads as drift rather than intent, and neither theme file records a
-  reason:
-
-  | Product | Declared | Where the number came from |
-  |---|---|---|
-  | Voice Tone & Style | 19px | The library's own pre-0.2.0 default, pinned so nothing moved when the brand base went to 24px. Not chosen for VTS. |
-  | Content Maturity (and Maturity Tool, which uses its theme) | 19px | Same. |
-  | Content Health Check | 18px | Reverse-engineered from CHC's `body { font-size: 1.1rem }` — 17.6px, rounded. |
-  | contentious.ltd | 24px | The brand default, and the only one that was actually decided. |
-
-  Two facts make this cheap to settle now. **18px has never rendered anywhere** — CHC does
-  not consume the package and never declares `--base-font-size`, so that value governs
-  nothing today. And **CHC's real reading size is already ~19px**: only `body` is 17.6px,
-  while `p`, `li` and `div` all override to `1.2rem` (19.2px). Moving CHC to 19 would be
-  writing down what it already does, not changing direction.
-
-  Two candidate shapes:
-  - **One app density (19px) + marketing (24px).** Two values, a legible rule — apps are
-    dense because they hold tables and inventories, marketing is loose because it is
-    reading material.
-  - **One value everywhere.** Simpler still, but pulling contentious.ltd from 24px to 19px
-    is a large, visible change to the public site, so this needs to be wanted rather than
-    fallen into.
-
-  **The structural consequence, whichever wins:** ADR-0011 lists a product theme's knobs as
-  *density, accent, mark*. If density stops being a product choice, that list shrinks to
-  accent and mark, and the theme files get correspondingly harder to misuse. That is an
-  argument for consolidating, not against — but it means the answer should say explicitly
-  whether density remains a knob that products *may* set and simply agree today, or stops
-  being a knob at all.
-
-  Note the parallel scale while you are in here: `tokens/semantic.css` also hardcodes
-  `--text-body-size: 16px` / `--text-lede: 18px` / `--text-support: 15px` / `--text-hint:
-  14px` in literal pixels, alongside the `--u`-derived `--t-*` roles. Two type scales in
-  one file, only one of which responds to density.
+_Nothing open. The two raised on 31 July 2026 are answered below; the items under
+"Found while wiring in the answers" are live work, not unanswered questions._
 
 ---
 
@@ -102,14 +35,23 @@ same thing: making the design system's `components.css` this package's component
 The `.c-card` collision that blocked it is resolved (the bordered container is now
 `.c-frame`), so the name is free — but the import itself still can't be turned on.
 
-- **`tokens/typography.css` can't be imported the way `semantic.css` is.** The design
+- **`tokens/typography.css` can't be imported the way `semantic.css` is — and as of the
+  31 July export this now breaks a token consumers already ship.** The design
   system's component CSS sizes everything in `--u` and the `--t-*` roles, which live in
   that file — but so do standalone defaults that must not ship to consumers:
-  `--base-font-size: 18px` (Content Health Check's density) and `--text-multiplier: 1`
-  (which would flatten the library's responsive 1 / 1.1 / 1.2 step). Importing it would
-  force CHC's density on the 24px website and the 19px products. Needs the same split
-  `semantic.css` got: the roles in an importable file, the standalone defaults kept for
-  prototyping. Same shape as the `colors.css` item below.
+  `--base-font-size` and `--text-multiplier: 1` (which would flatten the library's
+  responsive 1 / 1.1 / 1.2 step). Importing it would force one density on the 24px
+  website and the 19px apps. Needs the same split `semantic.css` got: the roles in an
+  importable file, the standalone defaults kept for prototyping.
+
+  **What changed on 31 July:** `semantic.css` now sets `--label-font-size: var(--t-label)`
+  — correctly, since a hard-coded 11px did not move with density. But `semantic.css` *is*
+  importable and `typography.css` is not, so across the package boundary `--t-label` is
+  undefined, the declaration is invalid at computed-value time, and every mono metadata
+  label falls back to the inherited size. Inside the skill tree it is fine, because
+  `styles.css` loads both. This is the first token to cross the boundary and land
+  broken; it reaches VTS and Maturity Tool on their next bump and CHC at chc-367. The
+  split is no longer just what unblocks `components.css` — it is a live defect.
 - **`.c-section` and `.c-section-header` collide, exactly as `.c-card` did.** The answers
   recorded these as marketing-only with no app equivalent, but the design system defines
   both: here `.c-section` is a marketing page section (`padding: 5rem 0`), there it is app
@@ -152,7 +94,20 @@ the export + v0.4.0. Kept here for one release so the reasoning is findable, the
   bordered, shadowed shadcn container became `.c-frame`; `.c-card` is the app's borderless
   data surface. See the two open items above for what remains.
 
-## Answered
+Answered 31 July 2026 in the product-signatures export and applied in `src/` the same day:
 
-_(Nothing yet — the file is new. Entries move here with the export that resolved them,
-then get deleted once every consumer is on that release.)_
+- **Should the palette move to OKLCH?** → **No.** Neither a format conversion nor a
+  re-derivation of the ramps. ADR-0002 stands and hex remains the storage format;
+  verified on applying the export that not one hex changed. OKLCH is kept as the space to
+  *review* a ramp in, with one hard rule written into `colors.css`: no two adjacent stops
+  may sit closer than 1.0 L. That is what the limestone light end failed, and it is now
+  documented rather than re-spaced — `150 / 250 / 350 / 450` are **aliases, not steps**,
+  which is the honest account of the `-400`/`-450` collision CHC hit.
+- **Is density a per-product knob?** → **Yes, but no longer a free one.** It is derived
+  from deployment mode: reserved (every app) 19px, banded/marketing 24px. So ADR-0011's
+  knob list keeps all three entries — density, accent, mark — and gains a constraint,
+  which is the opposite of the list shrinking and is what makes a theme setting 21px
+  visibly wrong to a reviewer. 19 over CHC's 18 decided on cost, not taste: neither has a
+  design argument, 19 is the base the component CSS was eyeballed against, and adopting
+  it changes one theme file that renders on no screen today. Applied in all four themes,
+  each of which now records the reason it previously lacked.
