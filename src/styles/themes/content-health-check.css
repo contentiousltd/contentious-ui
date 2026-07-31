@@ -9,7 +9,13 @@
 
 @layer theme {
   :root {
-    --base-font-size: 18px;
+    /* App density. Derived from deployment mode, not chosen here: every
+       reserved-deployment product is 19px, marketing is the brand's 24px.
+       See the Density note at the foot of the design system's
+       tokens/products.css. Was 18px, which was reverse-engineered from
+       CHC's 1.1rem body and rendered on no screen — CHC does not consume
+       this package yet, so nothing moves when it changes. */
+    --base-font-size: 19px;
 
     --background: var(--limestone-500);
     --foreground: var(--gloaming-700);

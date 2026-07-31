@@ -5,6 +5,11 @@
 
 @layer theme {
   :root {
+    /* App density — 19px for every reserved-deployment product, derived
+       from deployment mode rather than chosen per product. See the
+       Density note at the foot of the design system's tokens/products.css.
+       Unchanged in value; previously it was 19px by inheritance from the
+       library's pre-0.2.0 default rather than by rule. */
     --base-font-size: 19px;
 
     --background: var(--limestone-300);

@@ -25,7 +25,7 @@
    stay as var() so theming keeps working, and do NOT take a modifier.
    Reach for a numbered shade rather than an opacity step on those.
 
-   266 literal colours · 19 themed · 5 fonts · 4 weights · 5 radii · 11 spacing · 3 shadows
+   268 literal colours · 19 themed · 5 fonts · 4 weights · 5 radii · 11 spacing · 3 shadows
    ================================================================ */
 
 @theme {
@@ -274,6 +274,8 @@
   --color-switch-track-on       : #AA433F;
   --color-switch-track-on-hover : #953B37;
   --color-text-body             : #2C2A29;
+  --color-text-inset            : #2C2A29;
+  --color-text-inset-strong     : #1A1918;
   --color-text-inverse          : #F8F8F2;
   --color-text-muted            : #63615F;
   --color-text-on-accent        : #FBFBF7;

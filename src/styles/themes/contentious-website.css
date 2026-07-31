@@ -11,6 +11,10 @@
 @layer theme {
   :root {
     /* Website inherits all brand defaults — including
-       --base-font-size: 24px from typography.css. No overrides. */
+       --base-font-size: 24px from typography.css. No overrides.
+       24px is now the rule rather than the inheritance: this is the only
+       banded-deployment product, and banded/marketing surfaces take the
+       brand's 24px while every app takes 19px. See the Density note at
+       the foot of the design system's tokens/products.css. */
   }
 }
