@@ -8,7 +8,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
-Design system tree only – nothing in `src/` changed, so a consumer pinned to v0.7.0 gets identical CSS and there is no need to bump.
+_Nothing yet._
+
+## [0.7.1] – 2026-08-01
+
+### Fixed
+
+- **The `tailwindcss` peer dependency was `^3.4.0`, which blocked the upgrade the bridge exists to enable.** `styles/tailwind4.css` shipped in v0.5.0 specifically so a product could move to Tailwind 4 and delete its private palette copy, but the peer range still said Tailwind 3 – so the moment a consumer installed `tailwindcss@4`, npm failed with `ERESOLVE`. Found while upgrading Content Health Check; it would have hit Content Maturity identically, and it fails on a clean `npm ci` rather than on the developer's machine, so CI is where it would have surfaced. Now `^3.4.0 || ^4.0.0`, since the package genuinely supports both: the bridge is additive and Tailwind 3 consumers simply don't import it.
+
+### Changed
 
 - **The full rsync export landed**, superseding the targeted MCP pull that carried the accent decision. It confirmed the MCP-applied token files were byte-identical, and brought two things the partial could not have known to fetch: **five hover states in the design system's `components.css` move from `--surface-raised` to `--surface-hover`** (`.c-menu__item`, `.c-switcher`, `.c-mburger`, `.c-msheet__x` and the switcher's open state), which is the accent decision following through into the components that raised it; and the readme's signature-set count corrected to **29** in both places it appears, resolving the 25-vs-28-vs-29 disagreement.
 - `.c-row:hover` and `.c-button--ghost:hover` are **deliberately still** `var(--limestone-450)`. That is the open gap Claude Design raised while answering – fixing it means either a 30th signature token or deriving the row step from the card, and it wants its own brief. Unchanged here on purpose.
