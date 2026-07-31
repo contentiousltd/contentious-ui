@@ -35,8 +35,9 @@
   --width-narrow:        40rem;    /* 640px - forms, single-column panels */
   --width-content:       80rem;    /* 1280px - tables and dashboards */
 
-  /* App density (--text-multiplier) lives in tokens/typography.css, with the
-     scale it drives. It used to be redeclared here, overriding that file. */
+  /* App density (--base-font-size, --text-multiplier) lives in
+     tokens/typography.css; the scale it drives is in tokens/type-roles.css.
+     It used to be redeclared here, overriding that file. */
 
   /* Z-index, from @contentious/ui. Chrome had been hard-coding 5 and 20. */
   --z-base:      1;

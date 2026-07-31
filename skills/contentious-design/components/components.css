@@ -6,14 +6,15 @@
      - Cascade layer: @layer components
      - Class naming:  c-<block>__<element>--<modifier>, is-<state>
      - Sizing:        every size is a multiple of --u, one unit of body text.
-                      --u and the --t-* roles are defined in tokens/typography.css.
-                      Change --text-multiplier there, the whole system scales.
+                      --u and the --t-* roles are defined in tokens/type-roles.css.
+                      Change --text-multiplier in tokens/typography.css (or the
+                      theme), the whole system scales.
                       Never write a literal font-size here.
    ========================================================================== */
 
 @layer components {
 
-/* --u and --t-* come from tokens/typography.css. This file only consumes them. */
+/* --u and --t-* come from tokens/type-roles.css. This file only consumes them. */
 
 /* ---- Chip ---------------------------------------------------------------- */
 .c-chip{display:inline-flex;align-items:center;gap:calc(var(--u) * .28);font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--chip-tracking);text-transform:uppercase;line-height:1;padding:calc(var(--u) * .28) calc(var(--u) * .44);border-radius:var(--radius-chip);white-space:nowrap;vertical-align:1px;background:var(--chip-neutral-bg);color:var(--chip-neutral-fg)}
@@ -173,7 +174,7 @@
 .c-menu__header .c-menu__value{font-family:var(--font-heading);font-size:var(--t-body);color:var(--text-strong)}
 .c-menu__label{font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--text-muted);padding:calc(var(--u) * .61) calc(var(--u) * .56) calc(var(--u) * .22)}
 .c-menu__item{display:flex;align-items:center;gap:calc(var(--u) * .56);padding:calc(var(--u) * .39) calc(var(--u) * .56);border-radius:5px;cursor:pointer}
-.c-menu__item:hover{background:var(--surface-raised)}
+.c-menu__item:hover{background:var(--surface-hover)}
 .c-menu__item svg{flex:none;color:var(--text-muted)}
 .c-menu__item:hover svg{color:var(--text-secondary)}
 .c-menu__item .c-menu__title{font-family:var(--font-heading);font-size:var(--t-ui);color:var(--text-strong);line-height:1.25}
@@ -191,7 +192,7 @@
 
 /* ---- Project switcher trigger ------------------------------------------ */
 .c-switcher{display:inline-flex;align-items:center;gap:calc(var(--u) * .44);padding:calc(var(--u) * .33) calc(var(--u) * .61);border-radius:var(--radius-control);font-family:var(--font-heading);font-size:var(--t-body);color:var(--text-strong);cursor:pointer;white-space:nowrap;background:transparent}
-.c-switcher:hover,.c-switcher.is-open{background:var(--surface-raised)}
+.c-switcher:hover,.c-switcher.is-open{background:var(--surface-hover)}
 .c-switcher svg{color:var(--text-muted);flex:none}
 
 /* ---- Mobile nav sheet --------------------------------------------------- */
@@ -199,7 +200,7 @@
    the four work sections, account pinned to the bottom. Motion is part of the
    component, not decoration - without it the sheet reads as a page. */
 .c-mburger{margin-left:auto;width:44px;height:44px;display:grid;place-items:center;cursor:pointer;border-radius:var(--radius-control);border:0;background:transparent}
-.c-mburger:hover{background:var(--surface-raised)}
+.c-mburger:hover{background:var(--surface-hover)}
 .c-mburger i{display:block;width:19px;height:1.5px;background:var(--text-body);box-shadow:0 6px 0 var(--text-body),0 -6px 0 var(--text-body)}
 .c-msheet__host{position:fixed;inset:0;z-index:var(--z-modal);pointer-events:none}
 .c-msheet__scrim{position:absolute;inset:0;background:var(--scrim-panel);opacity:0;transition:opacity var(--motion-exit)}
@@ -211,7 +212,7 @@
 .c-msheet__hd .c-msheet__key{margin-right:auto}
 .c-msheet__key{font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--label-color)}
 .c-msheet__x{width:44px;height:44px;display:grid;place-items:center;border:0;background:transparent;border-radius:var(--radius-control);color:var(--text-secondary);font-size:calc(var(--u) * 1.1);cursor:pointer}
-.c-msheet__x:hover{background:var(--surface-raised)}
+.c-msheet__x:hover{background:var(--surface-hover)}
 .c-msheet__body{flex:1;overflow-y:auto;padding:calc(var(--u) * .33) 0 calc(var(--u) * .67)}
 .c-msheet__ctx{display:flex;align-items:center;gap:calc(var(--u) * .56);padding:calc(var(--u) * .67) var(--u) calc(var(--u) * .78);cursor:pointer;border-left:3px solid transparent}
 .c-msheet__ctx:hover{background:var(--surface-page)}

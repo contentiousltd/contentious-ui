@@ -103,34 +103,32 @@ Two exclusions, both by rule rather than judgement, both enforced by the check:
   declares a new face, add it to `fonts/` in the same way.
 - **`uploads/`** — working screenshots, not system.
 
-## One export arrived by MCP, not by rsync (31 July 2026)
+## One export arrived by MCP before its rsync (31 July 2026) — RESOLVED
 
-The Accent decision export was applied through the `claude_design` MCP rather than the
-download-and-rsync above, because the decision was published while the work was in
-flight and the MCP can read the project directly.
+The Accent decision was published while the work was in flight, so its token layer was
+applied through the `claude_design` MCP — `styles.css`, and in `tokens/`
+`type-roles.css` (new), `typography.css`, `semantic.css`, `products.css` — rather than
+waiting for a download. The prose and specimens were deliberately left, and the state
+was recorded here as one revision behind.
 
-**It was a targeted pull, not a full replacement.** Applied: `styles.css`, and in
-`tokens/` — `type-roles.css` (new), `typography.css`, `semantic.css`, `products.css`.
-That is the whole functional token layer, and it is faithful to the project.
+**The full rsync followed the same evening and closed the gap.** It is worth recording
+what it proved: **the five MCP-applied files came through byte-identical** — `git status`
+after the rsync listed only `Design system.html`, `components/components.css`,
+`guidelines/pattern-product-signatures.html`, `readme.md` and `tokens/spacing.css`, none
+of them files the MCP had touched.
 
-**What was not pulled: the prose and the specimens** — `readme.md`,
-`Design system.html`, `guidelines/pattern-product-signatures.html`. Those very likely
-changed in the same export (the signature set went from 28 to 29), so anything in them
-quoting a count or the token list should be treated as one revision behind until a
-normal full rsync lands. Nothing imports them, so nothing renders wrong; an agent
-reading the skill could quote a stale number.
+So the MCP is a **usable channel for an urgent partial**, on two conditions this episode
+bears out: pull whole files rather than editing toward them, and follow with the normal
+rsync, which is still what makes the tree authoritative. The rsync also carried two
+things the targeted pull could not have known to fetch — five `--surface-raised` hover
+states in `components.css` moving to `--surface-hover`, and the readme's token count
+corrected to 29 in both places.
 
-**`provenance/Accent decision 2026-07-31.html` has not been copied to
-`docs/design-history/` either.** It is the finished argument behind a settled rule, so it
-belongs there by the promotion rule above. It was read in full through the MCP and its
-content is reflected in `GAPS.md`, the `CHANGELOG` and the token comments, but the
-document itself should travel on the next export rather than be transcribed by hand.
-
-**A full rsync is still owed, and it is the fix.** It replaces the tree wholesale, so it
-will pick the rest up with no special handling. Re-stamp after it, as usual.
-
-The stamp below therefore records a tree that is correct in its CSS and one revision
-behind in its documentation. That is a deliberate, temporary state, not a hand-edit.
+**Still outstanding: `provenance/Accent decision 2026-07-31.html` has not reached
+`docs/design-history/`.** The export instructions download `design-system/` only, which
+is right for the skill and means `provenance/` never travels with it. That folder
+promotes "once", by hand. The decision's content is reflected in `GAPS.md`, the
+`CHANGELOG` and the token comments, but the document itself is not in the repo.
 
 ## Staleness
 

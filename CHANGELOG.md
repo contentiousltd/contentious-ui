@@ -8,7 +8,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
-_Nothing yet._
+Design system tree only – nothing in `src/` changed, so a consumer pinned to v0.7.0 gets identical CSS and there is no need to bump.
+
+- **The full rsync export landed**, superseding the targeted MCP pull that carried the accent decision. It confirmed the MCP-applied token files were byte-identical, and brought two things the partial could not have known to fetch: **five hover states in the design system's `components.css` move from `--surface-raised` to `--surface-hover`** (`.c-menu__item`, `.c-switcher`, `.c-mburger`, `.c-msheet__x` and the switcher's open state), which is the accent decision following through into the components that raised it; and the readme's signature-set count corrected to **29** in both places it appears, resolving the 25-vs-28-vs-29 disagreement.
+- `.c-row:hover` and `.c-button--ghost:hover` are **deliberately still** `var(--limestone-450)`. That is the open gap Claude Design raised while answering – fixing it means either a 30th signature token or deriving the row step from the card, and it wants its own brief. Unchanged here on purpose.
+- **`.DS_Store` is untracked and gitignored.** Three were committed historically, and one was swept into the v0.7.0 release commit by a `git add -A`.
 
 ## [0.7.0] – 2026-07-31
 
