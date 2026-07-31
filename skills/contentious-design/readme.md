@@ -13,6 +13,7 @@ Built from the design work in this project – pattern explorations argued out s
 | `Label chips.html` | One chip geometry, six tones; card placement |
 | `Navigation pattern.html` | One secondary nav; side nav and button tabs retired |
 | `Nav hierarchy.html` | Project cluster grouping + context stand-down |
+| `Mobile nav.html` | Mobile sheet: context / work / account, its motion, and the site-page sub-panel |
 | `Admin - Monitoring.html` | The six data-display patterns |
 | `Toggle switch.html` | Neutral-off switch; solid vs tint accent |
 | `Project switcher v2.html` | Switcher scaled to account shape |
@@ -79,17 +80,21 @@ Scale in use: page title 44–50 Display · section heading 21 Bely · row title
 ### Surfaces, borders, shadow
 **One surface depth per page.** A slab inside a slab is always wrong – the single most common structural defect. Groups are made by a hairline rule and the space around them, not by a box: a section is a 1px limestone-700 rule with a heading above it, 42px clear above and 18px below.
 
+**Scrims come in two depths and blocking decides which.** `--scrim-modal` (80%) for anything you must answer before the page works again; `--scrim-panel` (34%) for a layer over a page that is still there – the mobile sheet, a drawer you can read behind. A sheet is not modal by virtue of being a sheet.
+
 Cards and data surfaces have **no border and no shadow**. Rows inside one surface are separated by limestone-600 hairlines. Shadows mean only "this floats above the page" – `--shadow-md` for tooltips, `--shadow-lg` for menus.
 
-Radii: 3 chip · 6 control · 8 surface · 10 frame. **Never full-radius on a label** – a pill reads as a button.
+Radii: **3 chip · 6 control and surface · 12 frame** – three steps, mapped onto the library’s `--border-radius-sm/md/lg`. A surface rounds the same as a control; the fill tells them apart, not the corner. **Never full-radius on a label** – a pill reads as a button.
 
 ### Layout
 Content max 1200px, 28–40px gutters. App chrome is fixed-height and never wraps: brand lockup, tabs and nav items all carry `white-space: nowrap`. Sibling groups are laid out with flex/grid and `gap`, never inline whitespace.
 
 The top bar’s project cluster – switcher plus its four sections – is one contiguous group immediately after the wordmark. The avatar sits alone on the right.
 
+Below the chrome breakpoint the same hierarchy becomes `MobileNav`: the project collapses to a context block, the four sections keep their funnel order with the current one marked, and the account realm pins to the bottom of the sheet on `--surface-chrome`. Never a flat list of equal rows.
+
 ### Motion, hover, press, focus
-`--transition-fast` (180ms) for state changes, `--transition-base` (280ms) for reveals and opacity. No bounce, no spring, no entrance animation. The only looping animation in the system is the 1.6s chip dot pulse, reserved for genuinely live states.
+`--motion-state` (200ms) for state changes, `--motion-reveal` (350ms) for reveals, `--motion-exit` (150ms) for dismissal. These are canonical; the library’s `--transition-*` are a marketing scale and never appear in app code. No bounce, no spring, no entrance animation on page content – a list does not fade in. **Overlays are the exception and the only one:** a menu, tooltip or the mobile sheet animates in on `--motion-reveal` and out on `--motion-exit`, because the movement is what says “this is a layer above the page” rather than a page you navigated to. The only looping animation in the system is the 1.6s chip dot pulse, reserved for genuinely live states.
 
 Hover is a **background step, not a colour shift**: transparent → limestone-600 for menu rows and controls; limestone-450 for list rows. Row actions and settings cogs are hidden at rest and revealed on hover. Destructive rows hover to a fire tint.
 
@@ -129,11 +134,11 @@ Bar over donut, always: a 9px stacked `CompositionBar` for part-of-total, a `Mic
 | `components/components.css` | Plain-CSS implementation of every component. Link `styles.css` and use the classes – no build step, no React. |
 | `components/core/` | Chip, Button, Switch, Field, Card, StarRating |
 | `components/data/` | Metric, MetricBand, SectionHeader, CompositionBar, MicroSeries, ListRow + ListTable, ScoreGauge, ScoreHistory, CriterionCard, ResultCard, ProcessBar |
-| `components/navigation/` | TopBar + Avatar, SecondaryNav, SegmentedControl, Menu, Tooltip, ProjectSwitcher, PageHeader, Breadcrumb, AppFooter |
+| `components/navigation/` | TopBar + Avatar, SecondaryNav, SegmentedControl, Menu, Tooltip, ProjectSwitcher, MobileNav, PageHeader, Breadcrumb, AppFooter |
 | `Design system.html` | **The readable reference.** Every component demonstrated, every rule with its reasoning. Start here. |
 | `Screen audit.html` | Live screens against the system: what the app knows that the system didn't. |
 | `Style guide audit.html` | This system against the brand guide at style.contentious.ltd. |
-| `guidelines/` | 17 foundation specimen cards – colour, type, spacing, patterns, brand |
+| `guidelines/` | 18 foundation specimen cards – colour, type, spacing, patterns, brand |
 | `ui_kits/content-health-check/` | Click-through kit: Account, Billing, Project settings, Admin |
 | `images/`, `fonts/` | Logos, concept illustrations, Bely webfonts |
 | Root `*.html` | The original pattern explorations, kept as the argument behind each rule |
@@ -148,7 +153,11 @@ Class names follow `@contentious/ui`: `c-<block>__<element>--<modifier>`, `is-<s
 
 Container width follows content shape: `--width-prose` for long-form reading, 1080px for standard pages, `--width-content` (1280px) for tables and dashboards.
 
-Motion uses `--motion-state` / `--motion-reveal` / `--motion-exit`. Never `--transition-*` — the library owns those names at different values.
+Motion uses `--motion-state` / `--motion-reveal` / `--motion-exit` (200 / 350 / 150ms). Never `--transition-*` — those are the marketing site's durations, up to 4× longer.
+
+**Component vocabulary.** This CSS *is* the component layer, per ADR-0011: where the library and this system named the same thing differently, one name survives. Grammar is always `c-block__element--modifier`, so `.btn-destructive` becomes `.c-button--danger`. Element words come from the library where the library is more explicit, so `.c-card__sub` is now `.c-card__description`. And `.c-card` means the app's borderless data surface: the shadcn-derived bordered, shadowed card is a different component and takes a different name (`.c-frame`, matching `--radius-frame`).
+
+**Email** has its own literal type stack — see the Email block at the foot of `tokens/fonts.css`. Georgia serif, one face, no Bely Display.
 
 ## Two implementations, deliberately
 

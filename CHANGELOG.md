@@ -8,17 +8,29 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+_Nothing yet._
+
+## [0.4.0] — 2026-07-31
+
+### Changed
+
+- **BREAKING — the shadcn card is now `.c-frame`, and `.c-card` belongs to the app's data surface.** `.c-card` was defined twice inside `@layer components`, once here and once in the design system, with source order silently deciding the winner. They were never two dialects of one component: this package's was the shadcn Card — bordered, shadowed, floating — and the design system's is the app's data surface, whose defining rule is *no border and no shadow*. Picking a winner would have bordered every data surface in Content Health Check or unbordered every marketing card, so they are named apart instead. The bordered container is `.c-frame` (`__header` / `__title` / `__description` / `__content` / `__footer`), which is what `--radius-frame` already described, and `.c-feature-card` composes onto it. **Migration: `.c-card` → `.c-frame` in markup and CSS** — `Card` in React is unchanged, only the classes it emits. Its shadow also stops using pure black, which appears nowhere in this palette.
+- **`--transition-*` renamed to `--marketing-transition-*`.** These durations (300ms / 800ms / 1.5s / 3s) are the Astro site's scale and they are correct for it — 800ms on a hero fade is right, and pulling the site to the app's 350ms would visibly break it. The problem was purely the name: `--transition-fast` is the obvious thing to reach for and it is 300ms, four times too slow for a hover. App UI uses `--motion-state` (200ms) / `--motion-reveal` (350ms) / `--motion-exit` (150ms) from the semantic layer. **`--transition-*` still work as deprecated aliases and are removed in 0.5.0.**
+- **`--warning-text` moves from `sunshine-900` to `amber-800`.** `sunshine-900` is a mid-tone orange that fails AA at label sizes on every surface in this palette. The chip tones had already solved this (`--chip-warn-fg: amber-800`) and the standalone token never followed. Warning text and warning chip text are now the same ink.
+- **The role of this package.** `@contentious/ui` is now the home of the design system, of which the shipping React and CSS exports are one expression — rather than a code library that happens to carry tokens. Design is originated by Claude Design and implemented by Claude Code; where the plain CSS and a React component disagree on an exact value, the CSS is the reference.
+
 ### Added
+
+- **Scrim tokens — `--scrim-modal` (80%), `--scrim-panel` (34%), `--scrim-color`.** A documented two-step rather than one value, because the two are doing different jobs, and *blocking* is what picks one: modal when you must answer before the page is usable again (dialogs, destructive prompts), panel for a layer over a page that is still there (a nav sheet you can read behind). A sheet is not modal by virtue of being a sheet. Colour is the warm near-black, never pure black.
+- **Email type tokens — `--font-email-serif`, `--font-email-mono`.** Email keeps the serif identity: Georgia is already the web fallback, so a mail client and a browser without Bely render the same document, and in an inbox of system sans a serif is the distinctive choice. One face — Bely Display is not attempted, since a display cut that never loads leaves the heading in Georgia anyway. These are the source for a build step that bakes the stacks in literally; email cannot read a custom property.
+- **Status text tokens — `--info-text`, `--good-text`, `--danger-text`** alongside the corrected `--warning-text`, each matching its chip foreground, so the next standalone status colour isn't invented.
+- **`MobileNav`** joins the design system, with its pattern guideline.
 
 - **`skills/contentious-design/`** — the Contentious design system now lives in this repository as a Claude Code skill: semantic tokens with their reasoning, a plain-CSS implementation of every component, `<Name>.prompt.md` rules for each, 17 specimen cards, the UI kit, concept illustrations and the licensed Bely cuts. Symlinked from `~/.claude/skills/contentious-design`, so it is available in every repository in the suite from one checkout. See [ADR-0004](docs/adr/0004-design-system-as-a-skill.md).
 
 - **`styles/semantic.css`** — the semantic layer is now reachable by consumers as `@contentious/ui/styles/semantic.css`: 81 tokens giving the vocabulary the raw palette can't (`--surface-*`, `--rule-*`, `--text-*`, `--accent-*`, `--level-*`, `--data-*`, chip tones, switch and type roles). The file holds no definitions of its own — it imports the design system's `semantic.css` into `@layer theme`, so there is one file rather than a copy that drifts. Purely additive: nothing referenced these names before, so no rendering changes anywhere.
 
 - **`npm run check:design-sync`** — verifies the design system tree matches the stamp left by the last export. Fails on a hand-edit inside `skills/` (which the next export would silently destroy), on a `SKILL.md` description that stops naming the product family (which makes the skill get skipped in sibling repos), and on a missing file that `src/styles/semantic.css` imports. `docs/design-system-sync.md` records how the sync works and what is currently open.
-
-### Changed
-
-- **The role of this package.** `@contentious/ui` is now the home of the design system, of which the shipping React and CSS exports are one expression — rather than a code library that happens to carry tokens. Design is originated by Claude Design and implemented by Claude Code; where the plain CSS and a React component disagree on an exact value, the CSS is the reference.
 
 ## [0.2.0]
 

@@ -65,3 +65,28 @@
 [style*="--font-heading-display"],
 .font-display,
 h1, h2, h3, h4, h5, h6 { font-synthesis-weight: none; }
+
+/* ---- Email ---------------------------------------------------------------
+   Custom properties don't work in mail clients and Bely won't load in most of
+   them, so email templates bake these literals in at build time. Recorded
+   here because this is where the type decisions live, not because email can
+   read them.
+
+   The serif identity is KEPT. Georgia is already the web fallback, so a mail
+   client and a browser without Bely render the same document - and a serif is
+   the more distinctive choice in an inbox of system sans. Paste literally:
+
+     font-family: Georgia, 'Times New Roman', Times, serif;
+
+   Email drops to ONE face. Bely Display is not attempted: a display cut that
+   never arrives leaves a heading set in Georgia either way, and asking for it
+   only adds a face for clients to mis-resolve. Email headings are the same
+   stack, set larger with line-height 1.05 - size and space carry the
+   hierarchy, as they do everywhere else in this system.
+
+   Mono, where an email needs it (a URL, a count), is the brand's Courier -
+   which is also @contentious/ui's --font-mono, so nothing diverges. */
+:root {
+  --font-email-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-email-mono:  'Courier New', Courier, monospace;
+}

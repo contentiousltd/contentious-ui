@@ -50,6 +50,18 @@
   --data-bad:            var(--fire-600);
   --data-zero:           var(--gloaming-400);    /* a genuine zero / empty */
 
+  /* ---- Status text (standalone, outside a chip) ------------------------ */
+  /* AA at 10-11px is what decides these, and the chips already met it:
+     sunshine-900 fails, amber-800 passes. So warning TEXT is the same colour
+     as warning CHIP text - there is one warning colour, and where it sits
+     doesn't change it. @contentious/ui's --warning-text: var(--sunshine-900)
+     moves to amber-800; the other three are recorded so the next standalone
+     status colour isn't invented either. */
+  --warning-text:        var(--amber-800);        /* = --chip-warn-fg */
+  --info-text:           var(--wave-700);         /* = --chip-info-fg */
+  --good-text:           var(--sapling-800);      /* = --chip-good-fg */
+  --danger-text:         var(--fire-700);         /* = --chip-bad-fg */
+
   /* ---- Content Health Check score levels ------------------------------- */
   /* The five-level ramp, per style.contentious.ltd/design/colours: amber is
      "the level 2 colour in the Content Health Check, halfway between fire and
@@ -174,18 +186,44 @@
   --nav-context-standdown: 0.42;
 
   /* ---- Motion ---------------------------------------------------------- */
-  /* WARNING: @contentious/ui defines --transition-fast as 300ms ease-in-out
-     (a legacy Astro-site token). This system was authored against 180ms.
-     Inside an app, --transition-fast resolves to the REPO's value and every
-     state change here runs 120ms slow. Use these instead - they map onto the
-     repo's duration and easing scale. */
+  /* CANONICAL app motion: 200ms state, 350ms reveal, 150ms exit. Confirmed
+     31 July 2026 - these are the values for every app surface.
+     @contentious/ui's --transition-fast/base/slow (300ms/800ms/1.5s) are a
+     marketing scale inherited from the Astro site: right for a hero, 4x wrong
+     for a hover. They are NOT being realigned - the site needs those
+     durations - they are being renamed --marketing-transition-* so the
+     obvious name stops being a trap. Never --transition-* in app code. */
   --motion-state:        var(--duration-fast, 200ms) var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1));
   --motion-reveal:       var(--duration-normal, 350ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
   --motion-exit:         var(--duration-fast-exit, 150ms) var(--ease-in, cubic-bezier(0.7, 0, 0.84, 0));
 
+  /* ---- Scrims ---------------------------------------------------------- */
+  /* TWO depths, and the thing that picks one is whether the layer blocks.
+       modal  - you must answer it before the page is usable again: dialogs,
+                confirmations, destructive prompts. The page is gone, so stop
+                asking it to stay legible. 80%.
+       panel  - a layer over a page that is still there: the mobile nav sheet,
+                a drawer you can read behind. Seeing the page is the point -
+                it's what says "layer over Results" rather than "screen you
+                navigated to". 34%.
+     Both values are already shipping in Content Health Check; this only names
+     them and says which is which. A sheet or drawer is NOT automatically
+     modal: navigation takes --scrim-panel, blocking takes --scrim-modal.
+     Colour is the warm near-black, never pure black and never a new hue.
+     In @contentious/ui point --scrim-color at the existing --overlay
+     (hsl(20 4% 14%) = #252322, the same tint as the shadow tokens). */
+  --scrim-color:         var(--gloaming-750);
+  --scrim-modal:         color-mix(in srgb, var(--scrim-color) 80%, transparent);
+  --scrim-panel:         color-mix(in srgb, var(--scrim-color) 34%, transparent);
+
   /* ---- Component radii ------------------------------------------------- */
-  /* Mapped onto @contentious/ui's --border-radius-sm/md/lg (3/6/12). The repo
-     has no 8px step, so surfaces round to 6 rather than inventing one. */
+  /* THREE steps, not four: 3 chip - 6 control and surface - 12 frame, mapped
+     onto @contentious/ui's --border-radius-sm/md/lg. The readme used to
+     describe a 3/6/8/10 ramp the tokens never implemented; the tokens are
+     right and the prose is now corrected. A surface and a control round the
+     same amount - what separates them is the fill, not the corner - so an 8px
+     step buys nothing and would be a fourth number to keep in step across
+     three repos. Do not add 8 or 10 to the library. */
   --radius-chip:         var(--border-radius-sm, 3px);
   --radius-control:      var(--border-radius-md, 6px);
   --radius-surface:      var(--border-radius-md, 6px);

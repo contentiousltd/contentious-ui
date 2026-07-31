@@ -4,6 +4,14 @@ description: Use this skill before building or changing any UI anywhere in the C
 user-invocable: true
 ---
 
-Read the README.md file within this skill, and explore the other available files.
+<!-- The description above names the whole product family deliberately. It is the
+     invocation trigger, not design content: narrow it to one product and the skill
+     stops being invoked in the sibling repos that need it. It reverted twice through
+     export. Do not rewrite it to describe Content Health Check alone.
+     npm run check:design-sync in contentious-ui fails if it stops naming the family. -->
+
+Read the `readme.md` file within this skill, and explore the other available files.
 If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out and create static HTML files for the user to view. If working on production code, you can copy assets and read the rules here to become an expert in designing with this brand.
 If the user invokes this skill without any other guidance, ask them what they want to build or design, ask some questions, and act as an expert designer who outputs HTML artifacts _or_ production code, depending on the need.
+
+`Design system.html` is the entry point for a human reading this: foundations, then components, then the rules that govern them.

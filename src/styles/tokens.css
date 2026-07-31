@@ -236,7 +236,10 @@
     --success-subtle: var(--sapling-100);
     --success-text: var(--sapling-800);
     --warning-subtle: var(--sunshine-100);
-    --warning-text: var(--sunshine-900);
+    /* amber-800, not sunshine-900: sunshine-900 is a mid-tone orange that fails
+       AA at label sizes on every surface in this palette. Matches --chip-warn-fg
+       — there is one warning colour, and where it sits doesn't change it. */
+    --warning-text: var(--amber-800);
     --error-subtle: var(--fire-100);
     --error-text: var(--fire-800);
     --info-subtle: var(--wave-100);
@@ -302,12 +305,27 @@
     --ease-in: cubic-bezier(0.7, 0, 0.84, 0);       /* Elements leaving */
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* State toggles */
 
-    /* Legacy compat — Astro site transition tokens */
-    --transition-fast: 300ms ease-in-out;
-    --transition-base: 800ms ease-in-out;
-    --transition-slow: 1.5s ease-in-out;
-    --transition-slower: 3s ease-in-out;
-    --transition-extra-slow: 6s ease-in-out;
+    /* Marketing motion — the Astro site's scale. These durations are correct for
+       what they are: 800ms on a hero fade is right, and pulling the site to the
+       app's 350ms would visibly break it. They are NOT the app scale.
+       App UI uses --motion-state (200ms) / --motion-reveal (350ms) /
+       --motion-exit (150ms) from the semantic layer, and nothing else.
+       Renamed 31 July 2026 because `--transition-fast` is the obvious name to
+       reach for and it is 300ms — a 4x-wrong hover. Removing the trap beats
+       documenting it. */
+    --marketing-transition-fast: 300ms ease-in-out;
+    --marketing-transition-base: 800ms ease-in-out;
+    --marketing-transition-slow: 1.5s ease-in-out;
+    --marketing-transition-slower: 3s ease-in-out;
+    --marketing-transition-extra-slow: 6s ease-in-out;
+
+    /* DEPRECATED, removed in 0.5.0 — migrate to --marketing-transition-* (site)
+       or --motion-* (app). Kept one minor so the Astro site has runway. */
+    --transition-fast: var(--marketing-transition-fast);
+    --transition-base: var(--marketing-transition-base);
+    --transition-slow: var(--marketing-transition-slow);
+    --transition-slower: var(--marketing-transition-slower);
+    --transition-extra-slow: var(--marketing-transition-extra-slow);
 
     /* ============================================
        Z-INDEX

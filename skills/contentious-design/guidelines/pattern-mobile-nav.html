@@ -1,0 +1,66 @@
+<!-- @dsCard group="Patterns" viewport="980x520" name="Mobile nav – context, work, account" subtitle="Project is context, not a list. Mark the page, not the project. Account at the bottom." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><link rel="stylesheet" href="../styles.css"/>
+<style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);padding:16px 20px;-webkit-font-smoothing:antialiased;display:flex;gap:26px;align-items:flex-start}
+a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
+.mono{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+.sheet{width:262px;flex:none;background:var(--limestone-450);border:1px solid var(--rule-field);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.hd{display:flex;align-items:center;height:38px;padding:0 12px;border-bottom:1px solid var(--rule-section);flex:none}
+.hd .mono{margin-right:auto}
+.hd .x{color:var(--text-secondary);font-size:14px}
+.body{flex:1;padding:4px 0}
+.ctx{display:flex;align-items:center;padding:9px 12px 10px;border-left:3px solid transparent}
+.ctx .nm{font-family:var(--font-heading);font-size:16px;color:var(--text-strong);line-height:1.15}
+.ctx .car{margin-left:auto;color:var(--text-muted)}
+.grp{border-top:1px solid var(--rule-section);padding-top:4px}
+.row{display:flex;align-items:center;min-height:34px;padding:0 12px;font-family:var(--font-heading);font-size:14px;color:var(--text-body);border-left:3px solid transparent}
+.row.on{color:var(--text-strong);border-left-color:var(--accent-marker);background:var(--surface-page)}
+.row.sm{font-size:12px;min-height:28px;color:var(--text-secondary)}
+.row.q{color:var(--label-color)}
+.foot{flex:none;background:var(--surface-chrome);border-top:1px solid var(--rule-section);padding:6px 0 7px}
+.foot .mono{display:block;padding:0 12px 3px}
+.run{display:flex;flex-wrap:wrap;gap:2px 13px;padding:8px 12px 0;margin-top:5px;border-top:1px solid var(--rule-section)}
+.run span{font-family:var(--font-heading);font-size:12px;color:var(--label-color)}
+.pair{display:flex;gap:12px;align-items:flex-start;flex:none}
+.about{margin-top:6px;padding-top:4px;border-top:1px solid var(--rule-section)}
+.sub{width:206px}
+.sub .grp{border-top:0;padding-top:0}
+.sub .mono{display:block;padding:8px 12px 2px}
+.legend{display:grid;gap:13px;padding-top:4px}
+.leg h4{font-family:var(--font-heading);font-weight:400;font-size:14px;color:var(--text-strong);margin:0 0 3px}
+.leg p{margin:0;font-size:12px;line-height:1.45;color:var(--text-secondary)}
+.no{color:var(--fire-650)}</style>
+</head><body>
+<div class="pair">
+<div class="sheet">
+  <div class="hd"><span class="mono">Menu</span><span class="x">✕</span></div>
+  <div class="body">
+    <div class="ctx"><div><span class="mono">Project</span><div class="nm">Contentious</div></div><span class="car">›</span></div>
+    <div class="grp">
+      <div class="row">Estate</div>
+      <div class="row">Inventory</div>
+      <div class="row">Watchlist</div>
+      <div class="row on">Results</div>
+      <div class="row sm">Project settings</div>
+    </div>
+  </div>
+  <div class="foot"><span class="mono">Account</span><div class="row sm">Account</div><div class="row sm">Billing</div><div class="row sm">Admin</div><div class="row sm q">Sign out</div><div class="about"><div class="row sm q">About Content Health Check<span class="car">›</span></div></div></div>
+</div>
+<div class="sheet sub">
+  <div class="hd"><span class="x" style="margin-right:6px">‹</span><span class="mono">About Content Health Check</span></div>
+  <div class="body">
+    <div class="grp"><span class="mono">Learn</span><div class="row sm">What is a health check?</div><div class="row sm">Quality vs traffic</div><div class="row sm">Recurring vs one-off</div></div>
+    <div class="grp"><span class="mono">Product</span><div class="row sm">Framework</div><div class="row sm">Pricing</div><div class="row sm">Example results</div><div class="row sm">What’s new</div></div>
+    <div class="run"><span>About</span><span>Privacy</span><span>Terms</span></div>
+  </div>
+</div>
+</div>
+<div class="legend">
+  <div class="leg"><h4>Project is context, not a list</h4><p>One block naming where you are, opening a switch sub-panel. Rendering the projects inline spends the top four rows on a once-a-session question and makes them look like the sections.</p></div>
+  <div class="leg"><h4>Mark the page, not the project</h4><p>The desktop’s fire marker on the current section. <span class="no">Never a “You’re here” chip on the project</span> – the wordmark, page title and context block already say it.</p></div>
+  <div class="leg"><h4>Funnel order, fixed</h4><p>Estate → Inventory → Watchlist → Results, as in the bar. Never promote the current page to the top: a menu that reorders itself can’t be learned.</p></div>
+  <div class="leg"><h4>Account at the bottom, on chrome</h4><p>Labelled, smaller, own surface, doesn’t scroll with the work – and in the thumb zone, which is the right trade for the group tapped least.</p></div>
+  <div class="leg"><h4>Site pages: one row, not nine</h4><p>Framework, Pricing, the Learn explainers and the legal pages open a sub-panel from a single quiet row — in its own band below the rule, so it isn’t read as an account item. <span class="no">Nine footer links as rows</span> would rebuild the flat list this pattern exists to fix.</p></div>
+  <div class="leg"><h4>A layer, not a page</h4><p>330px over a scrim, in from the burger’s side on <code>--motion-reveal</code>, out on <code>--motion-exit</code>. Full-bleed is what makes a menu read as a destination.</p></div>
+</div>
+</body></html>

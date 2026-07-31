@@ -520,12 +520,12 @@ pre .c{color:var(--text-muted)}
             <span style="display:inline-flex;font-family:var(--font-mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:3px;background:var(--fire-200);color:var(--fire-700)">Selected</span>
             <span style="display:inline-flex;font-family:var(--font-mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:3px;background:var(--wave-200);color:var(--wave-700)">Current</span>
           </div>
-          <div class="c-card__title" style="margin-top:14px">Agency</div><div class="c-card__sub">10,000 checks / month</div>
+          <div class="c-card__title" style="margin-top:14px">Agency</div><div class="c-card__description">10,000 checks / month</div>
         </div>
         <p class="note">14px type in 8/14 padding – roughly double spec on both axes. Split to opposite corners, they read as two tabs rather than two notes about one card.</p>
       </div>
       <div class="good"><h5>Right – grouped left, at spec</h5>
-        <div class="c-card c-card--selected" style="margin-top:24px"><div class="c-card__chips"><span class="c-chip c-chip--bad">Selected</span><span class="c-chip c-chip--info">Current</span></div><div class="c-card__title">Agency</div><div class="c-card__sub">10,000 checks / month</div></div>
+        <div class="c-card c-card--selected" style="margin-top:24px"><div class="c-card__chips"><span class="c-chip c-chip--bad">Selected</span><span class="c-chip c-chip--info">Current</span></div><div class="c-card__title">Agency</div><div class="c-card__description">10,000 checks / month</div></div>
         <p class="note">10px mono, 5/7 padding, 3px radius. Both together at top-left, 20px in, 6px apart.</p>
       </div>
     </div>
@@ -625,9 +625,9 @@ pre .c{color:var(--text-muted)}
     <h2 class="big">Card</h2>
     <div class="demo plain">
       <div class="c-card-row" style="grid-template-columns:repeat(3,1fr)">
-        <div class="c-card"><div class="c-card__title">Organisation</div><div class="c-card__sub">5,000 checks / month</div></div>
-        <div class="c-card c-card--selected"><div class="c-card__chips"><span class="c-chip c-chip--info">Current</span></div><div class="c-card__title">Agency</div><div class="c-card__sub">10,000 checks / month</div></div>
-        <div class="c-card c-card--raised"><div class="c-card__title">Raised</div><div class="c-card__sub">For intro and aside blocks</div></div>
+        <div class="c-card"><div class="c-card__title">Organisation</div><div class="c-card__description">5,000 checks / month</div></div>
+        <div class="c-card c-card--selected"><div class="c-card__chips"><span class="c-chip c-chip--info">Current</span></div><div class="c-card__title">Agency</div><div class="c-card__description">10,000 checks / month</div></div>
+        <div class="c-card c-card--raised"><div class="c-card__title">Raised</div><div class="c-card__description">For intro and aside blocks</div></div>
       </div>
     </div>
     <p class="why"><code>card</code> (limestone-300) for data. <code>card--raised</code> (limestone-600) for intro and aside blocks that sit <i>on</i> the page – the "how this works" explainer, the add-a-client form. Never a card inside a card.</p>
@@ -795,8 +795,33 @@ pre .c{color:var(--text-muted)}
     <p class="why"><b>Sign out gets a fire hover</b> so it announces itself on approach rather than looking permanently disabled. <b>Icons are all-or-nothing</b> within a panel.</p>
     <p class="why"><b>The switcher scales to the account.</b> One project: header row plus two actions, no list, no search, no client structure. Several projects: a flat "Switch to" list. Agency: a client header appears <i>only</i> above a client with two or more projects, so a one-project client renders as a plain row and its name is never printed twice. Search past six.</p>
     <p class="why"><b>The bar shows the name only</b> – no mono label, no client prefix. Explanation lives in the menu header (<code>Project · Oxfam 2</code>) and a 500ms hover tooltip, because chrome is permanent and the explanation is needed twice.</p>
+    <h3 class="sub">Mobile nav – the same hierarchy, rotated</h3>
+    <p class="why"><b>Three weights, in this order: project as context, the four sections, account.</b> The shipped menu was a flat list of thirteen equal rows whose only marked item was the project you were already in – four of them spent on the switcher, in the top slot, looking exactly like the four sections beneath. Here the project collapses to one block that opens a switch sub-panel, and the current <i>page</i> carries the bar’s fire marker.</p>
+    <p class="why"><b>Funnel order is fixed</b> – Estate → Inventory → Watchlist → Results, as in the bar. Never promote the current page to the top: a menu that rearranges itself by where you are can’t be learned. <b>Account pins to the bottom on <code>--surface-chrome</code></b>, smaller, labelled, never scrolling with the work – the thumb zone is the right trade for the group tapped least.</p>
+    <div class="demo plain">
+      <div style="width:268px;background:var(--limestone-450);border:1px solid var(--rule-field);border-radius:var(--radius-surface);overflow:hidden;font-size:15px">
+        <div style="display:flex;align-items:center;height:40px;padding:0 13px;border-bottom:1px solid var(--rule-section)"><span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--label-color);margin-right:auto">Menu</span><span style="color:var(--text-secondary)">✕</span></div>
+        <div style="display:flex;align-items:center;padding:10px 13px 11px"><div><span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--label-color)">Project</span><div style="font-family:var(--font-heading);font-size:17px;color:var(--text-strong)">Contentious</div></div><span style="margin-left:auto;color:var(--text-muted)">›</span></div>
+        <div style="border-top:1px solid var(--rule-section);padding:4px 0">
+          <div class="c-msheet__row" style="opacity:1;transform:none;min-height:38px;font-size:15px">Estate</div>
+          <div class="c-msheet__row" style="opacity:1;transform:none;min-height:38px;font-size:15px">Inventory</div>
+          <div class="c-msheet__row" style="opacity:1;transform:none;min-height:38px;font-size:15px">Watchlist</div>
+          <div class="c-msheet__row is-current" style="opacity:1;transform:none;min-height:38px;font-size:15px">Results</div>
+          <div class="c-msheet__row c-msheet__row--sm" style="opacity:1;transform:none;min-height:32px;font-size:13px">Project settings</div>
+        </div>
+        <div style="background:var(--surface-chrome);border-top:1px solid var(--rule-section);padding:7px 0 8px">
+          <span style="display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--label-color);padding:0 13px 4px">Account</span>
+          <div class="c-msheet__row c-msheet__row--sm" style="min-height:32px;font-size:13px">Account</div>
+          <div class="c-msheet__row c-msheet__row--sm" style="min-height:32px;font-size:13px">Billing</div>
+          <div class="c-msheet__row c-msheet__row--sm" style="min-height:32px;font-size:13px">Admin</div>
+          <div class="c-msheet__row c-msheet__row--sm c-msheet__row--quiet" style="min-height:32px;font-size:13px">Sign out</div>
+          <div class="c-msheet__about" style="margin-top:6px;padding-top:4px;border-top:1px solid var(--rule-section)"><div class="c-msheet__row c-msheet__row--sm c-msheet__row--quiet" style="min-height:32px;font-size:13px">About Content Health Check<span style="margin-left:auto;color:var(--text-muted)">›</span></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="why"><b>Site pages get one row, not nine.</b> Framework, Pricing, Example results, What’s new, the three Learn explainers and About / Privacy / Terms live in the site footer, which on mobile is a long scroll from anywhere. They earn a route from the menu but not rows: a single quiet <i>About Content Health Check</i> row – in its own band below a hairline, so it isn’t swallowed by the ACCOUNT group above it – opens a sub-panel by the same mechanism as the project switcher, grouped by purpose with the explainers first and the legal pages as a wrapped run of small text. Nine equal rows would rebuild the flat list this pattern removed.</p>
+    <p class="why"><b>It is a layer, not a page.</b> 330px over a scrim, in from the side the burger is on – the strip of page left visible is what tells you the app didn’t navigate. Full-bleed is exactly what made the old menu read as a destination, which is why the missing transition was so conspicuous. Dismiss is free: scrim tap, ✕, Escape, hardware back. <b>Not adopted:</b> a bottom tab bar for the four sections – better reach, but it claims 58px of every data-dense page and hard-codes “four sections” into the chrome.</p>
   </section>
-
   <!-- ══ FURNITURE ══ -->
   <section class="part" id="furniture">
     <h2 class="big">Page furniture</h2>
@@ -942,11 +967,11 @@ pre .c{color:var(--text-muted)}
       <div><div class="p">components/components.css</div><div class="d">Plain-CSS implementation of every component. What this page and the UI kit run on.</div></div>
       <div><div class="p">components/core/</div><div class="d">Chip, Button, Switch, Field, Card, <b>StarRating</b></div></div>
       <div><div class="p">components/data/</div><div class="d">Metric, MetricBand, SectionHeader, CompositionBar, MicroSeries, ListRow, <b>ScoreGauge</b>, <b>ScoreHistory</b>, <b>CriterionCard</b>, <b>ResultCard</b>, <b>ProcessBar</b></div></div>
-      <div><div class="p">components/navigation/</div><div class="d">TopBar, SecondaryNav, SegmentedControl, Menu, Tooltip, ProjectSwitcher, <b>PageHeader</b>, <b>Breadcrumb</b>, <b>AppFooter</b></div></div>
+      <div><div class="p">components/navigation/</div><div class="d">TopBar, SecondaryNav, SegmentedControl, Menu, Tooltip, ProjectSwitcher, <b>MobileNav</b>, <b>PageHeader</b>, <b>Breadcrumb</b>, <b>AppFooter</b></div></div>
       <div><div class="p">components/*/*.jsx + .d.ts</div><div class="d">React implementations with props contracts, for production code. Kept in step with the CSS by hand.</div></div>
       <div><div class="p">components/*/*.prompt.md</div><div class="d">Per-component usage notes and the rules that matter.</div></div>
       <div><div class="p">ui_kits/content-health-check/</div><div class="d">Click-through product mock-up – four admin realms, built only from these components.</div></div>
-      <div><div class="p">guidelines/</div><div class="d">17 small specimen cards, one concept each.</div></div>
+      <div><div class="p">guidelines/</div><div class="d">18 small specimen cards, one concept each.</div></div>
       <div><div class="p">images/ · fonts/</div><div class="d">Logos, concept illustrations, Bely webfonts.</div></div>
     </div>
     <p class="why"><b>Iconography:</b> no icon library. UI icons are hand-written inline SVG at 14–16px, 1.2px stroke, <code>currentColor</code> – about a dozen in total. Concept illustrations are the flat PNGs in <code>images/</code>. No emoji, no unicode glyphs as icons; the one exception is the arrow in link text ("Export CSV →"), which is typographic.</p>
