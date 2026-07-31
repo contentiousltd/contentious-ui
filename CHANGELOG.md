@@ -10,6 +10,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.7.2] – 2026-08-01
+
+### Fixed
+
+- **The bridge's `--spacing-*` keys silently redefined every t-shirt `max-w-*`.** Tailwind 4 resolves `max-w-<key>` and `w-<key>` from `--spacing-*` when a key of that name exists, in preference to its own `--container-*` scale. Our spacing names are t-shirt sizes, so all of them collided: `--spacing-3xl` turned `max-w-3xl` from 48rem into **4rem**. Content Health Check hit it the moment it moved to Tailwind 4 — body copy wrapping one word per line, 64 `max-w-*` usages affected, and only `max-w-7xl` unscathed because there is no `--space-7xl`. Content Maturity would have hit it identically.
+- **The conflict is inherent, so the fix is to stop emitting them.** Tailwind's spacing namespace assumes numeric keys; `p-lg` and `max-w-lg` cannot both be correct. `max-w-*` wins — it is Tailwind's own vocabulary and used across every product, whereas the named spacing utilities (`p-lg`, `gap-md`) were used by **zero** bridge consumers: 0 in CHC, 0 in CM. contentious.ltd uses them, but it is on Tailwind 3 and does not import the bridge. Spacing is reached as `var(--space-lg)` in CSS, which is what the design system's own `components.css` already does.
+
 ## [0.7.1] – 2026-08-01
 
 ### Fixed

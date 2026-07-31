@@ -169,7 +169,28 @@ const groups = {
   font: FONT_MAP.filter(([, token]) => names.includes(token)),
   weight: names.filter((n) => n.startsWith('font-weight-')).sort(),
   radius: names.filter((n) => n === 'radius' || n.startsWith('border-radius-')).sort(),
-  spacing: names.filter((n) => n.startsWith('space-')).sort(),
+  /**
+   * DELIBERATELY EMPTY, and this is a correctness fix rather than an omission.
+   *
+   * The obvious mapping is --space-lg -> --spacing-lg, giving p-lg and gap-lg.
+   * It is a trap. Tailwind 4 resolves max-w-<key> and w-<key> from --spacing-*
+   * when a key of that name exists, in preference to its own --container-*
+   * scale. Our spacing names are t-shirt sizes, so every one of them collides:
+   * emitting --spacing-3xl silently redefines max-w-3xl from 48rem to 4rem.
+   *
+   * That is not theoretical. It shipped in 0.7.0 and broke 64 max-w-* usages in
+   * Content Health Check the moment it moved to Tailwind 4 — body text wrapping
+   * one word per line, because max-w-3xl became 64px. Only max-w-7xl survived,
+   * for the sole reason that we have no --space-7xl.
+   *
+   * The conflict is inherent: Tailwind's spacing namespace assumes numeric keys,
+   * so p-lg and max-w-lg cannot both be correct. Given the choice, max-w-* wins
+   * — it is Tailwind's own vocabulary and used in every product, while the named
+   * spacing utilities were used by exactly zero bridge consumers. Spacing is
+   * reached as var(--space-lg) in CSS, which is how the design system's own
+   * components.css already does it.
+   */
+  spacing: [],
   shadow: names.filter((n) => /^shadow-/.test(n)).sort(),
 };
 
