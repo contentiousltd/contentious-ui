@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check:design-sync": "node scripts/check-design-sync.mjs"
+    "check:design-sync": "node scripts/check-design-sync.mjs",
+    "suite:versions": "node scripts/suite-versions.mjs"
   },
   "exports": {
     ".": "./src/index.ts",
