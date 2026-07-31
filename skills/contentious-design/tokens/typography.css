@@ -15,11 +15,17 @@
   --font-weight-medium: 500;
   --font-weight-bold:   700;
 
-  --base-font-size:        18px;   /* CHC density. The library sets 24px in
-                                      typography.css and each product theme
-                                      overrides it - themes/content-health-check.css
-                                      already ships 18px. This mirrors that file;
-                                      it is not a second opinion. */
+  /* APP DENSITY. 19px, and it is a rule now rather than a coincidence — see
+     "Density" in tokens/products.css. Every reserved-deployment product (every
+     app) shares this value; banded/marketing surfaces take the brand's 24px.
+     Why 19 and not CHC's 18: 19 is the library's own pre-0.2.0 default, so it
+     is the base the component CSS was actually eyeballed against. CHC's 18 was
+     reverse-engineered from a 1.1rem body, is recorded nowhere as a decision,
+     and renders on no screen today. Neither number has a design argument, so
+     cost decides: 19 changes one theme file that renders nowhere; 18 changes
+     the library default and re-checks every component. Settle before chc-367,
+     which is where CHC declares a density for real. */
+  --base-font-size:        19px;
   --text-multiplier:       1;      /* DO NOT set a density value here. In the
                                       library this token is the RESPONSIVE step
                                       (1 / 1.1 / 1.2 by breakpoint, @layer base).
@@ -42,20 +48,23 @@
   /* ---- The app type scale ------------------------------------------------
      One unit of body text. Every size in the app is a multiple of it.
      Two inputs, both owned by the library:
-       --base-font-size   product density   (18px for CHC, from its theme file)
+       --base-font-size   density   (19px every app, 24px marketing — derived
+                                     from deployment mode, not chosen per
+                                     product; see tokens/products.css)
        --text-multiplier  responsive step   (1 / 1.1 / 1.2 by breakpoint)
      So this scale inherits the library's responsive behaviour for free. Set
      neither here in production - they arrive from tokens.css and the theme.
-     px comments are the resolved value at 18px x 1. */
+     px comments are the resolved value at the 19px app base x 1. Marketing
+     surfaces resolve the same ratios against 24px. */
   --u: calc(var(--base-font-size) * var(--text-multiplier));
 
-  --t-label:   calc(var(--u) * 0.62);   /* mono metadata      ~11px */
-  --t-hint:    calc(var(--u) * 0.78);   /*                    ~14px */
-  --t-ui:      calc(var(--u) * 0.88);   /* tabs, buttons      ~16px */
-  --t-body:    var(--u);                /*                    ~18px */
-  --t-row:     calc(var(--u) * 1.05);   /* row + card titles  ~19px */
-  --t-lede:    calc(var(--u) * 1.1);    /*                    ~20px */
-  --t-section: calc(var(--u) * 1.25);   /* section headings   ~23px */
-  --t-metric:  calc(var(--u) * 1.72);   /* metric values      ~31px */
-  --t-title:   calc(var(--u) * 2.4);    /* page titles        ~43px */
+  --t-label:   calc(var(--u) * 0.62);   /* mono metadata    ~12px · 15px */
+  --t-hint:    calc(var(--u) * 0.78);   /*                  ~15px · 19px */
+  --t-ui:      calc(var(--u) * 0.88);   /* tabs, buttons    ~17px · 21px */
+  --t-body:    var(--u);                /*                   19px · 24px */
+  --t-row:     calc(var(--u) * 1.05);   /* row + card title ~20px · 25px */
+  --t-lede:    calc(var(--u) * 1.1);    /*                  ~21px · 26px */
+  --t-section: calc(var(--u) * 1.25);   /* section heading  ~24px · 30px */
+  --t-metric:  calc(var(--u) * 1.72);   /* metric values    ~33px · 41px */
+  --t-title:   calc(var(--u) * 2.4);    /* page titles      ~46px · 58px */
 }

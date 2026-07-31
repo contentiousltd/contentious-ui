@@ -120,13 +120,14 @@ pre .c{color:var(--text-muted)}
 
 <nav class="toc">
   <div class="mark"><img src="images/contentious-monogram.png" alt=""/>Design system</div>
-  <div class="sub">Contentious · Content Health Check</div>
+  <div class="sub">Contentious · the product family</div>
   <h4>Foundations</h4>
   <a href="#principles">Principles</a>
   <a href="#colour">Colour</a>
   <a href="#type">Typography</a>
   <a href="#surfaces">Surfaces &amp; depth</a>
   <a href="#space">Space, radii, motion</a>
+  <a href="#signatures">Product signatures</a>
   <h4>Scores</h4>
   <a href="#scores">The level ramp</a>
   <a href="#stars">Star rating</a>
@@ -280,7 +281,7 @@ pre .c{color:var(--text-muted)}
 
     <h3 class="sub">One scale, two inputs</h3>
     <p class="why">Every size in the app is a multiple of <code>--u</code>. Two numbers feed it, and <b>both are owned by the library</b>:</p>
-    <p class="why"><code>--base-font-size</code> is <b>product density</b>. The library sets 24px for the website; each product theme overrides it. <code>themes/content-health-check.css</code> already ships <b>18px</b> — which is why these tools feel like an app rather than a marketing page.</p>
+    <p class="why"><code>--base-font-size</code> is <b>density</b>, and it is <b>derived from deployment mode, not chosen per product</b>: <b>19px</b> for every app, the brand's <b>24px</b> for marketing surfaces. That is why the tools feel like an app rather than a marketing page. It stays a knob a theme sets — a working tool and a first-impression surface genuinely want different density — but it now has two legal values and a rule saying which, so a theme setting 21px is wrong in a way a reviewer can see. Full reasoning, including why 19 rather than CHC's undocumented 18, is at the foot of <code>tokens/products.css</code>.</p>
     <p class="why"><code>--text-multiplier</code> is the <b>responsive step</b> — 1 below 48rem, 1.1 above it, 1.2 above 96rem, declared in <code>@layer base</code>. So this scale is responsive for free, and nothing here should ever assign it a density value. <b>Setting <code>--text-multiplier: 0.75</code> would be a bug</b>: it collides with the breakpoint rules and double-applies against the theme's 18px.</p>
     <p class="why">The specimens below are rendered <b>from the live tokens</b>, and every px figure is read back off the DOM at load. Nothing on this page is transcribed, so it cannot drift from the CSS. Drag the slider to preview a breakpoint step.</p>
 
@@ -289,7 +290,7 @@ pre .c{color:var(--text-muted)}
         <label for="mult">--text-multiplier</label>
         <input id="mult" type="range" min="0.9" max="1.3" step="0.01" value="1"/>
         <output id="mult-out">1.00</output>
-        <span class="mult__u">--u = <b id="u-out">18px</b></span>
+        <span class="mult__u">--u = <b id="u-out">19px</b></span>
         <button id="mult-reset" class="c-button c-button--ghost c-button--sm" type="button">Reset</button>
       </div>
       <table class="scale-tbl">
@@ -386,6 +387,131 @@ pre .c{color:var(--text-muted)}
     <h3 class="sub">Motion, hover, focus</h3>
     <p class="why"><code>--transition-fast</code> 180ms for state, <code>--transition-base</code> 280ms for reveals. No bounce, no spring, no entrance animation. The only loop in the system is the 1.6s chip dot pulse, reserved for genuinely live states.</p>
     <p class="why"><b>Hover is a background step, not a colour shift.</b> Transparent → limestone-600 for menu rows and controls; limestone-450 for list rows. Row actions are hidden at rest and revealed on hover. Focus is <code>--focus-ring</code> (fire-350) at 2px with 2px offset – browser-default blue is the only non-palette colour that ever appears, and it’s always a bug.</p>
+  </section>
+
+
+  <!-- ══ PRODUCT SIGNATURES ══ -->
+  <section class="part" id="signatures">
+    <h2 class="big">Product signatures</h2>
+    <p class="intro">This system began as the Content Health Check system, which is why CHC's expression – limestone ground, fire accent, gloaming text – sat in <code>semantic.css</code> as though it were the system itself. Any product that didn't deliberately deviate landed on CHC, and two of them did. <code>tokens/products.css</code> is where one product stops looking like another, and where the shared/individual split is finally written down.</p>
+    <p class="why"><b>Settled in structure, provisional in value.</b> The six dimensions, the two deployment modes, the closed set and the allocation rules are agreed and safe to cite. The specific stops in each product block are a coherent first proposal – only the CHC block is transcribed from shipping code. Reconcile each product against its production CSS before treating a hex here as canonical, and correct it in <code>products.css</code>, never in product code.</p>
+
+    <h3 class="sub">The six dimensions, in order of how much work they do</h3>
+    <table class="tok">
+      <tr><th style="width:150px">Dimension</th><th>What varies</th></tr>
+      <tr><td class="n">1 · Deployment</td><td><b>How colour is used structurally, before which colour.</b> <i>Reserved</i> – one accent, everything else carrying information – is every app. <i>Banded</i> is contentious.ltd alone: whole sections at a 500 stop, full bleed, hue rotating page to page, torn-paper edges between them. The band hue is deliberately <b>not</b> a token; it is an editorial choice per page, and tokenising it would turn a decision into a default.</td></tr>
+      <tr><td class="n">2 · Ground</td><td>Light or dark, which neutral, and <b>how much card contrast</b>. CM's lichen page with limestone cards makes cards objects on a ground; CHC's close-toned limestone makes them whispers within one. The amplitude is as much of the signature as the hue.</td></tr>
+      <tr><td class="n">3 · Illustration</td><td>Register – subject <i>and</i> treatment. Probably the strongest recognition cue in this brand, and the cheapest to lose by default: "use the existing set" is the path of least resistance and it is how CM and CHC converged.</td></tr>
+      <tr><td class="n">4 · Accent</td><td>Which family owns primary and interactive.</td></tr>
+      <tr><td class="n">5 · Display</td><td>How heroic Bely Display is allowed to get, <b>titles and metrics only</b> – where density moves everything. For almost every product this is 1: a marketing surface's 24px base already lifts <code>--t-title</code> from ~46px to ~58px, and stacking a multiplier on top puts two knobs in series on one ratio. Cap 1.3. The studio site's 1.24 was removed for exactly this reason.</td></tr>
+      <tr><td class="n">6 · Density</td><td><code>--base-font-size</code> – <b>derived from deployment, not chosen per product</b>. Reserved (every app) is <b>19px</b>; banded and marketing surfaces take the brand's <b>24px</b>. It stays a knob a theme sets, because a working tool and a first-impression surface genuinely want different density – but it now has two legal values and a rule saying which, so a theme setting 21px is wrong in a way a reviewer can see. 19 rather than CHC's 18 because 19 is the library's own pre-0.2.0 default, the base the component CSS was actually drawn against; 18 was reverse-engineered from a 1.1rem body and renders on no screen today.</td></tr>
+    </table>
+
+    <h3 class="sub">Four signatures, one markup</h3>
+    <p class="why">Everything below is the same mock four times; only <code>data-product</code> changes – except the studio column, which gains a band, because <i>banded</i> is a structure and not a colour.</p>
+    <style>
+    #signatures .sigs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    #signatures .sig{background:var(--surface-page);border-radius:var(--radius-frame);overflow:hidden;color:var(--text-body);display:flex;flex-direction:column}
+    #signatures .sig .ch{background:var(--surface-chrome);color:var(--text-inset);display:flex;align-items:center;gap:7px;padding:9px 12px;white-space:nowrap;overflow:hidden;border-bottom:1px solid var(--rule-section)}
+    #signatures .sig .ch i{width:12px;height:12px;border-radius:3px;background:var(--accent);flex:none}
+    #signatures .sig .ch b{font-family:var(--font-heading);font-weight:700;font-size:11px;color:var(--text-inset-strong);overflow:hidden;text-overflow:ellipsis}
+    #signatures .sig .ch em{margin-left:auto;font-style:normal;font-size:9.5px;color:var(--text-inset-strong);border-bottom:2px solid var(--accent-marker);padding-bottom:2px;flex:none}
+    #signatures .sig .bd{padding:14px 13px 15px;display:flex;flex-direction:column;gap:10px;flex:1}
+    #signatures .sig .ti{font-family:var(--font-heading-display);font-weight:400;line-height:1.03;color:var(--text-strong);font-size:calc(25px * var(--signature-display-scale, 1))}
+    #signatures .sig .ld{font-size:11.5px;line-height:1.5;color:var(--text-body);margin:0;text-wrap:pretty}
+    #signatures .sig .ld a{color:var(--accent-link);text-decoration:underline;text-decoration-color:var(--link-underline);text-underline-offset:2px}
+    #signatures .sig .ld a:hover{color:var(--accent-link-hover)}
+    #signatures .sig .cd{background:var(--surface-card);border-radius:var(--radius-surface);padding:11px 12px}
+    #signatures .sig .lb{font-family:var(--font-mono);font-size:8.5px;letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--text-muted)}
+    #signatures .sig .vl{font-family:var(--font-heading-display);font-weight:400;font-size:25px;color:var(--text-strong);margin-top:4px;line-height:1}
+    #signatures .sig .st{display:flex;gap:3px;margin-top:7px}
+    #signatures .sig .st s{width:9px;height:9px;border-radius:2px;display:block}
+    #signatures .sig .bt{display:flex;gap:7px}
+    #signatures .sig .bt span{font-family:var(--font-heading);font-size:10.5px;padding:6px 11px;border-radius:var(--radius-control)}
+    #signatures .sig .bt .p{background:var(--accent);color:var(--text-on-accent)}
+    #signatures .sig .bt .g{background:transparent;color:var(--text-body);border:1px solid var(--rule-field)}
+    #signatures .sig .sw{display:flex;border-radius:3px;overflow:hidden;height:15px}
+    #signatures .sig .sw s{flex:1}
+    #signatures .sig .mt{border-top:1px solid var(--rule-row);padding-top:9px;margin-top:auto;display:flex;flex-direction:column;gap:5px}
+    #signatures .sig .mt p{margin:0;font-size:10px;line-height:1.45;color:var(--text-secondary);text-wrap:pretty}
+    #signatures .hero{background:var(--sunshine-500);padding:14px 13px 19px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),88% 100%,74% calc(100% - 4px),58% calc(100% - 1px),41% calc(100% - 5px),26% calc(100% - 1px),12% calc(100% - 4px),0 100%)}
+    #signatures .hero .ti,#signatures .hero .ld{color:var(--gloaming-800)}
+    #signatures .hero .ld{margin-top:7px}
+    #signatures .bnd{display:flex;height:24px;border-radius:3px;overflow:hidden}
+    #signatures .bnd s{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:7px;letter-spacing:.06em;text-transform:uppercase}
+    </style>
+    <div class="demo plain">
+      <div class="sigs">
+        <div class="sig" data-product="chc">
+          <div class="ch"><i></i><b>Content Health Check</b><em>Results</em></div>
+          <div class="bd">
+            <div class="ti">Where the estate is weakest</div>
+            <p class="ld">Only changed pages are re-scored, so an unchanged estate costs nothing. <a href="#signatures">See what changed</a></p>
+            <div class="cd"><div class="lb">Median score</div><div class="vl">62%</div><div class="st"><s style="background:var(--star-1)"></s><s style="background:var(--star-2)"></s><s style="background:var(--star-3)"></s><s style="background:var(--level-empty)"></s><s style="background:var(--level-empty)"></s></div></div>
+            <div class="bt"><span class="p">Run analysis</span><span class="g">Export</span></div>
+            <div class="sw"><s style="background:var(--surface-page)"></s><s style="background:var(--surface-chrome)"></s><s style="background:var(--surface-card)"></s><s style="background:var(--surface-raised)"></s><s style="background:var(--accent)"></s><s style="background:var(--accent-marker)"></s></div>
+            <div class="mt"><div class="lb">Reserved · limestone, close-toned</div><p>Schematic illustration – objects, diagrams, systems seen from above. Display 1.0. The data is the loud thing.</p></div>
+          </div>
+        </div>
+        <div class="sig" data-product="cm">
+          <div class="ch"><i></i><b>Content Maturity</b><em>Framework</em></div>
+          <div class="bd">
+            <div class="ti">Growing up gracefully</div>
+            <p class="ld">Not a single piece, but the whole operation – systems, processes, attitudes. <a href="#signatures">Explore the framework</a></p>
+            <div class="cd"><div class="lb">Overall maturity</div><div class="vl">62%</div><div class="st"><s style="background:var(--star-1)"></s><s style="background:var(--star-2)"></s><s style="background:var(--star-3)"></s><s style="background:var(--level-empty)"></s><s style="background:var(--level-empty)"></s></div></div>
+            <div class="bt"><span class="p">Get started</span><span class="g">See example</span></div>
+            <div class="sw"><s style="background:var(--surface-page)"></s><s style="background:var(--surface-chrome)"></s><s style="background:var(--surface-card)"></s><s style="background:var(--surface-raised)"></s><s style="background:var(--accent)"></s><s style="background:var(--accent-marker)"></s></div>
+            <div class="mt"><div class="lb">Reserved · lichen, high card contrast</div><p>Pictorial illustration – landscape, growth, buildings. Coffee accent, sunshine marker. Cards are objects on a ground, not whispers in one.</p></div>
+          </div>
+        </div>
+        <div class="sig" data-product="vts">
+          <div class="ch"><i></i><b>Voice, Tone and Style</b><em>Learn</em></div>
+          <div class="bd">
+            <div class="ti">Define your voice</div>
+            <p class="ld">The structured, living style guide for organisations that care how they sound. <a href="#signatures">Read the guide</a></p>
+            <div class="cd"><div class="lb">Chapter three</div><div class="vl">&amp;</div><div class="st"><s style="background:var(--star-1)"></s><s style="background:var(--star-2)"></s><s style="background:var(--star-3)"></s><s style="background:var(--level-empty)"></s><s style="background:var(--level-empty)"></s></div></div>
+            <div class="bt"><span class="p">Read the guide</span><span class="g">Notify me</span></div>
+            <div class="sw"><s style="background:var(--surface-page)"></s><s style="background:var(--surface-chrome)"></s><s style="background:var(--surface-card)"></s><s style="background:var(--surface-raised)"></s><s style="background:var(--accent)"></s><s style="background:var(--accent-link)"></s></div>
+            <div class="mt"><div class="lb">Reserved · sorbet-850, dark, warm</div><p>Typographic illustration – letterforms, glyphs, printed matter. Sorbet accent with dark text on the fill. Light chrome over a dark page. Display 1.18.</p></div>
+          </div>
+        </div>
+        <div class="sig" data-product="contentious">
+          <div class="ch"><i></i><b>Contentious</b><em>Work</em></div>
+          <div class="hero"><div class="ti">Content matters</div><p class="ld">The strategic content studio behind three tools for humans and AI.</p></div>
+          <div class="bd">
+            <div class="bnd"><s style="background:var(--sunshine-500);color:var(--gloaming-800)">this page</s><s style="background:var(--fire-500);color:var(--limestone-200)">manifesto</s><s style="background:var(--gloaming-750);color:var(--limestone-300)">band</s><s style="background:var(--lichen-300);color:var(--gloaming-700)">band</s></div>
+            <p class="ld">Whole sections take a brand colour at full strength; the hue rotates page to page. <a href="#signatures">See the tools</a></p>
+            <div class="cd"><div class="lb">Founded</div><div class="vl">2019</div></div>
+            <div class="bt"><span class="p">Get in touch</span><span class="g">Our writing</span></div>
+            <div class="mt"><div class="lb">Banded · limestone ground, 500-stop bands</div><p>Textured collage – printed matter, torn paper. Band hue is authored per page, never a token. The only place texture lives. Display 1.24.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub">The contract</h3>
+    <table class="tok">
+      <tr><th style="width:150px">Rule</th><th>Why</th></tr>
+      <tr><td class="n">This file only</td><td>A product overrides tokens in <code>tokens/products.css</code> and nowhere else – not in <code>@contentious/ui</code>, not in product code. No product-specific hex anywhere but here.</td></tr>
+      <tr><td class="n">The set is closed</td><td>28 tokens. A 29th is a system decision, not a product decision. It has grown twice, both times because a shipping product wouldn't fit: <code>--text-inset</code> (VTS runs a light nav bar over a dark page, so one inverted text stack put white type on white chrome) and <code>--signature-deployment</code> (the studio site isn't a colour scheme, it's a structure). Both growths are the layer working.</td></tr>
+      <tr><td class="n">Set all of it</td><td>A partial signature silently inherits CHC, which is the exact bug this layer exists to prevent.</td></tr>
+      <tr><td class="n">No shared triple</td><td>No two products share the same (deployment, ground, accent). Products sold in one conversation – CM and CHC – must differ on <b>ground</b>, the dimension that carries at a glance within a mode. Across modes the mode is enough: contentious.ltd shares limestone with CHC and is never mistakable for it.</td></tr>
+      <tr><td class="n">Banded is the studio's</td><td>A second banded product dilutes the one thing marking the parent as the parent.</td></tr>
+      <tr><td class="n">Diverge at the front door,<br/>converge inside</td><td>Signatures run at full strength on marketing and first-run surfaces. Deep in a working app, family consistency is worth more than product identity – a signed-in results page <i>should</i> feel like a signed-in CHC page, because the toolkit is learned once. Two marketing sites looking alike is the actual cost. <code>--signature-app-ground</code> records which way each product went.</td></tr>
+    </table>
+
+    <h3 class="sub">What never varies</h3>
+    <p class="why">Everything outside the 28 is the family resemblance, and it is strong enough to carry hard divergence above it: <b>Bely and Bely Display</b> and every <code>--type-*</code> role, the spacing scale, radii 3/6/12, motion 200/350/150, chip geometry, <code>--star-1..5</code> and the score bands, <code>--data-*</code>, <code>--process-*</code>, <code>--comp-*</code>, <code>--link-underline</code> (sunshine on hover is a family trait, not a product one), one surface depth per page, and hairlines rather than boxes.</p>
+    <p class="why"><b>Texture is studio-only.</b> Torn edges, grain and printed-paper collage live on contentious.ltd. The app rule – no gradients, no blur, no glass, no grain – is unchanged, and this is not a hole in it. An app that grows a torn edge is a defect, not a family resemblance.</p>
+
+    <h3 class="sub">Accent allocation</h3>
+    <p class="why">The score ramp reserves five of eleven families at the 500 stop – fire, amber, sunshine, olive, sapling – <b>but only in a product that displays scores</b>. That qualifier matters: contentious.ltd shows none, so a full-bleed sunshine section there cannot be misread as level 2, and the studio site is free to use the whole palette at full strength. Which is exactly what it does.</p>
+    <p class="why">For scoring products, the next accent comes from a family unallocated as an accent (<b>wave is the only one left</b>), or from a ramp family at 700 or darker so no fill can be confused with a rung. CHC holds fire as both accent and star-1 – a fire button beside a fire one-star bar. That is <b>precedent, not licence</b>; do not create a second one.</p>
+    <p class="why">Grounds still free: wave light or dark, sapling-100..300, coffee-100..300, olive-100..200, and the dark end of coffee or wave. Limestone belongs to CHC and the studio, lichen to CM, dark sorbet to VTS.</p>
+    <h3 class="sub">One app scale, no literals</h3>
+    <p class="why">There is <b>one</b> app type scale – <code>--t-*</code> in <code>tokens/typography.css</code>, derived from <code>--base-font-size</code>. <code>semantic.css</code> used to carry a second one in literal pixels (<code>--text-body-size: 16px</code> and three siblings) alongside the <code>--type-*</code> roles, which meant a density change moved the roles and left the literals behind. Nothing referenced them, so they are deleted rather than rewired. <code>--label-font-size</code> was live and literal at 11px and now derives from <code>--t-label</code>.</p>
+    <p class="why"><b>Chip geometry is the one exception, on purpose.</b> Radius, padding and font size stay literal: "one geometry, six tones" means a chip that resizes with density is six geometries, and chips are app-only – nothing on a 24px marketing surface uses one.</p>
+    <p class="why"><b>Open:</b> <code>--signature-display-scale</code> is declared and read by the specimen, but <code>tokens/typography.css</code> does not yet multiply <code>--t-title</code> and <code>--t-metric</code> by it. With every product now at 1 this is no longer urgent – but wire it before anything sets it, not after.</p>
   </section>
 
   <!-- ══ SCORE PRIMITIVES ══ -->
@@ -939,6 +1065,7 @@ pre .c{color:var(--text-muted)}
       </ul></div>
       <div class="dont"><h5>Don’t</h5><ul>
         <li>No emoji, no exclamation marks</li>
+        <li>No em dashes – a spaced en dash, colon or full stop instead</li>
         <li>No "Oops", no "Let’s get started", no "the user"</li>
         <li>No Title Case except proper nouns</li>
         <li>No copy that only restates the field it sits under</li>
@@ -963,6 +1090,7 @@ pre .c{color:var(--text-muted)}
       <div><div class="p">styles.css</div><div class="d">The entry point. An <code>@import</code> list only – link this one file.</div></div>
       <div><div class="p">tokens/semantic.css</div><div class="d"><b>Start here.</b> Every decision as a token, with the reasoning in comments: surfaces, hairlines, data colour, chip tones, switch, type roles.</div></div>
       <div><div class="p">tokens/colors.css</div><div class="d">11 families × 17 stops, plus friendly aliases.</div></div>
+      <div><div class="p">tokens/products.css</div><div class="d"><b>Product signatures.</b> The closed 28-token set each product may override, the six dimensions, the allocation rules, and the recipe for adding the next product. Settled in structure, provisional in value.</div></div>
       <div><div class="p">tokens/fonts.css</div><div class="d">Bely <code>@font-face</code> rules and the synthesis-weight guard.</div></div>
       <div><div class="p">components/components.css</div><div class="d">Plain-CSS implementation of every component. What this page and the UI kit run on.</div></div>
       <div><div class="p">components/core/</div><div class="d">Chip, Button, Switch, Field, Card, <b>StarRating</b></div></div>
@@ -971,7 +1099,7 @@ pre .c{color:var(--text-muted)}
       <div><div class="p">components/*/*.jsx + .d.ts</div><div class="d">React implementations with props contracts, for production code. Kept in step with the CSS by hand.</div></div>
       <div><div class="p">components/*/*.prompt.md</div><div class="d">Per-component usage notes and the rules that matter.</div></div>
       <div><div class="p">ui_kits/content-health-check/</div><div class="d">Click-through product mock-up – four admin realms, built only from these components.</div></div>
-      <div><div class="p">guidelines/</div><div class="d">18 small specimen cards, one concept each.</div></div>
+      <div><div class="p">guidelines/</div><div class="d">19 small specimen cards, one concept each – including the four product signatures side by side.</div></div>
       <div><div class="p">images/ · fonts/</div><div class="d">Logos, concept illustrations, Bely webfonts.</div></div>
     </div>
     <p class="why"><b>Iconography:</b> no icon library. UI icons are hand-written inline SVG at 14–16px, 1.2px stroke, <code>currentColor</code> – about a dozen in total. Concept illustrations are the flat PNGs in <code>images/</code>. No emoji, no unicode glyphs as icons; the one exception is the arrow in link text ("Export CSV →"), which is typographic.</p>

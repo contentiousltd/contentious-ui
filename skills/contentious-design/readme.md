@@ -41,6 +41,8 @@ Fonts are the licensed **Bely** and **Bely Display** cuts in `fonts/` – no sub
 
 **Explain the model once, quietly, in place.** One 12px sentence at the foot of a menu beats a modal. Explanatory copy lives where the confusion happens, and it is never permanent chrome – a tooltip is preferred to a label, and a tooltip is preferred to a coachmark.
 
+**No em dashes, ever.** Not in UI copy, not in marketing, not in email. An em dash is almost always a colon, a full stop, a comma or a pair of brackets that hasn't been chosen yet, and choosing is the work: a colon when the second half explains the first, a full stop when it's a separate thought, brackets for a genuine aside. Where a dash genuinely reads best, it is the **spaced en dash** – this one – which is the house parenthetical throughout this document. En dash also for numeric ranges (90–100); the mid-dot (·) for mono metadata. This rule is mechanically checkable, so it gets checked in review.
+
 **No emoji.** No exclamation marks. No "Oops". No "Let’s get started". Errors state what failed and what to do: "5 are Firecrawl timeouts."
 
 **Voice under pressure:** dry, specific, slightly understated. "Anything over 10% is worth investigating." "Nobody learns a data model while trying to run their first audit."
@@ -56,6 +58,22 @@ The framework scores each criterion out of five stars, so the score ramp has fiv
 **These five are reserved for scores.** Not a categorical palette: an orange bar in a "top sections" chart reads as level 2 whether you mean it or not. Categorical bars use one colour (`--categorical`); ordered process stages use a wave ramp with fire for failure (`--process-*`).
 
 Band thresholds (`--score-band-*`) are provisional at 90/80/70/60 and should be replaced with the framework's real star boundaries.
+
+### Product signatures
+
+This system began as the Content Health Check system, which is why CHC's expression — limestone ground, fire accent, gloaming text — sat in `semantic.css` as though it were the system itself. Any product that didn't deliberately deviate landed on CHC. **`tokens/products.css` is where one product stops looking like another**, and where the shared/individual split is finally written down.
+
+A signature has six dimensions, in order of how much work they do: **deployment mode** · **ground** · **illustration register** · **accent** · **display presence** · **density**.
+
+**Deployment comes before colour**, and there are two modes. *Reserved* — every app — means one accent and everything else carrying information. *Banded* is contentious.ltd alone: whole sections at a brand colour's 500 stop, full bleed, hue rotating page to page, torn-paper edges between them. The band hue is deliberately **not** a token; it is an editorial choice per page, and tokenising it would turn a decision into a default. Two consequences worth knowing. The studio site displays no scores, so the ramp's 500-stop reservation doesn't bind it — full-bleed sunshine can't be misread as level 2. And the studio site is the only place the brand's **texture** lives; the app rule (no gradient, blur, glass or grain) is unchanged, and an app that grows a torn edge is a defect, not a family resemblance.
+
+A product overrides a **closed set of 28 tokens** in `products.css` and nothing else, anywhere. Everything outside that set is the family resemblance and never varies: Bely and Bely Display and all `--type-*` roles, the spacing scale, radii, motion, chip geometry, the score ramp and its bands, `--data-*`, `--link-underline`, one-surface-depth, hairlines-not-boxes. That core is strong enough to carry hard divergence above it.
+
+Four rules matter more than the rest. No two products share the same (deployment, ground, accent) triple, and products sold in one conversation — CM and CHC — must differ on *ground*. Across deployment modes the mode is enough, which is how contentious.ltd shares limestone with CHC and is never mistakable for it. A partial signature silently inherits CHC, so set all 28 or none. Where a product mixes light and dark — VTS runs a light nav bar over a dark page — `--text-inset` / `--text-inset-strong` carry the text on the light island, and chrome and field markup must reference those rather than `--text-body`. The score ramp's 500-stop reservation binds only products that **display scores**; for those, accents come from outside the five ramp families (wave is the last free one) or from a ramp family at 700 or darker. And **diverge at the front door, converge inside**: a signed-in results page *should* feel like a signed-in CHC page — two marketing sites looking alike is the actual cost. `--signature-app-ground` records which way a product went.
+
+**Settled in structure, provisional in value.** The dimensions, deployment modes, closed set, invariant core and allocation rules are agreed and safe to cite. The specific stops in each product block are a first proposal — only the CHC block is transcribed from shipping code — so reconcile each product against its production CSS before treating a hex as canonical, and correct it in `products.css` rather than in product code.
+
+See `guidelines/pattern-product-signatures.html` for the four current signatures side by side, the recipe for adding the next one, and the open items — chiefly which sorbet stop VTS actually ships. Nothing is missing from the palette — an earlier draft of this layer claimed a twelfth family was needed and that was wrong.
 
 ### Colour
 Eleven families, seventeen stops each (100 lightest → 900 darkest, in 50s); the brand true colour is the 500 stop. Only three families do structural work:
@@ -73,9 +91,9 @@ Sunshine (warn), wave (info, series bars) and sapling (good) carry meaning. Coff
 ### Type
 **Bely** throughout – body, headings and UI all share one serif, which is unusual and is the strongest thing about the identity. **Bely Display** is a single 400 cut used only for page titles and metric values, never below 30px; `font-synthesis-weight: none` is set globally so browsers can’t fake a bold and thicken the ink.
 
-Mono is the metadata voice: system UI monospace at **10px, 0.09em, uppercase, gloaming-450 floor**. It labels; it never carries content. 9px at gloaming-300 is the most common defect in review.
+Mono is the metadata voice: system UI monospace at **`--t-label`, 0.09em, uppercase, gloaming-450 floor**. It labels; it never carries content. 9px at gloaming-300 is the most common defect in review.
 
-Scale in use: page title 44–50 Display · section heading 21 Bely · row title 17 · body 15 · UI 14 · secondary 13 · mono label 10.
+**One scale, derived.** Every app size is a `--t-*` step off `--base-font-size`; there are no literal px sizes outside chip geometry. Resolved at the 19px app base and, in the second column, the 24px marketing base: mono label 12/15 · hint 15/19 · UI 17/21 · body 19/24 · row 20/25 · lede 21/26 · section 24/30 · metric 33/41 · page title 46/58. An earlier version of this readme listed a 15px-body scale that no token implemented — that scale is gone, along with the four literal `--text-*-size` tokens in `semantic.css` that were its last trace.
 
 ### Surfaces, borders, shadow
 **One surface depth per page.** A slab inside a slab is always wrong – the single most common structural defect. Groups are made by a hairline rule and the space around them, not by a box: a section is a 1px limestone-700 rule with a heading above it, 42px clear above and 18px below.
@@ -129,7 +147,8 @@ Bar over donut, always: a 9px stacked `CompositionBar` for part-of-total, a `Mic
 | Path | What’s there |
 | --- | --- |
 | `styles.css` | The entry point. `@import` list only – link this one file. |
-| `tokens/` | `fonts` `colors` `typography` `spacing` `effects` `semantic` |
+| `tokens/` | `fonts` `colors` `typography` `spacing` `effects` `semantic` `products` |
+| `tokens/products.css` | **Product signatures.** The closed 25-token set each product may override, the allocation rules, and the recipe for adding the next product. |
 | `tokens/semantic.css` | **Start here.** The decisions as tokens: surfaces, hairlines, data colour, chip tones, switch, type roles. |
 | `components/components.css` | Plain-CSS implementation of every component. Link `styles.css` and use the classes – no build step, no React. |
 | `components/core/` | Chip, Button, Switch, Field, Card, StarRating |
@@ -149,7 +168,7 @@ Each component directory has `<Name>.prompt.md` with usage and the rules that ma
 
 Class names follow `@contentious/ui`: `c-<block>__<element>--<modifier>`, `is-<state>`, inside `@layer components`.
 
-`--base-font-size` is product density — 18px for Content Health Check, already shipping in `themes/content-health-check.css`. `--text-multiplier` is the library's responsive step (1 / 1.1 / 1.2 by breakpoint), **not** a density knob: setting it to 0.75 would take that 18px down to 13.5px and flatten the responsive behaviour. Assign neither in this system.
+`--base-font-size` is density, and it is **derived from deployment mode, not chosen per product**: 19px for every app, 24px for marketing surfaces. See the Density note at the foot of `tokens/products.css`. `--text-multiplier` is the library's responsive step (1 / 1.1 / 1.2 by breakpoint), **not** a density knob: setting it to 0.75 would take that 18px down to 13.5px and flatten the responsive behaviour. Assign neither in this system.
 
 Container width follows content shape: `--width-prose` for long-form reading, 1080px for standard pages, `--width-content` (1280px) for tables and dashboards.
 

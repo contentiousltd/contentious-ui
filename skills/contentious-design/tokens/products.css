@@ -1,0 +1,423 @@
+/* =============================================================================
+   Product signatures — the layer where one product stops looking like another.
+
+   STATUS, 31 July 2026 — SETTLED IN STRUCTURE, PROVISIONAL IN VALUE.
+   What is agreed and safe to build on: the six dimensions, the two deployment
+   modes, the closed set, the invariant core, the allocation rules, and rule 5
+   (diverge at the front door, converge inside). Cite those.
+   What is NOT yet exact: the specific stops in each product block. They are a
+   coherent first proposal, not a match to what is deployed — CM's lichen page
+   is a recommendation nobody has seen on a real screen, VTS's sorbet-850 needs
+   checking against the live CSS (see the note in its block), and CHC's block is
+   the only one transcribed from something shipping. Reconcile each product
+   against its production CSS before treating a hex here as canonical, and when
+   you do, correct it HERE rather than in product code.
+   The structure is what stops the next product landing on CHC by accident. The
+   hexes are how it happens to look this week.
+
+   WHY THIS EXISTS
+   This system began as the Content Health Check system, so CHC's expression
+   (limestone ground, fire accent, gloaming text) sat in semantic.css as though
+   it were the system itself. Any product that did not deliberately deviate
+   landed on CHC. Content Maturity and CHC read as the same product for exactly
+   that reason; Voice, Tone and Style reads as its own because it diverged on
+   four dimensions at once. This layer makes divergence a declaration rather
+   than an act of rebellion.
+
+   THE CONTRACT — read before adding a product
+   1. A product overrides tokens in THIS FILE ONLY. No product-specific hex
+      anywhere else in the system, in @contentious/ui, or in product code.
+   2. The overridable set is CLOSED. It is the 28 tokens listed under "THE
+      SIGNATURE SET" below. Adding a 29th is a system decision, not a product
+      decision — argue it out and record it here. It has grown twice, both
+      times because a real product would not fit: --text-inset (see VTS) and
+      --signature-deployment (see contentious.ltd). Both growths are the layer
+      working — a signature that cannot describe a shipping product is the
+      thing being fixed here.
+   3. Everything not in the set is the family resemblance and never varies:
+      Bely + Bely Display and all --type-* roles, the spacing scale, radii
+      (3/6/12), motion (200/350/150), chip geometry and tones, --star-1..5 and
+      the score bands, --data-*, --process-*, --comp-*, --link-underline
+      (sunshine on hover is a family trait, not a product one), the
+      one-surface-depth rule, hairlines-not-boxes.
+   4. No two products share the same (deployment, ground, accent) triple.
+      Products sold in the same conversation — CM and CHC — must differ on
+      GROUND, because within one deployment mode that is the dimension that
+      carries at a glance. Across deployment modes the mode itself is enough:
+      contentious.ltd shares limestone with CHC and is never mistakable for it.
+   5. Diverge at the front door, converge inside. Signatures are at full
+      strength on marketing and first-run surfaces. Deep in a working app,
+      family consistency is worth more than product identity: a signed-in
+      results page SHOULD feel like a signed-in CHC page. Products may scope
+      the strong half of their signature to marketing surfaces and inherit
+      [data-product="chc"] ground inside the app — see --signature-app-ground.
+
+   THE SIX DIMENSIONS OF A SIGNATURE, in order of how much work they do
+      1. Deployment    HOW colour is used structurally, before which colour.
+                       Two modes so far and they are worlds apart:
+                         reserved — one accent, everything else means something.
+                                    Every app. Colour is information.
+                         banded   — full-bleed saturated sections at the 500
+                                    stop, hue rotating per page, torn-paper
+                                    edges between them. contentious.ltd.
+                       Recorded in --signature-deployment. This dimension was
+                       missed on the first pass: the studio site was described
+                       as "dark neutral with a fire accent", which is not what
+                       it does at all. What makes it unmistakable is that a
+                       whole section is sunshine, and the next page's is fire.
+      2. Ground        light/dark, which neutral, and how much card contrast
+      3. Illustration  register: subject AND treatment (documented, audited
+                       via --signature-illustration; not a colour)
+      4. Accent        which family owns primary/interactive
+      5. Display       how heroic Bely Display is allowed to get
+      6. Density       --base-font-size. NOT a free per-product number: it is
+                       DERIVED FROM DEPLOYMENT. Reserved (every app) = 19px.
+                       Banded / marketing = the brand's 24px. See "Density" at
+                       the foot of this file.
+
+   THE SIGNATURE SET (28)
+      ground      --surface-page --surface-chrome --surface-card
+                  --surface-raised --surface-menu --surface-field
+                  --surface-inverse
+      hairlines   --rule-section --rule-row --rule-field
+      text        --text-strong --text-body --text-secondary --text-muted
+                  --text-inverse --text-on-accent
+                  --text-inset-strong --text-inset
+      accent      --accent --accent-hover --accent-marker --accent-link
+                  --accent-link-hover --focus-ring
+      ratings     --level-empty            (dark grounds need a lighter track)
+      display     --signature-display-scale
+      audit       --signature-illustration --signature-app-ground
+                  --signature-deployment
+
+   ACCENT ALLOCATION — narrower than it first looked, and that is a relief
+   The score ramp reserves five of eleven families at the 500 stop (fire, amber,
+   sunshine, olive, sapling) — but ONLY IN A PRODUCT THAT DISPLAYS SCORES. That
+   qualifier was missing on the first pass and it matters: contentious.ltd shows
+   no scores, so a full-bleed sunshine section there cannot be misread as level
+   2, and the studio site is free to use the whole palette at full strength.
+   That is exactly what it does.
+   So the constraint applies to CHC, CM, and anything else with a star rating.
+   For those, rules for the next product:
+     - Prefer a family unallocated as an accent: wave is the only one left.
+     - Or take a ramp family at 700 or darker, never 500, so no fill can be
+       confused with a rung.
+     - Or add a twelfth family deliberately.
+   CHC holds fire as both accent and star-1. That is a pre-existing tension —
+   a fire button beside a fire one-star bar — and it is precedent, not licence.
+   Do not create a second one.
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   CONTENT HEALTH CHECK — the diagnostic. Light, neutral, close-toned.
+   Declared explicitly rather than inherited, so "the default" stops being a
+   product. If semantic.css and this block ever disagree, this block wins and
+   semantic.css should be reverted to the CHC values.
+   Ground: warm cream, cards a whisper lighter — quiet, because the data is
+   the loud thing. Illustration: schematic objects and diagrams.
+-------------------------------------------------------------------------------- */
+[data-product="chc"] {
+  --surface-page:        var(--limestone-500);
+  --surface-chrome:      var(--limestone-400);
+  --surface-card:        var(--limestone-300);
+  --surface-raised:      var(--limestone-600);
+  --surface-menu:        var(--limestone-150);
+  --surface-field:       var(--limestone-200);
+  --surface-inverse:     var(--gloaming-800);
+
+  --rule-section:        var(--limestone-700);
+  --rule-row:            var(--limestone-600);
+  --rule-field:          var(--limestone-750);
+
+  --text-strong:         var(--gloaming-800);
+  --text-body:           var(--gloaming-700);
+  --text-secondary:      var(--gloaming-500);
+  --text-muted:          var(--gloaming-450);
+  --text-inverse:        var(--limestone-300);
+  --text-on-accent:      var(--limestone-200);
+  --text-inset-strong:   var(--gloaming-800);  /* light ground: same as --text-strong */
+  --text-inset:          var(--gloaming-700);
+
+  --accent:              var(--fire-500);
+  --accent-hover:        var(--fire-600);
+  --accent-marker:       var(--fire-500);
+  --accent-link:         var(--fire-650);
+  --accent-link-hover:   var(--fire-800);
+  --focus-ring:          var(--fire-350);
+
+  --level-empty:         var(--limestone-750);
+
+  --signature-display-scale: 1;
+  --signature-illustration:  "schematic — objects, diagrams, systems seen from above";
+  --signature-deployment:    "reserved";
+  --signature-app-ground:    "own";
+}
+
+/* -----------------------------------------------------------------------------
+   CONTENT MATURITY — the assessment. Light, but a definite ground.
+   Lichen is the lever and it is a real one: lichen-500 #DADAD2 sits ~9 points
+   of lightness below limestone-500 #F2F2E7 and a step cooler. Used as the PAGE
+   it changes the structural feel, not just the tint — cards become objects on
+   a ground rather than a whisper within one. That contrast is CM's signature
+   as much as the hue is.
+   Accent: coffee, the warm brown already in CM's illustrations. Sunshine keeps
+   the marker role (the play-triangle on CM's buttons is already sunshine).
+   Illustration: pictorial — landscape, growth, buildings. Genuinely unlike
+   CHC's register already; this is the dimension CM was closest to getting right.
+-------------------------------------------------------------------------------- */
+[data-product="cm"] {
+  --surface-page:        var(--lichen-500);
+  --surface-chrome:      var(--lichen-400);
+  --surface-card:        var(--limestone-200);
+  --surface-raised:      var(--lichen-600);
+  --surface-menu:        var(--limestone-150);
+  --surface-field:       var(--limestone-150);
+  --surface-inverse:     var(--gloaming-800);
+
+  --rule-section:        var(--lichen-700);
+  --rule-row:            var(--lichen-600);
+  --rule-field:          var(--lichen-750);
+
+  --text-strong:         var(--gloaming-800);
+  --text-body:           var(--gloaming-700);
+  --text-secondary:      var(--gloaming-500);
+  --text-muted:          var(--gloaming-450);
+  --text-inverse:        var(--limestone-300);
+  --text-on-accent:      var(--limestone-200);
+  --text-inset-strong:   var(--gloaming-800);
+  --text-inset:          var(--gloaming-700);
+
+  --accent:              var(--coffee-700);
+  --accent-hover:        var(--coffee-750);
+  --accent-marker:       var(--sunshine-500);
+  --accent-link:         var(--coffee-800);   /* 700 is only 4.6:1 on lichen-500 */
+  --accent-link-hover:   var(--coffee-900);
+  --focus-ring:          var(--coffee-500);
+
+  --level-empty:         var(--lichen-700);
+
+  --signature-display-scale: 1;
+  --signature-illustration:  "pictorial — landscape, growth, buildings, objects in a scene";
+  --signature-deployment:    "reserved";
+  --signature-app-ground:    "own";
+}
+
+/* -----------------------------------------------------------------------------
+   VOICE, TONE AND STYLE — the style guide. Dark, editorial, heroic.
+   The one product that already had a signature. This block records it rather
+   than inventing it: dark ground, sorbet accent, typographic illustration,
+   display type at ~1.2x.
+
+   CORRECTED — the ground is SORBET, not off-palette. The first pass called the
+   aubergine unreachable and reached for fire-850; wrong on both counts. The
+   dark end of the sorbet family is exactly it: sorbet-850 #3A2725 for the page,
+   sorbet-800 #4D3431 raised. One thing to check against the live CSS — sorbet
+   -700 #744E49 is a good deal lighter than the shipping page ground and reads
+   as the card/raised stop rather than the page, so if the site sets 700 as its
+   page colour the tokens below are darker than production. Family confirmed,
+   stop worth a look.
+   This also retires the "add a twelfth family" suggestion: nothing is missing
+   from the palette. The accent register is tighter than the palette is short.
+
+   FIX carried in this block: sorbet-500 with limestone text is ~2.8:1. Text on
+   the accent is gloaming-800 — dark text on the salmon fill, which is also
+   what the shipping button should be doing.
+
+   WHY THE SET GREW TO 27. VTS runs a LIGHT nav bar and light form fields over
+   a DARK page — that is the shipping design and it is the right one. A single
+   inverted text stack cannot serve both: --text-strong inverted to limestone
+   put white type on the white chrome, 1:1. So the set gained --text-inset and
+   --text-inset-strong: "text on a light island within a dark page", used by
+   --surface-chrome, --surface-field and --surface-inverse. For every
+   light-ground product they are simply equal to --text-body / --text-strong,
+   which is why they read as two redundant lines in three of four blocks and
+   are load-bearing in the fourth. Chrome and field markup must reference
+   --text-inset, never --text-body.
+-------------------------------------------------------------------------------- */
+[data-product="vts"] {
+  --surface-page:        var(--sorbet-850);
+  --surface-chrome:      var(--limestone-200);   /* light chrome over a dark page */
+  --surface-card:        var(--coffee-850);
+  --surface-raised:      var(--sorbet-800);
+  --surface-menu:        var(--sorbet-800);
+  --surface-field:       var(--limestone-200);
+  --surface-inverse:     var(--limestone-200);   /* inverse of a dark page is light */
+
+  --rule-section:        var(--sorbet-750);
+  --rule-row:            var(--sorbet-800);
+  --rule-field:          var(--sorbet-700);
+
+  --text-strong:         var(--limestone-200);
+  --text-body:           var(--limestone-400);
+  --text-secondary:      var(--coffee-300);
+  --text-muted:          var(--coffee-400);
+  --text-inverse:        var(--gloaming-800);
+  --text-on-accent:      var(--gloaming-800);
+  --text-inset-strong:   var(--gloaming-800);  /* dark type on the light chrome */
+  --text-inset:          var(--gloaming-700);
+
+  --accent:              var(--sorbet-500);
+  --accent-hover:        var(--sorbet-450);
+  --accent-marker:       var(--sorbet-500);
+  --accent-link:         var(--sorbet-300);
+  --accent-link-hover:   var(--limestone-200);
+  --focus-ring:          var(--sorbet-400);
+
+  --level-empty:         var(--sorbet-750);
+
+  --signature-display-scale: 1.18;
+  --signature-illustration:  "typographic — letterforms, glyphs, printed matter, collage";
+  --signature-deployment:    "reserved";
+  --signature-app-ground:    "own";
+}
+
+/* -----------------------------------------------------------------------------
+   CONTENTIOUS.LTD — the studio. The banded one, and the only banded one.
+
+   CORRECTED from the first pass, which had this as "dark neutral near-black
+   with a fire accent". It is nothing of the kind. The page ground is the same
+   warm cream as CHC; what makes the site unmistakable is that whole sections
+   take a brand colour at FULL STRENGTH, full bleed, with the hue rotating page
+   to page — sunshine behind "Content matters" and "The content system", fire
+   behind "The content manifesto" — and the manifesto alternates gloaming-dark
+   and lichen-light bands down its whole length. Torn-paper edges between bands.
+
+   Which is why --accent here is close to meaningless and the band hue is NOT a
+   token. It is an editorial choice per page, from the whole palette, and
+   tokenising it would turn a deliberate decision into a default. --accent
+   covers the small things that are still buttons and links; the bands are
+   authored. That is the difference --signature-deployment: "banded" records.
+
+   The studio site is also the only place the brand's TEXTURE lives: torn
+   edges, grain, printed-paper collage bleeding off the band. The app rule "no
+   gradients, no blur, no glass, no grain" is unchanged and this is not a hole
+   in it — texture is a studio-site trait, and an app that grows a torn edge is
+   a defect, not a family resemblance.
+
+   Shares limestone with CHC, which rule 4 permits because the deployment modes
+   differ: nobody confuses a page with a full-bleed sunshine hero for the
+   results screen of an audit tool.
+-------------------------------------------------------------------------------- */
+[data-product="contentious"] {
+  --surface-page:        var(--limestone-500);
+  --surface-chrome:      var(--limestone-400);
+  --surface-card:        var(--limestone-300);
+  --surface-raised:      var(--lichen-300);      /* the light alternating band */
+  --surface-menu:        var(--limestone-150);
+  --surface-field:       var(--limestone-200);
+  --surface-inverse:     var(--gloaming-750);    /* the dark alternating band */
+
+  --rule-section:        var(--limestone-700);
+  --rule-row:            var(--limestone-600);
+  --rule-field:          var(--limestone-750);
+
+  --text-strong:         var(--gloaming-800);
+  --text-body:           var(--gloaming-700);
+  --text-secondary:      var(--gloaming-500);
+  --text-muted:          var(--gloaming-450);
+  --text-inverse:        var(--limestone-300);
+  --text-on-accent:      var(--limestone-200);
+  --text-inset-strong:   var(--gloaming-800);
+  --text-inset:          var(--gloaming-700);
+
+  --accent:              var(--gloaming-800);    /* buttons are near-black here */
+  --accent-hover:        var(--gloaming-750);
+  --accent-marker:       var(--fire-500);
+  --accent-link:         var(--fire-650);
+  --accent-link-hover:   var(--fire-800);
+  --focus-ring:          var(--fire-350);
+
+  --level-empty:         var(--limestone-750);
+
+  /* Display scale is 1, NOT 1.24. Density already carries the heroism: at the
+     24px marketing base, --t-title resolves to ~58px against the app's ~46px.
+     Stacking a 1.24 multiplier on top would give ~71px and, worse, would mean
+     two knobs in series controlling one ratio — which is how you lose control
+     of it. If 58px turns out too small on the live site, change the ratio in
+     ONE place, deliberately. */
+  --signature-display-scale: 1;
+  --signature-illustration:  "textured collage — printed matter, torn paper, cut shapes bleeding off the band";
+  --signature-deployment:    "banded — full-bleed 500-stop sections, hue rotates per page, torn edges, texture permitted";
+  --signature-app-ground:    "n/a";
+}
+
+/* -----------------------------------------------------------------------------
+   ADDING THE NEXT PRODUCT — the recipe
+
+   1. Pick a DEPLOYMENT MODE first. Almost certainly "reserved" — banded is
+      the studio site's and a second banded product would dilute the one thing
+      that marks the studio as the parent rather than a sibling.
+   2. Pick a GROUND, and check it against every existing product at a glance,
+      squinting, side by side on pattern-product-signatures.html. If you have
+      to look twice, it is not a ground.
+      Still free: wave (cool blue-grey, light or dark), sapling-100..300,
+      coffee-100..300, olive-100..200, and the dark end of coffee or wave.
+      Limestone is CHC's and the studio's; lichen is CM's; sorbet-dark is VTS's.
+   3. Pick an ILLUSTRATION REGISTER and write it into
+      --signature-illustration as a sentence someone could commission from.
+      This is the second-strongest cue and the cheapest to get wrong by
+      default, because "use the existing set" is always the path of least
+      resistance and it is how CM and CHC converged.
+   4. Pick an ACCENT under the allocation rules above.
+   5. Pick a DISPLAY SCALE, which for most products is 1. It exists for a
+      product that needs heroic titles WITHOUT a density change — titles and
+      metrics only, where density moves everything. A marketing surface does
+      not need it: its 24px base already lifts --t-title from ~46px to ~58px.
+      Cap 1.3, and check what it compounds with before using it at all.
+   6. Set the full 28. A partial signature inherits CHC and that is the bug
+      this whole layer exists to prevent. If the product mixes light and dark
+      surfaces in either direction, --text-inset is the pair that saves you.
+   7. Decide --signature-app-ground: "own" if the product's app carries the
+      signature, "chc" if it converges inside. State it; do not leave it to
+      whoever builds the third screen.
+
+   OPEN ITEM — --signature-display-scale is declared here and read by the
+   specimen page, but tokens/typography.css does not yet multiply --t-title
+   and --t-metric by it. Wiring that up is a one-line change in typography.css
+   and should land with the first product that needs a scale other than 1.
+-------------------------------------------------------------------------------- */
+/* -----------------------------------------------------------------------------
+   DENSITY — the sixth dimension, and the one that was accidental
+
+   SETTLED. Density is derived from deployment, not chosen per product:
+       reserved (every app)          --base-font-size: 19px
+       banded / marketing surfaces   --base-font-size: 24px   (the brand value)
+
+   IS IT STILL A KNOB? Yes — and that distinction was the right thing to ask.
+   Density stays a knob a product theme sets, because it is a real signature
+   dimension: a working tool and a first-impression surface genuinely want
+   different information density, and the alternative shapes both fail. One
+   value everywhere at 19px drags contentious.ltd down from 24px, a large
+   visible regression on the public site; one value everywhere at 24px halves
+   what fits on an app screen.
+
+   What changes is that it is no longer FREE. It has two legal values and a rule
+   saying which one a product takes, and the rule keys off a dimension the
+   signature already declares. So ADR-0011's knob list does not lose an entry —
+   density, accent, mark all stay. It gains a constraint, which is the opposite
+   of the list getting shorter and is what makes the theme files hard to misuse.
+   A theme setting 21px is now wrong in a way a reviewer can see.
+
+   WHY 19 AND NOT 18. Neither has a design argument — 19 is the library's own
+   pre-0.2.0 default, pinned so nothing shifted when the brand base moved to
+   24px; CHC's 18 was reverse-engineered from a 1.1rem body and neither theme
+   file records a reason. So cost decides. 19 is the base the component CSS was
+   actually eyeballed against, and adopting it changes one theme file that
+   renders on no screen today. 18 changes the library default and re-checks
+   every component against a base nothing was drawn at. Do it before chc-367.
+
+   DENSITY AND DISPLAY SCALE ARE NOT THE SAME KNOB, and this cost the studio
+   site's 1.24. Density moves EVERYTHING; --signature-display-scale moves titles
+   and metrics only. Two multipliers on --t-title in series is a ratio nobody
+   controls, so: if a product changes density, its display scale is 1 unless
+   there is a stated reason it needs titles heroic BEYOND what density gives.
+   No product has one today.
+
+   ONE APP SCALE, NO LITERALS. Related and now fixed in semantic.css: four
+   literal px body sizes (--text-lede/-body-size/-support/-hint) sat alongside
+   the --t-* roles, so a density change moved the roles and left them behind.
+   They were unreferenced and are deleted. --label-font-size was live and
+   literal at 11px and now derives from --t-label. The single exception is chip
+   geometry, which stays literal on purpose — "one geometry, six tones" means a
+   chip that resizes with density is six geometries, and chips are app-only.
+-------------------------------------------------------------------------------- */

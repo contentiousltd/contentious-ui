@@ -1,8 +1,33 @@
 /* Colour – 11 families x 17 stops (100 lightest -> 900 darkest, in 50s).
    The brand 'true' colour of each family is the 500 stop.
-   Friendly aliases at the foot keep older components working. */
+   Friendly aliases at the foot keep older components working.
+
+   EACH FAMILY'S RATIONALE IS RECORDED BELOW, verbatim from the style guide at
+   https://style.contentious.ltd/design/colours — because the ramps are tuned by
+   hand and the tuning is deliberate. Measured in OKLCH, the hue and saturation
+   shifts at the ends match what the guide says they are; sunshine's dark end
+   runs 19° warmer against a stated 10%, coffee's 36° against a stated 20%.
+   Do not "correct" a shift towards perceptual evenness: sunshine turns green
+   if you darken it without warming it, and coffee goes muddy.
+
+   The reasons live here so a reviewer sees the value and the reason together.
+   Format is hex, per ADR-0002. OKLCH is the space to REVIEW a ramp in, not to
+   store it in: the one hard rule is that no two adjacent stops may sit closer
+   than 1.0 L in OKLCH, which is the threshold the eye reads on a flat area. */
 :root {
-/* Limestone – warm cream neutral (base lightness: 93%) */
+/* Limestone – warm cream neutral (base lightness: 93%)
+     "Smooth flat rocks next to a Yorkshire beck." The default background;
+     suggests handmade paper when combined with textures. Dark only goes to
+     20% because limestone is designed to be a light tone.
+     The light end has no published rule, and it is the one end that needed
+     one: four real stops above the base, not eight. limestone-500 sits at OKLCH
+     L 95.8; white is 100, so there are 4.2 units of lightness to hold
+     everything above it. Eight steps would be 0.53 L apart — under the ~1.0 L
+     the eye reads on a flat area, which is why 400 and 450 collapsed in CHC.
+     100 / 200 / 300 / 400 are distinct. 150 / 250 / 350 / 450 are ALIASES,
+     kept so the 17-stop grid stays uniform across families. Do not treat an
+     alias as a step: 450 and 400 will not read as different surfaces.
+     Values unchanged — this records what the colour space already does. */
   --limestone-900: #B6B6AD;
   --limestone-850: #BDBDB5;
   --limestone-800: #C5C5BC;
@@ -12,16 +37,19 @@
   --limestone-600: #E3E3D9;
   --limestone-550: #EAEAE0;
   --limestone-500: #F2F2E7;
-  --limestone-450: #F4F4EA;
+  --limestone-450: #F4F4EA;   /* alias of 400 in practice — 0.35 L apart */
   --limestone-400: #F5F5EC;
-  --limestone-350: #F6F6EF;
+  --limestone-350: #F6F6EF;   /* alias of 300 */
   --limestone-300: #F8F8F2;
-  --limestone-250: #F9F9F5;
+  --limestone-250: #F9F9F5;   /* alias of 200 */
   --limestone-200: #FBFBF7;
-  --limestone-150: #FCFCFA;
+  --limestone-150: #FCFCFA;   /* alias of 100 */
   --limestone-100: #FEFEFD;
 
-  /* Gloaming – warm charcoal (base lightness: 30%) */
+  /* Gloaming – warm charcoal (base lightness: 30%)
+     "Late evening, first stars beginning to show." Designed to be used as a
+     dark background AND as the default text colour. Effectively neutral
+     (C ≈ 0.002), so measured hue angles along the ramp are meaningless. */
   --gloaming-900: #080808;
   --gloaming-850: #111010;
   --gloaming-800: #1A1918;
@@ -40,7 +68,20 @@
   --gloaming-150: #DAD9D9;
   --gloaming-100: #EDEDED;
 
-  /* Sunshine – golden yellow (base lightness: 58%) */
+  /* Sunshine – golden yellow (base lightness: 58%)
+     The original Contentious colour. Shifted 10% warmer at the dark end to
+     retain its natural warmth and avoid turning green. The dark end only goes
+     to 20% dark, to avoid the dark yellow issue.
+     SUNSHINE HAS NO INK. sunshine-900 is OKLCH L 61.7 — lighter than most
+     families' 500 — and fails AA as text on any surface here. That is by
+     design. Warm text comes from amber (--warning-text is amber-800).
+     Do not re-propose a darker dark end from gamut measurements. Tested and
+     rejected 31 Jul 2026: the chroma IS available (0.105 at L 50, more than
+     olive holds) and using it still reads as brown, because below ~L 55 a
+     saturated yellow is bronze whatever its coordinates say. The limit is
+     identity, not gamut. Warn is therefore the one status pair that crosses
+     families — an accepted asymmetry, not a gap.
+     Full workings: explorations/Colour ranges - sunshine dark end.html */
   --sunshine-900: #B97232;
   --sunshine-850: #BF7934;
   --sunshine-800: #C48036;
@@ -59,7 +100,10 @@
   --sunshine-150: #FAEDD6;
   --sunshine-100: #FDF7EC;
 
-  /* Wave – teal/cyan (base lightness: 60%) */
+  /* Wave – teal/cyan (base lightness: 60%)
+     "Cooling, inviting for a swim; also powerful." Goes to 90% at each end,
+     with NO hue shifts — and holds to 4.8° across the usable stops, the
+     straightest ramp in the palette. */
   --wave-900: #0E1111;
   --wave-850: #1D2324;
   --wave-800: #2D3638;
@@ -78,7 +122,10 @@
   --wave-150: #E6ECED;
   --wave-100: #F3F6F7;
 
-  /* Fire – coral red (base lightness: 57%) */
+  /* Fire – coral red (base lightness: 57%)
+     The accent. Cooled and desaturated a little at the paler end to retain
+     its ember-glow and stop it becoming too pink and pastelly. Goes to 80%
+     at the darker end; beyond that it becomes too dark. */
   --fire-900: #2B1110;
   --fire-850: #401918;
   --fire-800: #552220;
@@ -97,7 +144,9 @@
   --fire-150: #F0E3E0;
   --fire-100: #F7F2F1;
 
-  /* Sapling – soft green (base lightness: 56%) */
+  /* Sapling – soft green (base lightness: 56%)
+     Cooled and desaturated a little at the paler end to prevent it becoming
+     pastel. */
   --sapling-900: #1A2118;
   --sapling-850: #273124;
   --sapling-800: #344230;
@@ -116,7 +165,10 @@
   --sapling-150: #E4EBE3;
   --sapling-100: #F2F6F2;
 
-  /* Coffee – warm brown (base lightness: 62%) */
+  /* Coffee – warm brown (base lightness: 62%)
+     Shifted 20% warmer at the dark end, and 5% cooler / 5% desaturated at the
+     light end, to avoid muddiness. This is the largest deliberate hue shift in
+     the palette — 36° measured in OKLCH between 500 and 900. It is correct. */
   --coffee-900: #251D1A;
   --coffee-850: #382C27;
   --coffee-800: #4B3C34;
@@ -135,7 +187,9 @@
   --coffee-150: #F0EDE5;
   --coffee-100: #F8F6F3;
 
-  /* Sorbet – warm salmon (base lightness: 62%) */
+  /* Sorbet – warm salmon (base lightness: 62%)
+     Cooled and desaturated a touch at the lighter end to avoid becoming
+     saccharine. */
   --sorbet-900: #271A18;
   --sorbet-850: #3A2725;
   --sorbet-800: #4D3431;
@@ -154,7 +208,11 @@
   --sorbet-150: #F2E6E3;
   --sorbet-100: #F9F3F2;
 
-  /* Amber – warm orange (base: #DF824A) */
+  /* Amber – warm orange (base: #DF824A)
+     "Warm and resinous." Desaturated 10% at the pale end. Level 2 in the
+     Content Health Check, halfway between fire and sunshine — and, because it
+     darkens cleanly to L 24, it is where sunshine's warmth goes when it has
+     to be text. */
   --amber-900: #2D1A0F;
   --amber-850: #432716;
   --amber-800: #59341E;
@@ -173,7 +231,10 @@
   --amber-150: #F7E5DA;
   --amber-100: #FBF3EE;
 
-  /* Olive – yellow-green (base: #B4A75B) */
+  /* Olive – yellow-green (base: #B4A75B)
+     "Dusty leaves on a Mediterranean hillside." Desaturated 10% at the pale
+     end. Level 4 in the Content Health Check, halfway between sapling and
+     sunshine. */
   --olive-900: #242112;
   --olive-850: #36321B;
   --olive-800: #484324;
@@ -192,7 +253,10 @@
   --olive-150: #EEECDD;
   --olive-100: #F7F6EF;
 
-  /* Lichen – cool neutral grey (base: #DADAD2) */
+  /* Lichen – cool neutral grey (base: #DADAD2)
+     A cooler, slightly greyer alternative to limestone; the background neutral
+     in Content Maturity. Same two-halves shape as limestone, but its light
+     half spans 10.8 L over eight steps, so every stop is distinguishable. */
   --lichen-900: #575754;
   --lichen-850: #686864;
   --lichen-800: #787874;

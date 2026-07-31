@@ -26,9 +26,17 @@
   --text-strong:         var(--gloaming-800);
   --text-body:           var(--gloaming-700);
   --text-secondary:      var(--gloaming-500);
-  --text-muted:          var(--gloaming-450);    /* floor for mono labels at 10px */
+  --text-muted:          var(--gloaming-450);    /* floor for mono labels at --t-label */
   --text-inverse:        var(--limestone-300);
   --text-on-accent:      var(--limestone-200);
+  /* Text on a light island inside a page that may be dark: top bar, secondary
+     nav, text inputs. On a light-ground product these equal --text-strong and
+     --text-body; on a dark-ground product with light chrome (Voice, Tone and
+     Style) they are the only thing standing between you and white-on-white.
+     Chrome and field markup references THESE, never --text-body. Set per
+     product in tokens/products.css. */
+  --text-inset-strong:   var(--gloaming-800);
+  --text-inset:          var(--gloaming-700);
 
   /* ---- Accent / interaction -------------------------------------------- */
   /* Solid fire = active or primary. Fire TINT = status. Never interchange. */
@@ -124,6 +132,11 @@
 
   /* ---- Chip tones ------------------------------------------------------ */
   /* One geometry, six tones. Tone carries meaning; the shape never changes. */
+  /* Chip geometry stays LITERAL on purpose, and it is the one exception to the
+     no-literal-sizes rule. "One geometry, six tones; the shape never changes"
+     is the whole chip decision — a chip that resizes with density is six
+     geometries. Chips are also app-only; nothing on a 24px marketing surface
+     uses one. Radius, padding and font size are fixed together or not at all. */
   --chip-radius:         3px;
   --chip-padding:        5px 8px;
   --chip-font-size:      11px;
@@ -151,18 +164,21 @@
   --switch-inset:           inset 0 1px 2px rgba(38, 36, 35, 0.14);
   --switch-knob-shadow:     0 1px 3px rgba(38, 36, 35, 0.28);
 
-  /* ---- Body sizes ------------------------------------------------------ */
-  /* Raised one step from the original 15px base: Bely's large x-height and
-     generous forms want more room than a neutral sans at the same size, and
-     the brand sets 24px on the website. The app can't go that far without
-     halving the information on screen, but 16px body is the floor. */
-  --text-lede:           18px;
-  --text-body-size:      16px;
-  --text-support:        15px;
-  --text-hint:           14px;
+  /* ---- Body sizes — REMOVED, and deliberately not replaced --------------
+     --text-lede / --text-body-size / --text-support / --text-hint used to sit
+     here as literal px (18/16/15/14). They were a SECOND type scale in the
+     same file as the --type-* roles, and only one of the two responded to
+     density: change --base-font-size and the roles moved while these did not.
+     Nothing referenced them, so they are gone rather than rewired.
+     There is one app type scale and it is --t-* in tokens/typography.css,
+     derived from --base-font-size. If you want a size, take a --t-* step or a
+     --type-* role. Never add a literal px size to this file. */
 
   /* ---- Mono label (the metadata voice) --------------------------------- */
-  --label-font-size:     11px;
+  /* Derived, not literal: the metadata voice breathes with density like every
+     other size. Was 11px hard-coded, which meant a density change moved the
+     body and left the labels behind. ~11.8px at the 19px app base. */
+  --label-font-size:     var(--t-label);
   --label-tracking:      0.09em;
   --label-color:         var(--gloaming-450);  /* NOT 400 – fails AA at 10px */
 
