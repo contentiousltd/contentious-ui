@@ -24,6 +24,36 @@ in this file, and do not answer them in product code.
 
 ## Open
 
+- **Should the palette move to OKLCH?** Raised by Julius, 31 July 2026, prompted by
+  Tailwind 4 shipping its own default palette in OKLCH. This would supersede
+  [ADR-0002](docs/adr/0002-hex-over-hsl-colour-format.md), so it needs a decision rather
+  than a find-and-replace.
+
+  One argument for it does **not** survive checking, and it is the one usually given.
+  Tailwind 4.3 emits `color-mix(in srgb, …)` regardless of the source format — verified by
+  compiling `bg-red-500/50` from Tailwind's *own* OKLCH palette, which still interpolates
+  in sRGB. So "OKLCH gives better blending in Tailwind" is not true today. Our palette
+  replaces Tailwind's entirely, so we also inherit nothing from their choice.
+
+  What would genuinely be gained, and these are two different sizes of change:
+
+  - **Format conversion only.** Same colours, written as `oklch()`. Mechanical and
+    visually identical, but it rewrites the canonical token file, every hex quoted in the
+    guidelines and specimen pages, and what style.contentious.ltd publishes — so it is a
+    brand-surface change even though nothing renders differently.
+  - **Re-deriving the ramps in OKLCH.** The real prize. Seventeen stops per family are
+    currently spaced by eye in hex; OKLCH would let them be perceptually even, so
+    `limestone-400` and `-450` could not silently collapse into each other the way they
+    did in CHC. This **changes many stops visibly** and is squarely a design decision.
+    It would also make the "base shade" question answerable rather than conventional.
+  - **Wider gamut.** OKLCH can express colours outside sRGB. On a P3 display the brand
+    could be more saturated than it can be today — a genuine identity question, not a
+    technical one.
+
+  The cost is concentrated in one place: hex appears throughout the design system's own
+  HTML, the UI kits and the public style guide, so a conversion is not confined to
+  `tokens.css`. Worth deciding *whether* before deciding *when*.
+
 - **Is density actually a per-product knob, or should it be one suite value?** Raised by
   Julius, 31 July 2026, and worth settling **before Content Health Check adopts the package
   (chc-367)**, because that is the moment CHC declares a density for real for the first time.
