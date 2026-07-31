@@ -33,8 +33,22 @@ const SOURCES = [
   'src/styles/tokens.css',
   'src/styles/typography.css',
   'skills/contentious-design/tokens/semantic.css',
+  'skills/contentious-design/tokens/products.css', // the 28-token signature set
   'src/styles/themes/content-health-check.css', // any theme: the names are identical
 ];
+
+/**
+ * Product-scoped sources: files where a token's value depends on which product
+ * is rendering. A token any of these re-points must stay a var() in the bridge.
+ *
+ * products.css matters as much as themes/ and is easier to miss, because it
+ * re-points under `[data-product="…"]` rather than in a per-product file. Its
+ * 28 tokens are exactly the ones that make one product not look like another —
+ * so freezing them to a literal renders every product in CHC's colours, which
+ * is the failure the signature layer exists to prevent.
+ */
+const productScoped = (file) =>
+  file.includes('/themes/') || file.endsWith('tokens/products.css');
 
 /**
  * Type is mapped by hand, not by prefix, because the utility names have to match
@@ -91,11 +105,22 @@ for (const file of SOURCES) {
   if (!existsSync(path)) continue;
   // Strip comments first so a commented-out token never becomes a utility.
   const live = readFileSync(path, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
-  const themed = file.includes('/themes/');
+  const themed = productScoped(file);
   for (const m of live.matchAll(/^\s*--([a-z0-9-]+)\s*:\s*([^;]+);/gim)) {
-    // First writer wins, except a theme file never overwrites a suite-level token.
-    if (tokens.has(m[1]) && themed) continue;
-    tokens.set(m[1], { value: m[2].trim(), themed });
+    const name = m[1];
+    const prev = tokens.get(name);
+    // A product-scoped file never overwrites a suite-level VALUE — but themed-ness
+    // is STICKY, and that distinction is the whole correctness of this function.
+    // semantic.css declares --surface-page and products.css re-points it; since
+    // semantic.css is read first, deciding themed-ness by first-writer-wins marked
+    // it a literal and froze every product at CHC's cream.
+    if (themed) {
+      if (prev) prev.themed = true;
+      else tokens.set(name, { value: m[2].trim(), themed: true });
+      continue;
+    }
+    // Suite-level source: last writer wins on value, themed-ness carries over.
+    tokens.set(name, { value: m[2].trim(), themed: prev ? prev.themed : false });
   }
 }
 

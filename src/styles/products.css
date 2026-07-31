@@ -1,0 +1,74 @@
+/* ================================================================
+   Product signatures — the layer where one product stops looking
+   like another.
+
+   Like semantic.css, this file deliberately holds no definitions of
+   its own. The signature layer is authored by Claude Design and lives
+   with the design system at skills/contentious-design/tokens/products.css;
+   this is the door into it for consumers of the package, so there is ONE
+   file rather than a copy here that drifts from the copy there.
+   See ADR-0004.
+
+   WHAT IT DOES. It re-points a closed set of tokens — grounds, hairlines,
+   text, accent, --level-empty — under [data-product="…"]. Everything
+   outside that set is the family resemblance and never varies: the type
+   roles, spacing, radii, motion, chip geometry, the score ramp, --data-*.
+
+   WHY IT EXISTS. This design system began as the Content Health Check
+   system, so CHC's expression (limestone ground, fire accent, gloaming
+   text) sat in semantic.css as though it were the system itself, and any
+   product that did not deliberately deviate landed on CHC. Content
+   Maturity and CHC read as the same product for exactly that reason.
+
+   IMPORT IT AFTER semantic.css. Both land in @layer theme, and
+   [data-product="x"] and :root have identical specificity (0,1,0), so
+   source order is the only thing deciding the winner. Imported first,
+   this file silently loses and every product renders CHC's ground.
+
+   SET data-product ON <html>, not <body>. The tokens are read by the
+   page background and by anything rendered in a portal — dialogs,
+   popovers, toasts — which mount outside <body>'s subtree in some
+   stacks and would otherwise inherit nothing.
+
+       <html data-product="chc">
+
+   Values are: chc · cm · vts · contentious. A product that sets no
+   data-product renders exactly as it did before this layer existed,
+   because semantic.css still carries the CHC values at :root.
+
+   SETTLED IN STRUCTURE, PROVISIONAL IN VALUE. The dimensions, the closed
+   set and the allocation rules are agreed. The specific stops in each
+   product block are a first proposal — only the CHC block is transcribed
+   from shipping code. Reconcile a product against its production CSS
+   before treating a hex here as canonical, and correct it THERE, never
+   in product code.
+
+   TAILWIND 4. The 25 colour tokens in the set are emitted as var() by
+   styles/tailwind4.css, precisely so a theme still wins at runtime. That
+   is what makes bg-surface-page follow the product — and it is also why
+   those utilities do NOT take an opacity modifier. bg-surface-card/50
+   renders opaque. Reach for a numbered shade instead.
+
+   ⚠ DO NOT IMPORT THIS INTO A SHADCN-BASED PRODUCT YET — CHC and CM.
+   `--accent` is defined twice with two different meanings, and this file
+   makes the collision decisive. shadcn's `--accent` (themes/*.css) is the
+   MUTED HOVER/SELECTED background, paired with `--accent-foreground`; the
+   design system's `--accent` (semantic.css, re-pointed here) is the
+   PRIMARY INTERACTIVE colour, paired with `--accent-hover`/`--accent-link`.
+   Importing this sets `--accent` to fire-500 at [data-product], so every
+   stock shadcn hover and selected state — 10 components in CHC, including
+   dropdown-menu, select, command and sidebar — flips from a soft sunshine
+   tint to solid primary-action orange. `bg-accent/50` renders fully opaque
+   on top of that, since the token is now a var().
+
+   This is the `.c-card` collision one layer down, and it is Claude Design's
+   to settle: one of the two meanings gives up the name. Tracked in GAPS.md.
+   Until then this file is safe for a product with no shadcn layer, and
+   semantic.css alone remains safe for everyone — it is only the pairing
+   that bites.
+
+   Layer order is declared in layers.css: tokens → theme → base →
+   components → utilities. Import that first.
+   ================================================================ */
+
+@import url("../../skills/contentious-design/tokens/products.css") layer(theme);

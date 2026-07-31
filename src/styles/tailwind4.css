@@ -25,18 +25,13 @@
    stay as var() so theming keeps working, and do NOT take a modifier.
    Reach for a numbered shade rather than an opacity step on those.
 
-   268 literal colours · 19 themed · 5 fonts · 4 weights · 5 radii · 11 spacing · 3 shadows
+   243 literal colours · 44 themed · 5 fonts · 4 weights · 5 radii · 11 spacing · 3 shadows
    ================================================================ */
 
 @theme {
   /* ---- Colour — suite-constant, opacity modifiers work ------------------- */
   /* Resolved from the token files at generation time. Products must not */
   /* re-point these: the palette is suite-level (ADR-0011). */
-  --color-accent                : #D5544F;
-  --color-accent-hover          : #AA433F;
-  --color-accent-link           : #953B37;
-  --color-accent-link-hover     : #552220;
-  --color-accent-marker         : #D5544F;
   --color-amber-100             : #FBF3EE;
   --color-amber-150             : #F7E5DA;
   --color-amber-200             : #F3D7C6;
@@ -113,7 +108,6 @@
   --color-fire-800              : #552220;
   --color-fire-850              : #401918;
   --color-fire-900              : #2B1110;
-  --color-focus-ring            : #DB9A93;
   --color-gloaming-100          : #EDEDED;
   --color-gloaming-150          : #DAD9D9;
   --color-gloaming-200          : #C6C5C5;
@@ -139,7 +133,6 @@
   --color-level-3               : #E7AB3F;
   --color-level-4               : #B4A75B;
   --color-level-5               : #81A479;
-  --color-level-empty           : #CCCCC3;
   --color-lichen-100            : #FDFDFD;
   --color-lichen-150            : #F9F9F7;
   --color-lichen-200            : #F4F4F2;
@@ -196,9 +189,6 @@
   --color-process-done          : #5B6E71;
   --color-process-failed        : #D5544F;
   --color-process-waiting       : #CCCCC3;
-  --color-rule-field            : #CCCCC3;
-  --color-rule-row              : #E3E3D9;
-  --color-rule-section          : #D4D4CA;
   --color-sapling-100           : #F2F6F2;
   --color-sapling-150           : #E4EBE3;
   --color-sapling-200           : #D5E0D5;
@@ -261,26 +251,11 @@
   --color-sunshine-800          : #C48036;
   --color-sunshine-850          : #BF7934;
   --color-sunshine-900          : #B97232;
-  --color-surface-card          : #F8F8F2;
-  --color-surface-chrome        : #F5F5EC;
-  --color-surface-field         : #FBFBF7;
-  --color-surface-inverse       : #1A1918;
-  --color-surface-menu          : #FCFCFA;
-  --color-surface-page          : #F2F2E7;
-  --color-surface-raised        : #E3E3D9;
   --color-switch-knob           : #FEFEFD;
   --color-switch-track-off      : #C5C5BC;
   --color-switch-track-off-hover: #BDBDB5;
   --color-switch-track-on       : #AA433F;
   --color-switch-track-on-hover : #953B37;
-  --color-text-body             : #2C2A29;
-  --color-text-inset            : #2C2A29;
-  --color-text-inset-strong     : #1A1918;
-  --color-text-inverse          : #F8F8F2;
-  --color-text-muted            : #63615F;
-  --color-text-on-accent        : #FBFBF7;
-  --color-text-secondary        : #4F4D4B;
-  --color-text-strong           : #1A1918;
   --color-warning-subtle        : #FDF7EC;
   --color-warning-text          : #59341E;
   --color-wave-100              : #F3F6F7;
@@ -340,15 +315,22 @@
   /* ---- Colour — product-themed, NO opacity modifier ---------------------- */
   /* A theme file re-points these, so they must stay references. bg-primary */
   /* works; bg-primary/50 renders opaque. Use a shade instead. */
+  --color-accent                : var(--accent);
   --color-accent-foreground     : var(--accent-foreground);
+  --color-accent-hover          : var(--accent-hover);
+  --color-accent-link           : var(--accent-link);
+  --color-accent-link-hover     : var(--accent-link-hover);
+  --color-accent-marker         : var(--accent-marker);
   --color-background            : var(--background);
   --color-border                : var(--border);
   --color-card                  : var(--card);
   --color-card-foreground       : var(--card-foreground);
   --color-destructive           : var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-focus-ring            : var(--focus-ring);
   --color-foreground            : var(--foreground);
   --color-input                 : var(--input);
+  --color-level-empty           : var(--level-empty);
   --color-muted                 : var(--muted);
   --color-muted-foreground      : var(--muted-foreground);
   --color-popover               : var(--popover);
@@ -356,7 +338,25 @@
   --color-primary               : var(--primary);
   --color-primary-foreground    : var(--primary-foreground);
   --color-ring                  : var(--ring);
+  --color-rule-field            : var(--rule-field);
+  --color-rule-row              : var(--rule-row);
+  --color-rule-section          : var(--rule-section);
   --color-secondary             : var(--secondary);
   --color-secondary-foreground  : var(--secondary-foreground);
+  --color-surface-card          : var(--surface-card);
+  --color-surface-chrome        : var(--surface-chrome);
+  --color-surface-field         : var(--surface-field);
+  --color-surface-inverse       : var(--surface-inverse);
+  --color-surface-menu          : var(--surface-menu);
+  --color-surface-page          : var(--surface-page);
+  --color-surface-raised        : var(--surface-raised);
+  --color-text-body             : var(--text-body);
+  --color-text-inset            : var(--text-inset);
+  --color-text-inset-strong     : var(--text-inset-strong);
+  --color-text-inverse          : var(--text-inverse);
   --color-text-multiplier       : var(--text-multiplier);
+  --color-text-muted            : var(--text-muted);
+  --color-text-on-accent        : var(--text-on-accent);
+  --color-text-secondary        : var(--text-secondary);
+  --color-text-strong           : var(--text-strong);
 }

@@ -10,6 +10,33 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.6.0] – 2026-07-31
+
+### Added
+
+- **`tokens/products.css` – the product signature layer**, arriving with the 31 July design export, and **`styles/products.css`** as the consumer door onto it (same pattern as `semantic.css`: an import, not a copy, so there is one file rather than two that drift). It re-points a closed set of tokens under `[data-product="chc|cm|vts|contentious"]` – grounds, hairlines, text, accent, `--level-empty` – and everything outside that set is the family resemblance and never varies. It exists because this system began as the Content Health Check system, so CHC's expression sat in `semantic.css` as though it *were* the system, and any product that did not deliberately deviate landed on CHC. **Settled in structure, provisional in value**: only the CHC block is transcribed from shipping code, so reconcile a product against its production CSS before treating a hex as canonical. Import it *after* `semantic.css` – `[data-product]` and `:root` have identical specificity, so source order is the only thing deciding the winner – and set `data-product` on `<html>`, not `<body>`, so portalled dialogs and popovers inherit it. A product that sets nothing renders exactly as before.
+- **`--text-inset` and `--text-inset-strong`** – text on a light island inside a page that may be dark (top bar, secondary nav, form fields). On a light-ground product they equal `--text-body`/`--text-strong`; on Voice, Tone and Style, which runs light chrome over a dark page, they are the only thing between you and white-on-white. Chrome and field markup references these, never `--text-body`.
+
+### Fixed
+
+- **The Tailwind 4 bridge froze all 25 signature colours at Content Health Check's values**, which would have defeated the layer above at the utility level: `bg-surface-page` emitted `#F2F2E7` for every product, so Voice, Tone and Style rendered CHC's cream instead of `sorbet-850`. The generator decided themed-ness by first-writer-wins, and `semantic.css` is always read before a product-scoped file, so a token declared there and re-pointed elsewhere was recorded as suite-constant. Themed-ness is now **sticky** – any product-scoped re-point marks the token, whoever declared it first – and `products.css` counts as product-scoped alongside `themes/`. Bridge goes from 266 literal / 19 themed to **243 literal / 44 themed**. The 25 that moved consequently no longer take an opacity modifier (`bg-surface-card/50` renders opaque); reach for a numbered shade instead. Raw family stops are untouched and still take modifiers, which is what Content Health Check's ~200 opacity usages actually depend on.
+
+### Changed
+
+- **Density is settled, and it is no longer a free number.** It is derived from deployment mode rather than chosen per product: **19px for every app** (reserved deployment), **24px for marketing** (banded). So ADR-0011's knob list keeps all three entries – density, accent, mark – and gains a constraint, which is what makes a theme file setting 21px visibly wrong to a reviewer. In practice one value changed: `themes/content-health-check.css` moves **18px to 19px**. 19 over 18 was decided on cost rather than taste – neither has a design argument, 19 is the base the component CSS was actually eyeballed against, and CHC does not consume this package yet, so its 18px rendered on no screen. Content Maturity, Voice Tone & Style and the website were already at the prescribed values; all four theme files now record *why*, which none of them did before.
+- **`semantic.css` drops four literal body sizes.** `--text-lede`, `--text-body-size`, `--text-support` and `--text-hint` were a second type scale living alongside the `--t-*` roles, and only one of the two responded to density. Verified unreferenced in this package, the design system tree and all four consumer repos before removal, so they are gone rather than rewired. There is one app type scale and it is `--t-*`.
+- **`--label-font-size` derives from `--t-label`** instead of a hard-coded 11px, so the metadata voice breathes with density like every other size. **See Known issues.**
+- **`colors.css` records each family's rationale inline**, verbatim from style.contentious.ltd, plus one hard rule: no two adjacent stops may sit closer than **1.0 L** in OKLCH, the threshold the eye reads on a flat area. Consequently `limestone-150 / 250 / 350 / 450` are documented as **aliases of the stop below, not steps** – the honest account of the `-400`/`-450` collision CHC hit. No colour value changed anywhere in this release.
+
+### Decided, no code change
+
+- **OKLCH: rejected.** Neither a format conversion nor a re-derivation of the ramps; hex stays the storage format and [ADR-0002](docs/adr/0002-hex-over-hsl-colour-format.md) is reaffirmed rather than superseded. The usual argument for it does not survive checking: Tailwind 4.3 emits `color-mix(in srgb, …)` regardless of source format, and our palette replaces Tailwind's entirely, so we inherit nothing from their choice. OKLCH is kept as the space to *review* a ramp in. Re-deriving the ramps remains the only real fix for the limestone light end, and it is a visible brand change, so it stays undone deliberately.
+
+### Known issues
+
+- **`--accent` is defined twice with two different meanings**, and importing `products.css` into a shadcn-based product makes the collision decisive. shadcn's `--accent` (in `themes/*.css`) is the muted hover/selected background; the design system's is the primary interactive colour. A product importing both gets solid primary-action orange on every stock shadcn hover state – 10 components in CHC. This predates the signature layer, which merely surfaced it. `semantic.css` alone is safe. Guarded by a warning at the top of `styles/products.css` and tracked in `GAPS.md` as the decision Claude Design owns; it is the `.c-card` collision one layer down.
+- **`--label-font-size` resolves to nothing across the package boundary.** `semantic.css` is importable and `tokens/typography.css` (where `--t-label` lives) is not, so `--t-label` is undefined for consumers, the declaration is invalid at computed-value time, and mono metadata labels fall back to the inherited size. No consumer references the token today, so nothing is broken yet; it bites when the design system's own components arrive, since `Menu`, `SecondaryNav`, `Metric` and `ListRow` all use it. The fix is the `typography.css` split already tracked in `GAPS.md`.
+
 ## [0.5.0] — 2026-07-31
 
 ### Removed

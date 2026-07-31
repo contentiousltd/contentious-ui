@@ -24,8 +24,39 @@ in this file, and do not answer them in product code.
 
 ## Open
 
-_Nothing open. The two raised on 31 July 2026 are answered below; the items under
-"Found while wiring in the answers" are live work, not unanswered questions._
+- **`--accent` means two different things, and `products.css` makes the collision
+  decisive.** Found by Claude Code, 31 July 2026, while wiring the signature layer into
+  the package. This is the `.c-card` collision one layer down, with the same shape: two
+  systems, one name, source order silently picking the winner.
+
+  | Where | Value | What it means |
+  |---|---|---|
+  | `src/styles/themes/*.css` | `sunshine-500` | **shadcn's** accent — the muted hover / selected background, paired with `--accent-foreground` |
+  | `tokens/semantic.css`, re-pointed per product in `tokens/products.css` | `fire-500` (CHC) | **the design system's** accent — the primary interactive colour, paired with `--accent-hover`, `--accent-link`, `--accent-marker` |
+
+  They are not two dialects of one token; they are opposites. One is deliberately
+  recessive (a hover tint behind a menu item), the other is the loudest colour on the
+  page. A product importing both gets solid primary-action orange on every stock shadcn
+  hover and selected state — in CHC that is **10 components**: `dropdown-menu`, `select`,
+  `command`, `context-menu`, `menubar`, `sidebar`, `calendar`, `dialog`,
+  `navigation-menu`, `toggle`. `bg-accent/50` compounds it, rendering fully opaque now
+  that the token is themed.
+
+  The collision predates the signature layer — the bridge already resolved `bg-accent` to
+  fire-500, so shadcn's accent was losing quietly. What `products.css` changes is that it
+  now loses *loudly and per product*, which is the useful part: it surfaced.
+
+  **The decision needed:** which meaning keeps the name `--accent`, and what the other
+  becomes. `.c-card` → `.c-frame` is the precedent, and the same argument applies — picking
+  a winner without renaming just moves the damage. Worth noting the design system's set is
+  the one with the coherent family (`--accent-hover`, `--accent-link`, `--accent-marker`,
+  `--accent-link-hover`), while shadcn's is a two-token pair that products could rename
+  locally to something like `--muted-hover` — but that is a suite decision, not CHC's.
+
+  **Blocks chc-367** in its current shape: CHC cannot import `products.css` until this is
+  settled. `semantic.css` alone is safe, so the cutover can proceed without the signature
+  layer if the decision takes a while. Guarded in the meantime by a warning at the top of
+  `src/styles/products.css`.
 
 ---
 
