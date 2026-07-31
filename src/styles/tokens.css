@@ -319,13 +319,10 @@
     --marketing-transition-slower: 3s ease-in-out;
     --marketing-transition-extra-slow: 6s ease-in-out;
 
-    /* DEPRECATED, removed in 0.5.0 — migrate to --marketing-transition-* (site)
-       or --motion-* (app). Kept one minor so the Astro site has runway. */
-    --transition-fast: var(--marketing-transition-fast);
-    --transition-base: var(--marketing-transition-base);
-    --transition-slow: var(--marketing-transition-slow);
-    --transition-slower: var(--marketing-transition-slower);
-    --transition-extra-slow: var(--marketing-transition-extra-slow);
+    /* The --transition-* aliases were removed in 0.5.0. They existed to give the
+       Astro site runway, and the site migrated in the same change, so the runway
+       was never needed. The trap is now gone rather than documented, which means
+       nothing has to remember the rule. */
 
     /* ============================================
        Z-INDEX
