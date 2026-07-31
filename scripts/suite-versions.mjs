@@ -33,6 +33,10 @@ const CONSUMERS = [
   { name: 'maturitytool', path: 'maturitytool' },
   { name: 'contentious-astro', path: 'contentious-astro' },
   { name: 'content-layer', path: 'content-layer' },
+  // Not a product, but a consumer: the IdP host renders every product's sign-in
+  // page. It was missing from this list until 31 July 2026 and had sat on 0.3.2
+  // unnoticed — the exact failure this script exists to make visible.
+  { name: 'auth-contentious-ltd', path: 'packages/auth-contentious-ltd' },
 ];
 
 const DEP = '@contentious/ui';
