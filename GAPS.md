@@ -27,7 +27,7 @@ in this file, and do not answer them in product code.
 - **Email-safe type stack.** Bely will not load in most mail clients and custom
   properties do not work there at all. Needs a named fallback stack and a decision on
   whether the serif identity is preserved (Georgia) or deliberately dropped in email.
-  Blocking: repo-owned email templates (CHC chc-366).
+  Blocking: repo-owned email templates (CHC chc-370).
 - **`.c-card` is defined twice** in the same `@layer components` — once in
   `src/styles/components.css`, once in `skills/contentious-design/components/components.css`
   — so source order decides which wins, and the BEM dialects differ (`__sub` vs
