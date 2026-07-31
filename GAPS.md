@@ -24,7 +24,49 @@ in this file, and do not answer them in product code.
 
 ## Open
 
-Both of these were found while wiring in the answers to
+- **Is density actually a per-product knob, or should it be one suite value?** Raised by
+  Julius, 31 July 2026, and worth settling **before Content Health Check adopts the package
+  (chc-367)**, because that is the moment CHC declares a density for real for the first time.
+
+  The current spread reads as drift rather than intent, and neither theme file records a
+  reason:
+
+  | Product | Declared | Where the number came from |
+  |---|---|---|
+  | Voice Tone & Style | 19px | The library's own pre-0.2.0 default, pinned so nothing moved when the brand base went to 24px. Not chosen for VTS. |
+  | Content Maturity (and Maturity Tool, which uses its theme) | 19px | Same. |
+  | Content Health Check | 18px | Reverse-engineered from CHC's `body { font-size: 1.1rem }` — 17.6px, rounded. |
+  | contentious.ltd | 24px | The brand default, and the only one that was actually decided. |
+
+  Two facts make this cheap to settle now. **18px has never rendered anywhere** — CHC does
+  not consume the package and never declares `--base-font-size`, so that value governs
+  nothing today. And **CHC's real reading size is already ~19px**: only `body` is 17.6px,
+  while `p`, `li` and `div` all override to `1.2rem` (19.2px). Moving CHC to 19 would be
+  writing down what it already does, not changing direction.
+
+  Two candidate shapes:
+  - **One app density (19px) + marketing (24px).** Two values, a legible rule — apps are
+    dense because they hold tables and inventories, marketing is loose because it is
+    reading material.
+  - **One value everywhere.** Simpler still, but pulling contentious.ltd from 24px to 19px
+    is a large, visible change to the public site, so this needs to be wanted rather than
+    fallen into.
+
+  **The structural consequence, whichever wins:** ADR-0011 lists a product theme's knobs as
+  *density, accent, mark*. If density stops being a product choice, that list shrinks to
+  accent and mark, and the theme files get correspondingly harder to misuse. That is an
+  argument for consolidating, not against — but it means the answer should say explicitly
+  whether density remains a knob that products *may* set and simply agree today, or stops
+  being a knob at all.
+
+  Note the parallel scale while you are in here: `tokens/semantic.css` also hardcodes
+  `--text-body-size: 16px` / `--text-lede: 18px` / `--text-support: 15px` / `--text-hint:
+  14px` in literal pixels, alongside the `--u`-derived `--t-*` roles. Two type scales in
+  one file, only one of which responds to density.
+
+---
+
+The two below were found while wiring in the answers to
 [docs/design-brief-2026-07-31.md](docs/design-brief-2026-07-31.md), and both block the
 same thing: making the design system's `components.css` this package's component layer.
 The `.c-card` collision that blocked it is resolved (the bordered container is now
