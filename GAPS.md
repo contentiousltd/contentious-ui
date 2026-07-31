@@ -24,6 +24,20 @@ in this file, and do not answer them in product code.
 
 ## Open
 
+The six below are written up as a single request in
+[docs/design-brief-2026-07-31.md](docs/design-brief-2026-07-31.md).
+
+- **No scrim token exists.** Nothing in `src/styles/` or the skill defines an overlay for
+  modals and panels. Content Health Check has just shipped `--overlay` at 80% behind
+  dialogs while its mobile nav uses 34% — two depths, no rule to appeal to. Needs one
+  value or a documented two-step.
+- **The radius ramp disagrees with itself.** `readme.md:84` states "3 chip · 6 control ·
+  8 surface · 10 frame"; `tokens/semantic.css:191-192` maps surface to 6 and frame to 12,
+  noting the repo has no 8px step. Either the library gains 8/10 or the prose changes.
+- **Two motion vocabularies at different scales.** The library's `--transition-fast` is
+  300ms and `-base` 800ms (inherited marketing-site values); the design system's motion is
+  200/350/150ms. The skill works around it with `--motion-*` and a "never `--transition-*`"
+  instruction, but both live in one cascade at up to 4× apart.
 - **Email-safe type stack.** Bely will not load in most mail clients and custom
   properties do not work there at all. Needs a named fallback stack and a decision on
   whether the serif identity is preserved (Georgia) or deliberately dropped in email.

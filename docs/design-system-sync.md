@@ -119,13 +119,15 @@ The stamp lives in `docs/design-system-stamp.json`.
 
 ## Current state of the copy in this repo
 
-**The committed copy is the pre-correction export of 30 July 2026 and carries one known
-error.**
+**The `--text-multiplier: 0.75` error is CLEARED as of the applied export (verified
+31 July 2026).** `readme.md:147` and `Design system.html:284` now both state the correct
+rule — "nothing here should ever assign it a density value" — and the instruction is
+gone from `components.css` and the `.prompt.md` files. The only surviving mentions are in
+`docs/design-history/`, which is provenance rather than instruction: those files record
+what was proposed at the time and are deliberately not corrected.
 
-**Ignore every instruction to set `--text-multiplier: 0.75`.** It appears in
-`readme.md:147`, `components/components.css:9` and `:18`, `Button.prompt.md`,
-`Chip.prompt.md`, `Switch.prompt.md`, and twice in `Claude Code handoff.md` including
-"Set `--text-multiplier: 0.75` in the CHC theme".
+The explanation is kept below because the reasoning still matters when reading the
+history, and because it is the clearest statement of what the two knobs do.
 
 `--text-multiplier` is not a density knob. It is the library's **responsive step**, set
 to 1 / 1.1 / 1.2 by breakpoint in `src/styles/typography.css` under `@layer base`, and
