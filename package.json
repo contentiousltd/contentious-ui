@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "check:design-sync": "node scripts/check-design-sync.mjs",
-    "suite:versions": "node scripts/suite-versions.mjs"
+    "suite:versions": "node scripts/suite-versions.mjs",
+    "generate:tailwind4": "node scripts/generate-tailwind4.mjs"
   },
   "exports": {
     ".": "./src/index.ts",

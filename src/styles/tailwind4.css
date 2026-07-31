@@ -1,0 +1,360 @@
+/* ================================================================
+   Tailwind 4 bridge — GENERATED, DO NOT EDIT.
+
+   Rebuild with `npm run generate:tailwind4`; CI checks it with
+   `npm run generate:tailwind4 -- --check`. Add tokens at source
+   (tokens.css, the design system's semantic.css, or a theme file),
+   never here.
+
+   Products on Tailwind import this after the token layers:
+
+     @import "tailwindcss";
+     @import "@contentious/ui/styles/layers.css";
+     @import "@contentious/ui/styles/tokens.css";
+     @import "@contentious/ui/styles/semantic.css";
+     @import "@contentious/ui/styles/themes/<product>.css";
+     @import "@contentious/ui/styles/tailwind4.css";
+
+   TWO BLOCKS, and the split is not cosmetic.
+
+   Tailwind can only build an opacity modifier when it can SEE the colour.
+   Given `--color-x: var(--y)` it emits a working utility whose `/50` is
+   silently dropped — a fully opaque block, no warning. Given a literal it
+   emits color-mix(). So suite-constant colours are resolved to literals
+   here and support `bg-fire-500/20`; colours a product theme re-points
+   stay as var() so theming keeps working, and do NOT take a modifier.
+   Reach for a numbered shade rather than an opacity step on those.
+
+   266 literal colours · 19 themed · 5 fonts · 4 weights · 5 radii · 11 spacing · 3 shadows
+   ================================================================ */
+
+@theme {
+  /* ---- Colour — suite-constant, opacity modifiers work ------------------- */
+  /* Resolved from the token files at generation time. Products must not */
+  /* re-point these: the palette is suite-level (ADR-0011). */
+  --color-accent                : #D5544F;
+  --color-accent-hover          : #AA433F;
+  --color-accent-link           : #953B37;
+  --color-accent-link-hover     : #552220;
+  --color-accent-marker         : #D5544F;
+  --color-amber-100             : #FBF3EE;
+  --color-amber-150             : #F7E5DA;
+  --color-amber-200             : #F3D7C6;
+  --color-amber-250             : #EFC9B2;
+  --color-amber-300             : #EBBB9E;
+  --color-amber-350             : #E8AD89;
+  --color-amber-400             : #E59F74;
+  --color-amber-450             : #E2905F;
+  --color-amber-500             : #DF824A;
+  --color-amber-550             : #C97543;
+  --color-amber-600             : #B2683B;
+  --color-amber-650             : #9C5B34;
+  --color-amber-700             : #864E2C;
+  --color-amber-750             : #704125;
+  --color-amber-800             : #59341E;
+  --color-amber-850             : #432716;
+  --color-amber-900             : #2D1A0F;
+  --color-categorical           : #89A6AB;
+  --color-chip-bad-bg           : #E9D2CE;
+  --color-chip-bad-fg           : #80322F;
+  --color-chip-good-bg          : #D5E0D5;
+  --color-chip-good-fg          : #344230;
+  --color-chip-info-bg          : #D9E2E4;
+  --color-chip-info-fg          : #4B5B5E;
+  --color-chip-neutral-bg       : #D4D4CA;
+  --color-chip-neutral-fg       : #3D3C3A;
+  --color-chip-promo-bg         : #953B37;
+  --color-chip-promo-fg         : #FEFEFD;
+  --color-chip-warn-bg          : #F7E4C1;
+  --color-chip-warn-fg          : #59341E;
+  --color-coffee-100            : #F8F6F3;
+  --color-coffee-150            : #F0EDE5;
+  --color-coffee-200            : #E9E3D6;
+  --color-coffee-250            : #E1D8C8;
+  --color-coffee-300            : #D9CEBA;
+  --color-coffee-350            : #D2C4AC;
+  --color-coffee-400            : #CAB99E;
+  --color-coffee-450            : #C3AF8F;
+  --color-coffee-500            : #BBA481;
+  --color-coffee-550            : #A89174;
+  --color-coffee-600            : #967F67;
+  --color-coffee-650            : #836E5A;
+  --color-coffee-700            : #705D4D;
+  --color-coffee-750            : #5E4C41;
+  --color-coffee-800            : #4B3C34;
+  --color-coffee-850            : #382C27;
+  --color-coffee-900            : #251D1A;
+  --color-comp-1                : #89A6AB;
+  --color-comp-2                : #BBA481;
+  --color-comp-3                : #C1827A;
+  --color-comp-4                : #D66D67;
+  --color-comp-track            : #E3E3D9;
+  --color-danger-text           : #80322F;
+  --color-data-bad              : #AA433F;
+  --color-data-default          : #1A1918;
+  --color-data-good             : #4D6249;
+  --color-data-zero             : #777574;
+  --color-error-subtle          : #F7F2F1;
+  --color-error-text            : #552220;
+  --color-fire-100              : #F7F2F1;
+  --color-fire-150              : #F0E3E0;
+  --color-fire-200              : #E9D2CE;
+  --color-fire-250              : #E4C1BB;
+  --color-fire-300              : #DFAEA7;
+  --color-fire-350              : #DB9A93;
+  --color-fire-400              : #D8847D;
+  --color-fire-450              : #D66D67;
+  --color-fire-500              : #D5544F;
+  --color-fire-550              : #C04C47;
+  --color-fire-600              : #AA433F;
+  --color-fire-650              : #953B37;
+  --color-fire-700              : #80322F;
+  --color-fire-750              : #6B2A28;
+  --color-fire-800              : #552220;
+  --color-fire-850              : #401918;
+  --color-fire-900              : #2B1110;
+  --color-focus-ring            : #DB9A93;
+  --color-gloaming-100          : #EDEDED;
+  --color-gloaming-150          : #DAD9D9;
+  --color-gloaming-200          : #C6C5C5;
+  --color-gloaming-250          : #B2B1B0;
+  --color-gloaming-300          : #9E9D9C;
+  --color-gloaming-350          : #8A8988;
+  --color-gloaming-400          : #777574;
+  --color-gloaming-450          : #63615F;
+  --color-gloaming-500          : #4F4D4B;
+  --color-gloaming-550          : #464443;
+  --color-gloaming-600          : #3D3C3A;
+  --color-gloaming-650          : #343332;
+  --color-gloaming-700          : #2C2A29;
+  --color-gloaming-750          : #232221;
+  --color-gloaming-800          : #1A1918;
+  --color-gloaming-850          : #111010;
+  --color-gloaming-900          : #080808;
+  --color-good-text             : #344230;
+  --color-info-subtle           : #F3F6F7;
+  --color-info-text             : #4B5B5E;
+  --color-level-1               : #D5544F;
+  --color-level-2               : #DF824A;
+  --color-level-3               : #E7AB3F;
+  --color-level-4               : #B4A75B;
+  --color-level-5               : #81A479;
+  --color-level-empty           : #CCCCC3;
+  --color-lichen-100            : #FDFDFD;
+  --color-lichen-150            : #F9F9F7;
+  --color-lichen-200            : #F4F4F2;
+  --color-lichen-250            : #F0F0ED;
+  --color-lichen-300            : #ECECE7;
+  --color-lichen-350            : #E7E7E2;
+  --color-lichen-400            : #E3E3DD;
+  --color-lichen-450            : #DEDED7;
+  --color-lichen-500            : #DADAD2;
+  --color-lichen-550            : #CACAC2;
+  --color-lichen-600            : #B9B9B3;
+  --color-lichen-650            : #A9A9A3;
+  --color-lichen-700            : #999993;
+  --color-lichen-750            : #888883;
+  --color-lichen-800            : #787874;
+  --color-lichen-850            : #686864;
+  --color-lichen-900            : #575754;
+  --color-limestone-100         : #FEFEFD;
+  --color-limestone-150         : #FCFCFA;
+  --color-limestone-200         : #FBFBF7;
+  --color-limestone-250         : #F9F9F5;
+  --color-limestone-300         : #F8F8F2;
+  --color-limestone-350         : #F6F6EF;
+  --color-limestone-400         : #F5F5EC;
+  --color-limestone-450         : #F4F4EA;
+  --color-limestone-500         : #F2F2E7;
+  --color-limestone-550         : #EAEAE0;
+  --color-limestone-600         : #E3E3D9;
+  --color-limestone-650         : #DBDBD1;
+  --color-limestone-700         : #D4D4CA;
+  --color-limestone-750         : #CCCCC3;
+  --color-limestone-800         : #C5C5BC;
+  --color-limestone-850         : #BDBDB5;
+  --color-limestone-900         : #B6B6AD;
+  --color-link-underline        : #E7AB3F;
+  --color-olive-100             : #F7F6EF;
+  --color-olive-150             : #EEECDD;
+  --color-olive-200             : #E6E2CB;
+  --color-olive-250             : #DDD8B9;
+  --color-olive-300             : #D5CEA6;
+  --color-olive-350             : #CCC494;
+  --color-olive-400             : #C4BA81;
+  --color-olive-450             : #BCB16E;
+  --color-olive-500             : #B4A75B;
+  --color-olive-550             : #A29652;
+  --color-olive-600             : #908649;
+  --color-olive-650             : #7E7540;
+  --color-olive-700             : #6C6437;
+  --color-olive-750             : #5A542E;
+  --color-olive-800             : #484324;
+  --color-olive-850             : #36321B;
+  --color-olive-900             : #242112;
+  --color-process-active        : #89A6AB;
+  --color-process-done          : #5B6E71;
+  --color-process-failed        : #D5544F;
+  --color-process-waiting       : #CCCCC3;
+  --color-rule-field            : #CCCCC3;
+  --color-rule-row              : #E3E3D9;
+  --color-rule-section          : #D4D4CA;
+  --color-sapling-100           : #F2F6F2;
+  --color-sapling-150           : #E4EBE3;
+  --color-sapling-200           : #D5E0D5;
+  --color-sapling-250           : #C7D6C6;
+  --color-sapling-300           : #B9CCB7;
+  --color-sapling-350           : #ABC2A7;
+  --color-sapling-400           : #9DB898;
+  --color-sapling-450           : #8FAE89;
+  --color-sapling-500           : #81A479;
+  --color-sapling-550           : #74946D;
+  --color-sapling-600           : #678361;
+  --color-sapling-650           : #5A7355;
+  --color-sapling-700           : #4D6249;
+  --color-sapling-750           : #41523D;
+  --color-sapling-800           : #344230;
+  --color-sapling-850           : #273124;
+  --color-sapling-900           : #1A2118;
+  --color-scrim-modal           : color-mix(in srgb, var(--scrim-color) 80%, transparent);
+  --color-scrim-panel           : color-mix(in srgb, var(--scrim-color) 34%, transparent);
+  --color-series-bar            : #A4BABE;
+  --color-series-bar-current    : #6A8185;
+  --color-sorbet-100            : #F9F3F2;
+  --color-sorbet-150            : #F2E6E3;
+  --color-sorbet-200            : #EAD8D4;
+  --color-sorbet-250            : #E3CAC5;
+  --color-sorbet-300            : #DCBCB6;
+  --color-sorbet-350            : #D6AEA7;
+  --color-sorbet-400            : #CFA098;
+  --color-sorbet-450            : #C89189;
+  --color-sorbet-500            : #C1827A;
+  --color-sorbet-550            : #AE756E;
+  --color-sorbet-600            : #9A6862;
+  --color-sorbet-650            : #875B55;
+  --color-sorbet-700            : #744E49;
+  --color-sorbet-750            : #61413D;
+  --color-sorbet-800            : #4D3431;
+  --color-sorbet-850            : #3A2725;
+  --color-sorbet-900            : #271A18;
+  --color-star-1                : #D5544F;
+  --color-star-2                : #DF824A;
+  --color-star-3                : #E7AB3F;
+  --color-star-4                : #B4A75B;
+  --color-star-5                : #81A479;
+  --color-success-subtle        : #F2F6F2;
+  --color-success-text          : #344230;
+  --color-sunshine-100          : #FDF7EC;
+  --color-sunshine-150          : #FAEDD6;
+  --color-sunshine-200          : #F7E4C1;
+  --color-sunshine-250          : #F5DAAB;
+  --color-sunshine-300          : #F2D195;
+  --color-sunshine-350          : #EFC780;
+  --color-sunshine-400          : #ECBE6A;
+  --color-sunshine-450          : #EAB455;
+  --color-sunshine-500          : #E7AB3F;
+  --color-sunshine-550          : #E1A33D;
+  --color-sunshine-600          : #DB9C3C;
+  --color-sunshine-650          : #D6953A;
+  --color-sunshine-700          : #D08D39;
+  --color-sunshine-750          : #CA8637;
+  --color-sunshine-800          : #C48036;
+  --color-sunshine-850          : #BF7934;
+  --color-sunshine-900          : #B97232;
+  --color-surface-card          : #F8F8F2;
+  --color-surface-chrome        : #F5F5EC;
+  --color-surface-field         : #FBFBF7;
+  --color-surface-inverse       : #1A1918;
+  --color-surface-menu          : #FCFCFA;
+  --color-surface-page          : #F2F2E7;
+  --color-surface-raised        : #E3E3D9;
+  --color-switch-knob           : #FEFEFD;
+  --color-switch-track-off      : #C5C5BC;
+  --color-switch-track-off-hover: #BDBDB5;
+  --color-switch-track-on       : #AA433F;
+  --color-switch-track-on-hover : #953B37;
+  --color-text-body             : #2C2A29;
+  --color-text-inverse          : #F8F8F2;
+  --color-text-muted            : #63615F;
+  --color-text-on-accent        : #FBFBF7;
+  --color-text-secondary        : #4F4D4B;
+  --color-text-strong           : #1A1918;
+  --color-warning-subtle        : #FDF7EC;
+  --color-warning-text          : #59341E;
+  --color-wave-100              : #F3F6F7;
+  --color-wave-150              : #E6ECED;
+  --color-wave-200              : #D9E2E4;
+  --color-wave-250              : #CBD8DA;
+  --color-wave-300              : #BECED1;
+  --color-wave-350              : #B1C4C7;
+  --color-wave-400              : #A4BABE;
+  --color-wave-450              : #96B0B4;
+  --color-wave-500              : #89A6AB;
+  --color-wave-550              : #7A9398;
+  --color-wave-600              : #6A8185;
+  --color-wave-650              : #5B6E71;
+  --color-wave-700              : #4B5B5E;
+  --color-wave-750              : #3C494B;
+  --color-wave-800              : #2D3638;
+  --color-wave-850              : #1D2324;
+  --color-wave-900              : #0E1111;
+  /* ---- Type -------------------------------------------------------------- */
+  /* font-sans and font-serif both resolve to the body face: Bely is a serif. */
+  --font-sans   : var(--font-body);
+  --font-serif  : var(--font-body);
+  --font-display: var(--font-heading-display);
+  --font-heading: var(--font-heading);
+  --font-mono   : var(--font-mono);
+  /* ---- Weight ------------------------------------------------------------ */
+  --font-weight-bold    : var(--font-weight-bold);
+  --font-weight-medium  : var(--font-weight-medium);
+  --font-weight-normal  : var(--font-weight-normal);
+  --font-weight-semibold: var(--font-weight-semibold);
+  /* ---- Radius ------------------------------------------------------------ */
+  --radius-full: var(--border-radius-full);
+  --radius-lg  : var(--border-radius-lg);
+  --radius-md  : var(--border-radius-md);
+  --radius-sm  : var(--border-radius-sm);
+  --radius     : var(--radius);
+  /* ---- Spacing ----------------------------------------------------------- */
+  --spacing-2xl    : var(--space-2xl);
+  --spacing-3xl    : var(--space-3xl);
+  --spacing-4xl    : var(--space-4xl);
+  --spacing-5xl    : var(--space-5xl);
+  --spacing-6xl    : var(--space-6xl);
+  --spacing-lg     : var(--space-lg);
+  --spacing-md     : var(--space-md);
+  --spacing-sm     : var(--space-sm);
+  --spacing-sm-plus: var(--space-sm-plus);
+  --spacing-xl     : var(--space-xl);
+  --spacing-xs     : var(--space-xs);
+  /* ---- Shadow ------------------------------------------------------------ */
+  --shadow-lg: var(--shadow-lg);
+  --shadow-md: var(--shadow-md);
+  --shadow-sm: var(--shadow-sm);
+}
+
+@theme inline {
+  /* ---- Colour — product-themed, NO opacity modifier ---------------------- */
+  /* A theme file re-points these, so they must stay references. bg-primary */
+  /* works; bg-primary/50 renders opaque. Use a shade instead. */
+  --color-accent-foreground     : var(--accent-foreground);
+  --color-background            : var(--background);
+  --color-border                : var(--border);
+  --color-card                  : var(--card);
+  --color-card-foreground       : var(--card-foreground);
+  --color-destructive           : var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-foreground            : var(--foreground);
+  --color-input                 : var(--input);
+  --color-muted                 : var(--muted);
+  --color-muted-foreground      : var(--muted-foreground);
+  --color-popover               : var(--popover);
+  --color-popover-foreground    : var(--popover-foreground);
+  --color-primary               : var(--primary);
+  --color-primary-foreground    : var(--primary-foreground);
+  --color-ring                  : var(--ring);
+  --color-secondary             : var(--secondary);
+  --color-secondary-foreground  : var(--secondary-foreground);
+  --color-text-multiplier       : var(--text-multiplier);
+}
