@@ -7,7 +7,7 @@
 /* ── Self-hosted Bely fonts ── */
 
 @font-face {
-  font-family: 'bely';
+  font-family: 'Bely';
   src: url('../../fonts/Bely-Regular.woff2') format('woff2'),
        url('../../fonts/Bely-Regular.woff') format('woff');
   font-weight: normal;
@@ -16,7 +16,7 @@
 }
 
 @font-face {
-  font-family: 'bely';
+  font-family: 'Bely';
   src: url('../../fonts/Bely-Bold.woff2') format('woff2'),
        url('../../fonts/Bely-Bold.woff') format('woff');
   font-weight: bold;
@@ -25,7 +25,7 @@
 }
 
 @font-face {
-  font-family: 'bely';
+  font-family: 'Bely';
   src: url('../../fonts/Bely-Italic.woff2') format('woff2'),
        url('../../fonts/Bely-Italic.woff') format('woff');
   font-weight: normal;
@@ -34,7 +34,7 @@
 }
 
 @font-face {
-  font-family: 'bely-display';
+  font-family: 'Bely Display';
   src: url('../../fonts/BelyDisplay-Regular.woff2') format('woff2'),
        url('../../fonts/BelyDisplay-Regular.woff') format('woff');
   font-weight: normal;
@@ -64,7 +64,7 @@
     line-height: inherit;
     background-color: var(--background);
     color: var(--foreground);
-    font-family: 'bely', serif;
+    font-family: 'Bely', serif;
     font-size: 1.1rem;
   }
 
@@ -72,7 +72,7 @@
     font-size: inherit;
     font-weight: inherit;
     margin: 0;
-    font-family: 'bely-display', serif;
+    font-family: 'Bely Display', serif;
     font-weight: 400;
   }
 

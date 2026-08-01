@@ -46,7 +46,6 @@
     --input: var(--limestone-600);
     /* Wave rather than fire: the accent is reserved for the primary
        action, so focus gets its own colour and the two never compete. */
-    --ring: var(--wave-500);
     --radius: 4px;
   }
 }

@@ -22,7 +22,12 @@
     --font-body: 'bely', serif;
     --font-heading: 'bely', serif;
     --font-heading-display: 'bely-display', serif;
-    --font-mono: 'Courier New', monospace;
+    /* The metadata voice, not the code face. Courier is --font-mono-brand,
+       for code specimens only — settled in provenance/Adoption items 8-11
+       decision 2026-08-01.html. Two products overrode this identically,
+       which is what proved it a package defect rather than a product call. */
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --font-mono-brand: 'Courier New', Courier, monospace;
 
     /* Type scale */
     --font-size-xs: 12px;

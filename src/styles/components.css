@@ -480,8 +480,8 @@
   }
 
   .btn-outline:hover {
-    background-color: var(--accent);
-    color: var(--accent-foreground);
+    background-color: var(--surface-hover);
+    color: var(--text-on-hover);
   }
 
   .btn-outline-light {
@@ -510,8 +510,8 @@
   }
 
   .btn-ghost:hover {
-    background-color: var(--accent);
-    color: var(--accent-foreground);
+    background-color: var(--surface-hover);
+    color: var(--text-on-hover);
   }
 
   .btn-link {
