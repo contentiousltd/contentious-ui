@@ -44,6 +44,33 @@ the design project:
 
 ## Applying an export
 
+**The short version: `npm run design:apply`.** It takes the newest zip in `~/Downloads`
+(or a path you give it), extracts fresh to a temp dir, rsyncs with the flags below,
+restores the family-wide `SKILL.md` description if the export reverted it, re-stamps, and
+prints what changed. The manual steps are still documented underneath because the script
+is only doing them for you.
+
+It always extracts fresh and never reads a previously-extracted folder unless you point at
+one. On 1 August 2026 `~/Downloads` held a `design-system/` from 14:31 and a newer zip from
+14:46; the folder was the obvious thing to rsync from and was two revisions behind.
+
+**Getting the zip onto the machine Claude Code runs on** is a Taildrop away, rather than a
+copy through the Finder:
+
+```bash
+# from the laptop, after downloading
+tailscale file cp ~/Downloads/"Contentious design system.zip" macmini:
+# then, on the Mini
+npm run design:apply
+```
+
+**Smaller exports don't need a zip at all.** The `claude_design` MCP can read the project
+directly, so when a decision names the files it touched — both 1 August decisions carried
+an "Applied here" list — Claude Code can pull just those with `get_file` and skip the
+download entirely. That is the cheap path for a handful of files; a wholesale re-export is
+still a zip, because pulling 127 files one at a time is not.
+
+
 The Claude Design project is split by change-rate, and only one of its three folders
 travels:
 
