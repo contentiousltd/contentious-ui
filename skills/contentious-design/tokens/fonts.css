@@ -8,6 +8,10 @@
    The browser falls through to the second on a 404, so the same file works in
    both positions. This is why design-system/fonts/ can be excluded from the
    export without the repo copy breaking - see readme.md. */
+/* THE FAMILY NAMES HERE ARE CANONICAL: 'Bely' and 'Bely Display', matching
+   --font-heading / --font-heading-display in tokens/type-roles.css. The repo's
+   own @font-face rules name them bely / bely-display, which does not match and
+   silently loses the display cut for every consumer. Rename them there. */
 @font-face {
   font-family: 'Bely';
   font-style: normal;
@@ -64,7 +68,13 @@
    bold, which thickens the ink and breaks the display-cut's proportions. */
 [style*="--font-heading-display"],
 .font-display,
+.font-heading-display,
 h1, h2, h3, h4, h5, h6 { font-synthesis-weight: none; }
+/* .font-heading-display added 1 Aug 2026: the bridge emits --font-heading-display
+   into Tailwind's --font-* namespace, so the utility class is
+   font-heading-display and the guard missed it. Utilities also beat the h1..h6
+   rule, which is how a heading set by utility could have synthesised a fake
+   bold on a single-cut face. */
 
 /* ---- Email ---------------------------------------------------------------
    Custom properties don't work in mail clients and Bely won't load in most of

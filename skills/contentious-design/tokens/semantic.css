@@ -52,9 +52,8 @@
   --accent-link:         var(--fire-650);
   --accent-link-hover:   var(--fire-800);
   --link-underline:      var(--sunshine-500);   /* on hover, per brand guide */
-  --focus-ring:          var(--fire-350);
-  --focus-ring-width:    2px;
-  --focus-ring-offset:   2px;
+  /* Focus lives in its own block below — it is not an accent token. */
+
 
   /* ---- Hover surface --------------------------------------------------- */
   /* Hover is a background STEP, not a colour shift. It is a GROUND token and a
@@ -72,6 +71,17 @@
      renamed to these, and its sunshine-500 value goes with it, because a hover
      painted in a brand colour is the colour shift this rule forbids. */
   --surface-hover:       var(--limestone-600);
+  /* TWO steps, because step size scales inversely with AREA and because a
+     hover step must never overshoot the page. --surface-hover is the full step
+     and belongs to small targets on a FLOATING panel (menu rows, controls,
+     switcher). A whole list row is a large in-page surface: the full step takes
+     a limestone-300 row to limestone-600, DARKER than the limestone-500 page,
+     so the row reads as recessed below the page it sits in. --surface-hover-row
+     is the half step, and the rule is: move toward --surface-page, never past
+     it. The 30th token in the signature set, added 1 August 2026 — it was a
+     literal limestone-450 in components.css, correct on the three light grounds
+     and near-white on VTS. On a dark ground both lighten. */
+  --surface-hover-row:   var(--limestone-450);
   --text-on-hover:       var(--text-strong);   /* not in the set: --text-strong
                                                   in every product. Exists so
                                                   the shadcn codemod stays
@@ -96,6 +106,29 @@
   --info-text:           var(--wave-700);         /* = --chip-info-fg */
   --good-text:           var(--sapling-800);      /* = --chip-good-fg */
   --danger-text:         var(--fire-700);         /* = --chip-bad-fg */
+
+  /* ---- Destructive buttons --------------------------------------------- */
+  /* The OUTLINE treatment is the destructive button everywhere it sits beside
+     other things — a row action, a toolbar, a Danger zone. The SOLID fill is a
+     separate variant with a hard constraint: it is legal only as the committing
+     action of a modal dialog, i.e. exactly where --scrim-modal (80%) is drawn.
+     That is the whole of the rule, it reuses a decision already made, and it is
+     checkable in review: solid destructive without an 80% scrim behind it is
+     wrong. Solid fire is the PRIMARY colour, and in a delete dialog the delete
+     IS the primary action of the view — so the rule "solid fire = primary" is
+     not being bent, it is being applied.
+     The fill is fire in EVERY product, accent or not: danger is a family trait
+     like the score ramp. In CM, VTS and contentious.ltd that also makes it
+     unmistakably not the accent, which is a bonus rather than the reason.
+     fire-650 not fire-500, so a solid destructive never renders as a CHC
+     primary button in the wrong colour temperature. */
+  --danger-fg:           var(--fire-650);
+  --danger-fg-hover:     var(--fire-700);
+  --danger-border:       var(--fire-300);
+  --danger-tint:         var(--fire-150);
+  --danger-solid:        var(--fire-650);
+  --danger-solid-hover:  var(--fire-700);
+  --danger-solid-fg:     var(--limestone-100);
 
   /* ---- Content Health Check score levels ------------------------------- */
   /* The five-level ramp, per style.contentious.ltd/design/colours: amber is
@@ -231,16 +264,44 @@
   --nav-context-standdown: 0.42;
 
   /* ---- Motion ---------------------------------------------------------- */
-  /* CANONICAL app motion: 200ms state, 350ms reveal, 150ms exit. Confirmed
-     31 July 2026 - these are the values for every app surface.
+  /* FOUR app tokens and one marketing one. Retuned 1 August 2026 —
+     provenance/States decision 2026-08-01.html.
+     Which one you take is decided by WHAT ANIMATES, not by feel:
+         colour only          --motion-state       200ms  ease-in-out
+         geometry moves       --motion-state-slow  350ms  ease-in-out
+         an overlay arrives   --motion-overlay     350ms  ease-out
+         anything leaves      --motion-exit        150ms  ease-in
+     That rule is what the missing token was. A hover that only recolours at
+     200ms is right; a hover that GROWS something at 200ms is the pop design
+     review complained about, and it now has a name instead of being composed
+     out of the primitives against this file's own instruction.
+
+     --motion-reveal is 600ms and belongs to SCROLL-TRIGGERED reveals on
+     marketing and banded surfaces ONLY. It does not bind app overlays: a reveal
+     is something you scrolled to, an overlay is something you asked for and are
+     now waiting on. 600ms is not a new number — it is the most common duration
+     on contentious.ltd (7 occurrences, all diagram reveals) and Voice, Tone and
+     Style arrived at it independently. 350ms was documented nowhere.
+
+     THE CURVE CHANGED, and that is the more important half. Every reveal and
+     overlay easing was ease-out-EXPO (0.16, 1, 0.3, 1): ~70% travelled in the
+     first sixth, so it reads as instant at any duration. Two independent
+     surfaces opted out of the token for that reason (the mobile sheet, a link
+     underline), which is evidence, not preference. Now a real ease-out.
+     NOTE FOR THE LIBRARY: --ease-out is the expo curve there, so the new
+     easing is referenced as --ease-out-soft and --duration-reveal. Both need
+     adding to the repo's scale; the fallbacks here are correct meanwhile.
+
      @contentious/ui's --transition-fast/base/slow (300ms/800ms/1.5s) are a
      marketing scale inherited from the Astro site: right for a hero, 4x wrong
      for a hover. They are NOT being realigned - the site needs those
      durations - they are being renamed --marketing-transition-* so the
      obvious name stops being a trap. Never --transition-* in app code. */
   --motion-state:        var(--duration-fast, 200ms) var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1));
-  --motion-reveal:       var(--duration-normal, 350ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  --motion-state-slow:   var(--duration-normal, 350ms) var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1));
+  --motion-overlay:      var(--duration-normal, 350ms) var(--ease-out-soft, cubic-bezier(0.22, 0.61, 0.36, 1));
   --motion-exit:         var(--duration-fast-exit, 150ms) var(--ease-in, cubic-bezier(0.7, 0, 0.84, 0));
+  --motion-reveal:       var(--duration-reveal, 600ms) var(--ease-out-soft, cubic-bezier(0.22, 0.61, 0.36, 1));
 
   /* ---- Scrims ---------------------------------------------------------- */
   /* TWO depths, and the thing that picks one is whether the layer blocks.
@@ -273,4 +334,85 @@
   --radius-control:      var(--border-radius-md, 6px);
   --radius-surface:      var(--border-radius-md, 6px);
   --radius-frame:        var(--border-radius-lg, 12px);
+
+  /* ---- Focus ----------------------------------------------------------- */
+  /* TWO stops for the whole family, and focus is NOT the accent. Settled
+     1 August 2026 — provenance/States decision 2026-08-01.html.
+     fire-350 was the stated rule and it FAILS: 2.06:1 against limestone-500,
+     so the ring this system specified was invisible by measurement rather than
+     by taste. Fire is also already primary, star-1 and danger — a fourth
+     meaning is one too many — and a 2px fire ring offset 2px from a fire
+     button is a halo, not a state. Wave is the family that already means
+     "system activity, not judgement" (--process-active, --categorical,
+     --series-bar), which is exactly what focus is.
+     TWO stops, because no single one clears 3:1 on both a light ground and a
+     dark one — wave-600 comes closest and misses CM at 2.93:1:
+         on-light  wave-650   4.8:1 on limestone-500 · 3.8:1 on lichen-500
+                              5.1:1 on the limestone-200 chrome
+         on-dark   wave-450   6.1:1 on sorbet-850
+     A product takes one of the two and nothing else is legal. A REGION whose
+     lightness is opposite to its page flips it — see [data-surface] below.
+     COST: wave is now spent. It leaves the accent pool, so the next product's
+     accent is a ramp family at 700 or darker, or a twelfth family.
+     shadcn's --ring is deleted, not mapped: ring-ring -> ring-focus-ring. */
+  --focus-ring-on-light: var(--wave-650);
+  --focus-ring-on-dark:  var(--wave-450);
+  --focus-ring:          var(--focus-ring-on-light);
+  --focus-ring-width:    2px;
+  --focus-ring-offset:   2px;
+}
+
+/* =============================================================================
+   REGION SCOPES — an island whose lightness runs opposite to its page.
+
+   Settled 1 August 2026. A product-wide mixture is a TOKEN question and grew
+   the signature set (--text-inset, for VTS's light chrome over a dark page). A
+   REGION is not: it is a scope. CHC's bulk-selection bar on a dark island in a
+   light app needs no new component variants and no new tokens — it needs the
+   tokens its children already reference to mean something else inside it.
+   That is the whole vocabulary for an inverse surface, and it is why the
+   hand-styled version read well: it was reinventing this.
+
+   Put data-surface="inverse" on the island. Every button variant, chip, field
+   and hairline inside it then works unchanged.
+
+   TWO THINGS THIS SETTLES about CHC's action bar:
+     - The primary stays the ACCENT. A solid sapling-600 button is the only
+       solid non-fire button in the product and sapling means --data-good, so it
+       reads as a verdict. Identity does not flip on an island.
+     - Fire on gloaming is fine as a FILL and wrong as TEXT. The fill carries
+       its own contrast; fire-650 link text on gloaming-800 does not. So the
+       scope lifts --accent-link and the danger pair, and leaves --accent alone.
+       That is the real content of "the combination was never tuned".
+   ========================================================================== */
+[data-surface="inverse"] {
+  --surface-card:         var(--surface-inverse);
+  --surface-raised:       var(--gloaming-750);
+  --surface-field:        var(--gloaming-650);
+  --surface-hover:        var(--gloaming-650);
+  --surface-hover-row:    var(--gloaming-750);
+  --rule-section:         var(--gloaming-600);
+  --rule-row:             var(--gloaming-650);
+  --rule-field:           var(--gloaming-500);   /* a ghost border must survive */
+  --text-strong:          var(--limestone-200);
+  --text-body:            var(--limestone-400);
+  --text-secondary:       var(--limestone-700);
+  --text-muted:           var(--gloaming-300);
+  --label-color:          var(--gloaming-300);
+  --accent-link:          var(--fire-350);
+  --accent-link-hover:    var(--fire-250);
+  --danger-fg:            var(--fire-350);
+  --danger-fg-hover:      var(--fire-250);
+  --danger-border:        var(--fire-400);
+  --danger-tint:          var(--gloaming-700);
+  --focus-ring:           var(--focus-ring-on-dark);
+}
+
+/* The mirror, for a light island in a dark product where the mixture is
+   REGIONAL rather than structural. VTS's chrome is structural and keeps the
+   --text-inset pair at product level; this is for everything else. */
+[data-surface="inset"] {
+  --text-strong:          var(--text-inset-strong);
+  --text-body:            var(--text-inset);
+  --focus-ring:           var(--focus-ring-on-light);
 }

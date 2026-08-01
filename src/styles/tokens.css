@@ -298,12 +298,28 @@
 
     /* Exit = 75% of entrance (Impeccable: exits feel faster) */
     --duration-fast-exit: 150ms;
+    /* Scroll-triggered reveals on marketing and banded surfaces. 600ms is not a
+       new number: it is the most common duration on contentious.ltd (7
+       occurrences, every one a diagram reveal) and Voice, Tone & Style arrived
+       at it independently. The 350ms it replaces was documented nowhere. It does
+       NOT bind app overlays -- a reveal is something you scrolled to, an overlay
+       is something you asked for and are waiting on. See
+       provenance/States decision 2026-08-01.html. */
+    --duration-reveal: 600ms;
     --duration-normal-exit: 250ms;
 
     /* Easing — exponential curves for natural deceleration */
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);     /* Elements entering */
     --ease-in: cubic-bezier(0.7, 0, 0.84, 0);       /* Elements leaving */
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* State toggles */
+
+    /* A real ease-out. --ease-out above is ease-out-EXPO: ~70% of the travel in
+       its first sixth, which is right for something appearing from nothing and
+       wrong for anything that TRAVELS, at any duration. Two independent surfaces
+       opted out of the token for that reason -- the mobile sheet and a link
+       underline -- which is evidence rather than preference. Reveals and
+       overlays take this one. */
+    --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 
     /* Marketing motion — the Astro site's scale. These durations are correct for
        what they are: 800ms on a hero fade is right, and pulling the site to the

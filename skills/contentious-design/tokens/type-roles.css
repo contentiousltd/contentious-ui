@@ -17,12 +17,40 @@
    ========================================================================== */
 
 :root {
+  /* CANONICAL. The @font-face rules in tokens/fonts.css declare these faces as
+     'Bely Display' and 'Bely', so this stack matches them exactly and the
+     display cut resolves. THE REPO'S @font-face RULES DO NOT: they name the
+     faces bely-display and bely, and CSS font matching is neither space- nor
+     hyphen-insensitive, so a consumer silently falls through to Georgia and
+     loses the display cut. Two products found this independently (CM: 13
+     headings; CHC re-declares --font-display: 'bely-display' in its own :root).
+     THE FIX IS IN @font-face, NOT HERE — rename the repo's families to
+     'Bely Display' / 'Bely'. Reasons: they are the faces' real names, they are
+     what the brand and the email literal in fonts.css say, and the alternative
+     asks four products to carry a lowercase-hyphen stack. CHC's local
+     --font-display should then be DELETED, not blessed: it makes a product a
+     second writer of a suite constant, and it coins a third name for one role
+     (--font-display / --font-heading-display / bely-display). */
   --font-heading-display: 'Bely Display', 'Bely', Georgia, serif;
   --font-heading:         'Bely', Georgia, 'Times New Roman', serif;
   --font-body:            'Bely', Georgia, 'Times New Roman', serif;
-  /* The app’s metadata voice. Every label, chip and mono column in the product
-     resolves through this, so it stays on the system stack until discrepancy 01
-     in Style guide audit.html is settled. */
+  /* SETTLED 1 August 2026 — discrepancy 01 in Style guide audit.html closes.
+     MONO IS TWO ROLES, and that is why the brand guide and this system appeared
+     to disagree:
+       --font-mono        the app's METADATA VOICE — every label, chip, tick and
+                          numeric column. System stack. At 11px uppercase with
+                          0.09em tracking, Courier New reads as a terminal
+                          emulator rather than a caption, which is the whole
+                          reason this role exists.
+       --font-mono-brand  CODE, which is what the brand guide reserves mono for
+                          and what Courier is right for. Specimens, snippets.
+     The bridge's --font-mono: 'Courier New', monospace is therefore a package
+     DEFECT: CHC and CM both override it to the system stack independently, and
+     two products rejecting the same value is not a product choice.
+     MONO IS NOT IN THE SIGNATURE SET and should not join it. It is a family
+     trait like Bely — the metadata voice is the same voice in every product, and
+     the evidence is that the two overrides are identical. A product wanting its
+     own mono is a product wanting its own body face. */
   --font-mono:            ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   /* The brand mono face (style.contentious.ltd/design/typography), which the
      brand guide reserves for code. Defined, deliberately unreferenced: point

@@ -385,8 +385,8 @@ pre .c{color:var(--text-muted)}
     </table>
 
     <h3 class="sub">Motion, hover, focus</h3>
-    <p class="why"><code>--transition-fast</code> 180ms for state, <code>--transition-base</code> 280ms for reveals. No bounce, no spring, no entrance animation. The only loop in the system is the 1.6s chip dot pulse, reserved for genuinely live states.</p>
-    <p class="why"><b>Hover is a background step, not a colour shift.</b> Transparent → limestone-600 for menu rows and controls; limestone-450 for list rows. Row actions are hidden at rest and revealed on hover. Focus is <code>--focus-ring</code> (fire-350) at 2px with 2px offset – browser-default blue is the only non-palette colour that ever appears, and it’s always a bug.</p>
+    <p class="why">Four app tokens, and which one you take is decided by what animates: <code>--motion-state</code> 200ms for a colour change, <code>--motion-state-slow</code> 350ms when geometry moves, <code>--motion-overlay</code> 350ms for an overlay arriving, <code>--motion-exit</code> 150ms for anything leaving. <code>--motion-reveal</code> is 600ms and marketing-only. No bounce, no spring, no entrance animation. The only loop in the system is the 1.6s chip dot pulse, reserved for genuinely live states.</p>
+    <p class="why"><b>Hover is a background step, not a colour shift.</b> Transparent → <code>--surface-hover</code> (limestone-600) for menu rows and controls; <code>--surface-hover-row</code> (limestone-450) for list rows, because a hover step moves toward the page ground and never past it. Focus is wave, never the accent. Row actions are hidden at rest and revealed on hover. Focus is <code>--focus-ring</code> (fire-350) at 2px with 2px offset – browser-default blue is the only non-palette colour that ever appears, and it’s always a bug.</p>
   </section>
 
 
@@ -493,7 +493,7 @@ pre .c{color:var(--text-muted)}
     <table class="tok">
       <tr><th style="width:150px">Rule</th><th>Why</th></tr>
       <tr><td class="n">This file only</td><td>A product overrides tokens in <code>tokens/products.css</code> and nowhere else – not in <code>@contentious/ui</code>, not in product code. No product-specific hex anywhere but here.</td></tr>
-      <tr><td class="n">The set is closed</td><td>29 tokens. A 30th is a system decision, not a product decision. It has grown three times, every time because a shipping product wouldn't fit: <code>--surface-hover</code> (a hover step cannot be derived from the raised band – see the Accent decision), <code>--text-inset</code> (VTS runs a light nav bar over a dark page, so one inverted text stack put white type on white chrome) and <code>--signature-deployment</code> (the studio site isn't a colour scheme, it's a structure). Both growths are the layer working.</td></tr>
+      <tr><td class="n">The set is closed</td><td>30 tokens. A 31st is a system decision, not a product decision. It has grown four times, every time because a shipping product wouldn't fit: <code>--surface-hover</code> (a hover step cannot be derived from the raised band – see the Accent decision), <code>--text-inset</code> (VTS runs a light nav bar over a dark page, so one inverted text stack put white type on white chrome) and <code>--signature-deployment</code> (the studio site isn't a colour scheme, it's a structure). Both growths are the layer working.</td></tr>
       <tr><td class="n">Set all of it</td><td>A partial signature silently inherits CHC, which is the exact bug this layer exists to prevent.</td></tr>
       <tr><td class="n">No shared triple</td><td>No two products share the same (deployment, ground, accent). Products sold in one conversation – CM and CHC – must differ on <b>ground</b>, the dimension that carries at a glance within a mode. Across modes the mode is enough: contentious.ltd shares limestone with CHC and is never mistakable for it.</td></tr>
       <tr><td class="n">Banded is the studio's</td><td>A second banded product dilutes the one thing marking the parent as the parent.</td></tr>
@@ -1091,7 +1091,7 @@ pre .c{color:var(--text-muted)}
       <div><div class="p">styles.css</div><div class="d">The entry point. An <code>@import</code> list only – link this one file.</div></div>
       <div><div class="p">tokens/semantic.css</div><div class="d"><b>Start here.</b> Every decision as a token, with the reasoning in comments: surfaces, hairlines, data colour, chip tones, switch, type roles.</div></div>
       <div><div class="p">tokens/colors.css</div><div class="d">11 families × 17 stops, plus friendly aliases.</div></div>
-      <div><div class="p">tokens/products.css</div><div class="d"><b>Product signatures.</b> The closed 29-token set each product may override, the six dimensions, the allocation rules, and the recipe for adding the next product. Settled in structure, provisional in value.</div></div>
+      <div><div class="p">tokens/products.css</div><div class="d"><b>Product signatures.</b> The closed 30-token set each product may override, the six dimensions, the allocation rules, and the recipe for adding the next product. Settled in structure, provisional in value.</div></div>
       <div><div class="p">tokens/fonts.css</div><div class="d">Bely <code>@font-face</code> rules and the synthesis-weight guard.</div></div>
       <div><div class="p">components/components.css</div><div class="d">Plain-CSS implementation of every component. What this page and the UI kit run on.</div></div>
       <div><div class="p">components/core/</div><div class="d">Chip, Button, Switch, Field, Card, <b>StarRating</b></div></div>

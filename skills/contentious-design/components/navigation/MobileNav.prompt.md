@@ -35,7 +35,7 @@ Level-1 navigation below the chrome breakpoint – the mobile counterpart of `To
 **`projectItems` sits with the sections, not with account.** Project settings belongs to the project, the same call the desktop realm strip makes.
 
 Motion (owned by the CSS, not the caller):
-- **In** – sheet translates from the right, `--motion-reveal`; scrim to `--scrim-panel` (34%) over 200ms, faster than the sheet, so the app is behind glass before the panel lands.
+- **In** – sheet translates from the right, `--motion-overlay`; scrim to `--scrim-panel` (34%) over 200ms, faster than the sheet, so the app is behind glass before the panel lands.
 - **Rows** – context block plus the sections fade and slide 14px, 26ms apart from 110ms. Set `--i` per row; the stagger stops before the account footer.
 - **Out** – `--motion-exit`, no stagger. Leaving is not an event.
 - **Reduced motion** – opacity only, 120ms.
@@ -57,7 +57,7 @@ Class names follow `@contentious/ui`: `c-<block>__<element>--<modifier>` with `i
 
 **Never write a literal font-size, padding or gap.** Every size is a multiple of `--u` — one unit of body text, `calc(var(--base-font-size) * var(--text-multiplier))`. Both inputs are owned by the library. Type roles are `--t-label` / `--t-hint` / `--t-ui` / `--t-body` / `--t-row` / `--t-lede` / `--t-section` / `--t-metric` / `--t-title`. The one exception is the 44px touch floor, which is a physical constraint and not a type-scale value.
 
-**Motion uses `--motion-state` / `--motion-reveal` / `--motion-exit`**, never `--transition-*` — the library owns those names at different values.
+**Motion uses `--motion-state` (colour only) / `--motion-state-slow` (geometry moves) / `--motion-overlay` (an overlay arrives) / `--motion-exit`**, never `--transition-*` — the library owns those names at different values. `--motion-reveal` is 600ms and marketing-only; it is not an app token.
 
 **Scrim:** `--scrim-panel`, the light step — this is a layer over a page that is still there, and reading the page behind it is the point. `--scrim-modal` (80%) is for dialogs only. The colour resolves to the repo's `--overlay` (`20 4% 14%`), the same warm gloaming tint as the shadow tokens; never introduce another.
 
