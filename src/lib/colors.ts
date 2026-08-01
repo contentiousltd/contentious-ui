@@ -87,6 +87,55 @@ export function getScoreColour(score: number, prefix = 'star'): string {
   return `var(--${prefix}-1)`;
 }
 
+/**
+ * Band a 0-100 percentage to a 1-5 level: **nearest whole star**.
+ *
+ * A percentage in this system is a 1-5 rating expressed as a percentage, so banding it
+ * means converting back -- stars = pct / 20, rounded -- which puts the edges on the half
+ * stars: 1.5, 2.5, 3.5, 4.5, i.e. **90 / 70 / 50 / 30**.
+ *
+ * It replaced equal fifths (80/60/40/20), which answered a different question. Fifths ask
+ * *where in the range does this sit*, which is right for a progress bar and wrong the
+ * moment the label carries a star name: it let 81% -- four-and-a-bit stars -- be called
+ * five. See `provenance/Score band decision 2026-08-01.html`.
+ *
+ * **The uneven end bands are correct.** Five and one are endpoints, so each has only half
+ * a band to reach into. Ten points at each end and twenty in the middle is what rounding
+ * to the nearest of five points always produces; it is not an oversight to be tidied.
+ *
+ * Backwards compatible for individual ratings, which is why this removes a rule rather
+ * than adding one: 100 -> 5, 80 -> 4, 60 -> 3, 40 -> 2, 20 -> 1 all still land correctly,
+ * so items and averages band identically. Two rules is how a page score and its own
+ * criteria end up disagreeing on screen.
+ *
+ * **Do not band locally.** A product that inlines its own thresholds is how the disagreement
+ * starts.
+ *
+ * @param score Percentage, 0-100
+ * @returns Level, 1-5
+ */
+export function scoreToStars(score: number): 1 | 2 | 3 | 4 | 5 {
+  if (score >= 90) return 5;
+  if (score >= 70) return 4;
+  if (score >= 50) return 3;
+  if (score >= 30) return 2;
+  return 1;
+}
+
+/**
+ * The level colour for a 0-100 percentage, banded by {@link scoreToStars}.
+ *
+ * **This is a FILL, never a text colour.** All five `--star-*` stops fail AA as small text
+ * on every product ground -- fire 3.58:1, amber 2.51:1, sapling 2.48:1, olive 2.16:1,
+ * sunshine 1.81:1 against `--surface-page`. A score rendered as a number keeps
+ * `--text-strong` and puts the level in a fill beside it; that is what `ScoreValue` is for.
+ * Darkening the ramp until it passes is not the fix -- five dark stops stop reading as a
+ * ramp.
+ */
+export function getScoreColourFromPercent(score: number, prefix = 'star'): string {
+  return getScoreColour(scoreToStars(score), prefix);
+}
+
 // ─── Status colours ───────────────────────────────────────────────────────────
 
 export interface StatusColours {

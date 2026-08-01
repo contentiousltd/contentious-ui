@@ -6,9 +6,17 @@ A single score out of 100. **Not** the freshness donut – that shows slices of 
 <ScoreGauge score={92} size="sm" />
 ```
 
-- Arc colour comes from `scoreToLevel`, so a gauge and a star rating for the same score always agree.
-- `lg` renders the value at 64px in Bely Display – the clearest use of the display cut in the product. One per page.
+**Gauge or rail?** Ask whether the score is the *subject* or one of several values. Subject takes the gauge, because the ring encodes the value twice, as a number and as arc length, and that earns the space only when it is the point. **At most one gauge per view.** A score among other values takes `ScoreValue`: the rail if its neighbours are quantities, the five-segment track if its neighbours are other scores. A column of rings cannot be scanned.
+
+**Full 360, from twelve o'clock, clockwise. Butt caps.** Both are correctness, not taste. The ring must be able to close, or 100 reads as "not quite"; and a round cap adds half a stroke width of arc at each end, about 4.5 points across the two, so a 3 draws like a 7 and a 1 draws five times its true length.
+
+- Arc colour comes from `scoreToLevel`, so a gauge and a star rating for the same score always agree. Under the current bands a 73 is level 4, olive, not sunshine.
+- Track is `--level-empty`, darker than the ground. **Not a lighter stop**: `limestone-300` is the same value as `--surface-card`, so a light track vanishes on a card, which is exactly where the `sm` badge lives.
+- **No per cent sign.** A score out of 100 is a score; the sign invites reading it as a proportion of something countable.
+- `lg` renders the value at 64px in Bely Display – the clearest use of the display cut in the product. One per page. The clockwise sweep is `lg` only and suppressed under `prefers-reduced-motion`; `sm` and `md` arrive at their value.
 - `md` tiles into a criteria grid; `sm` is a badge on a `ResultCard` thumbnail.
+
+Workings: `explorations/Score gauge.html`.
 
 ---
 

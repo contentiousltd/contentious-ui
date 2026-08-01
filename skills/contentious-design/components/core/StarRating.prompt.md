@@ -8,7 +8,8 @@ The canonical way a criterion score is shown anywhere in the product. Five discr
 - Filled stars take `--level-1` to `--level-5`; empty stars take `--level-empty`.
 - The star is an inline SVG at 12/16/20px in `currentColor`, per the icon rule. **Never a unicode glyph.** Swap in the app's own star asset when it is available – the path here is a stand-in.
 - Always give a `label`: five identical shapes are not readable by a screen reader.
-- `scoreToLevel` bands at **20/40/60/80** – a 1–5 rating expressed as a percentage, so five fifths is 100%. Confirmed, not provisional. Port it to `src/lib/colors.ts` as `scoreToStars()` beside `getScoreColour()`.
+- `scoreToLevel` bands at **90/70/50/30** – nearest whole star, not equal fifths. A percentage here is a 1–5 rating expressed as a percentage, so stars = pct ÷ 20 and the edges fall on the half stars. 81% is 4.05 stars: a four. Port it to `src/lib/colors.ts` as `scoreToStars()` beside `getScoreColour()`.
+- **Never show a 0–100 score as coloured text.** Use `ScoreValue`, which puts the level in a fill beside the number.
 
 ---
 

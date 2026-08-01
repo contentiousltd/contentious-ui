@@ -42,7 +42,7 @@
 .c-button--quiet:hover{background:var(--surface-raised);color:var(--text-strong)}
 .c-button--danger{background:transparent;color:var(--danger-fg);border:1px solid var(--danger-border)}
 .c-button--danger:hover{background:var(--danger-tint);color:var(--danger-fg-hover)}
-/* Solid destructive. LEGAL ONLY as the committing action of a modal dialog — the
+/* Solid destructive. LEGAL ONLY as the committing action of a modal dialog – the
    one view where the destructive action IS the primary action, and the one place
    an 80% --scrim-modal is drawn. Nowhere else: --danger is the destructive
    button everywhere it sits beside other things. */
@@ -181,7 +181,7 @@
 .c-seg{display:inline-flex;background:var(--surface-raised);border-radius:var(--radius-control);padding:3px;gap:2px}
 .c-seg span{font-family:var(--font-heading);font-size:var(--t-hint);padding:calc(var(--u) * .33) calc(var(--u) * .72);border-radius:4px;color:var(--text-secondary);cursor:pointer;white-space:nowrap}
 .c-seg span.is-active{background:var(--surface-menu);color:var(--text-strong)}
-/* A control whose SELECTED state is a fill cannot use a fill for hover — the
+/* A control whose SELECTED state is a fill cannot use a fill for hover – the
    fill is spoken for, and a second one on the same track says "selected" twice.
    Hover moves the text. This is the general answer to "what does a control
    already on --surface-hover hover to": nothing, because it should not have
@@ -288,11 +288,65 @@
 .c-stars--sm svg{width:calc(var(--u) * .67);height:calc(var(--u) * .67)}
 .c-stars--lg svg{width:calc(var(--u) * 1.11);height:calc(var(--u) * 1.11)}
 
+/* ---- Score value -------------------------------------------------------- */
+/* A 0-100 score with its level. THE LEVEL IS NEVER THE TEXT COLOUR: all five
+   --star-* stops fail AA as small text on every product ground (measured:
+   explorations/Coloured numbers.html), so the number stays --text-strong and
+   a fill beside it carries the level. Decided 1 August 2026.
+   Marker shapes, all coloured by the same --c-score--lN modifier:
+     __track  five segments, n filled - the default, colour AND position
+     __dot    inline in prose, where a track would break the line
+     __rail   one bar at headline size
+   The number is Bely Display, not mono: it is a value, not metadata. In prose
+   use --inline, which hands the number back to the surrounding face. */
+.c-score{display:inline-flex;align-items:center;gap:calc(var(--u) * .44)}
+.c-score__num{font-family:var(--font-heading-display);font-weight:400;font-size:calc(var(--u) * 1.06);line-height:1;color:var(--text-strong);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c-score__track{display:flex;gap:calc(var(--u) * .11);flex:none}
+.c-score__track i{display:block;width:calc(var(--u) * .39);height:calc(var(--u) * .78);border-radius:2px;background:var(--level-empty)}
+.c-score__dot{width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:50%;flex:none;background:var(--level-empty);vertical-align:middle}
+.c-score__rail{width:calc(var(--u) * .22);height:calc(var(--u) * 1.11);border-radius:2px;flex:none;background:var(--level-empty)}
+.c-score--l1 .c-score__track i.is-on,.c-score--l1 .c-score__dot,.c-score--l1 .c-score__rail{background:var(--star-1)}
+.c-score--l2 .c-score__track i.is-on,.c-score--l2 .c-score__dot,.c-score--l2 .c-score__rail{background:var(--star-2)}
+.c-score--l3 .c-score__track i.is-on,.c-score--l3 .c-score__dot,.c-score--l3 .c-score__rail{background:var(--star-3)}
+.c-score--l4 .c-score__track i.is-on,.c-score--l4 .c-score__dot,.c-score--l4 .c-score__rail{background:var(--star-4)}
+.c-score--l5 .c-score__track i.is-on,.c-score--l5 .c-score__dot,.c-score--l5 .c-score__rail{background:var(--star-5)}
+/* Table density: 50 rows of scores. */
+.c-score--sm{gap:calc(var(--u) * .33)}
+.c-score--sm .c-score__num{font-size:calc(var(--u) * .89)}
+.c-score--sm .c-score__track{gap:calc(var(--u) * .08)}
+.c-score--sm .c-score__track i{width:calc(var(--u) * .33);height:calc(var(--u) * .61)}
+.c-score--sm .c-score__rail{height:calc(var(--u) * .89)}
+/* Headline. Pair with __rail, not __track: at this size five segments become a
+   chart, and the page already has a gauge for that job. */
+.c-score--lg{gap:calc(var(--u) * .61);align-items:baseline}
+.c-score--lg .c-score__num{font-size:var(--t-metric)}
+.c-score--lg .c-score__rail{width:calc(var(--u) * .33);height:calc(var(--u) * 2);align-self:center}
+/* In a sentence. The number belongs to the prose, so it takes the prose face. */
+.c-score--inline{gap:calc(var(--u) * .28)}
+.c-score--inline .c-score__num{font-family:inherit;font-size:inherit;letter-spacing:0;color:inherit;font-weight:inherit}
+/* No score yet. Never a zero: 0 is a level 1 verdict, absence is not. */
+.c-score--empty .c-score__num{color:var(--text-muted);font-family:var(--font-mono);font-size:calc(var(--u) * .78)}
+
 /* ---- Score gauge -------------------------------------------------------- */
+/* One score as a closed ring. Settled 1 August 2026 against the three versions
+   shipping in CM, CHC and the bare ring: explorations/Score gauge.html.
+   FULL 360, STARTING AT TWELVE O'CLOCK, CLOCKWISE. The arc is dashed on the
+   circumference and rotated -90 in the markup; the track is a plain circle.
+   The old spec here was a 288 degree open ring rotated -57.6deg, which was
+   traced from a screenshot caught mid-sweep. It could not draw 100: the
+   maximum sweep left a gap, so a perfect score read as "not quite".
+   BUTT CAPS, never round. A round cap adds half a stroke width of arc beyond
+   each end, about 2.3 points per end at the badge ratio and 4.5 across the
+   two, so a 3 draws like a 7 and a 1 draws five times its true length.
+   Track is --level-empty and NOT a lighter stop. The three products all ship a
+   near-white track, which works only because all three sit on the page ground:
+   limestone-300 IS --surface-card at #F8F8F2, so a badge ring on a result card
+   would have no track at all, and 400/450 are aliases three per channel from
+   it. Darker is the only direction with room on every ground. */
 .c-gauge{position:relative;display:inline-grid;place-items:center}
 .c-gauge svg{display:block}
 .c-gauge__track{fill:none;stroke:var(--level-empty)}
-.c-gauge__arc{fill:none;stroke:var(--star-3);stroke-linecap:round;transition:stroke-dashoffset var(--motion-state-slow)}
+.c-gauge__arc{fill:none;stroke:var(--star-3);transition:stroke-dashoffset var(--motion-state-slow)}
 .c-gauge--l1 .c-gauge__arc{stroke:var(--star-1)}
 .c-gauge--l2 .c-gauge__arc{stroke:var(--star-2)}
 .c-gauge--l3 .c-gauge__arc{stroke:var(--star-3)}
@@ -303,8 +357,14 @@
 .c-gauge--md .c-gauge__value{font-size:calc(var(--u) * 1.44)}
 .c-gauge--lg .c-gauge__value{font-size:calc(var(--u) * 3.56)}
 .c-gauge__caption{font-size:var(--t-hint);color:var(--text-muted);text-align:center;margin-top:calc(var(--u) * .67);max-width:34ch;line-height:1.45}
+/* The sweep is lg only: fifty animating rings in a table is noise, and sm/md
+   arrive at their value. --motion-state-slow, not --motion-reveal, which is
+   600ms and marketing-only. */
+.c-gauge--lg .c-gauge__arc{transition:stroke-dashoffset var(--motion-state-slow)}
+.c-gauge--sm .c-gauge__arc,.c-gauge--md .c-gauge__arc{transition:none}
+@media (prefers-reduced-motion: reduce){.c-gauge__arc{transition:none}}
 
-/* ---- Score history — the one chart allowed axes ------------------------- */
+/* ---- Score history – the one chart allowed axes ------------------------- */
 .c-history{background:var(--surface-card);border-radius:var(--radius-surface);padding:calc(var(--u) * 1.11) calc(var(--u) * 1.22)}
 .c-history__note{margin:0 0 calc(var(--u) * .89);font-size:var(--t-hint);color:var(--text-muted)}
 .c-history__plot{position:relative;height:calc(var(--u) * 10);margin-left:calc(var(--u) * 1.89);border-left:1px solid var(--rule-row);border-bottom:1px solid var(--rule-row)}
@@ -313,7 +373,7 @@
 .c-history__ylabel{position:absolute;right:calc(100% + var(--u) * .44);transform:translateY(-50%);font-family:var(--font-mono);font-size:var(--t-label);color:var(--text-muted);white-space:nowrap}
 .c-history__point{position:absolute;width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:50%;transform:translate(-50%,50%);background:var(--star-3);border:2px solid var(--surface-card);z-index:2}
 /* The line shares the points' coordinate system: viewBox 0 0 100 100 with
-   preserveAspectRatio="none". Never rotated divs — the angle cannot be right
+   preserveAspectRatio="none". Never rotated divs – the angle cannot be right
    when vertical and horizontal percentages differ. */
 .c-history__svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:1}
 .c-history__svg polyline{fill:none;stroke:var(--star-4);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
@@ -339,7 +399,7 @@
 .c-result__title{font-family:var(--font-heading);font-size:var(--t-ui);line-height:1.3;color:var(--text-strong)}
 .c-result__meta{font-family:var(--font-mono);font-size:var(--t-label);color:var(--text-muted);margin-top:calc(var(--u) * .33)}
 
-/* ---- Process bar — wave ramp, fire for failure only -------------------- */
+/* ---- Process bar – wave ramp, fire for failure only -------------------- */
 .c-process{display:grid;gap:calc(var(--u) * .39)}
 .c-process__row{display:grid;grid-template-columns:calc(var(--u) * 5.33) 1fr calc(var(--u) * 1.89);gap:calc(var(--u) * .67);align-items:center}
 .c-process__label{font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--text-muted);text-align:right}

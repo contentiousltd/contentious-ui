@@ -14,5 +14,5 @@ export interface StarRatingProps {
   style?: React.CSSProperties;
 }
 export function StarRating(props: StarRatingProps): JSX.Element;
-/** 0-100 score to a 1-5 level. Band edges 20/40/60/80 — a rating as a percentage. */
+/** 0-100 score to a 1-5 level. Band edges 90/70/50/30 - nearest whole star. */
 export function scoreToLevel(score: number): number;

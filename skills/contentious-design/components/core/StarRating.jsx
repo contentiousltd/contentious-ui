@@ -27,14 +27,16 @@ export function StarRating({ level, outOf = 5, size = 'md', label, style }) {
 }
 
 /**
- * Maps a 0-100 score onto the five framework levels.
- * A 1-5 rating as a percentage puts the band edges at 20/40/60/80.
+ * Maps a 0-100 score onto the five framework levels by NEAREST STAR.
+ * A percentage is a 1-5 rating expressed as a percentage, so stars = pct / 20
+ * and the edges fall on the half stars: 30/50/70/90. Not equal fifths – 81%
+ * is 4.05 stars, which is a four. See --score-band-* in tokens/semantic.css.
  * Port this to src/lib/colors.ts as scoreToStars(), beside getScoreColour().
  */
 export function scoreToLevel(score) {
-  if (score >= 80) return 5;
-  if (score >= 60) return 4;
-  if (score >= 40) return 3;
-  if (score >= 20) return 2;
+  if (score >= 90) return 5;
+  if (score >= 70) return 4;
+  if (score >= 50) return 3;
+  if (score >= 30) return 2;
   return 1;
 }

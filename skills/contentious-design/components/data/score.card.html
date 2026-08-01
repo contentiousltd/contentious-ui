@@ -1,0 +1,35 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Score value – number plus level fill" subtitle="A level is never text. The number stays strong; a fill carries the level." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Score value</title>
+<link rel="stylesheet" href="../../styles.css"/>
+<style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-synthesis-weight:none}a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
+.pad{padding:22px 26px}
+.cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.rows{display:flex;flex-direction:column;gap:10px;max-width:430px}
+.r{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-bottom:9px;border-bottom:1px solid var(--rule-row)}
+.r:last-child{border-bottom:0;padding-bottom:0}
+.u{font-family:var(--font-mono);font-size:12px;color:var(--text-secondary)}
+.split{display:grid;grid-template-columns:430px 1fr;gap:34px;align-items:start}
+.side{display:flex;flex-direction:column;gap:22px}
+.bad{font-family:var(--font-mono);font-size:20px;color:var(--sunshine-700);font-variant-numeric:tabular-nums}
+.n{font-size:12.5px;line-height:1.5;color:var(--text-muted);max-width:34ch;margin:8px 0 0}
+</style>
+</head><body>
+<div class="pad"><div class="split">
+<div>
+<div class="cap">Table row · sm, track</div>
+<div class="rows">
+<div class="r"><span class="u">/get-involved/volunteer</span><span class="c-score c-score--sm c-score--l5"><span class="c-score__num">96</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i></span></span></div>
+<div class="r"><span class="u">/donate/monthly-giving</span><span class="c-score c-score--sm c-score--l4"><span class="c-score__num">81</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i></i></span></span></div>
+<div class="r"><span class="u">/shop/find-a-shop</span><span class="c-score c-score--sm c-score--l3"><span class="c-score__num">63</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i></i><i></i></span></span></div>
+<div class="r"><span class="u">/policy/2019-archive-note</span><span class="c-score c-score--sm c-score--l2"><span class="c-score__num">42</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i></i><i></i><i></i></span></span></div>
+<div class="r"><span class="u">/careers/roles/2021-intern</span><span class="c-score c-score--sm c-score--empty"><span class="c-score__num">not scored</span></span></div>
+</div>
+</div>
+<div class="side">
+<div><div class="cap">Headline · lg, rail</div><span class="c-score c-score--lg c-score--l3"><span class="c-score__num">63</span><span class="c-score__rail"></span></span></div>
+<div><div class="cap">In prose · inline, dot</div><span style="font-size:15px;color:var(--text-body)">Scored <span class="c-score c-score--inline c-score--l3"><span class="c-score__num">63</span><span class="c-score__dot"></span></span> this month, down from <span class="c-score c-score--inline c-score--l4"><span class="c-score__num">81</span><span class="c-score__dot"></span></span>.</span></div>
+<div><div class="cap">Never · the level as text</div><span class="bad">63</span><p class="n">sunshine-700 at 2.47:1. All five stops fail as small text, which is why the level is a fill.</p></div>
+</div>
+</div></div></body></html>

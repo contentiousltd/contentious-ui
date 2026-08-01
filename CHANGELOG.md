@@ -10,6 +10,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.9.0] – 2026-08-01
+
+### Changed
+
+- **Score bands are nearest whole star: 90 / 70 / 50 / 30.** They were equal fifths (80/60/40/20), which answers a different question – *where in the range does this sit* – and is right for a progress bar but wrong the moment the label carries a star name, because it let 81% (four-and-a-bit stars) be called five. A percentage here **is** a 1–5 rating expressed as a percentage, so banding it means converting back: stars = pct ÷ 20, rounded, which puts the edges on the half stars. The uneven end bands are correct and should not be tidied: five and one are endpoints, so each has only half a band to reach into. Backwards compatible for individual ratings (100→5, 80→4, 60→3, 40→2, 20→1 all still land correctly), so this **removes** a rule rather than adding one – items and averages now band identically, and two rules is how a page score and its own criteria end up disagreeing on screen. See `provenance/Score band decision 2026-08-01.html`.
+
+### Added
+
+- **`ScoreValue`** – the only way a 0–100 score is shown. **The level is never the text colour:** all five `--star-*` stops fail AA as small text on every product ground (fire 3.58:1, amber 2.51:1, sapling 2.48:1, olive 2.16:1, sunshine 1.81:1 against `--surface-page`). The number stays `--text-strong` and a fill beside it carries the level – a five-segment track by default, so colour *and* position encode it and it survives greyscale, colour blindness and a bad screen. Darkening the ramp until it passes is not the fix: five dark stops stop reading as a ramp.
+- **`scoreToStars(pct)`** and **`getScoreColourFromPercent(pct)`** in `lib/colors`, so a product never bands locally. `getScoreColour` is unchanged and still takes a 1–5 level.
+
 ## [0.8.2] – 2026-08-01
 
 Additive. One new token and a correction to what "reserved" binds; no existing value moves,

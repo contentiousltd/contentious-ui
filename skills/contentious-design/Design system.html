@@ -131,6 +131,7 @@ pre .c{color:var(--text-muted)}
   <h4>Scores</h4>
   <a href="#scores">The level ramp</a>
   <a href="#stars">Star rating</a>
+  <a href="#score">Score value</a>
   <a href="#gauge">Score gauge</a>
   <a href="#history">Score history</a>
   <a href="#criterion">Criterion card</a>
@@ -260,7 +261,7 @@ pre .c{color:var(--text-muted)}
       </div>
     </div>
     <p class="why"><b>Reserved.</b> These five colours mean a score and nothing else. They are not a categorical palette – an orange bar in a "top sections" chart reads as level 2 whether you mean it or not, and sitting near a score column that is a real misread. Categorical bars use one colour (<code>--categorical</code>); ordered process stages use a wave ramp with fire for failure (<code>--process-*</code>).</p>
-    <p class="why"><b>Band thresholds are provisional</b> – <code>--score-band-5</code> and friends currently sit on 90/80/70/60. They should be replaced with the framework's real star boundaries, so the colour changes where meaning changes rather than on round numbers.</p>
+    <p class="why"><b>Band thresholds are nearest star, not equal fifths</b> – <code>--score-band-*</code> sits on <b>90 / 70 / 50 / 30</b>. A percentage here is a 1–5 rating expressed as a percentage, so stars = pct ÷ 20 and the edges land on the half stars. 81% is 4.05 stars: a four, not a five. Equal fifths would answer “where in the range does this sit”, which is the wrong question once the label carries a star name. Top and bottom bands are 10 wide rather than 20 because 5 and 1 are endpoints. Single ratings land in their own bands under the same rule, so items and averages never need two rules.</p>
 
     <h3 class="sub">Data colour – quantities stay neutral</h3>
     <p class="why">The Monitoring page originally rendered <i>every</i> value in accent red, including <code>$0.0000</code> and <code>0%</code>. That spends the alarm colour on nothing and leaves nothing to signal a real problem with. Numbers are neutral until they’ve earned a colour.</p>
@@ -281,8 +282,8 @@ pre .c{color:var(--text-muted)}
 
     <h3 class="sub">One scale, two inputs</h3>
     <p class="why">Every size in the app is a multiple of <code>--u</code>. Two numbers feed it, and <b>both are owned by the library</b>:</p>
-    <p class="why"><code>--base-font-size</code> is <b>density</b>, and it is <b>derived from deployment mode, not chosen per product</b>: <b>19px</b> for every app, the brand's <b>24px</b> for marketing surfaces. That is why the tools feel like an app rather than a marketing page. It stays a knob a theme sets — a working tool and a first-impression surface genuinely want different density — but it now has two legal values and a rule saying which, so a theme setting 21px is wrong in a way a reviewer can see. Full reasoning, including why 19 rather than CHC's undocumented 18, is at the foot of <code>tokens/products.css</code>.</p>
-    <p class="why"><code>--text-multiplier</code> is the <b>responsive step</b> — 1 below 48rem, 1.1 above it, 1.2 above 96rem, declared in <code>@layer base</code>. So this scale is responsive for free, and nothing here should ever assign it a density value. <b>Setting <code>--text-multiplier: 0.75</code> would be a bug</b>: it collides with the breakpoint rules and double-applies against the theme's 18px.</p>
+    <p class="why"><code>--base-font-size</code> is <b>density</b>, and it is <b>derived from deployment mode, not chosen per product</b>: <b>19px</b> for every app, the brand's <b>24px</b> for marketing surfaces. That is why the tools feel like an app rather than a marketing page. It stays a knob a theme sets – a working tool and a first-impression surface genuinely want different density – but it now has two legal values and a rule saying which, so a theme setting 21px is wrong in a way a reviewer can see. Full reasoning, including why 19 rather than CHC's undocumented 18, is at the foot of <code>tokens/products.css</code>.</p>
+    <p class="why"><code>--text-multiplier</code> is the <b>responsive step</b> – 1 below 48rem, 1.1 above it, 1.2 above 96rem, declared in <code>@layer base</code>. So this scale is responsive for free, and nothing here should ever assign it a density value. <b>Setting <code>--text-multiplier: 0.75</code> would be a bug</b>: it collides with the breakpoint rules and double-applies against the theme's 18px.</p>
     <p class="why">The specimens below are rendered <b>from the live tokens</b>, and every px figure is read back off the DOM at load. Nothing on this page is transcribed, so it cannot drift from the CSS. Drag the slider to preview a breakpoint step.</p>
 
     <div class="demo" id="scale-live">
@@ -308,7 +309,7 @@ pre .c{color:var(--text-muted)}
         </tbody>
       </table>
     </div>
-    <p class="why">The slider is a <b>preview control on this page only</b> — it writes to this document, not to the tokens. In the product these values arrive from <code>tokens.css</code> and the theme file.</p>
+    <p class="why">The slider is a <b>preview control on this page only</b> – it writes to this document, not to the tokens. In the product these values arrive from <code>tokens.css</code> and the theme file.</p>
 
     <h3 class="sub">Bely Display – page titles and metric values only</h3>
     <p class="why">A single 400 cut, used at exactly two sizes: <code>--t-title</code> and <code>--t-metric</code>. <b>Never below 30px</b>, and never allowed to synthesise a bold – browsers default headings to 700 and fake it, which thickens the ink and breaks the cut’s proportions. <code>font-synthesis-weight: none</code> is set globally in <code>tokens/fonts.css</code>.</p>
@@ -535,24 +536,59 @@ pre .c{color:var(--text-muted)}
     <p class="why">Always pass a label. Five identical shapes are unreadable to a screen reader.</p>
   </section>
 
-  <section class="part" id="gauge">
-    <h2 class="big">Score gauge</h2>
-    <p class="intro">One score out of 100 in an open ring. Not the freshness donut – that shows slices of a whole, this shows one value against a maximum.</p>
-    <div class="demo" style="display:flex;align-items:center;gap:50px">
-      <div class="c-gauge c-gauge--lg c-gauge--l2">
-        <svg width="200" height="200" style="transform:rotate(-57.6deg)">
-          <circle class="c-gauge__track" cx="100" cy="100" r="93" stroke-width="14" stroke-dasharray="479 585" stroke-linecap="round"></circle>
-          <circle class="c-gauge__arc" cx="100" cy="100" r="93" stroke-width="14" stroke-dasharray="326 585"></circle>
-        </svg>
-        <span class="c-gauge__value">68</span>
+  <section class="part" id="score">
+    <h2 class="big">Score value</h2>
+    <p class="intro">A score out of 100, shown with its level. The one rule that matters: <b>a level is never text.</b> All five stops fail AA as small text on every product ground, so the number stays <code>--text-strong</code> and a fill beside it carries the level.</p>
+    <div class="demo">
+      <div class="cap">Watchlist score column · c-score--sm, five-segment track</div>
+      <div style="display:flex;flex-direction:column;gap:11px;max-width:520px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px"><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-secondary)">/get-involved/volunteer</span><span class="c-score c-score--sm c-score--l5"><span class="c-score__num">96</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i></span></span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px"><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-secondary)">/donate/monthly-giving</span><span class="c-score c-score--sm c-score--l4"><span class="c-score__num">81</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i></i></span></span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px"><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-secondary)">/shop/find-a-shop</span><span class="c-score c-score--sm c-score--l3"><span class="c-score__num">63</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i class="is-on"></i><i></i><i></i></span></span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px"><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-secondary)">/policy/2019-archive-note</span><span class="c-score c-score--sm c-score--l2"><span class="c-score__num">42</span><span class="c-score__track"><i class="is-on"></i><i class="is-on"></i><i></i><i></i><i></i></span></span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:24px"><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--text-secondary)">/careers/roles/2021-intern</span><span class="c-score c-score--sm c-score--empty"><span class="c-score__num">not scored</span></span></div>
       </div>
-      <div style="display:flex;gap:26px;align-items:center">
-        <div class="c-gauge c-gauge--md c-gauge--l4"><svg width="86" height="86" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="203 248" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="167 248"></circle></svg><span class="c-gauge__value">82</span></div>
-        <div class="c-gauge c-gauge--md c-gauge--l3"><svg width="86" height="86" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="203 248" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="154 248"></circle></svg><span class="c-gauge__value">76</span></div>
-        <div class="c-gauge c-gauge--md c-gauge--l5"><svg width="86" height="86" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="203 248" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39.5" stroke-width="7" stroke-dasharray="187 248"></circle></svg><span class="c-gauge__value">92</span></div>
+      <div class="cap" style="margin-top:22px">Headline · c-score--lg with the rail. In prose · c-score--inline with the dot.</div>
+      <div style="display:flex;align-items:center;gap:48px;flex-wrap:wrap">
+        <span class="c-score c-score--lg c-score--l3"><span class="c-score__num">63</span><span class="c-score__rail"></span></span>
+        <span style="font-size:16px;color:var(--text-body)">Scored <span class="c-score c-score--inline c-score--l3"><span class="c-score__num">63</span><span class="c-score__dot"></span></span> this month, down from <span class="c-score c-score--inline c-score--l4"><span class="c-score__num">81</span><span class="c-score__dot"></span></span> in June.</span>
       </div>
     </div>
-    <p class="why">Arc colour comes from the same score-to-level mapping as the stars, so a gauge and a rating for one score always agree. <code>lg</code> renders the value at 64px in Bely Display – the clearest use of the display cut in the product, and one per page.</p>
+    <p class="why"><b>Why the number is not coloured.</b> Measured on <code>--surface-page</code>: fire 3.58:1, sapling 2.48:1, amber 2.51:1, olive 2.16:1, sunshine 1.81:1. Five out of five fail, and the best of them is short by a full point. Darkening the ramp until it passes is not the alternative, because five dark stops stop reading as a ramp. The Watchlist column shipped for months with <code>sunshine-700</code> numerals at 2.47:1, which spent the colour precisely where legibility was lost.</p>
+    <p class="why"><b>Why the track is the default.</b> Colour and position both encode the level, so it survives greyscale, colour blindness and a bad laptop screen. It also shows the band rather than just its colour: 81 renders four filled, which is the whole point of the edge sitting at 90.</p>
+    <p class="why"><b>The number is Bely Display, not mono.</b> A score is a value, like a metric, not metadata. Mono is the label voice. The one exception is <code>--inline</code>, where the number belongs to the sentence and takes the sentence's face.</p>
+    <div class="dd">
+      <div class="do"><h5>Do</h5><ul>
+        <li>Track by default, dot in prose, rail at headline size</li>
+        <li>Band with <code>scoreToLevel()</code>: 90 / 70 / 50 / 30, nearest star</li>
+        <li>Show “not scored” for a missing score, never 0</li>
+        <li>Keep quantities out of a score column</li>
+      </ul></div>
+      <div class="dont"><h5>Don’t</h5><ul>
+        <li>No coloured numerals, at any size</li>
+        <li>No tint pill and no coloured circle behind the number: the 200 tints flatten the ramp, and the avatar is the system’s only circle</li>
+        <li>No local threshold. There is no pass mark, there are five bands</li>
+        <li>No track at headline size: that is what <code>ScoreGauge</code> is</li>
+      </ul></div>
+    </div>
+    <p class="why">Workings: <a href="../explorations/Coloured numbers.html">Coloured numbers</a>. Bands: <a href="../provenance/Score band decision 2026-08-01.html">Score band decision</a>.</p>
+  </section>
+
+  <section class="part" id="gauge">
+    <h2 class="big">Score gauge</h2>
+    <p class="intro">One score out of 100 as a closed ring. Not the freshness donut – that shows slices of a whole, this shows one value against a maximum.</p>
+    <div class="demo" style="display:flex;align-items:center;gap:50px">
+      <div class="c-gauge c-gauge--lg c-gauge--l3"><svg width="200" height="200"><circle class="c-gauge__track" cx="100" cy="100" r="93" stroke-width="14"></circle><circle class="c-gauge__arc" cx="100" cy="100" r="93" stroke-width="14" stroke-dasharray="584.34" stroke-dashoffset="186.99" transform="rotate(-90 100 100)"></circle></svg><span class="c-gauge__value">68</span></div>
+      <div style="display:flex;gap:26px;align-items:center">
+        <div class="c-gauge c-gauge--md c-gauge--l4"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="39" stroke-width="8"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39" stroke-width="8" stroke-dasharray="245.04" stroke-dashoffset="46.56" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">81</span></div>
+        <div class="c-gauge c-gauge--md c-gauge--l3"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="39" stroke-width="8"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39" stroke-width="8" stroke-dasharray="245.04" stroke-dashoffset="90.67" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">63</span></div>
+        <div class="c-gauge c-gauge--md c-gauge--l5"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="39" stroke-width="8"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39" stroke-width="8" stroke-dasharray="245.04" stroke-dashoffset="9.80" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">96</span></div>
+      </div>
+    </div>
+    <p class="why">Arc colour comes from the same score-to-level mapping as the stars, so a gauge and a rating for one score always agree. <code>lg</code> renders the value at 64px in Bely Display – the clearest use of the display cut in the product, and one per page. No per cent sign: a score out of 100 is a score, and the sign invites reading it as a proportion of something countable.</p>
+    <p class="why"><b>Full 360, from twelve o’clock, clockwise, with butt caps.</b> Both are correctness rather than taste. The ring has to be able to close, or a perfect score reads as “not quite”: the previous spec here was a 288 degree open ring rotated <code>-57.6deg</code>, traced from a screenshot caught mid-sweep, and it could not draw 100 at all. And a round cap adds half a stroke width of arc beyond each end, about 2.3 points per end at the badge ratio and 4.5 across the two, so a 3 draws like a 7 and a 1 draws roughly five times its true length.</p>
+    <p class="why"><b>The track is <code>--level-empty</code>, darker than the ground, not a lighter stop.</b> All three products ship a near-white track, which works only because all three of those gauges sit on the page ground. <code>limestone-300</code> is the same value as <code>--surface-card</code>, so the <code>sm</code> badge on a result card would have no track at all, and <code>400</code> and <code>450</code> are aliases within three per channel of it. Darker is the only direction with room on every ground.</p>
+    <p class="why"><b>Gauge or rail.</b> Ask whether the score is the subject or one of several values. Subject takes the gauge, at most one per view, because the ring encodes the value twice and that earns the space only when it is the point. A score among other values takes <code>ScoreValue</code>: the rail beside quantities, the five-segment track beside other scores. The clockwise sweep is <code>lg</code> only, on <code>--motion-state-slow</code>, and suppressed under <code>prefers-reduced-motion</code>. Workings: <a href="../explorations/Score gauge.html">Score gauge</a>.</p>
     <p class="why"><b>Two legitimate ring types, then:</b> a <i>composition</i> donut for content freshness (slices of a whole) and this <i>gauge</i> for a single score. They look similar, so never place them adjacent without a heading on each.</p>
   </section>
 
@@ -1021,10 +1057,10 @@ pre .c{color:var(--text-muted)}
     <h3 class="sub">Result card</h3>
     <div class="demo plain">
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
-        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l5"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="99 132"></circle></svg><span class="c-gauge__value">92</span></span></span></div><div class="c-result__body"><div class="c-result__title">How and why to move from WordPress to Astro</div><div class="c-result__meta">Resources · 17 Jun 26</div></div></div>
-        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l4"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="89 132"></circle></svg><span class="c-gauge__value">83</span></span></span></div><div class="c-result__body"><div class="c-result__title">Portfolio</div><div class="c-result__meta">Portfolio · 25 Jun 26</div></div></div>
-        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l2"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="73 132"></circle></svg><span class="c-gauge__value">68</span></span></span></div><div class="c-result__body"><div class="c-result__title">About Content Maturity</div><div class="c-result__meta">About · 17 Jun 26</div></div></div>
-        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l1"><svg width="46" height="46" style="transform:rotate(-57.6deg)"><circle class="c-gauge__track" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="108 132" stroke-linecap="round"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="21" stroke-width="4" stroke-dasharray="56 132"></circle></svg><span class="c-gauge__value">52</span></span></span></div><div class="c-result__body"><div class="c-result__title">New website and content strategy for ActionAid</div><div class="c-result__meta">Portfolio · 24 Jun 26</div></div></div>
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l5"><svg width="46" height="46"><circle class="c-gauge__track" cx="23" cy="23" r="20" stroke-width="6"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="20" stroke-width="6" stroke-dasharray="125.66" stroke-dashoffset="10.05" transform="rotate(-90 23 23)"></circle></svg><span class="c-gauge__value">92</span></span></span></span></div><div class="c-result__body"><div class="c-result__title">How and why to move from WordPress to Astro</div><div class="c-result__meta">Resources · 17 Jun 26</div></div></div>
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l4"><svg width="46" height="46"><circle class="c-gauge__track" cx="23" cy="23" r="20" stroke-width="6"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="20" stroke-width="6" stroke-dasharray="125.66" stroke-dashoffset="21.36" transform="rotate(-90 23 23)"></circle></svg><span class="c-gauge__value">83</span></span></span></span></div><div class="c-result__body"><div class="c-result__title">Portfolio</div><div class="c-result__meta">Portfolio · 25 Jun 26</div></div></div>
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l3"><svg width="46" height="46"><circle class="c-gauge__track" cx="23" cy="23" r="20" stroke-width="6"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="20" stroke-width="6" stroke-dasharray="125.66" stroke-dashoffset="40.21" transform="rotate(-90 23 23)"></circle></svg><span class="c-gauge__value">68</span></span></span></span></div><div class="c-result__body"><div class="c-result__title">About Content Maturity</div><div class="c-result__meta">About · 17 Jun 26</div></div></div>
+        <div class="c-result"><div class="c-result__shot"><span class="c-result__badge"><span class="c-gauge c-gauge--sm c-gauge--l3"><svg width="46" height="46"><circle class="c-gauge__track" cx="23" cy="23" r="20" stroke-width="6"></circle><circle class="c-gauge__arc" cx="23" cy="23" r="20" stroke-width="6" stroke-dasharray="125.66" stroke-dashoffset="60.32" transform="rotate(-90 23 23)"></circle></svg><span class="c-gauge__value">52</span></span></span></span></div><div class="c-result__body"><div class="c-result__title">New website and content strategy for ActionAid</div><div class="c-result__meta">Portfolio · 24 Jun 26</div></div></div>
       </div>
       <div class="cap" style="margin-top:10px">Screenshots omitted – read the brand guide's Device screenshots page before framing them</div>
     </div>

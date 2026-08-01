@@ -22,10 +22,10 @@
   /* Lichen is the background neutral of the Content Maturity app, per the brand
      style guide. Reserved: do not use it in Content Health Check. */
 
-  /* ---- Section wash — MARKETING AND INFORMATIONAL SURFACES. Added 1 Aug
+  /* ---- Section wash – MARKETING AND INFORMATIONAL SURFACES. Added 1 Aug
      2026. A subtle two-stop diagonal tonal wash, applied per full-width
      section. Documented here because it was already shipping on the Content
-     Maturity homepage and Framework page and working — this token records an
+     Maturity homepage and Framework page and working – this token records an
      existing decision, it does not introduce one.
 
      WHAT IT DOES. It keeps a page of stacked full-width sections from reading
@@ -38,16 +38,16 @@
      THE CONSTRAINTS, and there are only two:
 
      1. READING SURFACES, NOT WORKING ONES. The line is NOT signed-out vs
-        signed-in — CM's Framework page sits behind the login and is a
+        signed-in – CM's Framework page sits behind the login and is a
         legitimate use. The question is what the surface is for. Is the person
         READING (prose, illustration, explanation, a generous measure), or are
         they WORKING (tables, metrics, charts, forms, scores, mono labels)?
         The wash is free behind the first and costs legibility behind the
-        second, which is the whole of the app rule's reasoning — it was never
+        second, which is the whole of the app rule's reasoning – it was never
         really about apps, it was about density. A checkable form of the
         question: does this surface carry a table, metric, chart or form? If
         yes, no wash.
-     2. Tone may move, HUE MAY NOT. Two stops, ONE FAMILY, and SUBTLE — close
+     2. Tone may move, HUE MAY NOT. Two stops, ONE FAMILY, and SUBTLE – close
         enough that the wash is not readable as a colour change on its own.
         Three or more stops is a picture, not a wash; a wash that changes
         family is the gradient the app rule forbids. CM's five-colour
@@ -56,7 +56,7 @@
      THE PAIR IS AUTHORED PER PRODUCT, NOT DERIVED. First draft defined this
      as --surface-page -> --surface-raised. That is wrong, and CM's shipping
      CSS is what exposed it. On CM those resolve to lichen-500 #DADAD2 ->
-     lichen-600 #B9B9B3, a delta of ~33 per channel — about 3.6x the wash
+     lichen-600 #B9B9B3, a delta of ~33 per channel – about 3.6x the wash
      actually in production (lichen-350 #E7E7E2 -> lichen-450 #DEDED7, ~9).
      Honouring the token would have made the effect substantially heavier.
 
@@ -73,14 +73,14 @@
 
      WHY THIS IS A TOKEN when the studio's bands deliberately are not: a band
      hue rotates PER PAGE, so tokenising it would turn an editorial decision
-     into a default. A wash takes ONE value per product — no judgement per
+     into a default. A wash takes ONE value per product – no judgement per
      use, which is what makes it recordable. Leaving it authored per section
      is how a two-stop wash becomes a five-stop one.
 
      A WASH IS NOT A BAND:
-       band — opaque, ONE stop at 500, hue rotating per page, torn edges.
+       band – opaque, ONE stop at 500, hue rotating per page, torn edges.
               contentious.ltd only. It MEANS something.
-       wash — two stops, one family, diagonal, no edge treatment. It means
+       wash – two stops, one family, diagonal, no edge treatment. It means
               nothing; it softens and it divides. */
   --wash-section: linear-gradient(135deg, var(--limestone-400) 0%, var(--limestone-550) 100%);
 
@@ -114,12 +114,12 @@
   --accent-link:         var(--fire-650);
   --accent-link-hover:   var(--fire-800);
   --link-underline:      var(--sunshine-500);   /* on hover, per brand guide */
-  /* Focus lives in its own block below — it is not an accent token. */
+  /* Focus lives in its own block below – it is not an accent token. */
 
 
   /* ---- Hover surface --------------------------------------------------- */
   /* Hover is a background STEP, not a colour shift. It is a GROUND token and a
-     product declares it — the 29th in the signature set, added 31 July 2026.
+     product declares it – the 29th in the signature set, added 31 July 2026.
      It is deliberately NOT an alias of --surface-raised, which was the first
      answer and was wrong on half the suite: VTS sets raised and menu to the
      same sorbet-800 (a menu item would hover to the colour it sits on), and
@@ -129,7 +129,7 @@
      These two names are also what shadcn's --accent / --accent-foreground pair
      becomes in this system: theirs means the RECESSIVE hover surface, close to
      the opposite of --accent here. Settled in
-     provenance/Accent decision 2026-07-31.html — ours keeps the name, theirs is
+     provenance/Accent decision 2026-07-31.html – ours keeps the name, theirs is
      renamed to these, and its sunshine-500 value goes with it, because a hover
      painted in a brand colour is the colour shift this rule forbids. */
   --surface-hover:       var(--limestone-600);
@@ -140,7 +140,7 @@
      a limestone-300 row to limestone-600, DARKER than the limestone-500 page,
      so the row reads as recessed below the page it sits in. --surface-hover-row
      is the half step, and the rule is: move toward --surface-page, never past
-     it. The 30th token in the signature set, added 1 August 2026 — it was a
+     it. The 30th token in the signature set, added 1 August 2026 – it was a
      literal limestone-450 in components.css, correct on the three light grounds
      and near-white on VTS. On a dark ground both lighten. */
   --surface-hover-row:   var(--limestone-450);
@@ -171,13 +171,13 @@
 
   /* ---- Destructive buttons --------------------------------------------- */
   /* The OUTLINE treatment is the destructive button everywhere it sits beside
-     other things — a row action, a toolbar, a Danger zone. The SOLID fill is a
+     other things – a row action, a toolbar, a Danger zone. The SOLID fill is a
      separate variant with a hard constraint: it is legal only as the committing
      action of a modal dialog, i.e. exactly where --scrim-modal (80%) is drawn.
      That is the whole of the rule, it reuses a decision already made, and it is
      checkable in review: solid destructive without an 80% scrim behind it is
      wrong. Solid fire is the PRIMARY colour, and in a delete dialog the delete
-     IS the primary action of the view — so the rule "solid fire = primary" is
+     IS the primary action of the view – so the rule "solid fire = primary" is
      not being bent, it is being applied.
      The fill is fire in EVERY product, accent or not: danger is a family trait
      like the score ramp. In CM, VTS and contentious.ltd that also makes it
@@ -213,22 +213,57 @@
   --level-4:             var(--star-4);
   --level-5:             var(--star-5);
 
-  /* Score bands. A 1-5 rating expressed as a percentage: five fifths is 100%,
-     so the band edges fall at 20 / 40 / 60 / 80. CONFIRMED, not provisional.
+  /* Score bands. NEAREST STAR, not equal fifths. CONFIRMED 1 August 2026 –
+     see provenance/Score band decision 2026-08-01.html.
 
-       80-100  5 stars      40-59  3 stars      0-19  1 star
-       60-79   4 stars      20-39  2 stars
+     A percentage here is always a 1-5 rating expressed as a percentage, so one
+     star IS 20% and five stars IS 100%. To band a percentage, convert it back
+     to stars (pct / 20) and round to the nearest whole star. The band edges
+     therefore fall on the HALF stars – 1.5, 2.5, 3.5, 4.5 – i.e. 30/50/70/90.
 
-     Note this explains Watchlist's existing threshold at 80: it is not an
-     arbitrary pass mark, it is the top band edge. Its two-state column was
-     showing "five stars or not". */
-  --score-band-5:        80;   /* and above */
-  --score-band-4:        60;
-  --score-band-3:        40;
-  --score-band-2:        20;
+       90-100  5 stars      50-69  3 stars      below 30  1 star
+       70-89   4 stars      30-49  2 stars
+
+     Why not 20/40/60/80: equal fifths answer "where in the range does this
+     sit", which is the wrong question when the label carries a star name.
+     81% is 4.05 stars. Calling it five stars overstates it by nearly a whole
+     star; it is a four. The top and bottom bands being 10 wide rather than 20
+     is correct and not an oversight: 5 and 1 are endpoints, so they each have
+     only half a band to reach into.
+
+     One rule for everything. Each single-item rating still lands in its own
+     band (100 -> 5, 80 -> 4, 60 -> 3, 40 -> 2, 20 -> 1), so items and averages
+     are banded identically. Do not add a second rule for averages.
+
+     The floor is 20, not 0: an all-one-star estate averages 20%. Nothing sits
+     below 30 unless the scores really are ones.
+
+     This supersedes Watchlist's threshold at 80, which predates any shared
+     rule. Its two-state column means "four stars and up", so it moves to 70 if
+     that is what it meant, or to 90 if it truly meant five stars only. */
+  --score-band-5:        90;   /* and above */
+  --score-band-4:        70;
+  --score-band-3:        50;
+  --score-band-2:        30;
   /* below --score-band-2 is one star */
 
-  /* Empty star / unfilled track for a rating */
+  /* A LEVEL IS NEVER TEXT. All five stops above fail AA as small text on
+     every product ground. Against --surface-page: fire 3.58:1, amber 2.51:1,
+     sapling 2.48:1, olive 2.16:1, sunshine 1.81:1 - the best of them short of
+     4.5 by a full point. So a score's number stays --text-strong and the level is
+     carried by a fill beside it: see .c-score / ScoreValue, and the workings
+     in explorations/Coloured numbers.html. Darkening the ramp until it passes
+     is not the alternative - five dark stops no longer read as a ramp, which
+     is the same trap as the sunshine dark end. The only text stop for a level
+     is amber-800 via --warning-text, which is a status, not a score. */
+
+  /* Empty star / unfilled track for a rating, AND the score gauge ring track.
+     One value for both, deliberately. A lighter track looks better on the page
+     ground and is what all three products ship, but limestone-300 IS
+     --surface-card (#F8F8F2 both), so a badge ring on a result card would have
+     no track at all, and 400/450 are aliases within three per channel of it.
+     The light end is compressed by design, so darker is the only direction
+     with room on every ground including the inverse surface. */
   --level-empty:         var(--limestone-750);
 
   /* Process states. NOT the level ramp - a queued job is not a low score.
@@ -256,7 +291,7 @@
   /* One geometry, six tones. Tone carries meaning; the shape never changes. */
   /* Chip geometry stays LITERAL on purpose, and it is the one exception to the
      no-literal-sizes rule. "One geometry, six tones; the shape never changes"
-     is the whole chip decision — a chip that resizes with density is six
+     is the whole chip decision – a chip that resizes with density is six
      geometries. Chips are also app-only; nothing on a 24px marketing surface
      uses one. Radius, padding and font size are fixed together or not at all. */
   --chip-radius:         3px;
@@ -286,7 +321,7 @@
   --switch-inset:           inset 0 1px 2px rgba(38, 36, 35, 0.14);
   --switch-knob-shadow:     0 1px 3px rgba(38, 36, 35, 0.28);
 
-  /* ---- Body sizes — REMOVED, and deliberately not replaced --------------
+  /* ---- Body sizes – REMOVED, and deliberately not replaced --------------
      --text-lede / --text-body-size / --text-support / --text-hint used to sit
      here as literal px (18/16/15/14). They were a SECOND type scale in the
      same file as the --type-* roles, and only one of the two responded to
@@ -326,7 +361,7 @@
   --nav-context-standdown: 0.42;
 
   /* ---- Motion ---------------------------------------------------------- */
-  /* FOUR app tokens and one marketing one. Retuned 1 August 2026 —
+  /* FOUR app tokens and one marketing one. Retuned 1 August 2026 –
      provenance/States decision 2026-08-01.html.
      Which one you take is decided by WHAT ANIMATES, not by feel:
          colour only          --motion-state       200ms  ease-in-out
@@ -341,7 +376,7 @@
      --motion-reveal is 600ms and belongs to SCROLL-TRIGGERED reveals on
      marketing and banded surfaces ONLY. It does not bind app overlays: a reveal
      is something you scrolled to, an overlay is something you asked for and are
-     now waiting on. 600ms is not a new number — it is the most common duration
+     now waiting on. 600ms is not a new number – it is the most common duration
      on contentious.ltd (7 occurrences, all diagram reveals) and Voice, Tone and
      Style arrived at it independently. 350ms was documented nowhere.
 
@@ -399,21 +434,21 @@
 
   /* ---- Focus ----------------------------------------------------------- */
   /* TWO stops for the whole family, and focus is NOT the accent. Settled
-     1 August 2026 — provenance/States decision 2026-08-01.html.
+     1 August 2026 – provenance/States decision 2026-08-01.html.
      fire-350 was the stated rule and it FAILS: 2.06:1 against limestone-500,
      so the ring this system specified was invisible by measurement rather than
-     by taste. Fire is also already primary, star-1 and danger — a fourth
-     meaning is one too many — and a 2px fire ring offset 2px from a fire
+     by taste. Fire is also already primary, star-1 and danger – a fourth
+     meaning is one too many – and a 2px fire ring offset 2px from a fire
      button is a halo, not a state. Wave is the family that already means
      "system activity, not judgement" (--process-active, --categorical,
      --series-bar), which is exactly what focus is.
      TWO stops, because no single one clears 3:1 on both a light ground and a
-     dark one — wave-600 comes closest and misses CM at 2.93:1:
+     dark one – wave-600 comes closest and misses CM at 2.93:1:
          on-light  wave-650   4.8:1 on limestone-500 · 3.8:1 on lichen-500
                               5.1:1 on the limestone-200 chrome
          on-dark   wave-450   6.1:1 on sorbet-850
      A product takes one of the two and nothing else is legal. A REGION whose
-     lightness is opposite to its page flips it — see [data-surface] below.
+     lightness is opposite to its page flips it – see [data-surface] below.
      COST: wave is now spent. It leaves the accent pool, so the next product's
      accent is a ramp family at 700 or darker, or a twelfth family.
      shadcn's --ring is deleted, not mapped: ring-ring -> ring-focus-ring. */
@@ -425,12 +460,12 @@
 }
 
 /* =============================================================================
-   REGION SCOPES — an island whose lightness runs opposite to its page.
+   REGION SCOPES – an island whose lightness runs opposite to its page.
 
    Settled 1 August 2026. A product-wide mixture is a TOKEN question and grew
    the signature set (--text-inset, for VTS's light chrome over a dark page). A
    REGION is not: it is a scope. CHC's bulk-selection bar on a dark island in a
-   light app needs no new component variants and no new tokens — it needs the
+   light app needs no new component variants and no new tokens – it needs the
    tokens its children already reference to mean something else inside it.
    That is the whole vocabulary for an inverse surface, and it is why the
    hand-styled version read well: it was reinventing this.

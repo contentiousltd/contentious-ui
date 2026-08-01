@@ -6,6 +6,8 @@ export {
   getCssVar,
   isDarkScheme,
   getScoreColour,
+  scoreToStars,
+  getScoreColourFromPercent,
   getStatusColour,
   CHART_COLOURS,
 } from "./lib/colors";
