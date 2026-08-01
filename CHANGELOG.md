@@ -10,6 +10,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.8.1] – 2026-08-01
+
+### Fixed
+
+- **The region scopes froze the wrong values into the bridge.** The generator treats a suite-level file as last-writer-wins, and `[data-surface="inverse"]` sits at the foot of `semantic.css` – so its values became the global ones. `--color-danger-fg` emitted fire-350, the pale stop meant for a dark island, where `:root` says fire-650; `--color-danger-tint` emitted gloaming-700 instead of a pale fire. `bg-danger-fg` would have rendered light pink on a light page, and no `--danger-*` utility could have followed the scope at all. A declaration inside a region scope is now treated the way a product theme is: it never overwrites a suite value, and the token stays a `var()` so the scope wins at runtime.
+- **`--surface-hover-row` was unreachable.** The 30th signature token shipped in 0.8.0 but the bridge wasn't regenerated, so `bg-surface-hover-row` emitted nothing – the same failure mode as the `text-on-hover` classes, one layer up.
+- **`--font-mono-brand` was unreachable** for the same reason: it is declared in `type-roles.css` but the generator's font map didn't carry it, so the code face had no utility.
+
 ## [0.8.0] – 2026-08-01
 
 Two design decisions applied together – `provenance/States decision 2026-08-01.html` and

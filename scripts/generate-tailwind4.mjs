@@ -62,6 +62,11 @@ const FONT_MAP = [
   ['display', 'font-heading-display'],
   ['heading', 'font-heading'],
   ['mono', 'font-mono'],
+  // The metadata voice and the code face are two roles, settled 1 August 2026:
+  // --font-mono is system UI mono for labels, chips and numeric columns;
+  // --font-mono-brand is the brand guide's Courier, for code specimens only.
+  // Both need publishing, or `font-mono-brand` emits nothing.
+  ['mono-brand', 'font-mono-brand'],
 ];
 
 /** The eleven brand families. */
@@ -105,8 +110,27 @@ for (const file of SOURCES) {
   if (!existsSync(path)) continue;
   // Strip comments first so a commented-out token never becomes a utility.
   const live = readFileSync(path, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
-  const themed = productScoped(file);
-  for (const m of live.matchAll(/^\s*--([a-z0-9-]+)\s*:\s*([^;]+);/gim)) {
+  const themedFile = productScoped(file);
+  // Track the enclosing selector. A declaration inside a REGION SCOPE --
+  // [data-surface="inverse"] and its mirror, added 1 August 2026 -- is not a
+  // suite-level value and must not overwrite one. It is the same case as a
+  // product theme: the token is re-pointed for a subtree, so the bridge has to
+  // keep it a var() or the scope cannot win at runtime.
+  //
+  // Without this, last-writer-wins took the scope's values as global. The inverse
+  // block sits at the foot of semantic.css, so --danger-fg froze at fire-350 (the
+  // pale one meant for a dark island) instead of fire-650, and --danger-tint at
+  // gloaming-700 instead of a pale fire. bg-danger-fg would have rendered a light
+  // pink on a light page, and no --danger-* utility would have followed the scope.
+  let selector = '';
+  for (const line of live.split('\n')) {
+    const open = line.match(/^\s*([^{}]+?)\s*\{\s*$/);
+    if (open) { selector = open[1].trim(); continue; }
+    if (/^\s*\}/.test(line)) { selector = ''; continue; }
+    const m = line.match(/^\s*--([a-z0-9-]+)\s*:\s*([^;]+);/i);
+    if (!m) continue;
+    const inRegionScope = selector !== '' && !/^:root\b/.test(selector) && !selector.startsWith('@');
+    const themed = themedFile || inRegionScope;
     const name = m[1];
     const prev = tokens.get(name);
     // A product-scoped file never overwrites a suite-level VALUE — but themed-ness

@@ -25,7 +25,7 @@
    stay as var() so theming keeps working, and do NOT take a modifier.
    Reach for a numbered shade rather than an opacity step on those.
 
-   243 literal colours · 45 themed · 5 fonts · 4 weights · 5 radii · 0 spacing · 3 shadows
+   246 literal colours · 49 themed · 6 fonts · 4 weights · 5 radii · 0 spacing · 3 shadows
    ================================================================ */
 
 @theme {
@@ -84,6 +84,9 @@
   --color-comp-3                : #C1827A;
   --color-comp-4                : #D66D67;
   --color-comp-track            : #E3E3D9;
+  --color-danger-solid          : #953B37;
+  --color-danger-solid-fg       : #FEFEFD;
+  --color-danger-solid-hover    : #80322F;
   --color-danger-text           : #80322F;
   --color-data-bad              : #AA433F;
   --color-data-default          : #1A1918;
@@ -277,11 +280,11 @@
   --color-wave-900              : #0E1111;
   /* ---- Type -------------------------------------------------------------- */
   /* font-sans and font-serif both resolve to the body face: Bely is a serif. */
-  --font-sans   : var(--font-body);
-  --font-serif  : var(--font-body);
-  --font-display: var(--font-heading-display);
-  --font-heading: 'bely', serif;
-  --font-mono   : ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-sans      : var(--font-body);
+  --font-serif     : var(--font-body);
+  --font-display   : var(--font-heading-display);
+  --font-heading   : 'bely', serif;
+  --font-mono      : ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --font-mono-brand: 'Courier New', Courier, monospace;
   /* ---- Weight ------------------------------------------------------------ */
   --font-weight-bold    : 700;
@@ -313,6 +316,10 @@
   --color-border                : var(--border);
   --color-card                  : var(--card);
   --color-card-foreground       : var(--card-foreground);
+  --color-danger-border         : var(--danger-border);
+  --color-danger-fg             : var(--danger-fg);
+  --color-danger-fg-hover       : var(--danger-fg-hover);
+  --color-danger-tint           : var(--danger-tint);
   --color-destructive           : var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-focus-ring            : var(--focus-ring);
@@ -325,7 +332,6 @@
   --color-popover-foreground    : var(--popover-foreground);
   --color-primary               : var(--primary);
   --color-primary-foreground    : var(--primary-foreground);
-  --color-ring                  : var(--ring);
   --color-rule-field            : var(--rule-field);
   --color-rule-row              : var(--rule-row);
   --color-rule-section          : var(--rule-section);
@@ -335,6 +341,7 @@
   --color-surface-chrome        : var(--surface-chrome);
   --color-surface-field         : var(--surface-field);
   --color-surface-hover         : var(--surface-hover);
+  --color-surface-hover-row     : var(--surface-hover-row);
   --color-surface-inverse       : var(--surface-inverse);
   --color-surface-menu          : var(--surface-menu);
   --color-surface-page          : var(--surface-page);
