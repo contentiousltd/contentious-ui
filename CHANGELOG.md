@@ -10,6 +10,31 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.8.0] – 2026-08-01
+
+Two design decisions applied together – `provenance/States decision 2026-08-01.html` and
+`provenance/Adoption items 8-11 decision 2026-08-01.html`, both answering briefs raised by
+Content Health Check's screen audit and Content Maturity's adoption.
+
+### Changed
+
+- **Focus is wave, at two stops, and `--ring` is gone.** Neither value in circulation survived measurement: fire-350 is 2.06:1 against limestone-500 and wave-500 is 2.30:1, against a 3:1 floor for a non-text indicator. `--focus-ring-on-light` (wave-650) and `--focus-ring-on-dark` (wave-450) are declared once in `semantic.css`; a product takes one of the two and nothing else is legal. **Breaking:** `--ring` is deleted from all three theme files – consumers move `ring-ring` → `ring-focus-ring`, about 14 files per shadcn product. Wave leaves the accent pool as the cost.
+- **Motion is four app tokens, keyed off what animates.** Colour at 200ms (`--motion-state`), geometry at 350ms (`--motion-state-slow`, new), an overlay arriving at 350ms (`--motion-overlay`, new), anything leaving at 150ms. `--motion-reveal` becomes **600ms** and belongs to scroll-triggered reveals only – it no longer binds app overlays. The curve changed too, and matters more: every reveal easing was ease-out-expo, ~70% travelled in its first sixth, so it read as instant at any duration. `--ease-out-soft` and `--duration-reveal` added to the token scale.
+- **`--font-mono` is the metadata voice, not the code face.** It is now the system UI monospace stack; Courier becomes `--font-mono-brand`, for code specimens. Both Content Health Check and Content Maturity had overridden the old value identically, which is what proved it a package defect rather than a product choice. Mono stays out of the signature set for the same reason.
+- **The closed signature set grows to 30** with `--surface-hover-row`. A full hover step takes a limestone-300 row to limestone-600 – darker than the limestone-500 page – so a row read as recessed below the page containing it. A hover step moves toward `--surface-page` and never past it.
+
+### Fixed
+
+- **The display cut was silently lost in every consumer.** `--font-heading-display` names `'Bely Display'` and the `@font-face` rules here declared `'bely-display'`; CSS family matching is neither space- nor hyphen-insensitive, so consumers fell through to Georgia. Found independently by two products. The faces are renamed, since those are their real names.
+- **Shadows are warm again.** `tokens.css` and `tailwind4.css` carried their own pure-black set while `effects.css` had the gloaming one, and only the latter was unreachable across the package boundary – so every consumer rendered `rgba(0,0,0,…)` against a brand rule that says pure black appears nowhere.
+- **`.btn-outline:hover` and `.btn-ghost:hover` still painted `var(--accent)`** with an `--accent-foreground` that no longer exists anywhere – a solid primary fill on hover, which is the exact bug the 0.7.0 accent decision removed, one layer down in this repo's own component CSS.
+
+### Added
+
+- **`.c-frame` at 12px**, so the bordered container has an implementation rather than only a name. The radius rule is settled: the corner follows the border, not the size – a borderless `Card` is 6 at any dimension.
+- **`.c-button--bare`** (no fill, no border) as the fifth variant, and **`.c-button--danger-confirm`**, a solid destructive legal only as the committing action of a modal dialog. The danger colours are tokenised so they can respond to a scope.
+- **`[data-surface="inverse"]` and `[data-surface="inset"]`**, so an island whose lightness runs opposite to its page needs no new component variants – the tokens its children already reference mean something else inside it.
+
 ## [0.7.4] – 2026-08-01
 
 ### Fixed
