@@ -217,3 +217,34 @@ components as such inside the one skill instead.
    committed copy still carries `fonts/` and its `tokens/fonts.css` still points only at
    `../fonts/`. Deleting the directory ahead of the export would break the specimen
    pages. The failure is accurate — the repo is stale — and it clears on the next apply.
+
+5. **The warm shadow set never crosses the package boundary.** The design system defines
+   shadows in warm gloaming at `skills/contentious-design/tokens/effects.css` —
+   `rgba(38, 36, 35, …)`, consistent with the readme's *"pure white and pure black appear
+   nowhere"* — but that file is reachable only through the skill's own `styles.css`, which
+   a package consumer does not import. `src/styles/tokens.css:283` and
+   `tailwind4.css:297` define `--shadow-sm/md/lg` independently at `rgba(0, 0, 0, …)`,
+   with tighter blur. **So every consumer renders the black set**, and would whatever the
+   design system wrote. Content Health Check's chc-387 audit found this and deliberately
+   did not override the shadows locally, which would make a product a second writer of a
+   suite constant. Either `effects.css` goes on the consumer import path, or the two sets
+   are reconciled here. Same shape as the four defects chc-367 flushed out.
+6. **The accent codemod missed this repo's own component CSS.** The 0.7.0 decision renamed
+   shadcn's pair to `--surface-hover` / `--text-on-hover`, and the consuming products were
+   codemodded — CHC has no `bg-accent` or `text-accent-foreground` left. But
+   `src/styles/components.css:483` and `:513` still paint `.btn-outline:hover` and
+   `.btn-ghost:hover` with `var(--accent)` / `var(--accent-foreground)`. Post-rename
+   `--accent` is the **primary interactive colour**, so those two hovers are a solid fire
+   fill — the exact bug the decision existed to remove, one layer down — and
+   `--accent-foreground` is now defined nowhere in the package, so `color` is invalid at
+   computed-value time and the text colour does not change at all. `src/tailwind-preset.ts:58`
+   carries the same residue. CHC is unaffected: it imports the token layers but not
+   `components.css`. **This is a codemod, not a decision** — the 0.7.0 answer already says
+   what the replacements are.
+7. **Two component `prompt.md` files still say CHC's base size is 18px.**
+   `Button.prompt.md` and `Card.prompt.md`, both in the Conventions block, predating the
+   density decision — the readme, `products.css` and `themes/content-health-check.css` all
+   say 19px, derived from deployment mode rather than chosen per product. Cosmetic, except
+   that these are the files the skill instructs you to read before designing a screen. They
+   live in the skill tree, so under the one-writer rule this needs an export rather than an
+   edit here.
