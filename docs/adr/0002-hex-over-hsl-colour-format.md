@@ -67,11 +67,20 @@ follow. It would have superseded this ADR, so it was decided rather than find-an
 **Outcome: no.** Neither a format conversion nor a re-derivation of the ramps; hex stays
 the storage format.
 
-The argument usually given for OKLCH does not survive checking. Tailwind 4.3 emits
-`color-mix(in srgb, …)` regardless of the source format — verified by compiling
-`bg-red-500/50` from Tailwind's *own* OKLCH palette, which still interpolates in sRGB. So
-"OKLCH blends better in Tailwind" is not true today, and since our palette replaces
-Tailwind's entirely we inherit nothing from their choice either way.
+The argument usually given for OKLCH does not survive checking: the source format does not
+affect how Tailwind interpolates. It picks an interpolation space of its own regardless, so
+"OKLCH blends better in Tailwind" is not true, and since our palette replaces Tailwind's
+entirely we inherit nothing from their choice either way.
+
+**Correction, 1 August 2026.** This paragraph originally said Tailwind emits
+`color-mix(in srgb, …)`. That was wrong, and it was checked against a real build during
+Content Health Check's Tailwind 4 cutover: **4.3.3 emits `color-mix(in oklab, …)`** —
+`.border-fire-400\/50` compiles to
+`color-mix(in oklab, var(--color-fire-400) 50%, transparent)`, with a static hex fallback
+beside it. The conclusion is unaffected, because the point was always that the *source*
+format is irrelevant to the interpolation space, and it still is. But the evidence as
+stated was false, and it was load-bearing in the argument, so it is corrected rather than
+quietly left. Claude Design was shown the correction and the decision is unchanged.
 
 What was accepted instead: OKLCH is the space to **review** a ramp in, not to store it in.
 The design system's `colors.css` now carries each family's rationale inline and one hard
