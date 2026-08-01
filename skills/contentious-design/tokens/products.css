@@ -61,12 +61,40 @@
 
    THE SIX DIMENSIONS OF A SIGNATURE, in order of how much work they do
       1. Deployment    HOW colour is used structurally, before which colour.
+                       DEPLOYMENT IS A PROPERTY OF A SURFACE, NOT A PRODUCT.
+                       Corrected 1 Aug 2026: --signature-deployment sits on
+                       [data-product], so "reserved" was being read as binding
+                       every surface the product owns, INCLUDING ITS MARKETING
+                       PAGE. It does not. Every reserved product has two kinds
+                       of surface and they take different rules:
+                         app       — reserved. 19px. No gradient, blur, glass,
+                                     grain. Colour is information.
+                         front door— marketing and informational surfaces.
+                                     24px. May use --wash-section (135deg,
+                                     two stops, one family, subtle; the pair
+                                     is AUTHORED PER PRODUCT alongside the
+                                     other ground tokens, never derived from
+                                     --surface-page/--surface-raised).
+                                     Reading surfaces, not working
+                                     ones — the line is not signed-out vs
+                                     signed-in; CM's Framework page is behind
+                                     the login and is a legitimate use. Not
+                                     banded — CM's full-width blocks carry the
+                                     pictorial illustration set, its signature
+                                     register, where the studio's bands are
+                                     flat colour with a torn edge. They differ
+                                     on more than hue, and only one is a band.
                        Two modes so far and they are worlds apart:
                          reserved — one accent, everything else means something.
                                     Every app. Colour is information.
                          banded   — full-bleed saturated sections at the 500
                                     stop, hue rotating per page, torn-paper
                                     edges between them. contentious.ltd.
+                       There is no third mode. A reserved product's front door
+                       is not a deployment mode, it is the marketing surface of
+                       an existing one — inventing "editorial" or similar would
+                       be marketing wearing a costume, and would license the
+                       next product to claim it too.
                        Recorded in --signature-deployment. This dimension was
                        missed on the first pass: the studio site was described
                        as "dark neutral with a fire accent", which is not what
@@ -246,6 +274,11 @@
 -------------------------------------------------------------------------------- */
 [data-product="cm"] {
   --surface-page:        var(--lichen-500);
+  /* Section wash — the value in production on the homepage and Framework page.
+     ~9 per channel: subtle enough not to read as a colour change. Authored,
+     not derived from --surface-page/--surface-raised, which on this ground
+     would be ~3.6x heavier. See --wash-section in tokens/semantic.css. */
+  --wash-section:        linear-gradient(135deg, var(--lichen-350) 0%, var(--lichen-450) 100%);
   --surface-chrome:      var(--lichen-400);
   --surface-card:        var(--limestone-200);
   --surface-raised:      var(--lichen-600);

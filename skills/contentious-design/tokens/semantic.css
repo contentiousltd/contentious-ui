@@ -22,6 +22,68 @@
   /* Lichen is the background neutral of the Content Maturity app, per the brand
      style guide. Reserved: do not use it in Content Health Check. */
 
+  /* ---- Section wash — MARKETING AND INFORMATIONAL SURFACES. Added 1 Aug
+     2026. A subtle two-stop diagonal tonal wash, applied per full-width
+     section. Documented here because it was already shipping on the Content
+     Maturity homepage and Framework page and working — this token records an
+     existing decision, it does not introduce one.
+
+     WHAT IT DOES. It keeps a page of stacked full-width sections from reading
+     as flat stripes, and because the ramp runs diagonally, a washed section
+     meeting a flat one produces a divide that is legible at one edge of the
+     screen and merges at the other. That taper is the point. It is why the
+     angle is 135deg and not 180deg: along a horizontal seam a vertical ramp
+     holds one value, so the divide would be a constant line instead.
+
+     THE CONSTRAINTS, and there are only two:
+
+     1. READING SURFACES, NOT WORKING ONES. The line is NOT signed-out vs
+        signed-in — CM's Framework page sits behind the login and is a
+        legitimate use. The question is what the surface is for. Is the person
+        READING (prose, illustration, explanation, a generous measure), or are
+        they WORKING (tables, metrics, charts, forms, scores, mono labels)?
+        The wash is free behind the first and costs legibility behind the
+        second, which is the whole of the app rule's reasoning — it was never
+        really about apps, it was about density. A checkable form of the
+        question: does this surface carry a table, metric, chart or form? If
+        yes, no wash.
+     2. Tone may move, HUE MAY NOT. Two stops, ONE FAMILY, and SUBTLE — close
+        enough that the wash is not readable as a colour change on its own.
+        Three or more stops is a picture, not a wash; a wash that changes
+        family is the gradient the app rule forbids. CM's five-colour
+        .hero-gradient is the case this clause exists for.
+
+     THE PAIR IS AUTHORED PER PRODUCT, NOT DERIVED. First draft defined this
+     as --surface-page -> --surface-raised. That is wrong, and CM's shipping
+     CSS is what exposed it. On CM those resolve to lichen-500 #DADAD2 ->
+     lichen-600 #B9B9B3, a delta of ~33 per channel — about 3.6x the wash
+     actually in production (lichen-350 #E7E7E2 -> lichen-450 #DEDED7, ~9).
+     Honouring the token would have made the effect substantially heavier.
+
+     The reason it cannot be derived: a pair of stops N apart is not a fixed
+     amount of contrast, because the ramps are not perceptually even. 350->450
+     and 500->600 are both 100 steps and look nothing alike, the light end
+     being compressed. And limestone's light end is explicitly ALIASED (see
+     colors.css: 450 is an alias of 400, 350 of 300), so the recipe that reads
+     correctly on lichen is nearly invisible on CHC. Ground is dimension 2 of
+     the signature and is authored per product; the wash is a ground concern
+     and belongs with the other surface tokens, recorded rather than computed.
+     Declared in tokens/products.css per [data-product]; the value below is
+     the limestone default.
+
+     WHY THIS IS A TOKEN when the studio's bands deliberately are not: a band
+     hue rotates PER PAGE, so tokenising it would turn an editorial decision
+     into a default. A wash takes ONE value per product — no judgement per
+     use, which is what makes it recordable. Leaving it authored per section
+     is how a two-stop wash becomes a five-stop one.
+
+     A WASH IS NOT A BAND:
+       band — opaque, ONE stop at 500, hue rotating per page, torn edges.
+              contentious.ltd only. It MEANS something.
+       wash — two stops, one family, diagonal, no edge treatment. It means
+              nothing; it softens and it divides. */
+  --wash-section: linear-gradient(135deg, var(--limestone-400) 0%, var(--limestone-550) 100%);
+
   /* ---- Hairlines ------------------------------------------------------- */
   /* Groups are defined by a rule and the space around them, not by a box. */
   --rule-section:        var(--limestone-700);   /* section headers, chrome edges */

@@ -10,6 +10,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.8.2] – 2026-08-01
+
+Additive. One new token and a correction to what "reserved" binds; no existing value moves,
+so a consumer only needs this if it wants the wash.
+
+### Added
+
+- **`--wash-section`** – a subtle two-stop diagonal tonal wash (`135deg`, one family, one surface depth apart) for full-width sections. It records a decision already shipping on Content Maturity's homepage and Framework page rather than introducing one. The angle is load-bearing: along a horizontal seam a vertical ramp holds one value, so the divide would be a constant line; at 135° it is legible at one edge of the screen and merges at the other, and that taper is the point.
+
+### Changed
+
+- **Deployment is a property of a surface, not a product.** `--signature-deployment` sits on `[data-product]`, so "reserved" was being read as binding every surface a product owns, including its marketing pages. It doesn't. Every reserved product has two: the **app** (19px; no gradient, blur, glass or grain; colour is information) and the **front door** (marketing and informational surfaces, 24px, may use `--wash-section`). The line is not signed-out versus signed-in – CM's Framework page sits behind a login and is a legitimate use. The checkable form: *does this surface carry a table, metric, chart or form?* If yes, no wash.
+- The wash pair is **authored per product** alongside the other ground tokens, never derived from `--surface-page`/`--surface-raised`. Deriving it was the first draft and CM's shipping CSS exposed it: on CM those resolve to a delta of ~33 per channel against the ~9 actually in production, which would have made the effect roughly 3.6× heavier than intended.
+
 ## [0.8.1] – 2026-08-01
 
 ### Fixed
