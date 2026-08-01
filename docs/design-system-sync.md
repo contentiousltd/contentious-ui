@@ -248,3 +248,49 @@ components as such inside the one skill instead.
    that these are the files the skill instructs you to read before designing a screen. They
    live in the skill tree, so under the one-writer rule this needs an export rather than an
    edit here.
+
+   ---
+
+   *Items 8–11 came back from Content Maturity's adoption on 1 August 2026 and were then
+   reproduced independently in Content Health Check. Two products failing the same way is
+   what makes them package defects rather than product choices.*
+
+8. **`--text-on-hover` cannot be reached by the class its name implies.** The bridge emits
+   it as `--color-text-on-hover`, so Tailwind generates **`.text-text-on-hover`** — the
+   stutter is real, and `.text-on-hover` emits nothing at all. CHC shipped the short form in
+   **24 places across 8 shadcn components** after the 0.7.0 codemod and every one was dead;
+   CM caught it, and CHC's built CSS confirmed `.text-on-hover` appeared zero times. Both are
+   now on the working form. The paired token has no such problem: `--surface-hover` gives
+   `bg-surface-hover`, which reads correctly and works. **Possibly a naming call rather than
+   a defect** — if the semantic token were `--on-hover`, the class would be `text-on-hover`
+   and the pair would read `bg-surface-hover` / `text-on-hover` as the 0.7.0 decision
+   presumably intended. Flagging rather than proposing.
+9. **The opacity warning in `products.css`'s header is obsolete.** It states that themed
+   utilities *"do NOT take an opacity modifier. `bg-surface-card/50` renders opaque. Reach
+   for a numbered shade instead"*, and that behaviour is the stated justification for the
+   literal-versus-`var()` split in the generated bridge. **At Tailwind 4.3.3 it is no longer
+   true.** CM checked all 18 in a browser; CHC reproduced it in its own build:
+
+   ```css
+   .bg-surface-card\/50 { background-color: var(--surface-card) }
+   @supports (color: color-mix(in lab, red, red)) {
+     .bg-surface-card\/50 { background-color: color-mix(in oklab, var(--surface-card) 50%, transparent) }
+   }
+   ```
+
+   An opaque fallback plus a `color-mix` rule behind `@supports` — so it renders at 50%
+   everywhere `color-mix` is supported, which is every current browser. Worth Claude Design
+   revisiting, since the split exists to work around it.
+10. **`--font-heading-display` names a family nothing declares.** The bridge resolves it to
+    `"Bely Display", "Bely", Georgia, serif`; the `@font-face` rules ship the faces as
+    `bely-display` and `bely`. CSS font matching is not space- or hyphen-insensitive, so it
+    falls through to the fallback and the display cut is silently lost — and because the
+    utilities layer beats the `h1`–`h6` rule, CM found 13 headings would have lost it.
+    **CHC hit this independently** and re-declares `--font-display: 'bely-display', 'bely',
+    serif` in its own `:root`, with a comment recording exactly this reason. Two products,
+    same override, same rationale.
+11. **`--font-mono` is `'Courier New', monospace` in the bridge**, and both CHC and CM
+    override it to system-UI monospace. The design system's readme calls for *"system UI
+    monospace"* in as many words, so this reads as a package defect rather than a product
+    choice — though mono may be one of the things allowed to vary per product, in which case
+    it belongs in the signature set and currently isn't.
