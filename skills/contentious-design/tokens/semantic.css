@@ -400,6 +400,27 @@
   --motion-exit:         var(--duration-fast-exit, 150ms) var(--ease-in, cubic-bezier(0.7, 0, 0.84, 0));
   --motion-reveal:       var(--duration-reveal, 600ms) var(--ease-out-soft, cubic-bezier(0.22, 0.61, 0.36, 1));
 
+  /* ---- The chart spring ------------------------------------------------ */
+  /* THE ONLY LEGAL SPRING IN THE SUITE, and it is three numbers rather than a
+     transition value, because a spring is not an easing: it has no duration to
+     set. These are read by JS (nivo motionConfig, or any hand-rolled solver),
+     never by a CSS transition property. Chart data only, and only on first
+     paint - see the no-overshoot rule above.
+
+     CRITICALLY DAMPED ON PURPOSE. Damping ratio is friction / 2*sqrt(mass *
+     tension): 24 / (2 * sqrt(120)) = 1.10, just past 1.0, so it settles without
+     ever crossing the value. nivo's own "gentle" preset (mass 1, tension 120,
+     friction 14) is 0.64, which peaks about 8% high - on a 62 that is a 67 the
+     page does not hold. Same tension, so the same character and roughly the
+     same settle time (~450ms); only the friction changed.
+
+     If a chart needs a different feel, change these and every chart moves.
+     Do not inline a config in a component: that is how the suite ends up with
+     four springs and no way to tell which one is right. */
+  --motion-chart-spring-mass:     1;
+  --motion-chart-spring-tension:  120;
+  --motion-chart-spring-friction: 24;
+
   /* ---- Scrims ---------------------------------------------------------- */
   /* TWO depths, and the thing that picks one is whether the layer blocks.
        modal  - you must answer it before the page is usable again: dialogs,

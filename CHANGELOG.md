@@ -10,6 +10,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.9.1] – 2026-08-01
+
+Additive. Three tokens and two restated rules; no existing value moves.
+
+### Added
+
+- **`--motion-chart-spring-mass` / `-tension` / `-friction`** – the only legal spring in the suite, and three numbers rather than a transition value, because a spring is not an easing: it has no duration to set. Read by JS (nivo `motionConfig`, or a hand-rolled solver), never by a CSS transition. **Critically damped on purpose**: friction ÷ 2√(mass × tension) = 24 ÷ 2√120 = **1.10**, just past 1.0, so it settles without ever crossing the value. Nivo's own "gentle" preset is **0.64** and peaks about 8% high – on a 62 that is a 67 the page does not hold. Same tension, so the same character and settle time; only the friction changed.
+
+### Changed
+
+- **A chart may animate its own data**, once, on first paint, zero to value. The motion rule's flat prohibition on entrances was written while auditing chrome and never considered a chart. The test is not entrance versus no entrance, it is whether the thing animating *is the data*: arc length is how a score is stated, so sweeping the arc states the number, where a list fading in carries no information. Bounded to the data only, once, monotonic, one per view. **It must not overshoot** – that is a bound on behaviour, not technique, so a damped spring passes and a curve with a negative control point does not.
+- **The gauge rule is restated as "the arc must not extend beyond its value"**, from "butt caps" – which named the implementation and invited the wrong check. In SVG the bound still means butt caps. **A corner radius is not a cap**: a cap *adds* half a stroke width beyond the end point, a corner radius rounds existing corners *inward* and removes material, so it cannot overstate at any radius. Round the corners if you want the softer look; never round the ends.
+
 ## [0.9.0] – 2026-08-01
 
 ### Changed
