@@ -1,0 +1,66 @@
+name: Checks
+
+# Nothing in this repo was verified on push before this workflow. It ships raw
+# TypeScript, a React component layer three products render, and an executable
+# script the whole suite runs — all of it previously checked only by hand.
+#
+# Deliberately smaller than contenthealthcheck's ci.yml: no test runner, no
+# linter, and no build. See docs/adr/0006-ci-for-the-design-system.md.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Supersede an in-flight run when the same branch is pushed again.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Design system integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The tag guard below resolves v$VERSION, which a depth-1 clone lacks.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      # Fails when someone hand-edits inside skills/contentious-design/, which
+      # the next export destroys wholesale. Invisible until that happens.
+      - run: npm run check:design-sync
+
+      # Note: the CSS emit half of this check skips without built CSS, so CI
+      # runs it in a degraded mode. The transition check — the one that caught
+      # the v0.9.2 Switch bug — does run. A build would restore the other half.
+      - run: npm run check:utilities
+
+      # tailwind4.css is generated and committed. A stale bridge reaches every
+      # product silently, so regenerate it and fail if the result differs.
+      - run: npm run generate:tailwind4
+      - run: git diff --exit-code src/styles/tailwind4.css
+
+      # Runs the pinned local tsc, not `npx tsc` — the latter resolves an
+      # unrelated package from the registry when typescript isn't installed.
+      - run: npm run check:types
+
+      # Consumers install by git tag, so a version that was never tagged
+      # reaches nobody. PRs legitimately run ahead of the tag, hence push-only.
+      - name: package.json version has a matching tag
+        if: github.event_name == 'push'
+        run: |
+          V=$(node -p "require('./package.json').version")
+          git rev-parse "v$V" >/dev/null 2>&1 || {
+            echo "package.json is $V but there is no v$V tag."
+            echo "Consumers pin by tag, so this version reaches nobody until it is tagged."
+            exit 1
+          }

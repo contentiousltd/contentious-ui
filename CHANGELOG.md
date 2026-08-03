@@ -8,7 +8,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
-_Nothing yet._
+### Added
+
+- **CI** (`.github/workflows/checks.yml`) – the four checks this repo already had now run on every push and pull request, plus a guard that `package.json`'s version has a matching tag. Consumers install by git tag, so an untagged version reaches nobody; the guard runs on pushes only, since a PR is legitimately ahead of the tag. Deliberately no test runner and no linter – see [ADR-0006](docs/adr/0006-ci-for-the-design-system.md).
+- **`npm run check:types`** – `tsc --noEmit`, with `typescript` pinned at `5.9.3` as a devDependency. It was not previously a dependency at all: `npx tsc` resolved an unrelated package from the registry, so the type-check in the original CI draft would never have run TypeScript. The check now also covers `brand/`, which is shipped via the `./brand` exports and was unchecked.
+
+### Changed
+
+- **`tailwind-preset` loads its two plugins with `import` rather than `require()`.** The calls were the only type errors in the package – `require` is undeclared in a `"type": "module"` package without `@types/node`. No consumer imports this module and no repository in the suite has a `tailwind.config.*`, so this is not expected to affect anyone; the plugins were verified to resolve at runtime after the change. It also removes an emit hazard for any future dual ESM/CJS build ([ADR-0005](docs/adr/0005-shipping-javascript-to-consumers.md)).
+- **`tsconfig.json` is now check-only** – `noEmit`, with `rootDir`/`outDir`/`declaration` dropped. Nothing has ever been emitted here; the package ships raw TypeScript. Whether that changes is ADR-0005's question.
 
 ## [0.9.3] – 2026-08-03
 
