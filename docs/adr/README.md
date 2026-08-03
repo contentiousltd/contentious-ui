@@ -8,3 +8,4 @@ Significant architectural choices for `@contentious/ui`, with context and ration
 | [0002](0002-hex-over-hsl-colour-format.md) | Hex over HSL for colour tokens | Accepted |
 | [0003](0003-css-cascade-layers.md) | CSS cascade layers for specificity control | Accepted |
 | [0004](0004-design-system-as-a-skill.md) | The design system lives here, as a skill | Accepted |
+| [0005](0005-shipping-javascript-to-consumers.md) | Shipping JavaScript to consumers | **Proposed** |
