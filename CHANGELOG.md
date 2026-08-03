@@ -10,6 +10,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.9.2] – 2026-08-03
+
+A check, and one component fix it found.
+
+### Added
+
+- **`npm run check:utilities`** (`scripts/check-utilities.mjs`) – catches utility classes that silently do nothing. Two failures, one shape: the class is still in the markup, nothing errors, and the style is simply absent, so nothing in a build log, a type check or a rendering test sees it. **(1)** The class emits no CSS at all – removed in a Tailwind major, or the token behind it is a plain `:root` variable rather than a `@theme` colour so no modifier can be generated. **(2)** The class emits and animates the wrong property – Tailwind 4 moved the transform utilities onto standalone `translate:` / `rotate:` / `scale:`, so `transition-transform` animates nothing and the element jumps to its end state. Portable: `--src`, `--css`, and per-repo allowances in `check-utilities.json`. See [docs/checking-utilities.md](docs/checking-utilities.md).
+
+### Fixed
+
+- **`Switch`'s thumb jumped instead of sliding**, on every product consuming the library. `transition-transform` names a property Tailwind 4 no longer sets for `translate-x-*`; it is now `transition-[translate]`. **This is correct for Tailwind 4 and wrong for Tailwind 3** – a consumer still on v3 (Voice Tone & Style, pinned to v0.7.0) should move to Tailwind 4 before bumping past this.
+
 ## [0.9.1] – 2026-08-01
 
 Additive. Three tokens and two restated rules; no existing value moves.
