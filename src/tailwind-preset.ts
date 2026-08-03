@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
+import tailwindcssTypography from "@tailwindcss/typography";
 
 /**
  * Generates a 17-shade colour scale (100–900 at 50-step intervals)
@@ -133,10 +135,7 @@ export const contentiousPreset: Config = {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    require("@tailwindcss/typography"),
-  ],
+  plugins: [tailwindcssAnimate, tailwindcssTypography],
 };
 
 export default contentiousPreset;

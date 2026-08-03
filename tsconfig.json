@@ -8,10 +8,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
-    "rootDir": "src"
+    "resolveJsonModule": true,
+
+    // Nothing is emitted today: the package ships raw TypeScript and `exports`
+    // points at source. This config exists to check the code, not to build it.
+    // Whether we ever compile is ADR-0005's question, not this file's.
+    "noEmit": true
   },
-  "include": ["src"]
+
+  // `brand/` is shipped via the "./brand" and "./brand/*" exports, so it is
+  // checked here too — it was previously unchecked despite being public API.
+  "include": ["src", "brand"]
 }
