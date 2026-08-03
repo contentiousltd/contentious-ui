@@ -10,6 +10,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 _Nothing yet._
 
+## [0.9.3] – 2026-08-03
+
+### Fixed
+
+- **`check:utilities` said "1 class emit no CSS".** Grammar only; no behaviour change. Shipped as a patch rather than by moving the `v0.9.2` tag, which Content Health Check had already installed – a published tag is a fixed point, and quietly repointing one is worse than the typo.
+
 ## [0.9.2] – 2026-08-03
 
 A check, and one component fix it found.

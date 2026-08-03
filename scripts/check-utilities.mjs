@@ -185,7 +185,8 @@ if (css) {
   const missing = [...used].filter(([cls]) => !css.includes(selectorFor(cls)));
   if (missing.length) {
     failed = true;
-    say(`✗ ${missing.length} class${missing.length === 1 ? '' : 'es'} emit no CSS:`);
+    const n = missing.length;
+    say(`✗ ${n} class${n === 1 ? ' emits' : 'es emit'} no CSS:`);
     say();
     for (const [cls, file] of missing.slice(0, 20)) say(`    ${cls}\n      first used in ${file}`);
     if (missing.length > 20) say(`    …and ${missing.length - 20} more`);
