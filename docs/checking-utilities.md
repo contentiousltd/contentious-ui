@@ -60,6 +60,13 @@ copies of a rule drift apart; this way there is one, and fixing it fixes everyon
 
 ---
 
+## Adopting it
+
+[adopting-check-utilities.md](adopting-check-utilities.md) is a worked example, written
+against Content Maturity: the three live sites it finds there, the exact diffs, the CI
+ordering, and why the bump waits for that repo's in-flight design-system branch. Read it
+alongside the flags below if you are wiring this into a product for the first time.
+
 ## Using it in a product repo
 
 ```bash
