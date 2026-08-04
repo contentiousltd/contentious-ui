@@ -17,17 +17,21 @@
        this package yet, so nothing moves when it changes. */
     --base-font-size: 19px;
 
-    --background: var(--limestone-500);
+    /* Re-pointed onto the semantic layer at the 4 Aug 2026 ground move, so the
+       shadcn names can never drift from the CHC block in the design system's
+       tokens/products.css again: the semantic tokens move, these follow. */
+    --background: var(--surface-page);           /* limestone-600 since 4 Aug */
     --foreground: var(--gloaming-700);
-    --card: var(--limestone-600);
+    --card: var(--surface-card);                 /* limestone-400 – above the page */
     --card-foreground: var(--gloaming-700);
-    --popover: var(--limestone-500);
+    --popover: var(--surface-menu);              /* floating panels band together:
+                                                    menu 150, field 200, chrome 300 */
     --popover-foreground: var(--gloaming-700);
     --primary: var(--fire-500);
-    --primary-foreground: var(--limestone-500);
-    --secondary: var(--limestone-600);
+    --primary-foreground: var(--text-on-accent);
+    --secondary: var(--surface-page);            /* the quiet button's fill */
     --secondary-foreground: var(--gloaming-700);
-    --muted: var(--limestone-600);
+    --muted: var(--surface-hover);               /* one step off the page, as it always was */
     --muted-foreground: var(--gloaming-500);
     /* shadcn's --accent / --accent-foreground pair is GONE, renamed to
        --surface-hover / --text-on-hover (Accent decision, 31 July 2026).
@@ -41,9 +45,9 @@
        re-declared --text-on-hover would just be a second writer of a suite
        constant, which is the shape this decision existed to remove. */
     --destructive: var(--fire-600);
-    --destructive-foreground: var(--limestone-500);
-    --border: var(--limestone-600);
-    --input: var(--limestone-600);
+    --destructive-foreground: var(--text-on-accent);
+    --border: var(--rule-row);                   /* limestone-600: card-only by construction */
+    --input: var(--rule-field);                  /* fields stay the loudest rule */
     /* Wave rather than fire: the accent is reserved for the primary
        action, so focus gets its own colour and the two never compete. */
     --radius: 4px;
