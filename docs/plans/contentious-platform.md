@@ -1,18 +1,20 @@
 # Plan: the Contentious platform repo
 
 **Status:** Proposal, for review. Nothing has moved.
-**Written:** 2026-08-03
-**Supersedes the open question in** [ADR-0005](../adr/0005-shipping-javascript-to-consumers.md)
+**Written:** 2026-08-03 · **Revised:** 2026-08-04 after review from the Content Health
+Check side, which confirmed Phase 0 item 1 in the deployed server, found the
+npm-subdirectory gap that is now Phase 0.2, and corrected three smaller claims.
+**Supersedes the open question in** this repo's [ADR-0005](../adr/0005-shipping-javascript-to-consumers.md)
 and its [handoff note](adr-0005-handoff.md).
 
-This plan came out of asking what ADR-0005 implies for the suite. The survey that
+This plan came out of asking what this repo's ADR-0005 implies for the suite. The survey that
 followed changed the answer, so this document records what was found as well as what to
 do — several suite documents are wrong in ways that matter, and the corrections are part
 of the work.
 
 ---
 
-## The finding that changes ADR-0005
+## The finding that changes this repo's ADR-0005
 
 **`@contentious/auth` already ships compiled JavaScript by git tag, and CHC and CM both
 import it.**
@@ -23,16 +25,16 @@ import it.**
 "scripts": { "build": "tsc -p tsconfig.json", "prepare": "npm run build" }
 ```
 
-That is ADR-0005's option A, in production, in the same org, installed the same way, by
+That is its option A, in production, in the same org, installed the same way, by
 the same consumers — including Content Health Check, whose esbuild `--packages=external`
 server build was the original blocker.
 
-So the question ADR-0005 poses — *can a git-tag-installed package in this suite ship
+So the question that ADR poses — *can a git-tag-installed package in this suite ship
 compiled JS through a `prepare` hook?* — has an empirical answer, and it is yes. The ADR
 does not mention `@contentious/auth` anywhere. Neither does ADR-0014, which was written
 nine days after that package was created.
 
-**Consequence: ADR-0005 does not need deciding as posed.** `core` copies the pattern
+**Consequence: it does not need deciding as posed.** `core` copies the pattern
 `auth` already proves. What is left is not a packaging question but a coordination one,
 which is what the rest of this plan is about.
 
@@ -99,7 +101,15 @@ implementation of the package it is two versions behind, and it is what every pr
 redirects users into. `@contentious/auth` has no `check:ui-current` equivalent, so nothing
 reports this.
 
+**This is user-visible, not just untidy** (sharpened by review from CHC's side). A user
+leaves a `v0.9.3`-styled product and signs in through a `v0.7.0`-styled page — a brand
+seam on every login. Post-0.7.0 the token semantics changed too: `--accent` became the
+primary interactive colour, so the IdP is not merely behind, it is rendering an older
+meaning of the same token names. This is the part of the plan CHC benefits from most
+directly.
+
 **Open question for review: is that deliberate, or drift?** It changes how urgent this is.
+Either way, bumping the IdP does not need the merge and should not wait for it.
 
 ### ADR-0014's provenance
 
@@ -192,21 +202,79 @@ guide may not cover everything it reads. If it does not, options are a public mi
 `packages/ui`, or keeping `ui` as its own public repo and merging only `auth` + `core` +
 IdP.
 
+**Claude Design is not the only cost, and framing it that way was too narrow** (noted in
+review from CHC). Going private means every consumer needs credentials to install
+`@contentious/ui`. CHC and CM already have them — the token machinery exists in their CI,
+`nixpacks.toml` and Railway for `@contentious/auth`, so a private `ui` rides the same
+rails at no cost. **The Netlify consumers are the ones that pay**: VTS, `contentious-astro`
+and `maturitytool` install `@contentious/ui` today with no credentials at all, because it
+is public. Each needs a token in its Netlify build environment. That is small, but it is
+three environments touched, and it interacts with the Phase 0.2 choice — under (a) they
+need registry auth regardless of visibility.
+
 ---
 
 ## Phases
 
 ### Phase 0 — verify before moving anything
 
-1. **Confirm CHC imports `@contentious/auth`'s compiled output at runtime**, in the
-   deployed server, not just at build time. This is the whole premise. CHC pins
-   `contentious-auth#v0.6.0`; confirm a `dist/` import survives
-   esbuild `--packages=external`.
-2. **Confirm what Claude Design reads** from `contentious-ui` beyond what
-   `style.contentious.ltd` renders. Decides whether the platform repo can be private.
-3. **Resolve the IdP's staleness question** — deliberate or drift.
+1. ~~**Confirm CHC imports `@contentious/auth`'s compiled output at runtime.**~~
+   **CONFIRMED 2026-08-04**, by Claude Code working in the CHC repo.
+   `server/middleware/auth.ts:14` imports `createSessionMiddleware` from
+   `@contentious/auth/oidc` (commit `56168a1e`), and that module is loaded at runtime in
+   the deployed Railway server, bundled by `esbuild … --packages=external`. The
+   compiled-`dist/` import demonstrably survives in production. **The premise holds and
+   this repo's ADR-0005 does not reopen as posed.**
 
-If (1) fails, this plan changes shape and ADR-0005 reopens as posed.
+2. **Decide how consumers install a package that lives in a subdirectory.** *Added
+   2026-08-04 — see below. This is now the blocking item.*
+
+3. **Confirm what Claude Design reads** from `contentious-ui` beyond what
+   `style.contentious.ltd` renders. Decides whether the platform repo can be private.
+
+4. **Resolve the IdP's staleness question** — deliberate or drift.
+
+#### Phase 0.2 — the install mechanism (blocking)
+
+**npm cannot install a package from a subdirectory of a git repository.** Raised by
+Claude Code reviewing this plan from CHC's side; verified here empirically on npm 10.9.7,
+which is what every consumer uses:
+
+| Attempt | Result |
+|---|---|
+| `github:babel/babel#path:/packages/babel-code-frame` | Clones the repo root and installs **that** package. Fails on the root's own manifest. |
+| `github:babel/babel#workspace=@babel/code-frame` | `git checkout workspace=@babel/code-frame` — the fragment is read as a **git ref**. No such feature. |
+
+`#path:` and `#workspace=` are pnpm and yarn-berry features. npm has neither.
+
+Today `github:contentiousltd/contentious-ui#v0.9.3` works precisely because **the repo
+root is the package**. The moment `@contentious/ui` becomes `packages/ui`, that URL
+installs the workspace root instead — breaking every import in every consumer, and the
+hardcoded `check-utilities.mjs` path with it.
+
+So the per-package tags this plan recommended (`ui-v0.9.4`) name versions **no consumer
+can install**. One of these has to be chosen before anything moves:
+
+**(a) Publish to the GitHub Packages npm registry** — private, `@contentious` scope.
+*Recommended.* Real per-package versions fall out naturally; the `prepare` hook and the
+`insteadOf` credential rewriting are replaced by a plain `.npmrc` token; and CHC's Railway
+variable is already called `GITHUB_PACKAGES_TOKEN`. CI and `nixpacks.toml` swap the
+git-credential dance for registry auth — which also retires the token-leak-prone block
+recorded in both repos on 2026-07-22, rather than merely deduplicating it. Note this is
+this repo's ADR-0005 option B, which that ADR set aside on the grounds that consumer auth "is not
+free" — it is now cheaper than the alternatives, and the auth machinery already exists.
+
+**(b) CI-maintained read-only split mirrors**, one repo per package, pushed by
+`git subtree split` on tag. Consumer edges stay byte-identical, so nothing changes for
+products. But "four repos become one" is then true only for writers, and it is new
+machinery that can break silently — the failure mode ADR-0014 §3 exists to prevent.
+
+**(c) Move every consumer to pnpm**, which supports subdirectory installs. A suite-wide
+toolchain change to solve a packaging problem. Not recommended.
+
+**This changes the consumer story for every product**, so it is settled before Phase 1,
+not during it. Whichever is chosen also determines what CHC's `ci.yml`, `railway.json` /
+`nixpacks.toml` and PR-preview environments need — and the same applies to CM.
 
 ### Phase 1 — create the platform repo
 
@@ -232,19 +300,23 @@ Per-repo notes:
 node node_modules/@contentious/ui/scripts/check-utilities.mjs --src client/src --css dist/public/assets
 ```
 
-The hardcoded path survives the move only if the published package keeps the same name
-and layout. It should — `packages/ui` still publishes as `@contentious/ui` — but it needs
-verifying in both repos, because a broken check script fails their CI, not ours.
+The hardcoded path survives only if what lands in `node_modules/@contentious/ui/` keeps
+the same name and layout — which depends entirely on the Phase 0.2 choice, not on the
+repo layout. Under (a) the published tarball must include `scripts/`, so `files` needs
+setting deliberately; the package has no `files` field today and currently ships
+everything, which is what makes the path work at all. **Verify in both CHC and CM in the
+same change**, because a broken check script fails their CI, not ours.
 
-**CI.** `checks.yml` becomes workspace-aware. The version-has-a-matching-tag guard needs
-rethinking for three packages in one repo — either per-package tags (`ui-v0.9.4`,
-`core-v0.1.0`) or a single platform version. **Per-package tags are the recommendation**,
-because consumers pin packages, not the platform, and a single version would force a
-bump on every consumer whenever any package changed.
+**CI.** `checks.yml` becomes workspace-aware. The version-has-a-matching-tag guard is
+rewritten against whatever Phase 0.2 decides: under (a) the guard becomes
+"is this version published?", which is a better check than the tag guard it replaces;
+under (b) it stays a tag guard but per-package. Consumers pin packages rather than the
+platform either way, so a single platform version is wrong — it would force a bump on
+every consumer whenever any package changed.
 
 ### Phase 2 — `core` takes the banding rule
 
-This is the original complaint in ADR-0005 and nothing gates it.
+This is the original complaint in this repo's ADR-0005 and nothing gates it.
 
 Three copies, verified identical for every integer 0–100:
 
@@ -259,9 +331,14 @@ Move to `packages/core`, built with `tsc` + `prepare` copying `@contentious/auth
 imports) and `brand/index.ts` (71). `colors.ts`'s only import is a `import type`, so it
 erases.
 
-Then CHC's `shared/scoring.ts` and CM's `maturity-bands.ts` collapse into imports, and
-CHC's `no-local-score-bands` test — currently policing locally the exact duplication this
-removes globally — becomes redundant.
+Then CHC's `shared/scoring.ts` and CM's `maturity-bands.ts` collapse into imports.
+
+**CHC's `no-local-score-bands` test is not made redundant** — an earlier draft of this
+plan said so and was wrong, corrected by review from the CHC side. Its job is stopping
+new banding logic appearing anywhere in CHC, which stays valuable after the duplication
+is gone. It gets *repointed* so that `shared/scoring.ts` must itself be threshold-free,
+becoming a re-export of `@contentious/core`. The guard gets stronger, not weaker. CM's
+equivalent test takes the same treatment.
 
 Note `brand/index.ts` already documents the workaround this replaces: data in
 `brands.json` rather than TypeScript, because the IdP consumes it from a Node process
@@ -335,7 +412,20 @@ across a version boundary today.
 
 **`products.md`** — `slow-content` exists as a repo; the file says not created.
 
-**This repo:** ADR-0005 moves from Proposed to resolved, citing the platform ADR;
+**ADR identifier namespacing.** Suite [ADR-0008](https://github.com/contentiousltd/contentious/blob/main/docs/adr/0008-adr-identifier-namespacing.md)
+says a bare four-digit `ADR-NNNN` means the meta-repo, and product ADRs carry their
+repo's backlog prefix. **`contentious-ui` never adopted it** — its ADRs are still bare
+`0001`–`0006`, so "ADR-0005" means the auth-migration ADR to a suite reader and the
+JavaScript-shipping one to a reader in this repo. This plan works around it by saying
+"this repo's ADR-0005" throughout, which is a patch, not a fix. Two things follow:
+
+- ADR-0008's prefix table has no row for `contentious-ui`, so the repo was overlooked
+  when the convention was set. It needs a prefix assigned (`ui` is the obvious one) and
+  its six ADRs renamed — numbers preserved, per ADR-0008 §3.
+- **The platform repo's `docs/adr/` should be prefixed from day one**, so this does not
+  recur in a repo that will outlive the plan.
+
+**This repo:** its ADR-0005 moves from Proposed to resolved, citing the platform ADR;
 [the handoff note](adr-0005-handoff.md) is superseded by this plan; CHANGELOG under
 `[Unreleased] → Changed`.
 
@@ -343,8 +433,13 @@ across a version boundary today.
 
 ## Risks
 
+**The install mechanism is unresolved.** Phase 0.2. npm cannot install a subdirectory
+package, so until (a), (b) or (c) is chosen, the consumer story for every product is
+unknown. **This is the biggest risk in the plan** and it was missed in the first draft —
+found by review from CHC's side, then verified here.
+
 **Claude Design loses direct read access** if the platform is private and the style guide
-does not cover what it reads. Phase 0 item 2. This is the one that could change the shape.
+does not cover what it reads. Phase 0.3. This is the one that could change the shape.
 
 **The merge happens mid-rollout.** CHC and CM are actively adopting, and the four repos
 move while that work is in flight. Phase 1 is best sequenced between adoption steps
@@ -354,9 +449,10 @@ thing most likely to interrupt someone mid-task.
 **`git subtree` across four repos is fiddly**, particularly `auth-contentious-ltd` with
 its Railway deploy and drizzle migrations. Mechanical, but not zero.
 
-**Per-package tagging is new machinery.** Three packages in one repo need a tagging
-convention the CI guard understands, and consumers need to keep pinning something
-meaningful.
+**Per-package versioning is new machinery** whichever way Phase 0.2 goes — a registry to
+publish to, or split mirrors to maintain. Under (a) the risk is a published version that
+does not match what is in the repo; under (b) it is a mirror that silently stops
+updating.
 
 **The IdP is live.** Users sign in through it. Its Railway deploy must be re-pointed at a
 subdirectory with no window where auth is down.
