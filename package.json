@@ -6,6 +6,7 @@
   "scripts": {
     "check:types": "tsc --noEmit",
     "check:design-sync": "node scripts/check-design-sync.mjs",
+    "check:signatures": "node scripts/check-product-signatures.mjs",
     "check:utilities": "node scripts/check-utilities.mjs --src src",
     "suite:versions": "node scripts/suite-versions.mjs",
     "generate:tailwind4": "node scripts/generate-tailwind4.mjs",
