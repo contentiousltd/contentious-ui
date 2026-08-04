@@ -10,6 +10,8 @@ Metrics that share a subject sit in one surface divided by hairlines – not in 
 
 Reads as a single instrument panel. No gaps, no shadows, no nested boxes. Three or four per band.
 
+**Metrics that do NOT share a subject do not go in a band at all.** The rule has a corollary and it is load-bearing: a hairline means one thing, a gap means separate things. A count, a score, a date and another count share a page, not a subject, and putting them in one band says they are comparable when they are not. Separate cards, or a compact strip if they are chrome.
+
 ## Variants
 
 ```jsx
@@ -18,11 +20,19 @@ Reads as a single instrument panel. No gaps, no shadows, no nested boxes. Three 
   <Metric label="In watchlist" value="81" />
 </MetricBand>
 
+<MetricBand variant="titled" title="Content metrics" note="Aggregated from 6 analysed pages" columns={5}>
+  <Metric label="Total words" value="4,031" sub="672 avg per page" />
+</MetricBand>
+
 <MetricBand variant="grid" columns={3}>
   <Metric label="Words" value="419" /><Metric label="Sentences" value="21" />
   <Metric label="Links" value="0" tone="zero" />
 </MetricBand>
 ```
+
+**Compact is outlined and transparent, not a filled card.** The strip sits between a page header and the content and summarises what is below it. On `--surface-card` it becomes the same object as the things it summarises, and a filled band under a filled header is a slab under a slab. Border and dividers are `--rule-field`.
+
+**Titled is for a group whose content is one card.** `SectionHeader` replaces the wrapper slab when a group holds several cards; when the group *is* one card, it produces a titled thing that is not a container sitting above a container with no title. A single card titles itself. The head rule is `--rule-row`, so it never competes with a nav track above it.
 
 **On centring.** The default band is left-aligned because centred numbers can't be compared down a column. That rule holds where comparison is the point. A `grid` of unrelated counts about one page – words, sentences, paragraphs, links – is read individually, so centring is fine. Never centre a band someone will scan vertically.
 

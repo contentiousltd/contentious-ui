@@ -7,7 +7,9 @@ Content surface, no border, no shadow.
 ```
 
 - One surface depth per page. Never a card inside a card – use a hairline rule instead.
-- `tone="raised"` (limestone-600) for intro/aside blocks that sit ON the page; `card` (limestone-300) for data.
+- `tone="deep"` (limestone-750) for a card that is **a different kind of thing from the cards around it**: one card in a set when it is the reader's own or the current one, or a whole row when the row explains rather than reports. It is a statement about category, not importance. Never for emphasis, never twice in one set, and **never for anything carrying a score** — `--level-empty` is limestone-750 too, so the track's empty segments and the gauge ring both land at 1.00:1.
+- A deep card needs `data-surface="deep"`, which remaps the three roles that break on it: the mono label, the section rule and the link colour. All four text roles resolve unchanged.
+- `card` (limestone-400) for data. `tone="raised"` was the old name for the deep ground and is a deprecated alias; it only ever meant "not `--surface-card`, because `--surface-card` is invisible", which the ground move fixed.
 - Give a row of cards 36px clearance above so edge chips have room.
 
 ---

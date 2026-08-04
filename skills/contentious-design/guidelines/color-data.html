@@ -1,10 +1,10 @@
-<!-- @dsCard group="Colors" viewport="700x170" name="Data colour" subtitle="Numbers are neutral by default. Colour is reserved for meaning." -->
+<!-- @dsCard group="Colors" viewport="820x190" name="Data colour" subtitle="Numbers are neutral by default. Colour is reserved for meaning." -->
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"/><link rel="stylesheet" href="../styles.css"/>
 <style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);padding:18px 20px;-webkit-font-smoothing:antialiased}
 .mono{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
 a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
-.row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule-row);border-radius:6px;overflow:hidden}
+.row{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule-row);border-radius:6px;overflow:hidden}
 .c{background:var(--surface-card);padding:15px 17px}
 .c .l{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--label-color)}
 .c .v{font:var(--type-metric);font-variant-numeric:tabular-nums;margin:8px 0 4px;letter-spacing:-.01em}
@@ -13,6 +13,7 @@ a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
 <div class="c"><div class="l">Default</div><div class="v" style="color:var(--data-default)">$41.28</div><div class="n">gloaming-800</div></div>
 <div class="c"><div class="l">Good news</div><div class="v" style="color:var(--data-good)">$12.90</div><div class="n">sapling-700</div></div>
 <div class="c"><div class="l">Needs action</div><div class="v" style="color:var(--data-bad)">7</div><div class="n">fire-600</div></div>
+<div class="c"><div class="l">De-emphasised</div><div class="v" style="color:var(--data-muted)">5</div><div class="n">gloaming-500</div></div>
 <div class="c"><div class="l">Genuine zero</div><div class="v" style="color:var(--data-zero)">0</div><div class="n">gloaming-400</div></div>
 </div>
-<div class="warn">Never accent-by-default. Rendering every value in fire – including <span style="font-family:var(--font-mono);font-size:11px">$0.0000</span> and <span style="font-family:var(--font-mono);font-size:11px">0%</span> – spends the alarm colour on nothing and leaves no way to signal a real problem.</div></body></html>
+<div class="warn"><b>Muted is darker than zero</b>, and that is the whole ordering: the more meaningful the figure, the darker it is, with a genuine nothing the quietest of the three. Muted is for a secondary figure in a cell that already has a primary – it is not a way to calm a busy screen, and reaching for <span style="font-family:var(--font-mono);font-size:11px">zero</span> to de-emphasise a live number says the number is nothing. Never accent-by-default. Rendering every value in fire – including <span style="font-family:var(--font-mono);font-size:11px">$0.0000</span> and <span style="font-family:var(--font-mono);font-size:11px">0%</span> – spends the alarm colour on nothing and leaves no way to signal a real problem.</div></body></html>

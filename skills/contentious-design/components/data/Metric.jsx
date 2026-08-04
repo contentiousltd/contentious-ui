@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TONE = { default: 'var(--data-default)', good: 'var(--data-good)', bad: 'var(--data-bad)', zero: 'var(--data-zero)' };
+const TONE = { default: 'var(--data-default)', good: 'var(--data-good)', bad: 'var(--data-bad)', muted: 'var(--data-muted)', zero: 'var(--data-zero)' };
 
 export function Metric({ label, chip, value, unit, sub, tone = 'default', style }) {
   return (

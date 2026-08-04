@@ -38,8 +38,8 @@
 .c-button:hover{background:var(--accent-hover)}
 .c-button--ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--rule-field)}
 .c-button--ghost:hover{background:var(--surface-hover);color:var(--text-strong)}
-.c-button--quiet{background:var(--limestone-500);color:var(--text-secondary);border:1px solid var(--rule-section)}
-.c-button--quiet:hover{background:var(--surface-raised);color:var(--text-strong)}
+.c-button--quiet{background:var(--surface-page);color:var(--text-secondary);border:1px solid var(--rule-section)}
+.c-button--quiet:hover{background:var(--surface-hover);color:var(--text-strong)}
 .c-button--danger{background:transparent;color:var(--danger-fg);border:1px solid var(--danger-border)}
 .c-button--danger:hover{background:var(--danger-tint);color:var(--danger-fg-hover)}
 /* Solid destructive. LEGAL ONLY as the committing action of a modal dialog – the
@@ -87,12 +87,100 @@
    shape, a drawn outline needs 12 to stop reading as a box. So the page's main
    content block is a .c-card at 6 however large it is. */
 .c-frame{background:var(--surface-card);border:1px solid var(--rule-section);border-radius:var(--radius-frame);padding:calc(var(--u) * 1.11) calc(var(--u) * 1.22)}
-.c-card--raised{background:var(--surface-raised)}
+/* An intro or aside block: it explains rather than reports, which is what the
+   deep ground means. Was --surface-raised, which only ever meant "not
+   --surface-card, because --surface-card is invisible". */
+.c-card--deep{background:var(--surface-card-deep)}
+.c-card--raised{background:var(--surface-card-deep)}   /* deprecated alias */
 .c-card--selected{outline:2px solid var(--fire-450)}
 .c-card__chips{position:absolute;top:calc(var(--u) * -.56);left:calc(var(--u) * 1.11);display:flex;gap:calc(var(--u) * .33)}
 .c-card__title{font-family:var(--font-heading-display);font-weight:400;font-size:calc(var(--u) * 1.33);color:var(--text-strong);margin-bottom:calc(var(--u) * .22)}
 .c-card__description{font-size:var(--t-hint);color:var(--text-muted)}
 .c-card-row{display:grid;gap:calc(var(--u) * .78);margin-top:calc(var(--u) * 2)}
+
+/* ---- Feature card – marketing only ------------------------------------- */
+/* Illustration, title, one short paragraph, centred. The homepage had two
+   sets of these spaced by hand: 16.5px grid gap against 48.5px, 29.5px from
+   art to title against 43.5px, and on mobile a 31px page gutter against 11px.
+   One set of numbers now lives here and nowhere else.
+   Three gaps, and that is all: the row gap, the art-to-text gap, and the
+   title-to-body gap. Padding is symmetrical top and bottom.
+   Put .c-marketing on the section (see tokens/type-roles.css) so --u resolves
+   at 24px; the row and cards read it from there.
+   Ground is --surface-card-deep, not --surface-card: these sit ON the page and
+   EXPLAIN rather than report, which is what the deep ground means. It was
+   --surface-raised until 4 August 2026, chosen because "limestone-300 is too
+   faint against a limestone page" - that is the 1.06:1 problem the ground move
+   fixed, and raised was the workaround. As a LINK card the title takes
+   --accent-link on hover, so a deep FeatureCard needs data-surface="deep":
+   fire-650 misses AA on limestone-750 by a tenth of a point.
+   Adopted from CHC, 4 August. */
+.c-feature{display:grid;justify-items:center;text-align:center;gap:calc(var(--u) * 1.11);background:var(--surface-card-deep);border-radius:var(--radius-surface);padding:calc(var(--u) * 1.67) calc(var(--u) * 1.33);align-content:start}
+/* The box sets the optical size of the artwork, never the file. Export
+   illustrations trimmed to their ink bounds – baked-in whitespace is what made
+   equal CSS gaps look unequal across the two sets. */
+.c-feature__art{display:flex;align-items:center;justify-content:center;height:calc(var(--u) * 6)}
+.c-feature__art img{max-height:100%;max-width:100%;width:auto;display:block}
+.c-feature__text{display:grid;gap:calc(var(--u) * .44)}
+/* The accent slot the library component carries: a step number or a short label
+   above the title. Mono, because that is the metadata voice everywhere else.
+   It exists here so the two components can fold into one without a second class
+   family – c-feature-card__accent is retired, not kept. */
+.c-feature__accent{font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--label-color)}
+.c-feature__title{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-section);color:var(--text-strong);margin:0}
+/* Body copy holds at app scale while art, title and gaps step up to marketing:
+   at the 24px base a paragraph reaches 26px and dominates the card. The one
+   place --t-body-app is right. */
+.c-feature__body{font-size:var(--t-body-app);color:var(--text-body);margin:0;text-wrap:pretty}
+/* The row takes its side gutter from the page, never its own. */
+.c-feature-row{display:grid;gap:calc(var(--u) * 1.33);grid-template-columns:1fr}
+/* Cards stretch to the tallest, so keep body copy within a line of its
+   neighbours: the 56px of dead space under Estate was Watchlist's fifth line.
+   Four across is allowed, and only, when every card's body is one line at app
+   scale and wraps to no more than three: that is the condition CHC's four
+   tiers met on review. Longer copy goes two by two, where a paragraph in a
+   quarter of 1080px wrapping to three words a line cannot happen. */
+@media (min-width:52rem){.c-feature-row--2,.c-feature-row--4{grid-template-columns:repeat(2,1fr)}.c-feature-row--3{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:64rem){.c-feature-row--4{grid-template-columns:repeat(4,1fr)}}
+/* Interactive: the whole card is the link, so the whole card answers. The art
+   grows 7% on --motion-breathe, 2400ms: the Contentious site zooms its resource
+   cards, and slowed to breathing speed the same move stops reading as a flinch.
+   No lift and no shadow:
+   the app has neither, and a shadow would put a second surface depth on a page
+   that has one. Chosen from five candidates on 4 August; the rest are in
+   explorations/Feature card hover.html.
+   The title carries the colour on --motion-state because colour is all it does. */
+a.c-feature{text-decoration:none;color:var(--text-body)}
+a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring);outline-offset:2px}
+.c-feature--link .c-feature__art img{transition:transform var(--motion-breathe)}
+.c-feature--link .c-feature__title{transition:color var(--motion-state)}
+.c-feature--link:hover .c-feature__art img{transform:scale(1.07)}
+.c-feature--link:hover .c-feature__title{color:var(--accent-link)}
+/* styles.css gives every a:hover the sunshine underline, at the same specificity
+   as a.c-feature and later in the layer, and text-decoration propagates to
+   descendants – so without this the card would paint a 2px underline across the
+   title and the paragraph. Two classes, so source order cannot undo it. */
+.c-feature--link:hover{text-decoration:none}
+@media (prefers-reduced-motion:reduce){.c-feature--link:hover .c-feature__art img{transform:none}}
+
+/* ---- Marketing section rhythm ------------------------------------------- */
+/* A section owns its own vertical space; the page never adds margins between
+   sections. Removing the tinted band that used to inset "How this works" also
+   removed the padding the band was carrying, and nothing replaced it: the
+   homepage ended up with 58px between the card row and the next section's
+   heading, against 40px of padding inside every card, so a heading read as
+   belonging to the row above it.
+   The rule is a ratio, so it is checkable: space BETWEEN sections is at least
+   three times the largest gap INSIDE one. The row gap is 1.33u, so 2u top and
+   bottom gives 4u between adjacent sections, which is three times over.
+   Full-bleed tinted bands take the same class, so a band's edges land where the
+   flush section's padding would have. */
+/* Named .c-marketing-section, not .c-section: the app already owns .c-section
+   as a top-margin spacer further down this file, and one class cannot be both. */
+.c-marketing-section{padding-block:calc(var(--u) * 2)}
+.c-marketing-section--tint{background:var(--surface-card-deep)}
+/* First section under the top bar has nothing above it to separate from. */
+.c-marketing-section:first-child{padding-block-start:calc(var(--u) * 1.33)}
 
 /* ---- Mono label --------------------------------------------------------- */
 .c-label{font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--label-color)}
@@ -107,9 +195,20 @@
 .c-metric__value--good{color:var(--data-good)}
 .c-metric__value--bad{color:var(--data-bad)}
 .c-metric__value--zero{color:var(--data-zero)}
+/* A secondary figure in a cell that already has a primary. Not a way to calm a
+   busy screen, and not the same as a zero: muted is DARKER than zero, because a
+   genuine nothing is the quietest thing on the page. */
+.c-metric__value--muted{color:var(--data-muted)}
 .c-metric__sub{font-size:var(--t-hint);color:var(--text-muted);line-height:1.4}
-/* Compact: value and label inline, no context line. */
-.c-band--compact{display:inline-flex;align-items:stretch}
+/* Compact: value and label inline, no context line. OUTLINED AND TRANSPARENT,
+   not a filled card. This strip sits between a page header and the content and
+   summarises what is below it; on --surface-card it becomes the same object as
+   the things it summarises, and a filled band under a filled header is a slab
+   under a slab. Flexed back to the Estate IA v2 treatment, 4 August 2026 -
+   the system was disagreeing with its own earlier screen and the screen was
+   right. Dividers are --rule-field, matching the border. */
+.c-band--compact{display:inline-flex;align-items:stretch;background:transparent;border:1px solid var(--rule-field)}
+.c-band--compact>.c-metric+.c-metric{border-left-color:var(--rule-field)}
 .c-band--compact .c-metric{display:flex;align-items:baseline;gap:calc(var(--u) * .39);padding:calc(var(--u) * .61) var(--u)}
 .c-band--compact .c-metric__value{font-size:calc(var(--u) * 1.17);margin:0}
 /* Grid: unrelated counts about one object. The only place centring is allowed. */
@@ -117,6 +216,18 @@
 .c-band--grid .c-metric{background:var(--surface-card);text-align:center;border-left:0}
 .c-band--grid .c-metric__label{justify-content:center}
 .c-band--grid .c-metric__value{margin:calc(var(--u) * .33) 0 0}
+
+/* Titled band. A group whose content IS one card titles itself: SectionHeader
+   replaces the wrapper slab when the group holds several cards, and produces a
+   titled thing that is not a container above a container with no title when it
+   does not. The head rule is --rule-row, the divider weight, so it never
+   competes with a nav track above it. */
+.c-band--titled{display:block;background:var(--surface-card);border-radius:var(--radius-surface);overflow:hidden}
+.c-band__head{display:flex;align-items:baseline;gap:calc(var(--u) * .89);padding:calc(var(--u) * .94) calc(var(--u) * 1.11) calc(var(--u) * .78);border-bottom:1px solid var(--rule-row)}
+.c-band__head h3{font-family:var(--font-heading);font-weight:400;font-size:var(--t-section);line-height:1.2;color:var(--text-strong);margin:0;white-space:nowrap}
+.c-band__head p{font-size:var(--t-hint);color:var(--text-muted);margin:0}
+.c-band__body{display:grid;gap:1px;background:var(--rule-row)}
+.c-band__body>.c-metric{background:var(--surface-card);border-left:0}
 
 /* ---- Section header ----------------------------------------------------- */
 .c-section-header{display:flex;align-items:baseline;gap:calc(var(--u) * .78);padding-bottom:calc(var(--u) * .61);border-bottom:1px solid var(--rule-section);margin-bottom:var(--u)}
@@ -335,14 +446,18 @@
    The old spec here was a 288 degree open ring rotated -57.6deg, which was
    traced from a screenshot caught mid-sweep. It could not draw 100: the
    maximum sweep left a gap, so a perfect score read as "not quite".
-   BUTT CAPS, never round. A round cap adds half a stroke width of arc beyond
-   each end, about 2.3 points per end at the badge ratio and 4.5 across the
-   two, so a 3 draws like a 7 and a 1 draws five times its true length.
+   THE ARC MUST NOT EXTEND BEYOND ITS VALUE. In SVG that means butt caps, never
+   round: a round cap adds half a stroke width of arc beyond each end, about 2.3
+   points per end at the badge ratio and 4.5 across the two, so a 3 draws like a
+   7 and a 1 draws five times its true length.
+   Nivo's cornerRadius is NOT a cap and does not break this: a cap ADDS half a stroke width of arc beyond the end point, a corner radius rounds the existing corners INWARD and removes material. It cannot extend the arc past its value at any radius, so CM's cornerRadius={4} on a ~34px band is compliant, and reads as a slight softening rather than a round cap (a true round cap there would be a 17px radius).
    Track is --level-empty and NOT a lighter stop. The three products all ship a
    near-white track, which works only because all three sit on the page ground:
-   limestone-300 IS --surface-card at #F8F8F2, so a badge ring on a result card
-   would have no track at all, and 400/450 are aliases three per channel from
-   it. Darker is the only direction with room on every ground. */
+   a near-white track IS --surface-card, so a badge ring on a result card would
+   have no track at all. Darker is the only direction with room on every ground.
+   The same argument now bites at the other end: --level-empty is limestone-750
+   and so is --surface-card-deep, so a gauge or a score track NEVER goes on a
+   deep card. There is no variant that fixes it. */
 .c-gauge{position:relative;display:inline-grid;place-items:center}
 .c-gauge svg{display:block}
 .c-gauge__track{fill:none;stroke:var(--level-empty)}
@@ -359,7 +474,13 @@
 .c-gauge__caption{font-size:var(--t-hint);color:var(--text-muted);text-align:center;margin-top:calc(var(--u) * .67);max-width:34ch;line-height:1.45}
 /* The sweep is lg only: fifty animating rings in a table is noise, and sm/md
    arrive at their value. --motion-state-slow, not --motion-reveal, which is
-   600ms and marketing-only. */
+   600ms and marketing-only.
+   This is the chart-data exception to the no-entrance rule, and it is bounded:
+   once on first paint, zero to value, the arc only and never the card or
+   caption, and it must not overshoot: an arc that reaches 68 before settling at
+   62 has shown a score the page does not hold. Overshoot is the bound, not the
+   easing technique - a damped spring is fine.
+   See provenance/Chart entrance decision 2026-08-01.html. */
 .c-gauge--lg .c-gauge__arc{transition:stroke-dashoffset var(--motion-state-slow)}
 .c-gauge--sm .c-gauge__arc,.c-gauge--md .c-gauge__arc{transition:none}
 @media (prefers-reduced-motion: reduce){.c-gauge__arc{transition:none}}
@@ -426,15 +547,45 @@
 .c-crumbs__here{color:var(--text-strong)}
 
 /* ---- Footer ------------------------------------------------------------- */
-.c-footer{background:var(--surface-raised);margin-top:calc(var(--u) * 4.44);padding:calc(var(--u) * 2) 0 calc(var(--u) * 1.67)}
+/* THE FOOTER REVERSES. It carries data-surface="inverse", so every text role,
+   rule and link inside resolves from the inverse block in semantic.css - which
+   already tunes the link pair for a dark ground, because fire-650 fails as text
+   there and fire-350 does not. Only the GROUND is its own: --surface-inverse is
+   gloaming-800 and belongs to tooltips, so the footer declares --surface-footer
+   at gloaming-700, warmer and less absolute. Nothing here is set by hand.
+   Weakest value in the footer is the legal line at 5.3:1. */
+.c-footer{background:var(--surface-footer);margin-top:calc(var(--u) * 4.44);padding:calc(var(--u) * 2) 0 calc(var(--u) * 1.67)}
 .c-footer__in{max-width:var(--container-max-width);margin:0 auto;padding:0 calc(var(--u) * 1.56);display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u) * 2.67)}
-.c-footer__brand{display:flex;align-items:center;gap:calc(var(--u) * .56);font-family:var(--font-heading);font-weight:700;font-size:var(--t-row);color:var(--text-strong);white-space:nowrap;margin-bottom:calc(var(--u) * .67)}
+/* Bely DISPLAY, not plain Bely. The product name is set in the display cut in
+   the header and must not change face at the bottom of the same page - the
+   component said --font-heading at --t-row and production shipped the display
+   cut; production was right. The display family ships one weight, so 400.
+   The MARK IS A PAIR: images/clipboard-gloaming.png on light grounds,
+   images/clipboard-pale.png here. The gloaming cut's dark passage is 36% of
+   its ink and lands at 1.17:1 on this ground - it ghosts rather than vanishes,
+   which for a logo is worse. The pale cut takes that passage to limestone and
+   measures 10.95:1, keeping the red (--fire-500, 3.54:1) and the yellow
+   (--sunshine-500, 7.00:1). The pale cut is dark-grounds-only: its pale
+   passage is 1.01:1 against the limestone-600 page. */
+.c-footer__brand{display:flex;align-items:center;gap:calc(var(--u) * .56);font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-section);color:var(--text-secondary);white-space:nowrap;margin-bottom:calc(var(--u) * .67)}
 .c-footer__brand img{height:calc(var(--u) * 1.22);display:block}
 .c-footer p{font-size:var(--t-hint);line-height:1.55;color:var(--text-secondary);margin:0 0 calc(var(--u) * .56);max-width:46ch}
-.c-footer__groups{display:flex;flex-direction:column;gap:var(--u);align-items:flex-end}
-.c-footer__group{text-align:right}
-.c-footer__group .c-label{display:block;margin-bottom:calc(var(--u) * .44)}
-.c-footer__links{display:flex;gap:calc(var(--u) * 1.11);flex-wrap:wrap;justify-content:flex-end;font-family:var(--font-heading);font-size:var(--t-hint)}
+/* Named columns, one link per line. The previous form was right-aligned mono
+   labels above a wrapped run, which put seven Core links on one line reading
+   right to left in two directions at once. The heading is Bely Display and
+   takes --text-secondary, NOT --text-strong: at limestone-200 it matched the
+   wordmark and two things claimed the top level in one footer. The face and
+   size carry the heading; it does not also need the brightest ink. */
+.c-footer__groups{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:calc(var(--u) * 2.44)}
+.c-footer__group{text-align:left}
+/* Every heading in the footer sits at --text-secondary, wordmark included -
+   limestone-700 on the inverse ramp, 9.6:1, the same as the description.
+   Nothing in the footer is bright: it is the end of the document rather than a
+   section of it, and the display cut carries the hierarchy on face and size
+   rather than on ink. --text-strong put the wordmark at 13.8:1, which claimed
+   a top level the footer does not have. */
+.c-footer__group h4{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-row);color:var(--text-secondary);margin:0 0 calc(var(--u) * .78)}
+.c-footer__links{display:grid;gap:calc(var(--u) * .5);font-family:var(--font-heading);font-size:var(--t-ui)}
 .c-footer__legal{max-width:var(--container-max-width);margin:calc(var(--u) * 1.56) auto 0;padding:calc(var(--u) * 1.11) calc(var(--u) * 1.56) 0;border-top:1px solid var(--rule-section);font-size:calc(var(--u) * .7);color:var(--text-muted);line-height:1.5}
 
 /* ---- Page shells -------------------------------------------------------- */

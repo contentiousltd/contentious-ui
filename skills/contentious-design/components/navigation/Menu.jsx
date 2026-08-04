@@ -40,7 +40,7 @@ export function MenuItem({ icon, title, sub, right, tone = 'default', current, o
   const danger = tone === 'danger';
   const self = tone === 'self';
   const hot = hov && !self;
-  const bg = current || hot ? (danger ? 'var(--fire-150)' : 'var(--surface-raised)') : 'transparent';
+  const bg = current || hot ? (danger ? 'var(--fire-150)' : 'var(--surface-hover)') : 'transparent';
   return (
     <div onClick={self ? undefined : onClick}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}

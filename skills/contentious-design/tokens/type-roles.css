@@ -90,6 +90,12 @@
      px comments are the resolved value at the 19px app base x 1. Marketing
      surfaces resolve the same ratios against 24px. */
   --u: calc(var(--base-font-size, 19px) * var(--text-multiplier, 1));
+  /* The app unit, held under a name no scope overrides, so a marketing surface
+     can keep one thing at app scale while everything around it steps up. Used
+     by .c-feature__body: at the 24px base a paragraph hits 26px and dominates
+     the card, and CHC's homepage was reviewed with body copy at app scale. */
+  --u-app:     var(--u);
+  --t-body-app: var(--u-app);
 
   --t-label:   calc(var(--u) * 0.62);   /* mono metadata    ~12px · 15px */
   --t-hint:    calc(var(--u) * 0.78);   /*                  ~15px · 19px */
@@ -100,4 +106,34 @@
   --t-section: calc(var(--u) * 1.25);   /* section heading  ~24px · 30px */
   --t-metric:  calc(var(--u) * 1.72);   /* metric values    ~33px · 41px */
   --t-title:   calc(var(--u) * 2.4);    /* page titles      ~46px · 58px */
+}
+
+/* ---- Marketing scope ----------------------------------------------------
+   How a marketing surface inside an app declares itself. Answers the gap CHC
+   hit: its theme sets --base-font-size: 19px app-wide, homepage included, so
+   marketing surfaces rendered at app density and a local class re-derived the
+   scale with copies of the formulas below.
+
+   It has to be a class that redeclares --u AND every role, because custom
+   property substitution happens where a property is DECLARED, not where it is
+   used: --t-section computed on :root has already resolved :root's --u, and
+   children inherit that resolved value. Overriding --base-font-size, or even
+   --u, on a wrapper cannot reach back into the roles. The formulas are the same
+   ratios as above and belong in one file, this one, so a product never carries
+   a second copy. --marketing-font-size is the one input.
+
+   The --type-* shorthands in tokens/semantic.css need the same treatment and
+   get it there, in a second .c-marketing block. */
+.c-marketing {
+  --u: calc(var(--marketing-font-size, 24px) * var(--text-multiplier, 1));
+
+  --t-label:   calc(var(--u) * 0.62);
+  --t-hint:    calc(var(--u) * 0.78);
+  --t-ui:      calc(var(--u) * 0.88);
+  --t-body:    var(--u);
+  --t-row:     calc(var(--u) * 1.05);
+  --t-lede:    calc(var(--u) * 1.1);
+  --t-section: calc(var(--u) * 1.25);
+  --t-metric:  calc(var(--u) * 1.72);
+  --t-title:   calc(var(--u) * 2.4);
 }

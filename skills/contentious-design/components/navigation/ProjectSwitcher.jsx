@@ -16,7 +16,7 @@ export function ProjectSwitcherTrigger({ project, open, onClick, style }) {
       display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 11px',
       borderRadius: 'var(--radius-control)', fontFamily: 'var(--font-heading)',
       fontSize: 15, color: 'var(--text-strong)', cursor: 'pointer', whiteSpace: 'nowrap',
-      background: open ? 'var(--surface-raised)' : 'transparent', ...style,
+      background: open ? 'var(--surface-hover)' : 'transparent', ...style,
     }}>{project}<Chevron /></span>
   );
 }

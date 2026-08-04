@@ -8,8 +8,10 @@ export interface CardProps {
   chips?: React.ReactNode;
   /** 2px fire-450 outline. */
   selected?: boolean;
-  /** card = limestone-300 data surface; raised = limestone-600 aside/intro block. */
-  tone?: 'card' | 'raised';
+  /** card = limestone-400 data surface; deep = limestone-750, a card that is a
+   *  different KIND of thing from the cards around it. 'raised' is a deprecated
+   *  alias of 'deep'. */
+  tone?: 'card' | 'deep' | 'raised';
   children?: React.ReactNode;
   style?: React.CSSProperties;
 }

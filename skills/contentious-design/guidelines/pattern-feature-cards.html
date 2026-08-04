@@ -1,0 +1,53 @@
+<!-- @dsCard group="Patterns" viewport="1180x1080" name="Feature cards" subtitle="Two homepage sections, spaced by hand two different ways. Three gaps replace them." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Feature cards</title>
+<link rel="stylesheet" href="../styles.css"/>
+<style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);padding:20px 24px;-webkit-font-smoothing:antialiased}
+a:not(.c-feature){color:var(--accent-link)}a:not(.c-feature):hover{color:var(--accent-link-hover)}
+.cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+h1{font:var(--type-section);font-size:19px;color:var(--text-strong);margin:0 0 4px}
+.lede{font-size:12.5px;color:var(--text-muted);margin:0 0 20px;max-width:80ch;text-wrap:pretty}
+table{border-collapse:collapse;font-size:11.5px;width:100%}
+th{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--label-color);text-align:right;font-weight:400;padding:0 0 7px 14px;vertical-align:bottom}
+th:first-child{text-align:left;padding-left:0}
+td{padding:6px 0 6px 14px;border-top:1px solid var(--rule-row);text-align:right;font-variant-numeric:tabular-nums}
+td:first-child{text-align:left;padding-left:0;color:var(--text-muted)}
+td.rule{color:var(--text-strong)}
+.split{display:grid;grid-template-columns:1fr;gap:24px}
+.note{font-size:11.5px;color:var(--text-muted);margin:12px 0 0;max-width:96ch;text-wrap:pretty}</style></head><body>
+<h1>Feature cards</h1>
+<p class="lede">Measured off the live homepage at desktop and mobile. Neither section used a shared pattern, so both were spaced by hand and no two numbers agreed. The rule column is what <code>.c-feature</code> resolves to inside <code>.c-marketing</code>, the scope class in <code>tokens/type-roles.css</code> that re-derives <code>--u</code> and the type roles at the 24px marketing base. Implemented on Content Health Check on 4 August; three decisions from that review are folded in below.</p>
+<div class="split">
+<div><div class="cap">Measured, and the rule</div>
+<table>
+<thead><tr><th>Spacing</th><th>Four layers</th><th>Three steps</th><th>.c-feature</th></tr></thead>
+<tbody>
+<tr><td>Columns, desktop</td><td>4 at 276px</td><td>3 at 373px</td><td class="rule">3, or 4 on one-line copy</td></tr>
+<tr><td>Row gap</td><td>16.5px</td><td>48.5px</td><td class="rule">32px · 1.33u</td></tr>
+<tr><td>Padding, top</td><td>36px</td><td>40px</td><td class="rule">40px · 1.67u</td></tr>
+<tr><td>Padding, bottom</td><td>56px</td><td>35.5px</td><td class="rule">40px · 1.67u</td></tr>
+<tr><td>Illustration box</td><td>124px</td><td>109px</td><td class="rule">144px · 6u</td></tr>
+<tr><td>Art to title</td><td>29.5px</td><td>43.5px</td><td class="rule">26.5px · 1.11u</td></tr>
+<tr><td>Title to body</td><td>22px</td><td>25px</td><td class="rule">10.5px · .44u</td></tr>
+<tr><td>Page gutter, mobile</td><td>31px</td><td>11px</td><td class="rule">--page-padding</td></tr>
+<tr><td>Art to title, mobile</td><td>24px</td><td>31px</td><td class="rule">one scale, both widths</td></tr>
+<tr><td>Card ground</td><td>limestone-600</td><td>limestone-600</td><td class="rule">--surface-raised</td></tr>
+<tr><td>Body copy scale</td><td>app base</td><td>app base</td><td class="rule">--t-body-app</td></tr>
+</tbody></table>
+<p class="note">Three of these were never spacing settings. The 56px under Estate is Watchlist's fifth line: cards stretch to the tallest, so unequal copy lengths show as dead space. Four columns at 276px wraps a paragraph to three words a line, which is why four across is conditional on one-line copy rather than free. And the two sets' illustrations carried different amounts of baked-in whitespace, so equal CSS gaps still looked unequal: the 6u box sets the optical size, and artwork is exported trimmed to its ink bounds. All four homepage illustrations were trimmed on 4 August. <code>estate</code> looked trimmed and was not: it carried a full-canvas near-white wash at about 8% alpha, which read as a pale rectangle behind the houses on the limestone card ground.</p>
+<p class="note">Two things came back from implementation and are now the rule, not deviations. The ground is <code>--surface-raised</code>, because these blocks sit on the page rather than holding data and limestone-300 read as too faint on a limestone ground. And body copy holds at <code>--t-body-app</code> while art, titles and gaps step up: at the 24px base a paragraph reaches 26px and dominates the card. Hover, where the card is a link, is <code>.c-feature--link</code>: the illustration grows 7% on <code>--motion-breathe</code>, 2400ms, and the title takes <code>--accent-link</code> on <code>--motion-state</code>. No lift and no shadow, which would put a second surface depth on the page. Five other candidates were weighed in <code>explorations/Feature card hover.html</code>. Hover the cards below.</p></div>
+<div><div class="cap">Right – three gaps, nothing else</div>
+<div class="c-marketing c-feature-row c-feature-row--4">
+<a class="c-feature c-feature--link" href="#"><div class="c-feature__art"><img src="../images/estate.png" alt=""/></div>
+<div class="c-feature__text"><h3 class="c-feature__title">Estate</h3><p class="c-feature__body">All your website properties: your domains and subdomains.</p></div></a>
+<a class="c-feature c-feature--link" href="#"><div class="c-feature__art"><img src="../images/inventory.png" alt=""/></div>
+<div class="c-feature__text"><h3 class="c-feature__title">Inventory</h3><p class="c-feature__body">Every URL we've discovered, filtered to remove non-content pages.</p></div></a>
+<a class="c-feature c-feature--link" href="#"><div class="c-feature__art"><img src="../images/catalogue.png" alt=""/></div>
+<div class="c-feature__text"><h3 class="c-feature__title">Watchlist</h3><p class="c-feature__body">The pages you want monitored: everything, or a curated sample.</p></div></a>
+<a class="c-feature c-feature--link" href="#"><div class="c-feature__art"><img src="../images/analysis.png" alt=""/></div>
+<div class="c-feature__text"><h3 class="c-feature__title">Results</h3><p class="c-feature__body">Your watchlist analysed: scores, graphs, insights and suggestions.</p></div></a>
+</div>
+<p class="note">Marketing only. In the app <code>.c-card</code> is left-aligned, carries no illustration and sits on <code>--surface-card</code>; this is the one card allowed to centre.</p>
+<p class="note"><b>Section rhythm, added 4 August.</b> Removing the tinted band that used to inset "How this works" also removed the padding the band was carrying, and nothing replaced it: the live homepage has 58px between the card row and the next section's heading against 40px of padding inside every card, so "Choose your content health plan" reads as part of the row above it. <code>.c-marketing-section</code> gives a section <code>2u</code> top and bottom, so adjacent sections sit <code>4u</code> apart. The rule is a ratio and therefore checkable: space between sections is at least three times the largest gap inside one. A section owns its own vertical space and the page never adds margins between them; <code>--tint</code> puts a band back on the same geometry. The name is not <code>.c-section</code>: the app already owns that class as a top-margin spacer.</p></div>
+</div>
+</body></html>

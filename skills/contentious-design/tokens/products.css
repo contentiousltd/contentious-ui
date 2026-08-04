@@ -110,11 +110,20 @@
                        Banded / marketing = the brand's 24px. See "Density" at
                        the foot of this file.
 
-   THE SIGNATURE SET (29)
+   THE SIGNATURE SET (34)
       ground      --surface-page --surface-chrome --surface-card
-                  --surface-raised --surface-menu --surface-field
-                  --surface-inverse --surface-hover --surface-hover-row
-      hairlines   --rule-section --rule-row --rule-field
+                  --surface-card-deep --surface-raised --surface-menu
+                  --surface-field --surface-inverse --surface-footer
+                  --surface-hover --surface-hover-row
+      hairlines   --rule-section --rule-row --rule-field --rule-on-deep
+      deep card   --label-on-deep --accent-link-on-deep
+                  (the 30th to 34th, added 4 August 2026 with the ground move.
+                   --surface-card-deep is the second card ground; --surface-footer
+                   exists because --surface-inverse is gloaming-800 and belongs to
+                   tooltips; the three -on-deep roles are the only roles that break
+                   on a deep card. Every one of the five is declared by all four
+                   products, because [data-surface="deep"] references them and a
+                   missing one resolves to nothing rather than to a fallback.)
       text        --text-strong --text-body --text-secondary --text-muted
                   --text-inverse --text-on-accent
                   --text-inset-strong --text-inset
@@ -218,23 +227,52 @@
    Declared explicitly rather than inherited, so "the default" stops being a
    product. If semantic.css and this block ever disagree, this block wins and
    semantic.css should be reverted to the CHC values.
-   Ground: warm cream, cards a whisper lighter — quiet, because the data is
-   the loud thing. Illustration: schematic objects and diagrams.
+   Ground: warm cream, cards a clear step lighter — quiet, because the data is
+   the loud thing, not because the surfaces are invisible. Cards may also go
+   DARKER than the page; see --surface-card-deep. Illustration: schematic
+   objects and diagrams.
 -------------------------------------------------------------------------------- */
 [data-product="chc"] {
-  --surface-page:        var(--limestone-500);
-  --surface-chrome:      var(--limestone-400);
-  --surface-card:        var(--limestone-300);
-  --surface-raised:      var(--limestone-600);
+  /* Ground moved limestone-500 -> limestone-600 on 4 August 2026. The old page
+     sat 1.06:1 from its own cards, so every surface the system asked for was
+     invisible and the screens worked around it: FeatureCard borrowed
+     --surface-raised, tables painted their own zebra, --surface-hover-row was
+     invented as a half step. Fixing the page fixed all three. Full workings and
+     the ripple: provenance/Data display decisions 2026-08-04.html. */
+  --surface-page:        var(--limestone-600);
+  --surface-chrome:      var(--limestone-300);   /* was limestone-400, which the CARD
+                                                    moved onto. Chrome is a layer above
+                                                    the page, so it goes with the other
+                                                    floating surfaces (menu 150, field
+                                                    200) rather than trying to be a
+                                                    variant of the page: 1.21:1 above the
+                                                    page. Against a card that abuts it,
+                                                    1.03 - the --rule-section chrome edge
+                                                    does that separating at 1.59, which
+                                                    is the job it already had. */
+  --surface-card:        var(--limestone-400);   /* 1.18:1 on the page */
+  --surface-card-deep:   var(--limestone-750);   /* 1.25:1. The second card ground -
+                                                    see [data-surface="deep"] below */
+  --surface-raised:      var(--limestone-700);   /* was limestone-600, now the page.
+                                                    Constrained: never on or beside a
+                                                    deep card, where it is 1.08:1 */
   --surface-menu:        var(--limestone-150);
   --surface-field:       var(--limestone-200);
-  --surface-inverse:     var(--gloaming-800);
-  --surface-hover:       var(--limestone-600);   /* step off the limestone-150 menu */
-  --surface-hover-row:   var(--limestone-450);   /* half step; stays lighter than the page */
+  --surface-inverse:     var(--gloaming-800);    /* tooltips */
+  --surface-footer:      var(--gloaming-700);    /* the footer reverses. NOT
+                                                    --surface-inverse, which is
+                                                    gloaming-800 and taken */
+  --surface-hover:       var(--limestone-650);   /* 1.36:1 off the limestone-150 menu,
+                                                    up from 1.26 */
+  --surface-hover-row:   var(--limestone-650);   /* one stop PAST the page. Nothing
+                                                    inside the card-to-page span
+                                                    clears the floor - that whole span
+                                                    is 1.18. May fold into
+                                                    --surface-hover; check the suite */
 
-  --rule-section:        var(--limestone-700);
-  --rule-row:            var(--limestone-600);
-  --rule-field:          var(--limestone-750);
+  --rule-section:        var(--limestone-750);   /* was 700; 1.16 on the darker page */
+  --rule-row:            var(--limestone-600);   /* 1.18 pale card, 1.25 deep card */
+  --rule-field:          var(--limestone-800);   /* was 750; fields stay the loudest rule */
 
   --text-strong:         var(--gloaming-800);
   --text-body:           var(--gloaming-700);
@@ -245,6 +283,13 @@
   --text-inset-strong:   var(--gloaming-800);  /* light ground: same as --text-strong */
   --text-inset:          var(--gloaming-700);
 
+  /* Roles that break on --surface-card-deep and only there. Text does not:
+     --text-strong is 10.87:1 and --text-body 8.84:1 on limestone-750. These
+     three do, and each is measured on that ground. */
+  --label-on-deep:       var(--gloaming-500);  /* --label-color is 3.82:1 there. 5.21 */
+  --rule-on-deep:        var(--limestone-900); /* --rule-section is 1.00:1 there. 1.26 */
+  --accent-link-on-deep: var(--fire-750);      /* --accent-link is 4.39:1 there. 6.54 */
+
   --accent:              var(--fire-500);
   --accent-hover:        var(--fire-600);
   --accent-marker:       var(--fire-500);
@@ -252,7 +297,11 @@
   --accent-link-hover:   var(--fire-800);
   --focus-ring:          var(--focus-ring-on-light);
 
-  --level-empty:         var(--limestone-750);
+  --level-empty:         var(--limestone-750);  /* SAME VALUE as --surface-card-deep,
+                                                   which is why a deep card cannot
+                                                   carry a score: the track's empty
+                                                   segments and the gauge ring both
+                                                   land at 1.00:1 */
 
   --signature-display-scale: 1;
   --signature-illustration:  "schematic — objects, diagrams, systems seen from above";
@@ -281,6 +330,17 @@
   --wash-section:        linear-gradient(135deg, var(--lichen-350) 0%, var(--lichen-450) 100%);
   --surface-chrome:      var(--lichen-400);
   --surface-card:        var(--limestone-200);
+  --surface-card-deep:   var(--lichen-650);      /* 1.68:1 on the lichen page. PROVISIONAL:
+                                                    the deep card is a CHC decision of
+                                                    4 Aug 2026 and has not been designed
+                                                    against this ground. Declared so CM
+                                                    cannot inherit CHC's limestone-750,
+                                                    which would be LIGHTER than this page */
+  --surface-footer:      var(--gloaming-700);    /* CM already ships a dark footer */
+  --label-on-deep:       var(--gloaming-700);    /* 6.05:1 on lichen-650; gloaming-500
+                                                    only reaches 3.56 on this ground */
+  --rule-on-deep:        var(--lichen-800);      /* 1.88:1 */
+  --accent-link-on-deep: var(--coffee-850);      /* 5.71:1; coffee-800 misses at 4.46 */
   --surface-raised:      var(--lichen-600);
   --surface-menu:        var(--limestone-150);
   --surface-field:       var(--limestone-150);
@@ -352,6 +412,21 @@
   --surface-page:        var(--sorbet-850);
   --surface-chrome:      var(--limestone-200);   /* light chrome over a dark page */
   --surface-card:        var(--coffee-850);
+  --surface-card-deep:   var(--sorbet-900);      /* 1.20:1 BELOW the sorbet-850 page.
+                                                    On a dark product "deep" still means
+                                                    further from the page in the
+                                                    direction away from the cards, which
+                                                    here is darker. PROVISIONAL - not
+                                                    designed against this ground; declared
+                                                    so VTS cannot inherit CHC's
+                                                    limestone-750, which on this page
+                                                    would be 8.68:1 and LIGHTER, the exact
+                                                    inverse of what deep means */
+  --surface-footer:      var(--sorbet-900);      /* the page is already dark; the footer
+                                                    steps down rather than reversing */
+  --label-on-deep:       var(--limestone-700);   /* 11.28:1 */
+  --rule-on-deep:        var(--sorbet-750);      /* 1.87:1 */
+  --accent-link-on-deep: var(--sunshine-400);    /* VTS's marker, light on a dark card */
   --surface-raised:      var(--sorbet-800);
   --surface-menu:        var(--sorbet-800);
   --surface-field:       var(--limestone-200);
@@ -420,6 +495,17 @@
   --surface-page:        var(--limestone-500);
   --surface-chrome:      var(--limestone-400);
   --surface-card:        var(--limestone-300);
+  --surface-card-deep:   var(--limestone-750);   /* 1.43:1 on the limestone-500 page.
+                                                    The marketing site keeps its page at
+                                                    limestone-500 - no app shares the
+                                                    marketing ground - but it shares the
+                                                    ramp, so CHC's deep values happen to
+                                                    be right here. Declared rather than
+                                                    inherited, so that stays deliberate */
+  --surface-footer:      var(--gloaming-700);
+  --label-on-deep:       var(--gloaming-500);
+  --rule-on-deep:        var(--limestone-900);
+  --accent-link-on-deep: var(--fire-750);
   --surface-raised:      var(--lichen-300);      /* the light alternating band */
   --surface-menu:        var(--limestone-150);
   --surface-field:       var(--limestone-200);
@@ -447,7 +533,11 @@
   --accent-link-hover:   var(--fire-800);
   --focus-ring:          var(--focus-ring-on-light);
 
-  --level-empty:         var(--limestone-750);
+  --level-empty:         var(--limestone-750);  /* SAME VALUE as --surface-card-deep,
+                                                   which is why a deep card cannot
+                                                   carry a score: the track's empty
+                                                   segments and the gauge ring both
+                                                   land at 1.00:1 */
 
   /* Display scale is 1, NOT 1.24. Density already carries the heroism: at the
      24px marketing base, --t-title resolves to ~58px against the app's ~46px.

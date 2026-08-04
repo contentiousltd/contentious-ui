@@ -15,5 +15,6 @@ The only way a 0-100 score is shown. Use it for the Watchlist score column, resu
 - **The number is Bely Display**, not mono. A score is a value, not metadata. `size="inline"` hands it back to the surrounding face, because there it is prose.
 - Bands come from `scoreToLevel()` in `StarRating.jsx`: **90 / 70 / 50 / 30**, nearest whole star. Do not band locally.
 - A quantity is not a score. Page counts, costs and token totals stay neutral and never share a column with a score.
+- **Never on a deep card.** `--level-empty` is limestone-750 and so is `--surface-card-deep`: the track's empty segments land at 1.00:1 and disappear, leaving filled marks with no track behind them, so position stops encoding anything. There is no variant that fixes it. Put the score on a pale card.
 
 Full workings: `explorations/Coloured numbers.html`. Bands: `provenance/Score band decision 2026-08-01.html`.

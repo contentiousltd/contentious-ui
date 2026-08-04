@@ -7,6 +7,7 @@ The single way to present a number. Always left-aligned so digits line up down a
 ```
 
 - **Never centred.** Centred numbers can’t be compared vertically.
+- **`tone="muted"` de-emphasises a live figure**, and it is the only way to. A secondary number in a cell that already has a primary takes `muted`; a per-page grey does not exist. It is not `zero` — `zero` means a genuine nothing, and it is *lighter* than muted, because the more meaningful the figure, the darker it is. Scope `muted` narrowly: it is not a way to calm a busy screen.
 - Tabular numerals are mandatory.
 - Colour only for meaning. Neutral is the default; if everything is coloured, nothing can raise an alarm.
 - Always pair the headline number with the figure it came from.

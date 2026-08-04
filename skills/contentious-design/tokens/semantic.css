@@ -12,13 +12,28 @@
 :root {
   /* ---- Surfaces -------------------------------------------------------- */
   /* One surface depth per page. A slab inside a slab is always wrong. */
-  --surface-page:        var(--limestone-500);   /* the page itself */
-  --surface-chrome:      var(--limestone-400);   /* top bar, secondary nav */
-  --surface-card:        var(--limestone-300);   /* data surfaces, list rows */
-  --surface-raised:      var(--limestone-600);   /* intro/aside blocks, seg control track */
+  --surface-page:        var(--limestone-600);   /* the page itself */
+  --surface-chrome:      var(--limestone-300);   /* top bar, secondary nav. A layer ABOVE
+                                                    the page, banded with menu and field
+                                                    rather than with the page: at
+                                                    limestone-400 it was the same value as
+                                                    --surface-card after the ground move */
+  --surface-card:        var(--limestone-400);   /* data surfaces, list rows */
+  --surface-card-deep:   var(--limestone-750);   /* the second card ground: a card that
+                                                    is a different KIND of thing from
+                                                    the cards around it */
+  --surface-raised:      var(--limestone-700);   /* seg control track */
   --surface-menu:        var(--limestone-150);   /* dropdown panels – never #fff */
   --surface-field:       var(--limestone-200);   /* text inputs */
   --surface-inverse:     var(--gloaming-800);    /* tooltips */
+  --surface-footer:      var(--gloaming-700);    /* the footer reverses */
+  /* Roles that break on --surface-card-deep and only there. Declared alongside
+     the ground because [data-surface="deep"] references all three: leave any of
+     them out and the scope resolves to nothing and the label silently inherits
+     whatever is around it. */
+  --label-on-deep:       var(--gloaming-500);
+  --rule-on-deep:        var(--limestone-900);
+  --accent-link-on-deep: var(--fire-750);
   /* Lichen is the background neutral of the Content Maturity app, per the brand
      style guide. Reserved: do not use it in Content Health Check. */
 
@@ -86,9 +101,21 @@
 
   /* ---- Hairlines ------------------------------------------------------- */
   /* Groups are defined by a rule and the space around them, not by a box. */
-  --rule-section:        var(--limestone-700);   /* section headers, chrome edges */
-  --rule-row:            var(--limestone-600);   /* between rows inside one surface */
-  --rule-field:          var(--limestone-750);   /* input + ghost-button borders */
+  --rule-section:        var(--limestone-750);   /* section headers, chrome edges */
+  --rule-row:            var(--limestone-600);   /* between rows inside ONE SURFACE, and
+                                                    card-only by construction: it is the
+                                                    same value as --surface-page, so it
+                                                    reads at 1.18:1 on a pale card and
+                                                    1.25:1 on a deep one and disappears
+                                                    entirely on the page ground. A rule
+                                                    directly on the page is
+                                                    --rule-section. */
+  --rule-field:          var(--limestone-800);   /* input + ghost-button borders. The
+                                                    loudest rule, and it has to stay so:
+                                                    on the limestone-600 page it went
+                                                    1.43 -> 1.25 at its old value, the
+                                                    largest single loss in the ground
+                                                    move. */
 
   /* ---- Text ------------------------------------------------------------ */
   --text-strong:         var(--gloaming-800);
@@ -132,18 +159,27 @@
      provenance/Accent decision 2026-07-31.html – ours keeps the name, theirs is
      renamed to these, and its sunshine-500 value goes with it, because a hover
      painted in a brand colour is the colour shift this rule forbids. */
-  --surface-hover:       var(--limestone-600);
+  --surface-hover:       var(--limestone-650);
   /* TWO steps, because step size scales inversely with AREA and because a
      hover step must never overshoot the page. --surface-hover is the full step
      and belongs to small targets on a FLOATING panel (menu rows, controls,
-     switcher). A whole list row is a large in-page surface: the full step takes
-     a limestone-300 row to limestone-600, DARKER than the limestone-500 page,
-     so the row reads as recessed below the page it sits in. --surface-hover-row
-     is the half step, and the rule is: move toward --surface-page, never past
-     it. The 30th token in the signature set, added 1 August 2026 – it was a
+     switcher). A whole list row is a large in-page surface: on the old
+     limestone-500 page the full step took a limestone-300 row to limestone-600,
+     DARKER than the page, so the row read as recessed below the page it sat in.
+     --surface-hover-row was the half step, and the rule was: move toward
+     --surface-page, never past it.
+
+     4 AUGUST 2026: THE GROUND MOVE REVERSES THAT RULE. On a limestone-600 page
+     there is nothing left inside the card-to-page span - the whole span is
+     1.18:1, so limestone-500 is 1.03, 550 is 1.10 and 600 is the page itself.
+     Going lighter is no better; white is 1.09. The value that works is
+     limestone-650, one stop PAST the page rather than fifty: 1.27:1 against a
+     pale card, 1.16 against a deep one, and 1.08 against the page, so nothing
+     reads as recessed. It is also the value --surface-hover now takes, so the
+     two may fold back into one token once the other three products are checked. The 30th token in the signature set, added 1 August 2026 – it was a
      literal limestone-450 in components.css, correct on the three light grounds
      and near-white on VTS. On a dark ground both lighten. */
-  --surface-hover-row:   var(--limestone-450);
+  --surface-hover-row:   var(--limestone-650);
   --text-on-hover:       var(--text-strong);   /* not in the set: --text-strong
                                                   in every product. Exists so
                                                   the shadcn codemod stays
@@ -155,7 +191,17 @@
   --data-default:        var(--gloaming-800);
   --data-good:           var(--sapling-700);
   --data-bad:            var(--fire-600);
-  --data-zero:           var(--gloaming-400);    /* a genuine zero / empty */
+  --data-muted:          var(--text-secondary);  /* a SECONDARY figure in a cell that
+                                                    already has a primary. Added 4 Aug
+                                                    2026: the screens were reaching for
+                                                    `zero` to de-emphasise live numbers
+                                                    because there was no visual tone,
+                                                    only a semantic one. Scope it
+                                                    narrowly - this is not a way to
+                                                    calm a busy screen. */
+  --data-zero:           var(--gloaming-400);    /* a genuine zero / empty. LIGHTER than
+                                                    muted: the more meaningful the
+                                                    figure, the darker it is. */
 
   /* ---- Status text (standalone, outside a chip) ------------------------ */
   /* AA at 10-11px is what decides these, and the chips already met it:
@@ -259,9 +305,12 @@
 
   /* Empty star / unfilled track for a rating, AND the score gauge ring track.
      One value for both, deliberately. A lighter track looks better on the page
-     ground and is what all three products ship, but limestone-300 IS
-     --surface-card (#F8F8F2 both), so a badge ring on a result card would have
-     no track at all, and 400/450 are aliases within three per channel of it.
+     ground and is what all three products ship, but a near-white track IS
+     --surface-card, so a badge ring on a result card would have no track at
+     all. NOTE THE MIRROR IMAGE, added 4 August 2026: this value is also
+     --surface-card-deep, so a rating or a gauge never goes on a deep card
+     either. Darker had room; it does not have room on both card grounds at
+     once, and the pale card is the one that keeps it.
      The light end is compressed by design, so darker is the only direction
      with room on every ground including the inverse surface. */
   --level-empty:         var(--limestone-750);
@@ -389,6 +438,31 @@
      easing is referenced as --ease-out-soft and --duration-reveal. Both need
      adding to the repo's scale; the fallbacks here are correct meanwhile.
 
+     NO ENTRANCE ANIMATION ON PAGE CONTENT, with two bounded exceptions: an
+     overlay arriving, and A CHART ANIMATING ITS OWN DATA - once, on first
+     paint, zero to value, on --motion-state-slow. The test is whether the
+     thing animating IS the data: arc length is how a score is stated, so
+     sweeping the arc states the number, where a list fading in carries no
+     information. The data only, never its container or label. One per view.
+     AND IT MUST NOT OVERSHOOT THE VALUE: an arc that travels to 68 before
+     settling at 62 has displayed a score the page does not hold. That is a
+     bound on BEHAVIOUR, not on technique - a damped spring passes it, a
+     cubic-bezier with a negative control point does not. Do not read the
+     no-bounce rule as banning springs on charts; it is about decoration on
+     functional chrome.
+
+     A SPRING IS NOT AN EASING, and the difference is why no token here can
+     describe one. An easing is a duration paired with a curve, which is what
+     every --motion-* value above is. A spring has no duration you set: you set
+     mass, tension and friction and the settle time emerges. So "use
+     --motion-state-slow" is not a retiming of a spring, it is a request to
+     stop using one. Springs are legal for CHART DATA only, on the no-overshoot
+     bound, and their config belongs beside these tokens rather than inline in a
+     component. Chrome takes the tokens, because chrome needs predictable,
+     interruptible timing that matches in and out: a menu closing on a spring
+     cannot share a duration with the scrim underneath it.
+     See provenance/Chart entrance decision 2026-08-01.html.
+
      @contentious/ui's --transition-fast/base/slow (300ms/800ms/1.5s) are a
      marketing scale inherited from the Astro site: right for a hero, 4x wrong
      for a hover. They are NOT being realigned - the site needs those
@@ -399,6 +473,15 @@
   --motion-overlay:      var(--duration-normal, 350ms) var(--ease-out-soft, cubic-bezier(0.22, 0.61, 0.36, 1));
   --motion-exit:         var(--duration-fast-exit, 150ms) var(--ease-in, cubic-bezier(0.7, 0, 0.84, 0));
   --motion-reveal:       var(--duration-reveal, 600ms) var(--ease-out-soft, cubic-bezier(0.22, 0.61, 0.36, 1));
+  /* A fifth token, and the slowest thing in the suite: 2400ms, marketing HOVER
+     only, and only for an illustration changing size. Breathing rather than
+     flashing — at 600ms the same 7% grow reads as a flinch. ease-in-out both
+     ways, because it is symmetrical by intent: what grows on hover shrinks the
+     same way when the pointer leaves.
+     The bound is what it may animate. Nothing that carries information, nothing
+     a person is waiting on, and never a colour — a hover state a reader has to
+     wait 2.4s to see is not a state. Chosen over 650ms on 4 August. */
+  --motion-breathe:      var(--duration-breathe, 2400ms) var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1));
 
   /* ---- The chart spring ------------------------------------------------ */
   /* THE ONLY LEGAL SPRING IN THE SUITE, and it is three numbers rather than a
@@ -533,4 +616,50 @@
   --text-strong:          var(--text-inset-strong);
   --text-body:            var(--text-inset);
   --focus-ring:           var(--focus-ring-on-light);
+}
+
+/* ==========================================================================
+   THE DEEP CARD. Added 4 August 2026 with the ground move.
+
+   Not the same thing as "inset" above, which is a region of the OPPOSITE
+   polarity to the product - a light island in a dark product. This is a card
+   that is darker than a light page but still a light surface: --text-strong
+   reads at 10.87:1 on it and nothing about the type changes.
+
+   WHAT IT MEANS, because a ground with no meaning becomes decoration with a
+   token behind it: the deep card marks a card as A DIFFERENT KIND OF THING
+   from the cards around it. One card in a set when it is the reader's own or
+   the current one; a whole row when the row explains rather than reports
+   (FeatureCard, intro and aside blocks, marketing section tints). It is a
+   statement about category, not importance. Never for emphasis, and never
+   twice in one set - two deep cards in a row of four say nothing.
+
+   IT CANNOT CARRY A SCORE. --level-empty is limestone-750 and so is this, so
+   the five-segment track's empty segments and the ScoreGauge ring both land
+   at 1.00:1. There is no variant that fixes it; put the score on a pale card.
+
+   Three roles break on it and are remapped here. Everything else - all four
+   text roles, --rule-row at 1.25:1, the chip tones - resolves unchanged.
+   ========================================================================== */
+[data-surface="deep"] {
+  --surface-card:         var(--surface-card-deep);
+  --label-color:          var(--label-on-deep);
+  --rule-section:         var(--rule-on-deep);
+  --accent-link:          var(--accent-link-on-deep);
+}
+
+/* The font shorthands, re-derived at marketing density. The other half of the
+   .c-marketing scope in tokens/type-roles.css: that file redeclares --u and the
+   --t-* steps, this one redeclares the shorthands that resolve them, because a
+   shorthand computed on :root has already baked in :root's --t-*. Each file
+   still owns its own tokens. */
+.c-marketing {
+  --type-page-title:     400 var(--t-title)/1.02 var(--font-heading-display);
+  --type-metric:         400 var(--t-metric)/1.05 var(--font-heading-display);
+  --type-section:        400 var(--t-section)/1.2 var(--font-heading);
+  --type-row-title:      400 var(--t-row)/1.28 var(--font-heading);
+  --type-ui:             400 var(--t-ui)/1.2 var(--font-heading);
+  --type-lede:           400 var(--t-lede)/1.5 var(--font-body);
+  --type-body:           400 var(--t-body)/1.55 var(--font-body);
+  --type-hint:           400 var(--t-hint)/1.45 var(--font-body);
 }

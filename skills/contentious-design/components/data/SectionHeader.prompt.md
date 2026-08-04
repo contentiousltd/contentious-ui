@@ -7,6 +7,7 @@ Defines a group with a rule and the space around it, replacing the wrapper slab 
 - Bely 21px, not Display 34 – Display is for page titles.
 - 42px above, 18px below.
 - Give data sections a real action: export, view failures, settings.
+- **It defines a group of cards, not a group of one.** Replacing the wrapper slab is right when the group holds several cards. When the group *is* one card, the header belongs inside it — otherwise you get a titled thing that is not a container above a container with no title, and its rule competes with whatever rule is above it. Use `MetricBand variant="titled"` or a titled `Card` instead.
 
 ---
 
