@@ -31,6 +31,13 @@ export interface ProductBrand {
   /** Image paths within this package. */
   mark: string;
   mark2x: string;
+  /**
+   * The pale cut of the mark, for dark grounds only (the reversed footer): the
+   * standard cut's dark passage lands at 1.17:1 on `--surface-footer` and
+   * ghosts. Dark-grounds-only – its pale passage is 1.01:1 on the page ground.
+   * Only products with a reversed surface carry one.
+   */
+  markOnDark2x?: string;
 }
 
 export const PRODUCT_BRANDS: Record<string, ProductBrand> = brands;

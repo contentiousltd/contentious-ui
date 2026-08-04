@@ -3,7 +3,8 @@
     "name": "Content Health Check",
     "theme": "styles/themes/content-health-check.css",
     "mark": "brand/content-health-check/logo.png",
-    "mark2x": "brand/content-health-check/logo@2x.png"
+    "mark2x": "brand/content-health-check/logo@2x.png",
+    "markOnDark2x": "brand/content-health-check/logo-pale@2x.png"
   },
   "content-maturity": {
     "name": "Content Maturity",
