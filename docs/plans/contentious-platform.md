@@ -206,17 +206,50 @@ actually tracks — `src/styles`, `src/lib`, `src/components`, `docs` on `main` 
 `style.contentious.ltd` renders none of `src/lib` or `docs`. A rendered gallery was never
 a substitute for the read path.
 
-**So the cost is not Claude Design.** It is the three Netlify consumers, below.
+**So the cost is not Claude Design.** It is credentials in three build environments —
+and that cost belongs to Phase 0.2, not to visibility.
 
-**Claude Design is not the only cost, and framing it that way was too narrow** (noted in
-review from CHC). Going private means every consumer needs credentials to install
-`@contentious/ui`. CHC and CM already have them — the token machinery exists in their CI,
-`nixpacks.toml` and Railway for `@contentious/auth`, so a private `ui` rides the same
-rails at no cost. **The Netlify consumers are the ones that pay**: VTS, `contentious-astro`
-and `maturitytool` install `@contentious/ui` today with no credentials at all, because it
-is public. Each needs a token in its Netlify build environment. That is small, but it is
-three environments touched, and it interacts with the Phase 0.2 choice — under (a) they
-need registry auth regardless of visibility.
+### Who needs a credential, and why it is not a security expansion
+
+VTS, `contentious-astro` and `maturitytool` install `@contentious/ui` today with no
+credentials at all, because it is public. CHC, CM and the IdP already carry token
+machinery for `@contentious/auth`, so a private `ui` rides the same rails at no cost.
+The three Netlify sites are the ones that change.
+
+**Attribute that correctly: under Phase 0.2 option (a) they need registry auth whether or
+not the repo is private**, because a private registry authenticates every fetch
+regardless of the source repo's visibility. The token work is the price of the registry,
+which Phase 0.2 shows is the enabling mechanism for the whole plan. Visibility is then
+close to free either way — Claude Design reads it either way, and the tokens exist either
+way.
+
+**A credential to download a package is not access to the code inside it.** Worth stating
+plainly because it is easy to read the other way: giving `contentious-astro`'s build a
+token does not give the marketing site access to `@contentious/auth`, the auth service, or
+anything it does not already depend on. npm fetches what `package.json` lists, and the
+website does not list auth. **No component gains reach into auth, and the auth service's
+blast radius is unchanged.**
+
+The real cost is narrower: **three more places holding a secret.** More copies means more
+to rotate and more that can leak. Its size depends entirely on scope — a read-only,
+packages-only token can download packages and nothing else, and if leaked would expose
+source that is public today. A broad PAT with repo-write scope would be a genuine problem.
+That is a configuration decision, not an architectural one, and the plan should specify
+read-only packages scope.
+
+Note this replaces something worse. CHC and the IdP currently share the `insteadOf`
+git-credential dance, which **leaked a token in plaintext into a build log on
+2026-07-22**. A registry token in `.npmrc` is less prone to that failure than URL
+rewriting with an embedded credential.
+
+### What going private actually costs, once the token work is attributed elsewhere
+
+1. **Three build environments gain a secret** — but under option (a) they gain it anyway.
+2. **A misconfigured build fails** where it used to just work. Noisy, not dangerous.
+3. **The design system stops being publicly linkable.** A real change, and the only one
+   genuinely caused by visibility. Claude Design does not need it; whether it is worth
+   having for commercial reasons is a preference, not a trade-off against anything in
+   this plan.
 
 ---
 
@@ -297,6 +330,11 @@ it survives a registry only if handled on purpose.
 Note B did not win because the old argument was wrong — the ground moved. Then, it merely
 removed git from version resolution. Now, npm cannot install a subdirectory package at
 all, so a registry is the enabling mechanism rather than an improvement.
+
+Under (a), **tokens are scoped read-only to packages** — never a broad PAT with repo
+write. Three Netlify environments (VTS, `contentious-astro`, `maturitytool`) gain one;
+CHC, CM and the IdP already have equivalent machinery. See "Who needs a credential" above
+for why this is not an expansion of what auth touches.
 
 **(b) CI-maintained read-only split mirrors**, one repo per package, pushed by
 `git subtree split` on tag. Consumer edges stay byte-identical, so nothing changes for
