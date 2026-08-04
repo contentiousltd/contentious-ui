@@ -261,8 +261,29 @@ can install**. One of these has to be chosen before anything moves:
 variable is already called `GITHUB_PACKAGES_TOKEN`. CI and `nixpacks.toml` swap the
 git-credential dance for registry auth — which also retires the token-leak-prone block
 recorded in both repos on 2026-07-22, rather than merely deduplicating it. Note this is
-this repo's ADR-0005 option B, which that ADR set aside on the grounds that consumer auth "is not
-free" — it is now cheaper than the alternatives, and the auth machinery already exists.
+this repo's ADR-0005 option B. That ADR set it aside in one sentence — *"auth in every
+consumer's CI, and CM already carries a `private-packages-auth` action for exactly this
+kind of problem, which suggests it is not free"* — and **the evidence points the other
+way.** That action does `git config insteadOf` URL rewriting so npm can clone private
+**git** dependencies; it has nothing to do with a registry. It exists because the
+*current* approach needs it: npm resolves GitHub git deps over `git+ssh` even when the
+spec says https, runners have no key, so three URL forms are rewritten, with a fork
+guard. CHC's `nixpacks.toml` carries the same dance, and leaked a token in plaintext into
+a build log on 2026-07-22 doing it. A registry replaces all of that with an `.npmrc` line
+and a token. The action is an argument *for* B, not against it.
+
+B's real costs are different and smaller: publishing becomes a step that can fail
+(the CI tag guard becomes "is this published?"); GitHub Packages is fiddlier than npm
+proper for private scoped packages; and — the one that matters — **a tarball ships only
+what `files` says.** The package has no `files` field today and ships everything, which
+is why the skill tree lands in `node_modules` and CHC's hardcoded `check-utilities.mjs`
+path works at all. Under B that becomes deliberate configuration, and getting it wrong
+silently breaks two consumers' CI. That is precisely what ADR-0014 §1 was protecting, and
+it survives a registry only if handled on purpose.
+
+Note B did not win because the old argument was wrong — the ground moved. Then, it merely
+removed git from version resolution. Now, npm cannot install a subdirectory package at
+all, so a registry is the enabling mechanism rather than an improvement.
 
 **(b) CI-maintained read-only split mirrors**, one repo per package, pushed by
 `git subtree split` on tag. Consumer edges stay byte-identical, so nothing changes for
