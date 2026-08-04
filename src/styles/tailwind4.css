@@ -91,6 +91,7 @@
   --color-data-bad              : #AA433F;
   --color-data-default          : #1A1918;
   --color-data-good             : #4D6249;
+  --color-data-muted            : var(--data-muted);
   --color-data-zero             : #777574;
   --color-error-subtle          : #F7F2F1;
   --color-error-text            : #552220;
@@ -338,10 +339,12 @@
   --color-secondary             : var(--secondary);
   --color-secondary-foreground  : var(--secondary-foreground);
   --color-surface-card          : var(--surface-card);
+  --color-surface-card-deep     : var(--surface-card-deep);
   --color-surface-chrome        : var(--surface-chrome);
   --color-surface-field         : var(--surface-field);
   --color-surface-hover         : var(--surface-hover);
   --color-surface-hover-row     : var(--surface-hover-row);
+  --color-surface-footer        : var(--surface-footer);
   --color-surface-inverse       : var(--surface-inverse);
   --color-surface-menu          : var(--surface-menu);
   --color-surface-page          : var(--surface-page);
