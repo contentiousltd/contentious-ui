@@ -190,17 +190,23 @@ behind the package it implements, and extracting a component upward is one commi
 
 ### What we give up
 
-**`contentious-ui` is currently public and the platform repo would be private.** The
-operating-model doc argues public visibility is load-bearing because Claude Design can
-fetch a URL but not read a private repo.
+**`contentious-ui` is currently public and the platform repo would be private.**
 
-The replacement is `style.contentious.ltd`, which is already public and already renders
-from real token files — arguably better, since it shows rendered state rather than
-source. **This needs confirming before the move, not after:** `design-system-sync.md`
-records Claude Design reading this repo directly, including privately, and the style
-guide may not cover everything it reads. If it does not, options are a public mirror of
-`packages/ui`, or keeping `ui` as its own public repo and merging only `auth` + `core` +
-IdP.
+The suite's [operating-model doc](https://github.com/contentiousltd/contentious/blob/main/docs/plans/design-system-operating-model.md)
+argues public visibility is load-bearing — *"Claude Design can fetch a URL. It cannot read
+a private repo or a tailnet address"* — and an earlier draft of this plan treated that as
+a constraint. **It is wrong, and that document is superseded anyway.** Claude Design reads
+through an authorised GitHub connection, so private repos are readable exactly as public
+ones are (confirmed 2026-08-04; see Phase 0.3). `design-system-sync.md:30` already said as
+much — *"read-only as a capability, not a scope setting"*.
+
+Note this also disposes of the style-guide fallback the earlier draft proposed.
+[`docs/design-history/github.md`](../design-history/github.md) records what Claude Design
+actually tracks — `src/styles`, `src/lib`, `src/components`, `docs` on `main` — and
+`style.contentious.ltd` renders none of `src/lib` or `docs`. A rendered gallery was never
+a substitute for the read path.
+
+**So the cost is not Claude Design.** It is the three Netlify consumers, below.
 
 **Claude Design is not the only cost, and framing it that way was too narrow** (noted in
 review from CHC). Going private means every consumer needs credentials to install
@@ -229,8 +235,15 @@ need registry auth regardless of visibility.
 2. **Decide how consumers install a package that lives in a subdirectory.** *Added
    2026-08-04 — see below. This is now the blocking item.*
 
-3. **Confirm what Claude Design reads** from `contentious-ui` beyond what
-   `style.contentious.ltd` renders. Decides whether the platform repo can be private.
+3. ~~**Confirm what Claude Design reads** from `contentious-ui`.~~ **RESOLVED
+   2026-08-04, by Claude Design.** Private is fine. It reads through the authorised
+   GitHub connection, not through public URLs, so a private repo is readable exactly as a
+   public one is — provided the connection is installed on the `contentiousltd` org and
+   the repo is in its selected-repositories list. Access stays read-only either way,
+   which is what [`docs/design-history/github.md`](../design-history/github.md) already
+   assumes. **The one action: check the platform repo is included in the app installation,
+   and keep it included.** If it is not, reads fail loudly and Claude Design asks for
+   access — no silent degradation.
 
 4. **Resolve the IdP's staleness question** — deliberate or drift.
 
@@ -459,8 +472,9 @@ package, so until (a), (b) or (c) is chosen, the consumer story for every produc
 unknown. **This is the biggest risk in the plan** and it was missed in the first draft —
 found by review from CHC's side, then verified here.
 
-**Claude Design loses direct read access** if the platform is private and the style guide
-does not cover what it reads. Phase 0.3. This is the one that could change the shape.
+**Claude Design's read access is a checklist item, not a risk** — resolved, see Phase 0.3.
+The only failure mode left is forgetting to include the platform repo in the GitHub app
+installation, which fails loudly rather than silently.
 
 **The merge happens mid-rollout.** CHC and CM are actively adopting, and the four repos
 move while that work is in flight. Phase 1 is best sequenced between adoption steps
