@@ -242,8 +242,18 @@
   /* The five-level ramp, per style.contentious.ltd/design/colours: amber is
      "the level 2 colour in the Content Health Check, halfway between fire and
      sunshine"; olive is "the level 4 colour ... halfway between sapling and
-     sunshine". These five are RESERVED for scores – never reuse them as
-     arbitrary chart colour, or a bar will imply a health level it doesn’t mean. */
+     sunshine".
+     THESE FIVE ARE RESERVED AGAINST BEING READ AS A LEVEL. They are not
+     withheld from the app, and the difference matters - narrowed at review,
+     5 August 2026. What the rule protects is a mark a reader could take for a
+     score: an UNLABELLED mark in a chart, or any data mark on a surface that
+     shows scores. An orange bar in a "top sections" chart reads as level 2
+     whether you mean it or not, which is why --categorical and --process-* both
+     exist and neither moves. WHERE A MARK CARRIES ITS OWN WORD a 500 stop says
+     what it is and nothing more, and it is free: a bare chip's dot beside "high
+     priority", a legend entry, a status marker. Nothing is left for the reader
+     to guess at. The rule beside this one does not move: colour still has to
+     MEAN something - see --data-* below. */
   /* @contentious/ui already defines this ramp as --star-1..5 and exposes
      getScoreColour(score, prefix). Those names win: they are in shipping code
      and in the CHC/CM themes. --level-* is kept as an alias so nothing here
@@ -335,6 +345,35 @@
   --comp-2:              var(--coffee-500);
   --comp-3:              var(--sorbet-500);      /* NOT olive – olive means level 4 */
   --comp-4:              var(--fire-450);        /* waste / loss, last only */
+
+  /* MORE THAN FOUR CATEGORIES AT ONCE IS A CHART-TYPE DECISION, NOT A COLOUR
+     ONE. There is no categorical palette past --comp-4 and there will not be:
+     nobody can tell thirteen hues apart, whichever families they come from.
+     CHC's criteria trend assembled fifteen out of wave, coffee and sorbet and
+     left a note asking us to settle it. Settled 5 Aug 2026, and the answer is
+     that the CHART was wrong, not the palette - past four categories, encode
+     the category by POSITION (small multiples, a heatmap, rows) and keep
+     colour for the value.
+     Workings: provenance/Chart coherence decisions 2026-08-05.html */
+
+  /* ---- Marker geometry ------------------------------------------------- */
+  /* THERE IS NO MARKER COMPONENT, and these two tokens are why there does not
+     need to be one. Six sites in CHC drew a small round mark at three sizes and
+     two fill models, none of them a component; what they shared was a SHAPE,
+     and a shape is not a component - a circle with no owner is an invitation to
+     assert a colour anywhere on a page. A dot belongs to the component whose
+     meaning it carries: .c-chip--bare for an annotation, .c-bullets for a list
+     item, .c-score__dot for a level. These tokens keep those three the same
+     size, and that is the whole of the coordination needed.
+     A LEGEND SWATCH IS NOT A MARKER: it takes the shape of the mark it names,
+     so a bar chart's swatch is a square at --radius-chart, in the chart theme.
+     A bare chip's dot keeps the family 500 stops - they are the only stops that
+     stay apart at this size, and a LABELLED mark cannot be misread as a level.
+     See the ramp block below for the reservation as narrowed.
+     Settled 5 August 2026 - provenance/Dots and bullets decision 2026-08-05.html */
+  --marker-size:         calc(var(--u) * .39);   /* ~7.4px at the 19px app base */
+  --marker-ring:         1.5px;                  /* the hollow half of the pair */
+  --marker-color:        var(--text-secondary);
 
   /* ---- Chip tones ------------------------------------------------------ */
   /* One geometry, six tones. Tone carries meaning; the shape never changes. */
@@ -535,6 +574,42 @@
   --radius-control:      var(--border-radius-md, 6px);
   --radius-surface:      var(--border-radius-md, 6px);
   --radius-frame:        var(--border-radius-lg, 12px);
+  /* ONE FACE FOR EVERY PIECE OF TYPE A CHART DRAWS: ticks, axis legends, row
+     labels, cell labels. Two faces inside one chart is a distinction no reader
+     takes as one - it reads as a mistake - and in a chart library it is a
+     per-element override waiting to drift. Bely, because a chart is part of the
+     app rather than a widget dropped into it: a criterion name is Bely in
+     prose, in a tooltip and in a card title, so it has no business changing
+     face inside a chart.
+     IT IS A TOKEN, NOT A REFERENCE TO --font-body, so the suite's chart type is
+     ONE SWITCH if mono ever wins the argument. Only ever one value at a time,
+     and nothing inside a plot may name a second face. A METRIC beside a chart
+     is not chart type: it stays --t-metric in Bely Display and belongs in HTML
+     outside the plot rather than as an SVG <text> - a CSS rule beats a
+     font-family presentation attribute, so an in-SVG exception silently loses.
+     Pair with tabular figures so a column of numbers does not shuffle. */
+  --chart-font:          var(--font-body);
+  --chart-numeric:       tabular-nums;
+
+  /* ONE CORNER FOR EVERY MARK IN EVERY CHART: bar ends, arc corners, heatmap
+     cells, sparkline bars. sm, because 3/6/12 is the scale and the Nivo
+     donut's shipped cornerRadius={4} was off it by one. Not in the signature
+     set - a corner does not vary by product.
+     A radius rounds an existing corner INWARD and removes material, so it is
+     legal at any size. A CAP adds half a stroke width of mark beyond the
+     value and stays banned. Round the corners, never the ends. */
+  --radius-chart:        var(--border-radius-sm, 3px);
+
+  /* Every ring in the suite has ONE band ratio: 0.16 of the outer diameter.
+     The gauge shipped 0.07 at lg - a third of the weight of the donut beside
+     it - and changed ratio by size as well (13% sm, 9.3% md, 7% lg). The
+     donut shipped 0.2. Both move to 0.16, so the donut's innerRadius goes
+     0.6 -> 0.68: at 0.2 the gauge band is thicker than a criterion bar is
+     tall, and 0.16 sits closer to the other line weights on the page while
+     leaving the sm badge 32px of inner diameter for a three-digit 100.
+     innerRadius = 1 - 2 x band. Read by JS that draws a ring: a stroke width
+     is a geometry input, not a property. */
+  --ring-band:           0.16;
 
   /* ---- Focus ----------------------------------------------------------- */
   /* TWO stops for the whole family, and focus is NOT the accent. Settled

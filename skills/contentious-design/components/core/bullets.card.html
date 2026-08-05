@@ -1,0 +1,27 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Markers & bullets" subtitle="One marker size; fill means done and a ring means not yet; the only bullet in the suite" -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Markers &amp; bullets</title>
+<link rel="stylesheet" href="../../styles.css"/>
+<style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:15px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-synthesis-weight:none}a{color:var(--accent-link);text-decoration:none}a:hover{color:var(--accent-link-hover)}
+.pad{padding:20px 24px}.stack{display:flex;flex-direction:column;gap:20px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:38px}
+.set{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}</style>
+</head><body>
+<div class="pad"><div class="stack">
+<div class="two">
+<div><div class="cap">Bullets · marker outside the text flow</div>
+<ul class="c-bullets"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Only changed pages are re-scored, so an unchanged estate costs nothing.</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>A run holds its snapshot, so a score never changes retrospectively.</span></li></ul>
+</div>
+<div><div class="cap">--timeline · fill shipped, ring not yet</div>
+<ul class="c-bullets c-bullets--timeline"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>One ring band across the suite</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Heatmap replaces the criteria trend</span></li><li class="c-bullets__item is-pending"><span class="c-bullets__marker"></span><span>Bump chart, relative strength</span></li></ul>
+</div>
+</div>
+<div><div class="cap">Chip bare · a labelled mark cannot be read as a level, so the 500 stops stay</div><div class="set">
+<span class="c-chip c-chip--bare c-chip--bad"><span class="c-chip__dot"></span>High priority</span>
+<span class="c-chip c-chip--bare c-chip--warn"><span class="c-chip__dot"></span>Medium priority</span>
+<span class="c-chip c-chip--bare"><span class="c-chip__dot"></span>Low priority</span>
+<span class="c-chip c-chip--bare c-chip--good"><span class="c-chip__dot"></span>Live</span>
+</div></div>
+</div></div></body></html>

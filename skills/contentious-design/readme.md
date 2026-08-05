@@ -2,6 +2,10 @@
 
 The design system behind **Content Health Check** (contenthealthcheck.com) and the wider Contentious product family – contentious.ltd, contentmaturity.com, voicetoneandstyle.com.
 
+> **Start at `CHANGES.md`** if you are picking this up after an export. It carries the current round: what moved, what was added, and what is left for the repo side.
+>
+> It lives in this folder on purpose. The Claude Design project also keeps a `github.md` at its root with the running sync history, but that sits *outside* `design-system/` and so has never reached the repo — Claude Code went looking for it on 4 August and could not find it. **Anything the repo side needs has to be inside the export or it does not travel.** Each round overwrites `CHANGES.md`; the argument behind a decision stays in `provenance/`.
+
 Content Health Check audits a website’s content: it discovers a client’s **estate**, builds an **inventory** of URLs, promotes the pages worth monitoring into a **watchlist**, and scores them into **results**. Agencies hold **clients**; clients hold **projects**; a project is one website. Everything in the app is scoped to a single live project.
 
 ## Sources
@@ -59,7 +63,7 @@ The framework scores each criterion out of five stars, so the score ramp has fiv
 
 **One gauge geometry.** Full 360 from twelve o'clock, clockwise, butt caps, `--level-empty` track, no per cent sign. The ring must be able to close or 100 reads as "not quite", and a round cap adds about 4.5 points of arc across its two ends. A gauge is for a score that is the subject of the view, at most one per view; a score among other values takes `ScoreValue`.
 
-**These five are reserved for scores.** Not a categorical palette: an orange bar in a "top sections" chart reads as level 2 whether you mean it or not. Categorical bars use one colour (`--categorical`); ordered process stages use a wave ramp with fire for failure (`--process-*`).
+**These five are reserved against being read as a level, not withheld from the app.** What the rule protects is a mark a reader could take for a score: an unlabelled mark in a chart, or any data mark on a surface that shows scores. An orange bar in a "top sections" chart reads as level 2 whether you mean it or not, which is why categorical bars use one colour (`--categorical`) and ordered process stages a wave ramp with fire for failure (`--process-*`). Where a mark carries its own word a 500 stop says what it is and nothing more, and it is free: a bare chip's dot beside "high priority", a legend entry, a status marker. The rule beside this one does not move – colour still has to mean something, and accent-by-default spends the alarm colour on nothing.
 
 Band thresholds (`--score-band-*`) are **90 / 70 / 50 / 30** – nearest star, not equal fifths. A percentage is a 1–5 rating expressed as a percentage, so stars = pct ÷ 20 and the edges fall on the half stars. 81% is 4.05 stars, so it is a four, not a five. One rule for items and averages alike.
 
@@ -130,7 +134,40 @@ Disabled greys out completely (limestone-750 on gloaming-350). A washed-out acce
 No gradients, no blur, no glass, no grain, no full-bleed photography **on working surfaces** – the ones carrying tables, metrics, charts and forms. **The rule is scoped to what a surface is for, not to which side of the login it sits on.** Marketing and informational surfaces may use `--wash-section`, a subtle two-stop diagonal tonal wash applied per full-width section: the homepage, and reading surfaces inside the app like CM's Framework page. It keeps a page of stacked sections from reading as flat stripes, and because the ramp runs diagonally a washed section meeting a flat one gives a divide that is legible at one edge of the screen and merges at the other. The test is whether the person is reading or working – in checkable form, does this surface carry a table, metric, chart or form? If yes, no wash. Second constraint: **tone may move, hue may not** – two stops, one family, and subtle enough not to read as a colour change on its own. **The pair is authored per product**, alongside the other ground tokens, not derived from `--surface-page`/`--surface-raised`: a pair of stops N apart is not a fixed amount of contrast, since the ramps aren't perceptually even and limestone's light end is aliased. A wash is not a band: a band is opaque, one stop, and means something. The only illustration is the flat, warm, hand-drawn PNG set in `images/` – used for concepts (estate, inventory, catalogue, analysis), never as decoration on a metric.
 
 ### Charts
-Bar over donut, always: a 9px stacked `CompositionBar` for part-of-total, a `MicroSeries` bar sparkline for trend. No axes, no gridlines, no tooltips, no legends floating free of their values. Donuts are reserved for content freshness on the estate pages, where the metaphor earns itself.
+**The mark follows the reading, and the choice between a bar and a donut is a real one.** A **donut** when the share of the whole is the point and the figures are secondary: content freshness is "90% of your estate is fresh", and nobody needs to compare 41 pages against 4. A **bar** when the values are to be compared or read off, which is most of the time — a stacked `CompositionBar` for a "where did this total go" breakdown, where the legend carries every figure and the segments are meant to be weighed against each other.
+
+Two things decide it in practice. **Can the reader do the comparison the chart implies?** Segment lengths in a row can be compared; arc lengths at different angles cannot, which is why a donut is only honest when one slice dominates or the exact ordering does not matter. And **how many segments?** Past three or four a donut becomes a legend with a picture attached.
+
+A ring is not always a composition: a `ScoreGauge` is one value against a maximum, not slices of a whole. They look similar, so never place them adjacent without a heading on each.
+
+`MicroSeries` is the bar sparkline for a trend in a small fixed window: no axes, no gridlines, no tooltips, no legends floating free of their values. `ScoreHistory` is the one chart allowed axes, because a reader needs to know *when* a score moved.
+
+**Six traits, and every chart in the suite holds all six.** None is a preference; each is a decision recorded elsewhere in the system, and a chart that feels like it came from a different product is usually a chart missing one of them. The four charts that already agreed were not designed as a set — they were the four that happened to take all six.
+
+| Trait | Value |
+| --- | --- |
+| Ends | **Square.** A cap adds half a stroke width of mark beyond the value, so a 3 draws like a 7 |
+| Corner | **`--radius-chart`**, 3px, on every bar end, arc corner and cell. A radius removes material and is legal at any size |
+| Colour | **`--star-1..5`** for scores, **`--categorical`** for categories, **`--comp-1..4`** for composition. Nothing else |
+| Ring | **`--ring-band`**, 0.16 of the outer diameter, so a donut is `innerRadius={0.68}` |
+| Type | **`--chart-font`** for everything the chart draws, with `--chart-numeric` for figures |
+| Motion | **`--motion-chart-spring-*`** on first paint, once, no overshoot |
+
+**More than four categories at once is a chart-type decision, not a colour one.** There is no categorical palette past `--comp-4` and there will not be one: nobody can tell thirteen hues apart, whichever families they come from. Past four, encode the category by *position* — small multiples, a heatmap, rows — and leave colour to the value.
+
+**One face for everything a chart draws**, named once as `--chart-font` so the whole suite is a single switch: ticks, axis legends, row labels, cell labels. Two faces inside one chart is a distinction no reader takes as one, so it reads as a mistake. The value is Bely because **a chart is part of the app rather than a widget dropped into it** — a criterion name is Bely in prose, in a tooltip and in a card title, so it has no business changing face inside a chart. A metric *beside* a chart is not chart type: it stays `--t-metric` in Bely Display and lives in HTML outside the plot, because a CSS rule beats a `font-family` presentation attribute and an in-SVG exception loses silently.
+
+**Every ring is one mark at one weight.** `--ring-band` 0.16 covers the score gauge and the freshness donut alike. Stroke is derived from the box (0.16 × box), never authored per size; the gauge shipped a per-size ramp at 0.07–0.13 and read as a third of the weight of the donut beside it.
+
+**The time axis is the full window and the data starts where the data starts.** Twelve months of axis whether or not the account is twelve months old, nothing drawn before the first reading, and **never a flat run at zero** — a single point spanning the full width reads as "no change" rather than "measured once". Empty periods in a grid are `--limestone-700` cells, and a grid filling up over a year is the most legible thing on the chart in its first year. It is also why a chart appears from the first snapshot rather than hiding until it looks respectable.
+
+**Score bands are a ground, not a tint.** A 0–100 axis in a tall box makes real movement invisible — 80 → 81 is four pixels in a 380px plot — so where a score is plotted over time the five bands are drawn at full strength behind the line and the line becomes `--limestone-200`. A tinted band beside a saturated line is two strengths of the same five colours doing different jobs. Score axes are labelled every 10.
+
+**Two charts may answer two questions about the same numbers.** A heatmap of criteria against months answers absolute progress towards a fixed finish line, so it is mostly one colour and moves rarely; a bump chart of the same data answers which criteria are the strong ones, which always flexes. Neither is a worse version of the other. A bump chart cannot represent a tie, so break ties alphabetically for stability and put the scores in the tooltip.
+
+**Refused, with reasons:** round caps and round ends on any mark; a bar scaled against the largest bar rather than against 100 (every row's longest bar is then the same length and no two rows can be compared); a small value substituted with a circle or a minimum width; a segment separated by a stroke rather than a gap; an opacity step used as a colour; stream and area-bump charts for independent scores, because both stack and thirteen averages out of 100 do not sum to anything.
+
+Full workings: `provenance/Chart coherence decisions 2026-08-05.html`. Specimens: `guidelines/chart-family.html`. Options side by side: `explorations/Chart family.html`.
 
 ---
 
@@ -142,7 +179,9 @@ Bar over donut, always: a 9px stacked `CompositionBar` for part-of-total, a `Mic
 
 **Icons are all-or-nothing within a container.** Never mix iconned and icon-less rows in one menu.
 
-**No emoji, no unicode glyphs as icons.** The one exception is the arrow in link text ("Export CSV →", "← Back to Oxfam 2"), which is typographic rather than iconographic.
+**No emoji, no unicode glyphs as icons.** The one exception is the arrow in link text ("Export CSV →", "← Back to Oxfam 2"), which is typographic rather than iconographic. A `●` glyph standing in for a dot is the case this rule most often catches: it cannot be sized off `--u` and it carries the font's own metrics.
+
+**A small round marker is never a component of its own.** It belongs to whatever carries its meaning – `Chip` for an annotation, `Bullets` for a list item, `ScoreValue` for a level – and all of them are one size, `--marker-size`. On `Bullets` the marker is neutral and filled-means-done, ring-means-not-yet is the only thing it may say. On a bare chip the dot keeps the family 500 stops: they are the only stops that stay apart at 7px, and a labelled mark cannot be misread as a level. A legend swatch is not a marker: it takes the shape of the mark it names, so in a bar or cell chart it is a square at `--radius-chart`. `list-disc` and `list-inside` are retired everywhere, legal pages included – the bullet is `Bullets`. See `provenance/Dots and bullets decision 2026-08-05.html`.
 
 **Logo:** `images/contentious-monogram.png` for the app lockup, `images/contentious-logo.png` for the full wordmark. The app lockup is monogram + product name in Bely 700 at 20px.
 
@@ -159,7 +198,7 @@ Bar over donut, always: a 9px stacked `CompositionBar` for part-of-total, a `Mic
 | `tokens/typography.css` | The two density inputs (`--base-font-size`, `--text-multiplier`) as prototyping defaults, plus the roles above. A theme overrides both. |
 | `tokens/semantic.css` | **Start here.** The decisions as tokens: surfaces, hairlines, data colour, chip tones, switch, type roles. |
 | `components/components.css` | Plain-CSS implementation of every component. Link `styles.css` and use the classes – no build step, no React. |
-| `components/core/` | Chip, Button, Switch, Field, Card, StarRating |
+| `components/core/` | Chip, Button, Switch, Field, Card, StarRating, Bullets |
 | `components/data/` | Metric, MetricBand, SectionHeader, CompositionBar, MicroSeries, ListRow + ListTable, ScoreGauge, ScoreHistory, CriterionCard, ResultCard, ProcessBar |
 | `components/navigation/` | TopBar + Avatar, SecondaryNav, SegmentedControl, Menu, Tooltip, ProjectSwitcher, MobileNav, PageHeader, Breadcrumb, AppFooter |
 | `Design system.html` | **The readable reference.** Every component demonstrated, every rule with its reasoning. Start here. |

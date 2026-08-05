@@ -11,6 +11,9 @@ const TONES = {
 
 export function Chip({ tone = 'neutral', live = false, bare = false, children, style }) {
   const [bg, fg] = TONES[tone] || TONES.neutral;
+  /* Bare: the dot keeps the family 500 stops. They are the only stops that stay
+     apart at --marker-size, and the reservation binds an UNLABELLED mark - a
+     bare chip's dot always has its word. See Chip.prompt.md. */
   const DOTS = { neutral: '--gloaming-400', info: '--wave-500', good: '--sapling-500', warn: '--sunshine-500', bad: '--fire-500' };
   if (bare) {
     return (
@@ -20,7 +23,7 @@ export function Chip({ tone = 'neutral', live = false, bare = false, children, s
         letterSpacing: 'var(--chip-tracking)', textTransform: 'uppercase',
         lineHeight: 1, whiteSpace: 'nowrap', color: 'var(--text-muted)', ...style,
       }}>
-        <span style={{ width: 6, height: 6, borderRadius: '50%', flex: 'none', background: 'var(' + (DOTS[tone] || DOTS.neutral) + ')' }} />
+        <span style={{ width: 'var(--marker-size)', height: 'var(--marker-size)', borderRadius: '50%', flex: 'none', background: 'var(' + (DOTS[tone] || DOTS.neutral) + ')' }} />
         {children}
       </span>
     );

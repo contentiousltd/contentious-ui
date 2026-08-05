@@ -19,6 +19,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 - **`tsconfig.json` is now check-only** – `noEmit`, with `rootDir`/`outDir`/`declaration` dropped. Nothing has ever been emitted here; the package ships raw TypeScript. Whether that changes is ADR-0005's question.
 - **[ADR-0005](docs/adr/0005-shipping-javascript-to-consumers.md) is answered rather than decided, and the answer is written up in [docs/plans/contentious-platform.md](docs/plans/contentious-platform.md).** `@contentious/auth` already ships compiled JavaScript by git tag through a `prepare` hook, and Content Health Check and Content Maturity both import it – so option A is in production in the same org, installed the same way, by the consumer whose esbuild `--packages=external` server build was the stated blocker. Neither ADR-0005 nor the suite's ADR-0014 mentions that package. The plan proposes a `contentious-platform` workspace holding `ui`, `auth`, a new `core`, and the identity provider, on the structural argument that those four must change together across version boundaries; products stay in their own repos, pinning by exact tag. No code has moved.
 
+## [0.11.0] – 2026-08-05
+
+The 5 August design round, in two parts: dots and bullets, and chart coherence.
+CD's own summary of both is in `skills/contentious-design/CHANGES.md`.
+
+### Added
+
+- **Three marker tokens – `--marker-size` (`calc(var(--u) * .39)`, ~7.4px at the app base), `--marker-ring` (1.5px) and `--marker-color` (`--text-secondary`).** **There is no marker component and there will not be one:** six sites in CHC drew a small round mark at three sizes and two fill models, and what they shared was a *shape* – a circle with no owner is an invitation to assert a colour anywhere on a page. A dot belongs to whatever carries its meaning (`.c-chip--bare`, `.c-bullets`, `.c-score__dot`); these tokens keep those the same size, and that is the whole of the coordination needed. None is a signature token – a marker size does not vary by product – so **no theme file changes**.
+- **`.c-bullets` – the bullet, everywhere, and the only one.** Marker in its own grid column so text hangs indented, `--timeline` for a hairline down that column, `--spaced` for paragraph-length items, `is-pending` for the ring. Filled means done, ring means not yet: same size, same colour, one variable, and both neutral so the pair stays free to say done-and-not-yet in any list. New `components/core/Bullets.{jsx,d.ts,prompt.md}` and a `bullets.card.html` specimen. **`list-disc` and `list-inside` are retired suite-wide**, legal pages included – `list-inside` runs a wrapped line back under the marker.
+- **`--radius-chart` (`var(--border-radius-sm, 3px)`) and `--ring-band` (0.16)**, replacing three different corner answers and a per-size stroke ramp. `ScoreGauge` now derives `stroke = round(box × --ring-band)` rather than carrying a table. A radius rounds a corner inward and removes material, so it is legal at any size; a cap adds arc beyond the value and stays banned.
+- **`--chart-font` and `--chart-numeric`.** One face for everything a chart draws, as a token rather than a reference to `--font-body`, so chart type is one switch for the whole suite and "nothing inside a plot names a second face" is checkable.
+- **`guidelines/chart-family.html`** – the five traits four of the nine CHC charts already shared, written down.
+
+### Changed
+
+- **The level ramp's 500-stop reservation is narrowed to *unlabelled* marks.** `fire-500`, `sunshine-500` and `sapling-500` are `--star-1`, `--star-3` and `--star-5`, and a bare chip's dot uses them. The reservation is against a mark being *read as a level*, not against the colour: an orange bar in a chart reads as level 2 because nothing beside it says otherwise, whereas a bare chip's dot is never unlabelled, because the label is the component. Retoning those dots to the tone foregrounds was tried at review and reverted – four dark warm values are one colour at 7px, and holding their difference at that size is the dot's whole job. **Nothing in the chart layer moves, which is the test that the narrowing is safe:** `--categorical` and `--process-*` are unchanged.
+- **"Bar over donut, always" is withdrawn.** It was a slogan and it was not true – the suite uses a donut where percentage composition matters more than the counts. Replaced by two tests a reviewer can apply: can the reader do the comparison the chart implies, and how many segments? Also removed: "donuts are reserved for content freshness", a list of approved pages standing in for a test.
+- **There is no categorical palette past `--comp-4` and there will not be one.** More than four categories at once is a chart-type decision, not a colour decision: encode the category by position (small multiples, a heatmap, rows) and keep colour for the value.
+- **`.c-comp` takes `--radius-chart`** in place of a `calc(--u * .28)` radius, which was ~5px on a 9px bar – more than half its height, so it read as a pill and the end segments lost material at their corners while the middle ones kept theirs.
+
 ## [0.9.3] – 2026-08-03
 
 ### Fixed

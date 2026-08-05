@@ -146,6 +146,7 @@ pre .c{color:var(--text-muted)}
   <a href="#sectionheader">Section header</a>
   <a href="#charts">Charts</a>
   <a href="#list">List</a>
+  <a href="#markers">Markers &amp; bullets</a>
   <a href="#nav">Navigation</a>
   <a href="#menu">Menu &amp; switcher</a>
   <a href="#furniture">Page furniture</a>
@@ -158,7 +159,7 @@ pre .c{color:var(--text-muted)}
 
 <main>
   <div class="hero">
-    <div class="c-label">Design system · Revised 4 August 2026</div>
+    <div class="c-label">Design system · Revised 5 August 2026</div>
     <h1>Warm, quiet, and strict about colour.</h1>
     <p>One serif for everything. Cream surfaces, never white. Quantities that stay neutral until they have something to tell you, and a five-level ramp reserved for scores. This document is the reference – every rule here exists because something shipped wrong first, and the fix is recorded next to it.</p>
   </div>
@@ -593,15 +594,16 @@ pre .c{color:var(--text-muted)}
     <h2 class="big">Score gauge</h2>
     <p class="intro">One score out of 100 as a closed ring. Not the freshness donut – that shows slices of a whole, this shows one value against a maximum.</p>
     <div class="demo" style="display:flex;align-items:center;gap:50px">
-      <div class="c-gauge c-gauge--lg c-gauge--l3"><svg width="200" height="200"><circle class="c-gauge__track" cx="100" cy="100" r="93" stroke-width="14"></circle><circle class="c-gauge__arc" cx="100" cy="100" r="93" stroke-width="14" stroke-dasharray="584.34" stroke-dashoffset="186.99" transform="rotate(-90 100 100)"></circle></svg><span class="c-gauge__value">68</span></div>
+      <div class="c-gauge c-gauge--lg c-gauge--l3"><svg width="200" height="200"><circle class="c-gauge__track" cx="100" cy="100" r="84" stroke-width="32"></circle><circle class="c-gauge__arc" cx="100" cy="100" r="84" stroke-width="32" stroke-dasharray="527.79" stroke-dashoffset="168.89" transform="rotate(-90 100 100)"></circle></svg><span class="c-gauge__value">68</span></div>
       <div style="display:flex;gap:26px;align-items:center">
-        <div class="c-gauge c-gauge--md c-gauge--l4"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="39" stroke-width="8"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39" stroke-width="8" stroke-dasharray="245.04" stroke-dashoffset="46.56" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">81</span></div>
-        <div class="c-gauge c-gauge--md c-gauge--l3"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="39" stroke-width="8"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39" stroke-width="8" stroke-dasharray="245.04" stroke-dashoffset="90.67" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">63</span></div>
-        <div class="c-gauge c-gauge--md c-gauge--l5"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="39" stroke-width="8"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="39" stroke-width="8" stroke-dasharray="245.04" stroke-dashoffset="9.80" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">96</span></div>
+        <div class="c-gauge c-gauge--md c-gauge--l4"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="36" stroke-width="14"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="36" stroke-width="14" stroke-dasharray="226.19" stroke-dashoffset="42.98" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">81</span></div>
+        <div class="c-gauge c-gauge--md c-gauge--l3"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="36" stroke-width="14"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="36" stroke-width="14" stroke-dasharray="226.19" stroke-dashoffset="83.69" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">63</span></div>
+        <div class="c-gauge c-gauge--md c-gauge--l5"><svg width="86" height="86"><circle class="c-gauge__track" cx="43" cy="43" r="36" stroke-width="14"></circle><circle class="c-gauge__arc" cx="43" cy="43" r="36" stroke-width="14" stroke-dasharray="226.19" stroke-dashoffset="9.05" transform="rotate(-90 43 43)"></circle></svg><span class="c-gauge__value">96</span></div>
       </div>
     </div>
     <p class="why">Arc colour comes from the same score-to-level mapping as the stars, so a gauge and a rating for one score always agree. <code>lg</code> renders the value in Bely Display at <code>--t-metric</code>, which computes to about 68px at the default text scale – the clearest use of the display cut in the product, and one per page. No per cent sign: a score out of 100 is a score, and the sign invites reading it as a proportion of something countable.</p>
     <p class="why"><b>Full 360, from twelve o’clock, clockwise, and the arc must never extend beyond its value.</b> Both are correctness rather than taste. The ring has to be able to close, or a perfect score reads as “not quite”: the previous spec here was a 288 degree open ring rotated <code>-57.6deg</code>, traced from a screenshot caught mid-sweep, and it could not draw 100 at all. In SVG the value bound means butt caps: a round cap adds half a stroke width of arc beyond each end, about 2.3 points per end at the badge ratio and 4.5 across the two, so a 3 draws like a 7 and a 1 draws roughly five times its true length.</p>
+    <p class="why"><b>The band is 0.16 of the outer diameter, at every size.</b> <code>--ring-band</code>: lg 200/32, md 86/14, sm 46/7, and the stroke is derived from the box rather than authored. What this replaced was a per-size ramp — 0.13 at <code>sm</code>, 0.093 at <code>md</code>, 0.07 at <code>lg</code> — which made the gauge read as a third of the weight of the freshness donut it sits near, and was not consistent with itself either. <b>The donut came down to meet it</b>: 0.16 is <code>innerRadius={0.68}</code>, so there is one ring in the suite at one weight, whichever mark is drawing it. Watch the <code>sm</code> badge — its inner diameter is 32px, which is a three-digit 100 fitting or not.</p>
     <p class="why"><b>A corner radius is not a cap.</b> A cap adds arc beyond the end point; a corner radius rounds the existing corners inward and removes material, so it cannot extend the arc past its value at any radius. Content Maturity’s <code>cornerRadius={4}</code> on a roughly 34px band is compliant, and reads as a slight softening: a true round cap there would be a 17px radius. The rule is about arc length, not corners: round the corners if you want the softer look, never round the ends.</p>
     <p class="why"><b>The track is <code>--level-empty</code>, darker than the ground, not a lighter stop.</b> All three products ship a near-white track, which works only because all three of those gauges sit on the page ground. <code>limestone-300</code> is the same value as <code>--surface-card</code>, so the <code>sm</code> badge on a result card would have no track at all, and <code>400</code> and <code>450</code> are aliases within three per channel of it. Darker is the only direction with room on every ground.</p>
     <p class="why"><b>Gauge or rail.</b> Ask whether the score is the subject or one of several values. Subject takes the gauge, at most one per view, because the ring encodes the value twice and that earns the space only when it is the point. A score among other values takes <code>ScoreValue</code>: the rail beside quantities, the five-segment track beside other scores. The clockwise sweep is <code>lg</code> only, on <code>--motion-state-slow</code>, and suppressed under <code>prefers-reduced-motion</code>. Workings: <a href="../explorations/Score gauge.html">Score gauge</a>.</p>
@@ -615,13 +617,13 @@ pre .c{color:var(--text-muted)}
       <div class="c-history">
         <p class="c-history__note">Recorded each time the page changes and is re-scored.</p>
         <div class="c-history__plot">
-          <div class="c-history__grid"><i style="bottom:0%"></i><i style="bottom:25%"></i><i style="bottom:50%"></i><i style="bottom:75%"></i><i style="bottom:100%"></i></div>
-          <span class="c-history__ylabel" style="bottom:0%">0</span><span class="c-history__ylabel" style="bottom:25%">25</span><span class="c-history__ylabel" style="bottom:50%">50</span><span class="c-history__ylabel" style="bottom:75%">75</span><span class="c-history__ylabel" style="bottom:100%">100</span>
-          <svg class="c-history__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,48 33.33333333333333,39 66.66666666666666,32 100,17"></polyline></svg>
-          <span class="c-history__point" style="left:0%;bottom:52%;background:var(--level-1)"></span>
-          <span class="c-history__point" style="left:33.33333333333333%;bottom:61%;background:var(--level-2)"></span>
-          <span class="c-history__point" style="left:66.66666666666666%;bottom:68%;background:var(--level-2)"></span>
-          <span class="c-history__point" style="left:100%;bottom:83%;background:var(--level-4)"></span>
+          <div class="c-history__bands"><i style="bottom:0%;height:20%;background:var(--star-2)"></i><i style="bottom:20%;height:40%;background:var(--star-3)"></i><i style="bottom:60%;height:40%;background:var(--star-4)"></i></div>
+          <span class="c-history__ylabel" style="bottom:0%">40</span><span class="c-history__ylabel" style="bottom:20%">50</span><span class="c-history__ylabel" style="bottom:40%">60</span><span class="c-history__ylabel" style="bottom:60%">70</span><span class="c-history__ylabel" style="bottom:80%">80</span><span class="c-history__ylabel" style="bottom:100%">90</span>
+          <svg class="c-history__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,76 33.33333333333333,58 66.66666666666666,44 100,14"></polyline></svg>
+          <span class="c-history__point" style="left:0%;bottom:24%"></span>
+          <span class="c-history__point" style="left:33.33333333333333%;bottom:42%"></span>
+          <span class="c-history__point" style="left:66.66666666666666%;bottom:56%"></span>
+          <span class="c-history__point" style="left:100%;bottom:86%"></span>
           <span class="c-history__xlabel" style="left:0%">12 Mar 26</span>
           <span class="c-history__xlabel" style="left:33.33333333333333%">04 Apr 26</span>
           <span class="c-history__xlabel" style="left:66.66666666666666%">19 May 26</span>
@@ -631,6 +633,10 @@ pre .c{color:var(--text-muted)}
       </div>
     </div>
     <p class="why">The "no axes, no gridlines" rule was written for <code>MicroSeries</code>, where the shape is the whole message. A history chart has a different job – the reader needs to know <i>when</i> a score moved and by how much – so axes are permitted here and nowhere else.</p>
+    <p class="why"><b>The five score bands are the ground, at full strength, and the line is <code>--limestone-200</code>.</b> A 0–100 axis in a tall box makes real movement invisible: an estate score moving 80 to 81 is four pixels of travel in a 380px plot, and no line weight, curve or dot size fixes four pixels. With the bands behind it the chart answers a question two readings can actually answer — which band, and how close to the edge of it. <b>Not a tint</b>: a 13% band beside a saturated line is two strengths of the same five colours doing different jobs, and it reads as a printing accident. Once the bands are there the line has no colour left to carry, so it becomes a thread and the dots go with it.</p>
+    <p class="why"><b>The domain is padded to the data, and only with the bands drawn.</b> This specimen runs 40 to 90 for readings of 52 to 83, so three bands show rather than five — a full 0–100 domain at full strength puts a fire band under a healthy score, which is a claim the data never made. A zoomed axis on its own would be worse than the flat line it replaces, because it turns noise into news; the bands are what make the zoom honest, since the reader can still see which band they are in.</p>
+    <p class="why"><b>Gridlines go, and the axis is labelled every 10.</b> A band edge is a gridline, and the ramp is already the axis, so drawing both is drawing the same information twice. Every ten rather than at the band boundaries: the boundaries are legible as colour, and a reader placing a line between 78 and 80 needs a regular step to count against. <b>No area fill and no curve</b> — a filled region under a score implies an accumulated quantity, and a curve invents readings between two snapshots that were months apart.</p>
+    <p class="why"><b>The time axis is the full window and the data starts where the data starts.</b> Twelve months of axis whether or not the account is twelve months old; nothing drawn before the first reading, and never a flat run at zero. Past three series this stops being the right chart at all: thirteen criteria on one score axis all sit in the same fifth of the plot and cross each other, so criteria over time is a heatmap, with a bump chart beside it when the question is relative strength rather than absolute progress.</p>
     <p class="why"><b>Fewer than two points renders an honest empty state.</b> A single point drawn as a flat line across the full width reads as "no change over time" rather than "only measured once".</p>
   </section>
 
@@ -868,10 +874,27 @@ pre .c{color:var(--text-muted)}
   <!-- ══ CHARTS ══ -->
   <section class="part" id="charts">
     <h2 class="big">Charts</h2>
-    <p class="intro">Two chart types, both deliberately minimal. Bar over donut, always.</p>
+    <p class="intro">Two chart types are defined here and the rest are drawn by a chart library, so what the system owns is the surface and the geometry. Six traits, held by every chart in the suite.</p>
+    <p class="why"><b>The mark follows the reading, and bar-versus-donut is a real choice rather than a default.</b> A <b>donut</b> when the share of the whole is the point and the figures are secondary — content freshness is "90% of your estate is fresh", and nobody needs to compare 41 pages against 4. A <b>bar</b> when the values are to be compared or read off, which is most of the time. Two things decide it: <b>can the reader do the comparison the chart implies?</b> Segment lengths in a row can be compared, arc lengths at different angles cannot, so a donut is only honest when one slice dominates or the exact ordering does not matter. And <b>how many segments?</b> Past three or four a donut is a legend with a picture attached. A ring is not necessarily a composition either — a gauge is one value against a maximum.</p>
+    <p class="why"><b>None of the six is a preference</b> — each is a decision recorded elsewhere in the system, and a chart that feels like it came from a different product is usually a chart missing one of them. The four charts that already agreed were not designed as a set: they were the four that happened to take all six.</p>
+    <table class="tok">
+      <tr><th style="width:150px">Trait</th><th style="width:150px">Value</th><th>Why it is not taste</th></tr>
+      <tr><td class="n">Ends</td><td>square</td><td>A cap adds half a stroke width of mark beyond the value, so a 3 draws like a 7 and a 1 draws five times its length</td></tr>
+      <tr><td class="n">--radius-chart</td><td>3px, everywhere</td><td>Bar ends, arc corners, heatmap cells. A radius rounds a corner <b>inward</b> and removes material, so it is legal at any size. Nivo's shipped 4 was off the 3/6/12 scale</td></tr>
+      <tr><td class="n">Colour</td><td>star / categorical / comp</td><td>The ramp is a verdict and nothing else may borrow it. One hue for categories, four for composition, and <b>no palette past four</b></td></tr>
+      <tr><td class="n">--ring-band</td><td>0.16 of the diameter</td><td>One weight for every ring, gauge and donut alike, so a donut is <code>innerRadius={0.68}</code>. The gauge shipped at 0.07 and read as a third of the donut beside it</td></tr>
+      <tr><td class="n">--chart-font</td><td>Bely, all of it</td><td>Ticks, legends, row and cell labels. Two faces inside one chart reads as a mistake, and Bely is what ties a chart to the app instead of making it look dropped in</td></tr>
+      <tr><td class="n">--motion-chart-spring-*</td><td>first paint, once</td><td>The only legal spring in the suite, critically damped at 1.10. The motion <b>is</b> the encoding, so it may never overshoot the value</td></tr>
+    </table>
+    <p class="why"><b>More than four categories at once is a chart-type decision, not a colour one.</b> There is no categorical palette past <code>--comp-4</code> and there will not be one: nobody can tell thirteen hues apart, whichever families they come from. Past four, encode the category by <i>position</i> — small multiples, a heatmap, rows — and leave colour to the value.</p>
+    <p class="why"><b>The time axis is the full window and the data starts where the data starts.</b> Twelve months of axis whether or not the account is twelve months old, nothing drawn before the first reading, and <b>never a flat run at zero</b> — a single point spanning the full width reads as “no change” rather than “measured once”. Empty periods in a grid are <code>--limestone-700</code> cells, and a grid filling up over a year is the most legible thing on the chart in its first year. It is also why a chart appears from the first snapshot instead of hiding until it looks respectable.</p>
+    <p class="why"><b>Score bands are a ground, not a tint.</b> A 0–100 axis in a tall box makes real movement invisible — 80 to 81 is four pixels in a 380px plot — so where a score is plotted over time the five bands are drawn at full strength behind the line and the line becomes <code>--limestone-200</code>. A tinted band beside a saturated line is two strengths of the same five colours doing different jobs. Score axes are labelled every 10, and a metric beside a chart stays <code>--t-metric</code> in Bely Display, outside the plot.</p>
+    <p class="why"><b>Two charts may answer two questions about the same numbers.</b> A heatmap of criteria against months answers absolute progress towards a fixed finish line, so it is mostly one colour and moves rarely; a bump chart of the same data answers which criteria are the strong ones relative to each other, which always flexes. Neither is a worse version of the other. A bump chart cannot represent a tie, so ties break alphabetically for stability and the scores go in the tooltip.</p>
+    <p class="why"><b>Refused, with reasons.</b> Round caps and round ends on any mark. A bar scaled against the largest bar rather than against 100 — every row’s longest bar is then the same length and no two rows can be compared. A small value substituted with a circle or a minimum width. A segment separated by a stroke rather than a gap. An opacity step used as a colour. Stream and area-bump charts for independent scores, because both stack and thirteen averages out of 100 do not sum to anything.</p>
+    <p class="why">Specimens: <a href="guidelines/chart-family.html">chart family</a>. Workings: <a href="../provenance/Chart coherence decisions 2026-08-05.html">the decision</a>, and <a href="../explorations/Chart family.html">the options side by side</a>.</p>
 
     <h3 class="sub">Composition bar</h3>
-    <p class="why">Any "where did this total go" breakdown: one 9px stacked bar plus an inline legend carrying the values. Cheaper than a donut, reads at a glance, works down to a 320px column. Max four segments; anything under 5% folds into "Other", and loss or waste goes last in <code>--comp-4</code>.</p>
+    <p class="why">Any "where did this total go" breakdown: one 9px stacked bar plus an inline legend carrying the values. Reads at a glance and works down to a 320px column. Max four segments; anything under 5% folds into "Other", and loss or waste goes last in <code>--comp-4</code>.</p>
     <div class="split2">
       <div class="c-card">
         <div class="c-comp"><i style="width:63%;background:var(--comp-1)"></i><i style="width:29%;background:var(--comp-2)"></i><i style="width:8%;background:var(--comp-4)"></i></div>
@@ -886,7 +909,8 @@ pre .c{color:var(--text-muted)}
         <div class="c-metric"><div class="c-metric__label">All-in, per assessment</div><div class="c-metric__value">$0.0134</div><div class="c-metric__sub">$41.28 across 3,074 assessments</div></div>
       </div>
     </div>
-    <p class="why">Donuts are reserved for content freshness on the estate pages, where the "slice of a whole" metaphor genuinely earns itself.</p>
+    <p class="why"><b>The corner is <code>--radius-chart</code>, like every other mark.</b> This shipped at <code>calc(--u * .28)</code> — about 5px on a 9px bar, more than half its height — so it read as a pill rather than a bar, and a 9px bar is where an off-scale radius shows most: the two end segments lose material at their corners while the middle segments keep theirs, so the outer values draw slightly short. The legend swatches were a literal 2px and take the same token now.</p>
+    <p class="why"><b>Take this rather than a donut when the figures matter.</b> Every value is in the legend, the segments sit in one row so their lengths can be compared, and it survives a 320px column. Freshness goes the other way — the proportion is the reading and the counts are detail — which is the test, not a list of approved pages.</p>
 
     <h3 class="sub">Micro series</h3>
     <p class="why">Trend over a small fixed window. Bars in wave-400, current period in wave-600. <b>No axes, no gridlines, no tooltips</b> – it’s a shape, not a chart. When someone needs the figures they use the metric beside it or the CSV export.</p>
@@ -918,6 +942,34 @@ pre .c{color:var(--text-muted)}
     </div>
     <p class="why"><b>Row actions live on hover</b> so they stop shouting. <b>Group headings go between surfaces</b>, not inside rows. <b>Numeric columns right-align</b>, and their headers align with them.</p>
     <p class="why">The secondary line is always the domain – it disambiguates "Oxfam" from "Oxfam 2" where a name can’t, and it’s the thing actually being audited.</p>
+  </section>
+
+  <!-- ══ MARKERS ══ -->
+  <section class="part" id="markers">
+    <h2 class="big">Markers &amp; bullets</h2>
+    <p class="intro">A small round mark is never a component of its own. It belongs to whatever carries its meaning: a <code>Chip</code> for an annotation, <code>Bullets</code> for a list item, <code>ScoreValue</code> for a level. What they share is one size, <code>--marker-size</code>, so three sizes in the product become one.</p>
+    <p class="why"><b>Filled means done, a ring means not yet, and that is the only thing a marker may say.</b> Same size, same colour, so the fill is the one variable. The marker is neutral – <code>--marker-color</code> is <code>--text-secondary</code> – because fire already means primary, active, star 1 and danger, and a shipped changelog entry is none of those.</p>
+    <div class="demo plain">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px">
+        <div>
+          <div class="cap" style="margin-bottom:12px">Bullets · the only bullet in the suite</div>
+          <ul class="c-bullets"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Only changed pages are re-scored, so an unchanged estate costs nothing.</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>A run holds its snapshot, so a score never changes retrospectively.</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Anything over 10% is worth investigating.</span></li></ul>
+        </div>
+        <div>
+          <div class="cap" style="margin-bottom:12px">--timeline · a hairline down the marker column</div>
+          <ul class="c-bullets c-bullets--timeline"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>One ring band across the suite</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Heatmap replaces the criteria trend line</span></li><li class="c-bullets__item is-pending"><span class="c-bullets__marker"></span><span>Bump chart, relative strength</span></li><li class="c-bullets__item is-pending"><span class="c-bullets__marker"></span><span>Loading graphic joins a family</span></li></ul>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:34px">
+        <span class="c-chip c-chip--bare c-chip--bad"><span class="c-chip__dot"></span>High priority</span>
+        <span class="c-chip c-chip--bare c-chip--warn"><span class="c-chip__dot"></span>Medium priority</span>
+        <span class="c-chip c-chip--bare"><span class="c-chip__dot"></span>Low priority</span>
+      </div>
+      <div class="cap" style="margin:12px 0 0">The dot keeps its 500 stops – the reservation is against being read as a level, and a labelled mark cannot be</div>
+    </div>
+    <p class="why"><b><code>list-disc</code> and <code>list-inside</code> are retired everywhere, legal pages included.</b> <code>list-inside</code> puts the marker in the text flow, so a wrapped line runs back underneath it and a list of long items has no left edge to scan.</p>
+    <p class="why"><b>A legend swatch is not a marker.</b> It takes the shape of the mark it names, so in a bar or cell chart it is a square at <code>--radius-chart</code>, coloured from the chart palette, and it lives in the chart theme. A round dot standing for a square mark is a translation the reader has to do.</p>
+    <p class="why">Full workings, and the six hand-built markers this replaces: <code>provenance/Dots and bullets decision 2026-08-05.html</code>.</p>
   </section>
 
   <!-- ══ NAV ══ -->
