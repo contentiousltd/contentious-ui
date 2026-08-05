@@ -6,6 +6,15 @@ Trend over a small fixed window – 7 days, 12 months.
 
 No axes, no gridlines, no tooltips. When someone needs the figures they use the adjacent `<Metric>` or the CSV export.
 
+Bars take `--radius-chart` on their top corners only, like every other bar in the suite. This is also the honest alternative to a full-width trend chart when the movement is small: a sparkline plus the figure beside it says "up 8 over twelve months" without pretending a four-pixel slope is a picture.
+
+
+## The chart family
+
+Every chart in the suite holds five traits, and each one is a decision recorded elsewhere in the system rather than a preference. **Square ends** (a cap adds material the value did not earn). **`--star-1..5` for scores, `--categorical` for categories, `--comp-1..4` for composition, and nothing else** — past four categories the answer is a different chart, not more hues. **`--radius-chart` (3px) on every bar end, arc corner and cell**, and nowhere else. **The chart spring on first paint, once, no overshoot.** **One tooltip surface** — limestone-500 on a limestone-600 hairline at `shadow-md`. **The time axis is the full window and the data starts where the data starts** — never a flat run at zero before the first reading.
+
+Rings all take one band ratio: `--ring-band`, 0.16 of the outer diameter (a donut is `innerRadius={0.68}`). **All chart type is one face, named once as `--chart-font`** (Bely) — two faces inside one chart reads as a mistake, and Bely is what ties a chart to the app rather than making it look dropped in. One token, so it is one switch. Workings: `provenance/Chart coherence decisions 2026-08-05.html`, specimens in `guidelines/chart-family.html`.
+
 ---
 
 ## Conventions

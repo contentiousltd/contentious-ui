@@ -1,13 +1,17 @@
 import React from 'react';
 import { scoreToLevel } from '../core/StarRating.jsx';
 
-/* Box and stroke per size. Stroke thickens as the ring shrinks: 13% of the
-   outer diameter at sm, 9% at md, 7% at lg, because a 46px badge needs
-   proportionally more weight to hold its colour. */
-const DIMS = { sm: [46, 6], md: [86, 8], lg: [200, 14] };
+/* ONE band ratio for every ring in the suite: --ring-band, 0.16 of the outer
+   diameter. The per-size ramp this replaced (13% / 9.3% / 7%) made the gauge
+   a third of the donut's weight at lg and was not consistent with itself.
+   The donut comes DOWN to 0.16 as well (innerRadius 0.6 -> 0.68), so the two
+   rings are one mark. Stroke is derived, never authored. */
+const BOX = { sm: 46, md: 86, lg: 200 };
+const BAND = 0.16;
 
 export function ScoreGauge({ score, size = 'md', caption, style }) {
-  const [box, stroke] = DIMS[size] || DIMS.md;
+  const box = BOX[size] || BOX.md;
+  const stroke = Math.round(box * BAND);
   const r = (box - stroke) / 2;
   const circ = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(100, score)) / 100;

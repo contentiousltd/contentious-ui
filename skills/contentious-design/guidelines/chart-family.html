@@ -1,0 +1,47 @@
+<!-- @dsCard group="Patterns" viewport="900x430" name="Chart family" subtitle="Five traits every chart holds, and one band ratio for every ring." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><link rel="stylesheet" href="../styles.css"/>
+<style>*{box-sizing:border-box}body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);padding:18px 20px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
+.traits{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule-row);border-radius:6px;overflow:hidden}
+.t{background:var(--surface-card);padding:14px 16px 16px}
+.t .l{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--label-color)}
+.t .v{font-family:var(--font-mono);font-size:12px;color:var(--text-strong);margin:7px 0 6px}
+.t .n{font-size:11px;color:var(--text-muted);line-height:1.4}
+.rings{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule-row);border-radius:6px;overflow:hidden;margin-top:13px}
+.r{background:var(--surface-card);padding:14px 16px 16px;text-align:center}
+.r .l{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--label-color)}
+.r .n{font-size:11px;color:var(--text-muted);line-height:1.4;margin-top:8px}
+.ring{position:relative;display:inline-grid;place-items:center;margin-top:12px}
+.ring span{position:absolute;font-family:var(--font-heading-display);color:var(--text-strong);font-variant-numeric:tabular-nums;line-height:1;font-size:26px}
+.bars{display:flex;gap:4px;align-items:flex-end;height:78px;margin-top:12px;justify-content:center}
+.bars i{display:block;width:14px;background:var(--star-4);border-radius:var(--radius-chart) var(--radius-chart) 0 0}
+.warn{margin-top:13px;font-size:11.5px;color:var(--text-muted);line-height:1.5}
+.warn b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+code{font-family:var(--font-mono);font-size:11px}</style></head>
+<body>
+<div class="traits">
+<div class="t"><div class="l">Ends</div><div class="v">square</div><div class="n">A cap adds half a stroke width of mark beyond the value. A radius removes material and is allowed.</div></div>
+<div class="t"><div class="l">Colour</div><div class="v">star / categorical / comp</div><div class="n">The ramp is a verdict. One hue for categories. Four for composition, and no palette past four.</div></div>
+<div class="t"><div class="l">Corner</div><div class="v">--radius-chart</div><div class="n">3px on every bar end, arc corner and heatmap cell. Nivo's shipped 4 was off the 3/6/12 scale.</div></div>
+<div class="t"><div class="l">Motion</div><div class="v">--motion-chart-spring-*</div><div class="n">The only legal spring in the suite, critically damped at 1.10. First paint, once, no overshoot.</div></div>
+<div class="t"><div class="l">Type</div><div class="v">--chart-font</div><div class="n">One token, one face, for everything a chart draws: ticks, legends, row and cell labels. Bely, because a chart belongs to the app rather than being dropped into it — and one switch if that ever changes. <code>--chart-numeric</code> keeps figures tabular. There is no <code>--font-sans</code> here, whatever the app's chart themes say.</div></div>
+</div>
+<div class="rings">
+<div class="r"><div class="l">Gauge · lg</div>
+<div class="ring"><svg width="112" height="112"><circle cx="56" cy="56" r="44.8" fill="none" stroke="var(--level-empty)" stroke-width="22.4"/><circle cx="56" cy="56" r="44.8" fill="none" stroke="var(--star-4)" stroke-width="22.4" stroke-dasharray="281.5" stroke-dashoffset="61.9" transform="rotate(-90 56 56)"/></svg><span>78</span></div>
+<div class="n">band 0.16 × box</div></div>
+<div class="r"><div class="l">Freshness donut</div>
+<div class="ring"><svg width="112" height="112"><circle cx="56" cy="56" r="44.8" fill="none" stroke="var(--sapling-500)" stroke-width="22.4" stroke-dasharray="248.3 33.2" stroke-dashoffset="0" transform="rotate(-90 56 56)"/><circle cx="56" cy="56" r="44.8" fill="none" stroke="var(--gloaming-300)" stroke-width="22.4" stroke-dasharray="22.5 259" stroke-dashoffset="-254" transform="rotate(-90 56 56)"/></svg></div>
+<div class="n">innerRadius 0.68 — the same band</div></div>
+<div class="r"><div class="l">Bars</div>
+<div class="bars"><i style="height:34%"></i><i style="height:52%"></i><i style="height:41%"></i><i style="height:78%"></i><i style="height:63%"></i><i style="height:88%"></i></div>
+<div class="n">--radius-chart, top corners only</div></div>
+<div class="r"><div class="l">Heatmap</div>
+<div class="bars" style="height:78px;align-items:center;gap:3px;flex-wrap:wrap;max-width:120px;margin:12px auto 0">
+<i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-3)"></i><i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-3)"></i><i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-4)"></i><i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-4)"></i>
+<i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-4)"></i><i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-4)"></i><i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-4)"></i><i style="width:16px;height:16px;border-radius:var(--radius-chart);background:var(--star-5)"></i></div>
+<div class="n">what more than three series becomes</div></div>
+</div>
+<div class="warn"><b>More than four categories at once is a chart-type decision, not a colour one.</b> There is no categorical palette past <code>--comp-4</code>, and thirteen hues cannot be told apart whichever families they come from — so past four, encode the category by position (small multiples, a heatmap, rows) and leave colour to the value. <b>Every ring takes one band ratio.</b> <code>--ring-band</code> is 0.16 of the outer diameter — <code>innerRadius = 1 - 2 × band</code>, so the donut is 0.68 — and a gauge and a donut on one page are then the same weight of mark. The gauge shipped at 0.07 and read as a third of it. <b>A label has one position, not two.</b> A name that moves in and out of the fill depending on the value gives a set of rows a ragged left edge and a rule to work out, so a label that cannot always fit inside sits above the bar instead — one position, legible at any length. <b>The time axis is the full window and the data starts where it starts</b>: nothing before the first reading, no flat run at zero, and empty periods in a grid drawn as <code>--limestone-700</code> cells. Workings: <code>provenance/Chart coherence decisions 2026-08-05.html</code>.</div>
+</body></html>

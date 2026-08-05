@@ -20,11 +20,18 @@ Rules that matter:
 ```jsx
 <Chip bare tone="bad">High priority</Chip>
 <Chip bare tone="warn">Medium priority</Chip>
+<Chip bare tone="neutral">Low priority</Chip>
 ```
 
 A static dot plus mono text, no background. Use when the same label repeats down a long list and filled chips would shout – five stacked opportunity cards each with a solid chip is too loud, and the dot carries the same information quietly.
 
-This is deliberately a variant, not a new component: it shares the tone scale and type, so it can't drift into a third label style. The dot here is **static** – the pulsing dot stays exclusive to live states.
+This is deliberately a variant, not a new component: it shares the tone scale and type, so it can't drift into a third label style. The dot here is **static** – the pulsing dot stays exclusive to live states, and a state that is a *state* rather than something happening now takes the static dot.
+
+**The dot keeps the family 500 stops.** `fire-500`, `sunshine-500` and `sapling-500` *are* `--star-1`, `--star-3` and `--star-5`, and they stay: they are the only stops that hold their difference at `--marker-size`, which is the whole job of the dot. Retoning them to the tone foregrounds was tried at review and reverted, because `fire-700`, `amber-800`, `gloaming-600` and `sapling-800` are four dark warm values that at 7px are one colour.
+
+**The reservation is against being read as a level, not against the colour.** An orange bar in a chart reads as level 2 because nothing beside it says otherwise; a bare chip's dot is never unlabelled, so it says "high priority" and nothing more. It is also why `sunshine-500` at 1.81:1 is acceptable on this mark: the dot is not the only carrier of the fact. Full narrowing in `readme.md`, under the level ramp.
+
+**Priority on Report is the worked example.** `high` → `bad`, `medium` → `warn`, `low` → `neutral`. The tone names describe strength of signal, not brokenness: `bad` is what a reader should act on first. `low` takes `neutral` rather than `info` because low priority is the absence of a signal, and a grey dot beside an orange one is the pair that reads fastest. Do not build a priority ramp of its own. See `provenance/Dots and bullets decision 2026-08-05.html`.
 
 ---
 

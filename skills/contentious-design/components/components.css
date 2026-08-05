@@ -25,9 +25,26 @@
 .c-chip--promo{background:var(--chip-promo-bg);color:var(--chip-promo-fg)}
 .c-chip__dot{width:calc(var(--u) * .28);height:calc(var(--u) * .28);border-radius:50%;background:currentColor;flex:none;animation:cChipPulse 1.6s ease-in-out infinite}
 @keyframes cChipPulse{0%,100%{opacity:1}50%{opacity:.35}}
-/* Bare: static dot, no background. Repeated labels in a long list. */
+/* Bare: static dot, no background. Repeated labels in a long list.
+   THE DOT KEEPS THE FAMILY 500 STOPS, and the reservation rule is narrowed
+   rather than bent. Revised at review, 5 August 2026, twice: these four were
+   read as spending reserved score colour (fire-500, sunshine-500 and
+   sapling-500 ARE --star-1, --star-3 and --star-5), retoned to the tone
+   foregrounds, and reverted - because fire-700, amber-800, gloaming-600 and
+   sapling-800 are four dark warm values that at --marker-size are one colour.
+   THE 500 STOPS ARE THE ONLY STOPS THAT STAY APART AT 7px, which is what the
+   dot is for.
+   THE BOUND: the ramp's 500-stop reservation binds an UNLABELLED mark. An
+   orange bar in a chart reads as level 2 because nothing beside it says
+   otherwise; a bare chip's dot is never unlabelled, because the label is the
+   component. So a 500 stop is legal here and ONLY here - inside c-chip--bare,
+   where the word is structural. Anywhere a mark can appear without its word,
+   the reservation still holds. Same reason sunshine-500 at 1.81:1 is acceptable
+   on this one mark: it is not the only carrier of the fact.
+   Worked example - priority on Report: high -> bad, medium -> warn, low ->
+   neutral. provenance/Dots and bullets decision 2026-08-05.html */
 .c-chip--bare{background:transparent;padding:0;color:var(--text-muted);gap:calc(var(--u) * .33)}
-.c-chip--bare .c-chip__dot{width:calc(var(--u) * .33);height:calc(var(--u) * .33);animation:none}
+.c-chip--bare .c-chip__dot{width:var(--marker-size);height:var(--marker-size);animation:none;background:var(--gloaming-400)}
 .c-chip--bare.c-chip--bad .c-chip__dot{background:var(--fire-500)}
 .c-chip--bare.c-chip--warn .c-chip__dot{background:var(--sunshine-500)}
 .c-chip--bare.c-chip--info .c-chip__dot{background:var(--wave-500)}
@@ -237,16 +254,20 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 .c-section{margin-top:calc(var(--u) * 2.33)}
 
 /* ---- Composition bar ---------------------------------------------------- */
-.c-comp{display:flex;height:calc(var(--u) * .5);border-radius:calc(var(--u) * .28);overflow:hidden;background:var(--comp-track)}
+/* --radius-chart, like every other mark. This shipped at calc(--u * .28) - about
+   5px on a 9px bar, more than half its height - so the mark read as a pill and
+   the two end segments lost material at the corners while the middle ones did
+   not. A bar 9px tall is where an off-scale radius shows most. */
+.c-comp{display:flex;height:calc(var(--u) * .5);border-radius:var(--radius-chart);overflow:hidden;background:var(--comp-track)}
 .c-comp>i{display:block}
 .c-comp__legend{display:flex;gap:calc(var(--u) * 1.22);margin-top:calc(var(--u) * .67);flex-wrap:wrap}
 .c-comp__legend>div{display:flex;align-items:center;gap:calc(var(--u) * .39);font-size:var(--t-hint);color:var(--text-secondary)}
-.c-comp__swatch{width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:2px;flex:none}
+.c-comp__swatch{width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:var(--radius-chart);flex:none}
 .c-comp__legend b{font-family:var(--font-mono);font-size:calc(var(--u) * .72);font-weight:400;color:var(--text-body);font-variant-numeric:tabular-nums}
 
 /* ---- Micro series ------------------------------------------------------- */
 .c-series{display:flex;align-items:flex-end;gap:calc(var(--u) * .28);height:calc(var(--u) * 3)}
-.c-series>i{flex:1;min-height:2px;background:var(--series-bar);border-radius:2px 2px 0 0}
+.c-series>i{flex:1;min-height:2px;background:var(--series-bar);border-radius:var(--radius-chart) var(--radius-chart) 0 0}
 .c-series>i.is-current{background:var(--series-bar-current)}
 .c-series__labels{display:flex;gap:calc(var(--u) * .28);margin-top:calc(var(--u) * .39)}
 .c-series__labels span{flex:1;text-align:center;font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted)}
@@ -264,6 +285,32 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 .c-row__when{font-size:var(--t-ui);color:var(--text-muted)}
 .c-row__actions{display:flex;justify-content:flex-end;gap:calc(var(--u) * .33);opacity:0;transition:opacity var(--motion-state)}
 .c-row:hover .c-row__actions{opacity:1}
+
+/* ---- Bullets ------------------------------------------------------------- */
+/* THE BULLET, and the only one. list-disc is the browser's mark at the
+   browser's size, and list-inside puts it in the text flow so a wrapped line
+   runs back underneath it - visible on every long item in the legal pages.
+   The marker sits in its own column and the text hangs indented, so the left
+   edge holds however long an item runs.
+   Not .c-list: that is the aligned data list with mono column headers.
+   FILL VS RING IS THE ONE SANCTIONED MARKER SEMANTIC. Filled is the default and
+   means done or shipped; is-pending is the ring and means not yet. Same size,
+   same colour, one variable. Neutral on purpose - fire means primary, active,
+   star 1 and danger, and a shipped changelog entry is none of those, so the
+   pair stays free to say done-and-not-yet in any list.
+   Settled 5 August 2026 - provenance/Dots and bullets decision 2026-08-05.html */
+.c-bullets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(var(--u) * .44)}
+.c-bullets__item{display:grid;grid-template-columns:var(--marker-size) 1fr;column-gap:calc(var(--u) * .61);align-items:start;font:var(--type-body);color:var(--text-body);text-wrap:pretty}
+.c-bullets__item>p{margin:0}
+/* Centred on the first line: (line box - marker) / 2, --type-body being 1.55. */
+.c-bullets__marker{box-sizing:border-box;width:var(--marker-size);height:var(--marker-size);border-radius:50%;background:var(--marker-color);flex:none;margin-top:calc((1.55em - var(--marker-size)) / 2)}
+.c-bullets__item.is-pending .c-bullets__marker{background:transparent;border:var(--marker-ring) solid var(--marker-color)}
+.c-bullets--spaced{gap:calc(var(--u) * .89)}
+/* --timeline is a hairline down the marker column and nothing else: same
+   markers, same states. It stops AT the marker rather than running under it,
+   which is what the changelog's 2px limestone halo was compensating for. */
+.c-bullets--timeline .c-bullets__item{position:relative}
+.c-bullets--timeline .c-bullets__item:not(:last-child)::before{content:"";position:absolute;left:calc(var(--marker-size) / 2 - .5px);top:calc((1.55em - var(--marker-size)) / 2 + var(--marker-size) + calc(var(--u) * .17));bottom:calc(var(--u) * -.61);width:1px;background:var(--rule-section)}
 
 /* ---- Top bar ------------------------------------------------------------ */
 .c-topbar{display:flex;align-items:center;gap:calc(var(--u) * 1.22);padding:calc(var(--u) * .78) calc(var(--u) * 2.22);background:var(--surface-chrome);border-bottom:1px solid var(--rule-field)}
@@ -460,6 +507,9 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
    deep card. There is no variant that fixes it. */
 .c-gauge{position:relative;display:inline-grid;place-items:center}
 .c-gauge svg{display:block}
+/* Stroke width comes from the JSX as --ring-band x box (0.2), one ratio for
+   every ring in the suite. See tokens/semantic.css and
+   provenance/Chart coherence decisions 2026-08-05.html */
 .c-gauge__track{fill:none;stroke:var(--level-empty)}
 .c-gauge__arc{fill:none;stroke:var(--star-3);transition:stroke-dashoffset var(--motion-state-slow)}
 .c-gauge--l1 .c-gauge__arc{stroke:var(--star-1)}
@@ -489,16 +539,28 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 .c-history{background:var(--surface-card);border-radius:var(--radius-surface);padding:calc(var(--u) * 1.11) calc(var(--u) * 1.22)}
 .c-history__note{margin:0 0 calc(var(--u) * .89);font-size:var(--t-hint);color:var(--text-muted)}
 .c-history__plot{position:relative;height:calc(var(--u) * 10);margin-left:calc(var(--u) * 1.89);border-left:1px solid var(--rule-row);border-bottom:1px solid var(--rule-row)}
+/* The five score bands ARE the ground, at full strength. A 0-100 axis in a tall
+   box makes real movement invisible - 80 to 81 is four pixels in a 380px plot -
+   so the chart's question becomes "which band, and how close to the edge",
+   which two readings can answer. Gridlines are then redundant: a band edge IS a
+   gridline, and the ramp is already the axis. NOT a tint: a 13% band beside a
+   saturated line is two strengths of the same five colours doing different
+   jobs, and it reads as a printing accident.
+   See provenance/Chart coherence decisions 2026-08-05.html */
+.c-history__bands{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.c-history__bands i{position:absolute;left:0;right:0}
 .c-history__grid{position:absolute;inset:0;pointer-events:none}
 .c-history__grid i{position:absolute;left:0;right:0;height:1px;background:var(--rule-row);opacity:.6}
-.c-history__ylabel{position:absolute;right:calc(100% + var(--u) * .44);transform:translateY(-50%);font-family:var(--font-mono);font-size:var(--t-label);color:var(--text-muted);white-space:nowrap}
-.c-history__point{position:absolute;width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:50%;transform:translate(-50%,50%);background:var(--star-3);border:2px solid var(--surface-card);z-index:2}
+.c-history__ylabel{position:absolute;right:calc(100% + var(--u) * .44);transform:translateY(-50%);font-family:var(--chart-font);font-variant-numeric:var(--chart-numeric);font-size:var(--t-label);color:var(--text-muted);white-space:nowrap}
+.c-history__point{position:absolute;width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:50%;transform:translate(-50%,50%);background:var(--limestone-200);border:0;z-index:2}
 /* The line shares the points' coordinate system: viewBox 0 0 100 100 with
    preserveAspectRatio="none". Never rotated divs – the angle cannot be right
    when vertical and horizontal percentages differ. */
 .c-history__svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:1}
-.c-history__svg polyline{fill:none;stroke:var(--star-4);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
-.c-history__xlabel{position:absolute;top:calc(100% + var(--u) * .44);transform:translateX(-50%);font-family:var(--font-mono);font-size:var(--t-label);color:var(--text-muted);white-space:nowrap}
+/* The line is limestone, not a level colour: over full-strength bands the ramp
+   is the ground and the line only carries the shape. */
+.c-history__svg polyline{fill:none;stroke:var(--limestone-200);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round}
+.c-history__xlabel{position:absolute;top:calc(100% + var(--u) * .44);transform:translateX(-50%);font-family:var(--chart-font);font-variant-numeric:var(--chart-numeric);font-size:var(--t-label);color:var(--text-muted);white-space:nowrap}
 .c-history__empty{display:grid;place-items:center;height:calc(var(--u) * 10);text-align:center}
 .c-history__empty p{margin:0;font-size:var(--t-ui);color:var(--text-muted);max-width:40ch;line-height:1.5}
 .c-history__foot{height:calc(var(--u) * 1.44)}
@@ -603,7 +665,7 @@ h1 a:hover,h2 a:hover,h3 a:hover{text-decoration-thickness:1px}
 /* Elements inside a block may use their short name; the block prefix scopes
    them. Both forms are supported so markup can be written either way. */
 .c-chip .dot{width:calc(var(--u) * .28);height:calc(var(--u) * .28);border-radius:50%;background:currentColor;flex:none;animation:cChipPulse 1.6s ease-in-out infinite}
-.c-chip--bare .dot{width:calc(var(--u) * .33);height:calc(var(--u) * .33);animation:none}
+.c-chip--bare .dot{width:var(--marker-size);height:var(--marker-size);animation:none;background:var(--gloaming-400)}
 .c-chip--bare.c-chip--bad .dot{background:var(--fire-500)}
 .c-chip--bare.c-chip--warn .dot{background:var(--sunshine-500)}
 .c-chip--bare.c-chip--info .dot{background:var(--wave-500)}
@@ -620,7 +682,7 @@ h1 a:hover,h2 a:hover,h3 a:hover{text-decoration-thickness:1px}
 .c-strip__tab.is-danger,.c-strip__tab.danger{color:var(--fire-600)}
 .c-topbar__sections span.on{color:var(--text-strong)}
 .c-topbar__cluster.is-standdown .c-topbar__sections span.on{color:var(--text-secondary)}
-.c-comp__legend .sw{width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:2px;flex:none}
+.c-comp__legend .sw{width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:var(--radius-chart);flex:none}
 .c-crumbs .sep{color:var(--gloaming-300)}
 .c-crumbs .here{color:var(--text-strong)}
 .c-section-header .action{margin-left:auto;font-family:var(--font-heading);font-size:var(--t-hint);color:var(--accent-link);white-space:nowrap;cursor:pointer}
