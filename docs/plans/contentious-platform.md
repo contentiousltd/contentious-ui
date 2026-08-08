@@ -111,6 +111,21 @@ directly.
 **Open question for review: is that deliberate, or drift?** It changes how urgent this is.
 Either way, bumping the IdP does not need the merge and should not wait for it.
 
+**Answered on 2026-08-08: drift, and it cuts deeper than the brand seam.** Content
+Maturity's cm-139 spike found that Better Auth's organisation plugin is *live* at
+`auth.contentious.ltd` — and that nobody at the IdP decided it. `auth-contentious-ltd/src/auth.ts`
+contains no reference to organisations; it calls `createAuth`, and `@contentious/auth`
+v0.6.0 enables `organization()` internally. The suite's organisation store switched on as
+a side effect of a version bump. The IdP's discovery document also advertises a `jwks_uri`
+that 404s, because the plugin serving it is not enabled.
+
+So the reference implementation is not merely two versions behind the package it
+implements — its *capabilities* change without a decision, in both directions. Suite
+[ADR-0015](https://github.com/contentiousltd/contentious/blob/main/docs/adr/0015-shared-organisation-identity-and-the-machine-door.md)
+now places the IdP on two critical paths (shared organisations, and the Content Layer's
+machine door), which raises the stakes on this specific failure mode and is an argument
+for the merge on grounds independent of churn.
+
 ### ADR-0014's provenance
 
 Worth recording, because its wording carries more authority than its history supports:
