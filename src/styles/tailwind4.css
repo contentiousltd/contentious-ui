@@ -25,7 +25,7 @@
    stay as var() so theming keeps working, and do NOT take a modifier.
    Reach for a numbered shade rather than an opacity step on those.
 
-   246 literal colours · 49 themed · 6 fonts · 4 weights · 5 radii · 0 spacing · 3 shadows
+   246 literal colours · 54 themed · 6 fonts · 4 weights · 5 radii · 0 spacing · 3 shadows
    ================================================================ */
 
 @theme {
@@ -91,7 +91,6 @@
   --color-data-bad              : #AA433F;
   --color-data-default          : #1A1918;
   --color-data-good             : #4D6249;
-  --color-data-muted            : var(--data-muted);
   --color-data-zero             : #777574;
   --color-error-subtle          : #F7F2F1;
   --color-error-text            : #552220;
@@ -312,6 +311,7 @@
   --color-accent-hover          : var(--accent-hover);
   --color-accent-link           : var(--accent-link);
   --color-accent-link-hover     : var(--accent-link-hover);
+  --color-accent-link-on-deep   : var(--accent-link-on-deep);
   --color-accent-marker         : var(--accent-marker);
   --color-background            : var(--background);
   --color-border                : var(--border);
@@ -321,6 +321,7 @@
   --color-danger-fg             : var(--danger-fg);
   --color-danger-fg-hover       : var(--danger-fg-hover);
   --color-danger-tint           : var(--danger-tint);
+  --color-data-muted            : var(--data-muted);
   --color-destructive           : var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-focus-ring            : var(--focus-ring);
@@ -334,6 +335,7 @@
   --color-primary               : var(--primary);
   --color-primary-foreground    : var(--primary-foreground);
   --color-rule-field            : var(--rule-field);
+  --color-rule-on-deep          : var(--rule-on-deep);
   --color-rule-row              : var(--rule-row);
   --color-rule-section          : var(--rule-section);
   --color-secondary             : var(--secondary);
@@ -342,9 +344,9 @@
   --color-surface-card-deep     : var(--surface-card-deep);
   --color-surface-chrome        : var(--surface-chrome);
   --color-surface-field         : var(--surface-field);
+  --color-surface-footer        : var(--surface-footer);
   --color-surface-hover         : var(--surface-hover);
   --color-surface-hover-row     : var(--surface-hover-row);
-  --color-surface-footer        : var(--surface-footer);
   --color-surface-inverse       : var(--surface-inverse);
   --color-surface-menu          : var(--surface-menu);
   --color-surface-page          : var(--surface-page);
