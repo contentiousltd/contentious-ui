@@ -77,7 +77,7 @@ Each product's theme file maps these to palette tokens. Import a theme file alon
 
 ## Spacing
 
-4-point base grid, 12px included (see [ADR note on gaps](../docs/adr/0001-token-first-css-architecture.md)).
+4-point base grid, 12px included (see [ADR note on gaps](../docs/adr/adr-ui-0001-token-first-css-architecture.md)).
 
 ```css
 --space-xs:      0.25rem   /*  4px */

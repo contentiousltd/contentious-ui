@@ -2,7 +2,7 @@
 
 `skills/contentious-design/` is authored in the Claude Design project and arrives here
 by export. This file records how that works, what is currently true about the copy in
-the repo, and what is still open. See [ADR-0004](adr/0004-design-system-as-a-skill.md)
+the repo, and what is still open. See [ADR-UI-0004](adr/adr-ui-0004-design-system-as-a-skill.md)
 for why the design system lives here at all.
 
 **This file exists outside `skills/` deliberately.** An export replaces that directory
@@ -212,7 +212,7 @@ Around twenty of the twenty-five components are already generic (Button, Card, C
 Field, ListRow, Metric, PageHeader, TopBar, Tooltip and the rest); only StarRating,
 ScoreGauge, ScoreHistory, CriterionCard and ResultCard are Content Health Check's, and
 the foundations were always suite-level. Splitting would reintroduce the
-multiple-sources-of-truth problem ADR-0004 exists to remove. Mark product-specific
+multiple-sources-of-truth problem ADR-UI-0004 exists to remove. Mark product-specific
 components as such inside the one skill instead.
 
 ## Open

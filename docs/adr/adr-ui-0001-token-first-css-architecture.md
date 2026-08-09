@@ -1,4 +1,4 @@
-# ADR-0001: Token-first CSS architecture
+# ADR-UI-0001: Token-first CSS architecture
 
 **Status:** Accepted
 **Date:** 2026-04-16

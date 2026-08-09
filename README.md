@@ -38,7 +38,7 @@ tokens → theme → base → components → utilities
 | `components` | `typography.css`, `components.css` | `type-*` classes, `.display-heading`, `.btn*` button classes |
 | `utilities` | `utilities.css` | `.flex`, `.grid`, `.gap-md`, layout helpers (planned) |
 
-See [docs/adr/0003-css-cascade-layers.md](docs/adr/0003-css-cascade-layers.md) for the rationale.
+See [docs/adr/adr-ui-0003-css-cascade-layers.md](docs/adr/adr-ui-0003-css-cascade-layers.md) for the rationale.
 
 ### Importing in a project
 

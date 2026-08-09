@@ -1,4 +1,4 @@
-# ADR-0005: Shipping JavaScript to consumers
+# ADR-UI-0005: Shipping JavaScript to consumers
 
 **Status:** Proposed
 **Date:** 2026-08-03
@@ -43,7 +43,7 @@ implementations, one rule, nothing keeping them in step.
 
 ### Why this matters more than it looks
 
-The 30 July decision (ADR-0004) settled that around twenty of the twenty-five specced
+The 30 July decision (ADR-UI-0004) settled that around twenty of the twenty-five specced
 components are generic and belong to the suite. The library ships **seven**. `Button`,
 `Card`, `Chip`, `Field`, `Metric`, `Tooltip` and the rest still live only in product
 repos, in parallel copies.
@@ -51,7 +51,7 @@ repos, in parallel copies.
 The reason is not disagreement about what should be shared. **It is that a product cannot
 reliably import JavaScript from this package**, so every shared component is unreachable
 and each product writes its own. The packaging constraint is what is actually enforcing
-the duplication that ADR-0004 exists to remove.
+the duplication that ADR-UI-0004 exists to remove.
 
 There is direct evidence the shared path works when it is reachable: the `Switch` fix in
 v0.9.3 (`transition-transform`, which Tailwind 4 made inert) was one change that corrected
@@ -124,7 +124,7 @@ Whichever is chosen, the test is the same: **can CHC's server, built with esbuil
 **If solved.** The banding rule has one home. `ScoreGauge`, `ScoreValue` and `StarRating`
 become genuinely shareable — and the evidence says they should be, since CM's maturity
 model is also five levels on the same `--star-*` ramp with the same nearest-star rule. The
-twenty generic components ADR-0004 identified become reachable, one at a time.
+twenty generic components ADR-UI-0004 identified become reachable, one at a time.
 
 **If not solved.** Every product keeps restating shared rules, each copy correct on the day
 it is written. Today three copies of the banding rule agree exactly; there is no mechanism

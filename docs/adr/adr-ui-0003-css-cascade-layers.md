@@ -1,4 +1,4 @@
-# ADR-0003: CSS cascade layers for specificity control
+# ADR-UI-0003: CSS cascade layers for specificity control
 
 **Status:** Accepted
 **Date:** 2026-04-16

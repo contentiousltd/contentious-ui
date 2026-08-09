@@ -1,11 +1,11 @@
-# Handoff: ADR-0005, shipping JavaScript to consumers
+# Handoff: ADR-UI-0005, shipping JavaScript to consumers
 
-For a new thread picking up [ADR-0005](../adr/0005-shipping-javascript-to-consumers.md),
+For a new thread picking up [ADR-UI-0005](../adr/adr-ui-0005-shipping-javascript-to-consumers.md),
 which is **Proposed and undecided**. Written 2026-08-03, immediately after the CI work
-([ADR-0006](../adr/0006-ci-for-the-design-system.md)) merged as
+([ADR-UI-0006](../adr/adr-ui-0006-ci-for-the-design-system.md)) merged as
 [PR #2](https://github.com/contentiousltd/contentious-ui/pull/2).
 
-Read ADR-0005 itself first — it states the problem and the four options well, and this
+Read ADR-UI-0005 itself first — it states the problem and the four options well, and this
 note does not restate them. What follows is what changed underneath it, what I verified,
 and two corrections it needs.
 
@@ -13,7 +13,7 @@ and two corrections it needs.
 
 ## What the CI work changed for you
 
-**The blocker ADR-0005 didn't know it had is gone.** Before PR #2 this package could not be
+**The blocker ADR-UI-0005 didn't know it had is gone.** Before PR #2 this package could not be
 compiled at all:
 
 - `typescript` was not a dependency. `npx tsc` silently resolved an unrelated package of
@@ -30,7 +30,7 @@ longer part of their cost.
 `rootDir`/`outDir`/`declaration` removed, and `include: ["src", "brand"]`. This says "check
 this code" without saying "build it this way". Whoever implements A, B or D will need to
 reintroduce emit settings — that is expected, not an oversight, and the shape was left
-open on purpose so ADR-0005 could choose it.
+open on purpose so ADR-UI-0005 could choose it.
 
 **`brand/` is now type-checked.** It is shipped via the `./brand` and `./brand/*` exports
 and was previously unchecked. This matters for option D, which ships "pure, dependency-free
@@ -38,9 +38,9 @@ modules" — `brand/` is in exactly that category and is now known to be clean.
 
 ---
 
-## Two corrections to ADR-0005
+## Two corrections to ADR-UI-0005
 
-**1. `f56566a6` is not in this repository.** ADR-0005 says the old tsup config is
+**1. `f56566a6` is not in this repository.** ADR-UI-0005 says the old tsup config is
 "recoverable from `f56566a6^`". That commit does not exist here, and `tsup.config.ts` has
 never existed in this repo's history. It is in **Content Health Check**, from when the
 library was vendored inside it:
@@ -82,7 +82,7 @@ the packaging decision.
 | CM | `client/src/lib/maturity-bands.ts`, plus its own test |
 
 Note CHC has a test literally named `no-local-score-bands` — it is policing locally the
-exact duplication ADR-0005 wants to remove globally.
+exact duplication ADR-UI-0005 wants to remove globally.
 
 **Consumer pins today** (from each repo's `origin/main`):
 
@@ -99,7 +99,7 @@ exact duplication ADR-0005 wants to remove globally.
 
 ---
 
-## Things worth weighing that ADR-0005 doesn't mention
+## Things worth weighing that ADR-UI-0005 doesn't mention
 
 - **`check:utilities` runs at half strength because there is no build.** Its CSS emit half
   skips without built CSS; only the transition half runs, on CI as well as locally. Options
@@ -115,13 +115,13 @@ exact duplication ADR-0005 wants to remove globally.
   failure mode that check exists to prevent.
 - **`npm ci` reports 2 high-severity transitive vulnerabilities** (`picomatch`, `postcss`,
   via the two Tailwind plugins). Pre-existing, untouched by the CI work, and `npm audit fix`
-  claims to resolve both. Unrelated to ADR-0005 but you will see it in every CI log.
+  claims to resolve both. Unrelated to ADR-UI-0005 but you will see it in every CI log.
 
 ---
 
 ## Suggested starting point
 
-ADR-0005's own test is the right one and is unchanged:
+ADR-UI-0005's own test is the right one and is unchanged:
 
 > Can CHC's server, built with esbuild `--packages=external`, import `scoreToStars` and run?
 

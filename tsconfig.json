@@ -12,7 +12,7 @@
 
     // Nothing is emitted today: the package ships raw TypeScript and `exports`
     // points at source. This config exists to check the code, not to build it.
-    // Whether we ever compile is ADR-0005's question, not this file's.
+    // Whether we ever compile is ADR-UI-0005's question, not this file's.
     "noEmit": true
   },
 

@@ -1,4 +1,4 @@
-# ADR-0004: The design system lives here, as a skill
+# ADR-UI-0004: The design system lives here, as a skill
 
 **Status:** Accepted
 **Date:** 2026-07-30

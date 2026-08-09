@@ -114,7 +114,7 @@ the export + v0.4.0. Kept here for one release so the reasoning is findable, the
 Answered 31 July 2026 in the product-signatures export and applied in `src/` the same day:
 
 - **Should the palette move to OKLCH?** → **No.** Neither a format conversion nor a
-  re-derivation of the ramps. ADR-0002 stands and hex remains the storage format;
+  re-derivation of the ramps. ADR-UI-0002 stands and hex remains the storage format;
   verified on applying the export that not one hex changed. OKLCH is kept as the space to
   *review* a ramp in, with one hard rule written into `colors.css`: no two adjacent stops
   may sit closer than 1.0 L. That is what the limestone light end failed, and it is now

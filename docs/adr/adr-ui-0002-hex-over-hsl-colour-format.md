@@ -1,4 +1,4 @@
-# ADR-0002: Hex over HSL for colour tokens
+# ADR-UI-0002: Hex over HSL for colour tokens
 
 **Status:** Accepted
 **Date:** 2026-04-16

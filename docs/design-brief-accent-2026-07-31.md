@@ -115,7 +115,7 @@ grounds, which is why this is a question rather than a proposal.
 Please don't re-solve these – they are settled or in hand:
 
 - **Density.** Answered in the 31 July export, applied in v0.6.0, all four themes updated.
-- **OKLCH.** Answered: rejected. ADR-0002 reaffirmed.
+- **OKLCH.** Answered: rejected. ADR-UI-0002 reaffirmed.
 - **The bridge freezing the signature colours.** That was our bug, fixed in v0.6.0 –
   themed-ness is now sticky and `products.css` counts as product-scoped.
 - **The `.c-card` / `.c-frame` split.** Settled in 0.4.0 and working.

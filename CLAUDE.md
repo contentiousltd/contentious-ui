@@ -5,7 +5,7 @@
 This repository is the home of the Contentious design system. It lives in
 `skills/contentious-design/` and is consumed as a Claude Code skill, symlinked from
 `~/.claude/skills/contentious-design` so it is available in every repo in the suite.
-See [ADR-0004](docs/adr/0004-design-system-as-a-skill.md).
+See [ADR-UI-0004](docs/adr/adr-ui-0004-design-system-as-a-skill.md).
 
 **Before writing or changing any UI, anywhere in the suite, invoke the
 `contentious-design` skill and follow it.** Start with its `readme.md`, then the
@@ -74,7 +74,7 @@ Apps using `#semver:^0.2` pick up patch and minor updates automatically on their
 
 ## CSS architecture
 
-This package uses a layered CSS architecture. See `docs/adr/0003-css-cascade-layers.md`.
+This package uses a layered CSS architecture. See `docs/adr/adr-ui-0003-css-cascade-layers.md`.
 
 - **Layer order:** `tokens → theme → base → components → utilities`
 - **Tokens layer** (`tokens.css`): raw design decisions — hex palette, spacing, motion, layout

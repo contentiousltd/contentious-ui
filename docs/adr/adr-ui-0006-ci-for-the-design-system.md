@@ -1,4 +1,4 @@
-# ADR-0006: CI for the design system
+# ADR-UI-0006: CI for the design system
 
 **Status:** Accepted
 **Date:** 2026-08-03
@@ -77,7 +77,7 @@ has a `tailwind.config.*` file at all. VTS has
 Accepted 2026-04-16; its Tailwind 3 entry is a leftover dependency, not a live consumer. The
 consumer-facing risk that argued for the patch does not currently exist.
 
-**This is a prerequisite for [ADR-0005](0005-shipping-javascript-to-consumers.md), not a
+**This is a prerequisite for [ADR-UI-0005](adr-ui-0005-shipping-javascript-to-consumers.md), not a
 competitor to it.** Every option in that ADR except "consumers transpile" requires this
 package to compile. That requires a compiler in `devDependencies` and a green type-check —
 exactly what this ADR installs. The `require()` conversion matters more there than here:
@@ -89,7 +89,7 @@ change and no `prepare` hook. `noEmit` is deliberately the non-committal form: t
 becomes compilable without any decision about whether it gets compiled.
 
 **`check:utilities` runs at half strength.** Its CSS emit half needs built CSS and skips
-without it; the transition half — which caught the v0.9.2 `Switch` bug — runs. If ADR-0005
+without it; the transition half — which caught the v0.9.2 `Switch` bug — runs. If ADR-UI-0005
 introduces a build, that half returns for free. That is a small argument for a build, to be
 weighed there rather than here.
 

@@ -7,7 +7,7 @@
    with the design system at skills/contentious-design/tokens/products.css;
    this is the door into it for consumers of the package, so there is ONE
    file rather than a copy here that drifts from the copy there.
-   See ADR-0004.
+   See ADR-UI-0004.
 
    WHAT IT DOES. It re-points a closed set of tokens — grounds, hairlines,
    text, accent, --level-empty — under [data-product="…"]. Everything

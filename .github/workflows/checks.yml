@@ -5,7 +5,7 @@ name: Checks
 # script the whole suite runs — all of it previously checked only by hand.
 #
 # Deliberately smaller than contenthealthcheck's ci.yml: no test runner, no
-# linter, and no build. See docs/adr/0006-ci-for-the-design-system.md.
+# linter, and no build. See docs/adr/adr-ui-0006-ci-for-the-design-system.md.
 
 on:
   pull_request:

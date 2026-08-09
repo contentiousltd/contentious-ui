@@ -125,7 +125,7 @@ consumer repos:
 - **No repo in the suite imports `tailwind-preset`.** The only matches are changelog
   entries, backlog items and archived Claude transcripts — no source file, no config.
 - **No repo has a `tailwind.config.*` file at all.**
-- **VTS has [ADR-VTS-0005 "Token-first CSS architecture — remove Tailwind"](../../../voicetoneandstyle/docs/adr/adr-vts-0005-token-first-css-architecture-remove-tailwind.md),
+- **VTS has [ADR-VTS-0005 "Token-first CSS architecture — remove Tailwind"](../../../../voicetoneandstyle/docs/adr/adr-vts-0005-token-first-css-architecture-remove-tailwind.md),
   status Accepted, dated 2026-04-16.** Its `^3.4.17` entry is a leftover dependency, not a
   live consumer. VTS consumes this package's *CSS layers*, which the preset does not touch.
 
@@ -228,18 +228,18 @@ The version guard passes today: `package.json` is `0.9.3` and `v0.9.3` is tagged
 
 ---
 
-## How this relates to ADR-0005 (shipping JavaScript to consumers)
+## How this relates to ADR-UI-0005 (shipping JavaScript to consumers)
 
-[ADR-0005](../adr/0005-shipping-javascript-to-consumers.md) is Proposed and undecided, and
+[ADR-UI-0005](../adr/adr-ui-0005-shipping-javascript-to-consumers.md) is Proposed and undecided, and
 this PR should **not** pre-empt it. But the two touch in three places, and one of them
 changes a choice above.
 
 **1. This PR is a prerequisite for options A, B and D — not a competitor to them.** Every
 option except C ("consumers transpile") requires this package to build. A build requires a
 compiler in `devDependencies` and a type-check that is actually green. Right now the repo
-has neither: no `typescript`, and two errors when one is supplied. Whatever ADR-0005
+has neither: no `typescript`, and two errors when one is supplied. Whatever ADR-UI-0005
 decides, that work starts by doing what this PR does. Adding a pinned `typescript` is
-therefore not scope creep — it is the first step of the build surface ADR-0005 is weighing,
+therefore not scope creep — it is the first step of the build surface ADR-UI-0005 is weighing,
 paid early and cheaply.
 
 **2. It strengthens the case for (a) over (b) on the `require()` errors.** Options A and D
@@ -249,7 +249,7 @@ alone (option b) leaves that hazard in place and hides the signal; converting to
 imports (option a) removes it. Since no consumer imports `tailwind-preset` at all, this is
 close to free now and awkward later, once a build depends on it.
 
-**3. It sharpens question 2 — `brand/` should be in the type-check.** ADR-0005 option D
+**3. It sharpens question 2 — `brand/` should be in the type-check.** ADR-UI-0005 option D
 ships "the pure, dependency-free modules (`lib/colors.ts`, `types/`) as compiled JS". Those
 are precisely the shipped-but-unchecked exports. `brand/` sits in the same category, adds
 zero errors today, and would have to be checked before it could be compiled. Including it
@@ -258,10 +258,10 @@ now costs nothing and removes one obstacle from D's path.
 **What this PR still must not do:** decide the packaging question. No `dist/`, no `tsup`, no
 `exports` change, no `prepare` hook. `check:types` with `noEmit` is deliberately the
 *non-committal* form — it makes the code compilable without deciding whether, or how, it
-gets compiled. If ADR-0005 later lands on C, nothing here is wasted; a green type-check is
+gets compiled. If ADR-UI-0005 later lands on C, nothing here is wasted; a green type-check is
 worth having regardless.
 
-One thing worth noting for ADR-0005 rather than acting on here: `check:utilities` runs in
+One thing worth noting for ADR-UI-0005 rather than acting on here: `check:utilities` runs in
 its degraded half-mode because there is no build. If A or D lands, that check gets its CSS
 emit half back for free. Another small argument for a build, to add to that ADR's ledger —
 not a reason to build one now.

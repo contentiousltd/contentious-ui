@@ -4,17 +4,17 @@
 **Written:** 2026-08-03 · **Revised:** 2026-08-04 after review from the Content Health
 Check side, which confirmed Phase 0 item 1 in the deployed server, found the
 npm-subdirectory gap that is now Phase 0.2, and corrected three smaller claims.
-**Supersedes the open question in** this repo's [ADR-0005](../adr/0005-shipping-javascript-to-consumers.md)
+**Supersedes the open question in** [ADR-UI-0005](../adr/adr-ui-0005-shipping-javascript-to-consumers.md)
 and its [handoff note](adr-0005-handoff.md).
 
-This plan came out of asking what this repo's ADR-0005 implies for the suite. The survey that
+This plan came out of asking what ADR-UI-0005 implies for the suite. The survey that
 followed changed the answer, so this document records what was found as well as what to
 do — several suite documents are wrong in ways that matter, and the corrections are part
 of the work.
 
 ---
 
-## The finding that changes this repo's ADR-0005
+## The finding that changes ADR-UI-0005
 
 **`@contentious/auth` already ships compiled JavaScript by git tag, and CHC and CM both
 import it.**
@@ -278,7 +278,7 @@ rewriting with an embedded credential.
    `@contentious/auth/oidc` (commit `56168a1e`), and that module is loaded at runtime in
    the deployed Railway server, bundled by `esbuild … --packages=external`. The
    compiled-`dist/` import demonstrably survives in production. **The premise holds and
-   this repo's ADR-0005 does not reopen as posed.**
+   ADR-UI-0005 does not reopen as posed.**
 
 2. **Decide how consumers install a package that lives in a subdirectory.** *Added
    2026-08-04 — see below. This is now the blocking item.*
@@ -322,7 +322,7 @@ can install**. One of these has to be chosen before anything moves:
 variable is already called `GITHUB_PACKAGES_TOKEN`. CI and `nixpacks.toml` swap the
 git-credential dance for registry auth — which also retires the token-leak-prone block
 recorded in both repos on 2026-07-22, rather than merely deduplicating it. Note this is
-this repo's ADR-0005 option B. That ADR set it aside in one sentence — *"auth in every
+ADR-UI-0005 option B. That ADR set it aside in one sentence — *"auth in every
 consumer's CI, and CM already carries a `private-packages-auth` action for exactly this
 kind of problem, which suggests it is not free"* — and **the evidence points the other
 way.** That action does `git config insteadOf` URL rewriting so npm can clone private
@@ -403,7 +403,7 @@ every consumer whenever any package changed.
 
 ### Phase 2 — `core` takes the banding rule
 
-This is the original complaint in this repo's ADR-0005 and nothing gates it.
+This is the original complaint in ADR-UI-0005 and nothing gates it.
 
 Three copies, verified identical for every integer 0–100:
 
@@ -499,20 +499,18 @@ across a version boundary today.
 
 **`products.md`** — `slow-content` exists as a repo; the file says not created.
 
-**ADR identifier namespacing.** Suite [ADR-0008](https://github.com/contentiousltd/contentious/blob/main/docs/adr/0008-adr-identifier-namespacing.md)
-says a bare four-digit `ADR-NNNN` means the meta-repo, and product ADRs carry their
-repo's backlog prefix. **`contentious-ui` never adopted it** — its ADRs are still bare
-`0001`–`0006`, so "ADR-0005" means the auth-migration ADR to a suite reader and the
-JavaScript-shipping one to a reader in this repo. This plan works around it by saying
-"this repo's ADR-0005" throughout, which is a patch, not a fix. Two things follow:
+**ADR identifier namespacing — done 2026-08-09.** Suite [ADR-0008](https://github.com/contentiousltd/contentious/blob/main/docs/adr/0008-adr-identifier-namespacing.md)
+says a bare four-digit `ADR-NNNN` means the meta-repo and product ADRs carry their repo's
+prefix, but its table listed only the five product repos — `contentious-ui` was
+overlooked, so its ADRs stayed bare and "ADR-0005" meant the auth-migration ADR to a
+suite reader and the JavaScript-shipping one here. This repo's six are now
+`ADR-UI-0001`–`0006` at `docs/adr/adr-ui-000N-slug.md`, numbers preserved per ADR-0008 §3,
+and the table has rows for the three shared-infrastructure repos it missed.
 
-- ADR-0008's prefix table has no row for `contentious-ui`, so the repo was overlooked
-  when the convention was set. It needs a prefix assigned (`ui` is the obvious one) and
-  its six ADRs renamed — numbers preserved, per ADR-0008 §3.
-- **The platform repo's `docs/adr/` should be prefixed from day one**, so this does not
-  recur in a repo that will outlive the plan.
+**The platform repo's `docs/adr/` carries a prefix from day one**, so this does not recur
+in a repo that will outlive the plan.
 
-**This repo:** its ADR-0005 moves from Proposed to resolved, citing the platform ADR;
+**This repo:** its ADR-UI-0005 moves from Proposed to resolved, citing the platform ADR;
 [the handoff note](adr-0005-handoff.md) is superseded by this plan; CHANGELOG under
 `[Unreleased] → Changed`.
 
