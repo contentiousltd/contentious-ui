@@ -1,11 +1,45 @@
 # Plan: the Contentious platform repo
 
-**Status:** Proposal, for review. Nothing has moved.
+**Status:** Proposal, for review. Nothing has moved. **Still blocked on Phase 0.2** — npm
+cannot install a package from a subdirectory, so the install mechanism is settled before
+Phase 1, not during it.
 **Written:** 2026-08-03 · **Revised:** 2026-08-04 after review from the Content Health
 Check side, which confirmed Phase 0 item 1 in the deployed server, found the
 npm-subdirectory gap that is now Phase 0.2, and corrected three smaller claims.
+**Revised again 2026-08-21** from the machine-door work: the IdP-staleness example has
+gone stale itself and the drift has flipped direction, while four new instances of the
+underlying failure mode turned up — see the update under
+[the identity provider is the most stale thing in the suite](#the-identity-provider-is-the-most-stale-thing-in-the-suite).
 **Supersedes the open question in** [ADR-UI-0005](../adr/adr-ui-0005-shipping-javascript-to-consumers.md)
 and its [handoff note](adr-0005-handoff.md).
+
+> **Premise change, 2026-08-23 — one of this plan's arguments has weakened.**
+> When this was written, the shared-infrastructure repos had no tracker at all, and
+> that absence does real work below: it is why nothing reported the identity
+> provider's drift, and why the organisation plugin switched on without a decision.
+> **That is no longer true.** As of 22 August all four repos are in one Notion
+> database (`Product = Shared infrastructure`), and ADR-0015's build table is eight
+> tracked items with dependency links rather than a table inside a document.
+>
+> This plan makes two separable cases. The **visibility** case — nothing reports
+> where any repo sits, so which one is stale is a matter of who last remembered —
+> is now substantially answered by the tracker. The **atomicity** case — four
+> things must change in one commit, one CI run, one tag — is untouched by it, and
+> remains the load-bearing argument.
+>
+> Reading this plan's own evidence, the failures it documents are mostly the first
+> kind: drift, and capabilities changing unnoticed. It records no case of a
+> coordinated change that broke for want of atomicity. So a fourth option is now
+> live and is tracked as **option (d)** on the Phase 0.2 item (`ROAD-1328`):
+> **keep the repos separate, add the missing staleness check, and let the tracker
+> carry coordination.** It costs nothing to the consumer story — the subdirectory
+> problem is created *by* merging — and `contentious-ui` stays public.
+>
+> It leaves two things unsolved, honestly stated: the banding rule still has three
+> homes (a `core` repo would be a tenth consumer edge rather than one commit), and
+> extracting a component upward stays a cross-repo dance. Those are the merge's
+> real remaining value, and they are smaller than the case this plan originally
+> made. **Not a recommendation — a decision that is now open again.**
 
 This plan came out of asking what ADR-UI-0005 implies for the suite. The survey that
 followed changed the answer, so this document records what was found as well as what to
@@ -125,6 +159,62 @@ implements — its *capabilities* change without a decision, in both directions.
 now places the IdP on two critical paths (shared organisations, and the Content Layer's
 machine door), which raises the stakes on this specific failure mode and is an argument
 for the merge on grounds independent of churn.
+
+**Update, 2026-08-21, from the machine-door work.** One correction to this section's own
+example, and three further instances of the failure mode it describes.
+
+**The version-drift example above is out of date, and the direction has flipped.** The IdP
+is now on `@contentious/ui` **v0.11.0** — the current tag — while **Content Maturity** sits
+on v0.9.3. It is also ahead on `@contentious/auth` (v0.7.0 against CHC's and CM's v0.6.0).
+So "the IdP is the most stale thing in the suite" is no longer literally true, and the
+brand-seam argument in its original form has lapsed: a user leaving CM for the IdP now
+crosses the seam in the *opposite* direction. **The structural argument is untouched.** The
+point was never that the IdP is behind; it is that nothing reports where it sits, so which
+repo happens to be stale is a matter of who last remembered. That it silently swapped from
+behind to ahead — with the same absence of any check — is the same finding, not its refutation.
+
+**Two further instances of capabilities changing without a decision, both found this week:**
+
+1. **A well-known URL that had never worked.** The 404ing `jwks_uri` above is now fixed —
+   `@contentious/auth` v0.7.0 enables the `jwt` plugin, verified against a real instance
+   (`/api/auth/jwks` returns an Ed25519 key set). It needed a `jwks` table added by hand to
+   the IdP's `drizzle/auth-schema.ts`, which is hand-maintained, and **the absence of that
+   table fails at the first request rather than at boot.** This is the third distinct thing
+   in this repo's history to fail that way, after the `user` table and the
+   `oauth_access_token` → `oauth_application` foreign key that made federation entirely
+   non-functional on 2026-07-29.
+
+2. **The upstream dependency moved house.** Enabling `jwt` printed a deprecation warning,
+   and checking upstream found that **Better Auth 1.7.1 no longer exports `oidc-provider`
+   or `mcp`** — both were extracted into `@better-auth/oauth-provider` and
+   `@better-auth/mcp`, published on 2026-08-18. The IdP is 23 patch releases behind, and
+   the OIDC provider carrying **every product's human sign-in** now has to migrate. Nothing
+   in the suite reported this; it surfaced because someone enabled an unrelated plugin and
+   read the warning.
+
+**And the sharpest one, because it is not about versions at all.** Checked across the suite
+on 2026-08-21: **no test of a real sign-in runs anywhere.** CHC and CM each carry their own
+`e2e/auth-round-trip.spec.ts`; neither repo's CI references the credentials, so both
+self-skip every run. `auth-contentious-ltd` has no sign-in test of its own. Two products
+duplicate the check, neither executes it, and the thing being checked lives in a third repo
+that does not test it either. Federation being wholly broken on 2026-07-29 was invisible to
+every check until someone ran a credentialed round trip by hand.
+
+**That is the argument this section has been reaching for.** Version drift is a symptom and
+it self-corrects by accident, as the flip above shows. The durable problem is that
+`auth`, the IdP, and the products that federate to it can only be verified *together*, and
+no repo owns that. Tracked as suite `fam-006`, which exists precisely because the obligation
+falls between repos — the same shape as the IdP having had no backlog at all until
+2026-08-21.
+
+**None of this is a new argument for the merge; it is the same one, with four more
+instances.** It is worth being clear about what the merge would and would not have caught:
+the extraction of `mcp` upstream is external and would have happened anyway. What a single
+workspace changes is that `auth`, its reference implementation and their shared CI move in
+one commit — so a plugin cannot switch on unnoticed, a schema table cannot be forgotten
+until first request, and one sign-in test can cover the pair. See the suite's
+[machine-door plan](https://github.com/contentiousltd/contentious/blob/main/docs/plans/machine-door-plan.md)
+for the full working.
 
 ### ADR-0014's provenance
 
