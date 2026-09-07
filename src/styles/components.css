@@ -2,8 +2,15 @@
    Contentious component classes
 
    The design system's component CSS is the reference implementation
-   (ADR-0011) and is now imported below as this package's component layer,
-   the way semantic.css and products.css already import their doors.
+   (ADR-0011) and is imported immediately below as this package's
+   component layer, the way semantic.css and products.css already import
+   their doors. @import must precede every other statement in a
+   stylesheet or it is dropped silently (no error, no warning in a
+   production build) — that ruled out importing after this file's own
+   rules, which is where earlier drafts had it. The local rules below
+   still win any tie: within one cascade layer, equal-specificity rules
+   are resolved by source order, and this file's own rules come after
+   the import, not before it.
 
    Two collisions had to be resolved first, both tracked in GAPS.md.
 
@@ -40,11 +47,16 @@
    c-section        — APP section spacing (margin-top). Unchanged.
    c-section-header — APP data-context header. Unchanged.
    c-marketing-section — marketing page section (vertical padding, tint
-                         variant). The design system's, imported below.
+                         variant). The design system's, imported immediately below.
    c-feature-card   — borderless card with display heading and body text
    c-frame          — bordered, shadowed container; composes with c-feature-card
 
-   ================================================================ */
+   Bare-string form, not @import url(...) — Tailwind 4 silently drops the
+   url() form. It already declares its own @layer components internally,
+   so the layer(...) here is belt-and-braces for a consumer whose bundler
+   doesn't honour a nested layer(...) on an @import; see the note in
+   semantic.css. */
+@import "../../skills/contentious-design/components/components.css" layer(components);
 
 @layer components {
 
@@ -578,14 +590,3 @@
     .btn:active { transform: translateY(1px); transition-duration: 100ms; }
   }
 }
-
-/* The design system's component layer — the door into
-   skills/contentious-design/components/components.css, the same pattern as
-   semantic.css and products.css above it in the import order. It already
-   declares its own @layer components internally, so this wrapper is
-   belt-and-braces for a consumer whose bundler doesn't honour a nested
-   layer(...) on an @import; see the note in semantic.css.
-
-   Bare-string form, not @import url(...) — Tailwind 4 silently drops the
-   url() form. */
-@import "../../skills/contentious-design/components/components.css" layer(components);

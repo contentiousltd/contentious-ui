@@ -8,6 +8,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.14.1] – 2026-09-07
+
+### Fixed
+
+- **`src/styles/components.css`'s door into the design system's component CSS never actually loaded.** The `@import` of `skills/contentious-design/components/components.css` sat after this file's own 60-odd rules, which makes it invalid CSS — `@import` must precede every other statement in a stylesheet, and a browser (and Vite's dev-mode CSS pipeline) drops a late one silently, no error, no warning in a production build. The entire marketing kit this package exists to ship – `.c-button`, `.c-eyebrow`, `.c-divider`, `.c-hero` and its parts, `.c-footer__groups`, the hero animations – was never in a single consumer's built CSS. Caught building contentoperatingmodel.com: every marketing surface rendered as unstyled HTML. The `@import` now runs first; this file's own rules still win any tie because within one cascade layer, source order breaks equal-specificity ties, and they still come after it.
+
 ## [0.14.0] – 2026-09-07
 
 The third design round of 7 September: Content Operating Model becomes the
