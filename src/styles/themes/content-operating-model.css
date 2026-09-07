@@ -1,0 +1,57 @@
+/* ================================================================
+   Content Operating Model — Semantic token mapping
+   Primary: sapling-700 | Surfaces: limestone | Front door only
+
+   The product's signature lives in the design system's
+   tokens/products.css under [data-product="com"], and that block is the
+   only place a COM value is decided. This file does two things and
+   invents nothing:
+
+   1. Sets the one knob ADR-0011 §3 leaves to a theme: density.
+   2. Re-points the shadcn-era names this package's own components.css
+      still reads (--background, --primary, --border …) onto the semantic
+      layer, so they follow the product block rather than carrying a
+      second copy of its values. CHC's theme took the same shape at the
+      4 Aug 2026 ground move; this one starts there.
+
+   Consumers put data-product="com" on <html> and import this file after
+   base.css and before semantic.css and products.css, per README.
+   ================================================================ */
+
+@layer theme {
+  :root {
+    /* Density is derived from deployment mode, not chosen here. COM has no
+       working surface until the v1 library ships, so every surface it owns
+       is a front door, and front doors take the brand's 24px – the same
+       answer Maturity Tool gets, for the same reason. See the Density note
+       at the foot of the design system's tokens/products.css. When the app
+       arrives, the app surfaces take 19px and this line does not change:
+       density belongs to the surface, and the app declares its own. */
+    --base-font-size: 24px;
+
+    --background: var(--surface-page);
+    --foreground: var(--text-body);
+    --card: var(--surface-card);
+    --card-foreground: var(--text-body);
+    --popover: var(--surface-menu);
+    --popover-foreground: var(--text-body);
+    --primary: var(--accent);                    /* sapling-700 in products.css */
+    --primary-foreground: var(--text-on-accent); /* limestone-100: 6.59:1 on it */
+    --secondary: var(--surface-page);
+    --secondary-foreground: var(--text-body);
+    --muted: var(--surface-hover);
+    --muted-foreground: var(--text-secondary);
+    /* No --accent / --accent-foreground pair: those names belong to the
+       design system's accent group (Accent decision, 31 July 2026) and are
+       declared per product in tokens/products.css. Re-declaring them here
+       would override the signature. */
+    --destructive: var(--fire-600);              /* danger is fire in every product */
+    --destructive-foreground: var(--text-on-accent);
+    --border: var(--rule-row);
+    --input: var(--rule-field);
+    --ring: var(--focus-ring);
+
+    /* No chart or loading-ring colours: COM displays no scores, and
+       --level-empty is declared unused in its product block on purpose. */
+  }
+}

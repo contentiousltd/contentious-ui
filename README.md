@@ -168,6 +168,7 @@ A theme maps semantic tokens to palette tokens for a specific product. See [docs
 |------|---------|---------|---------|
 | `themes/voice-tone-style.css` | Voice Tone & Style | sorbet | limestone |
 | `themes/content-maturity.css` | Content Maturity | fire | lichen |
+| `themes/content-operating-model.css` | Content Operating Model | sapling-700 | limestone (front door only, 24px) |
 
 ---
 

@@ -38,6 +38,14 @@ export interface ProductBrand {
    * Only products with a reversed surface carry one.
    */
   markOnDark2x?: string;
+  /**
+   * A real .ico, for products whose favicon is a cut of the mark rather than
+   * the mark itself. Content Operating Model ships two cuts of one mark split
+   * on SIZE (the apparatus for the hero and header, the cog for the tab),
+   * so the tab icon is not derivable from `mark`. Sibling PNG sizes sit
+   * beside it in the same folder.
+   */
+  favicon?: string;
 }
 
 export const PRODUCT_BRANDS: Record<string, ProductBrand> = brands;

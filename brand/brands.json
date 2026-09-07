@@ -17,5 +17,12 @@
     "theme": "styles/themes/voice-tone-style.css",
     "mark": "brand/voice-tone-style/logo.png",
     "mark2x": "brand/voice-tone-style/logo@2x.png"
+  },
+  "content-operating-model": {
+    "name": "Content Operating Model",
+    "theme": "styles/themes/content-operating-model.css",
+    "mark": "brand/content-operating-model/logo.png",
+    "mark2x": "brand/content-operating-model/logo@2x.png",
+    "favicon": "brand/content-operating-model/favicon.ico"
   }
 }

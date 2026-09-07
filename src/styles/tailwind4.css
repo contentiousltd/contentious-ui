@@ -25,7 +25,7 @@
    stay as var() so theming keeps working, and do NOT take a modifier.
    Reach for a numbered shade rather than an opacity step on those.
 
-   246 literal colours · 56 themed · 6 fonts · 4 weights · 5 radii · 0 spacing · 3 shadows
+   246 literal colours · 58 themed · 6 fonts · 4 weights · 5 radii · 0 spacing · 3 shadows
    ================================================================ */
 
 @theme {
@@ -307,60 +307,62 @@
   /* ---- Colour — product-themed, NO opacity modifier ---------------------- */
   /* A theme file re-points these, so they must stay references. bg-primary */
   /* works; bg-primary/50 renders opaque. Use a shade instead. */
-  --color-accent                : var(--accent);
-  --color-accent-hover          : var(--accent-hover);
-  --color-accent-link           : var(--accent-link);
-  --color-accent-link-hover     : var(--accent-link-hover);
-  --color-accent-link-on-deep   : var(--accent-link-on-deep);
-  --color-accent-marker         : var(--accent-marker);
-  --color-background            : var(--background);
-  --color-border                : var(--border);
-  --color-card                  : var(--card);
-  --color-card-foreground       : var(--card-foreground);
-  --color-danger-border         : var(--danger-border);
-  --color-danger-fg             : var(--danger-fg);
-  --color-danger-fg-hover       : var(--danger-fg-hover);
-  --color-danger-tint           : var(--danger-tint);
-  --color-data-muted            : var(--data-muted);
-  --color-destructive           : var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-focus-ring            : var(--focus-ring);
-  --color-foreground            : var(--foreground);
-  --color-input                 : var(--input);
-  --color-level-empty           : var(--level-empty);
-  --color-muted                 : var(--muted);
-  --color-muted-foreground      : var(--muted-foreground);
-  --color-popover               : var(--popover);
-  --color-popover-foreground    : var(--popover-foreground);
-  --color-primary               : var(--primary);
-  --color-primary-foreground    : var(--primary-foreground);
-  --color-rule-field            : var(--rule-field);
-  --color-rule-on-deep          : var(--rule-on-deep);
-  --color-rule-row              : var(--rule-row);
-  --color-rule-section          : var(--rule-section);
-  --color-secondary             : var(--secondary);
-  --color-secondary-foreground  : var(--secondary-foreground);
-  --color-surface-card          : var(--surface-card);
-  --color-surface-card-deep     : var(--surface-card-deep);
-  --color-surface-chrome        : var(--surface-chrome);
-  --color-surface-field         : var(--surface-field);
-  --color-surface-footer        : var(--surface-footer);
-  --color-surface-front         : var(--surface-front);
-  --color-surface-front-tint    : var(--surface-front-tint);
-  --color-surface-hover         : var(--surface-hover);
-  --color-surface-hover-row     : var(--surface-hover-row);
-  --color-surface-inverse       : var(--surface-inverse);
-  --color-surface-menu          : var(--surface-menu);
-  --color-surface-page          : var(--surface-page);
-  --color-surface-raised        : var(--surface-raised);
-  --color-text-body             : var(--text-body);
-  --color-text-inset            : var(--text-inset);
-  --color-text-inset-strong     : var(--text-inset-strong);
-  --color-text-inverse          : var(--text-inverse);
-  --color-text-multiplier       : var(--text-multiplier);
-  --color-text-muted            : var(--text-muted);
-  --color-text-on-accent        : var(--text-on-accent);
-  --color-text-on-hover         : var(--text-on-hover);
-  --color-text-secondary        : var(--text-secondary);
-  --color-text-strong           : var(--text-strong);
+  --color-accent                      : var(--accent);
+  --color-accent-hover                : var(--accent-hover);
+  --color-accent-link                 : var(--accent-link);
+  --color-accent-link-hover           : var(--accent-link-hover);
+  --color-accent-link-on-deep         : var(--accent-link-on-deep);
+  --color-accent-link-on-reverse      : var(--accent-link-on-reverse);
+  --color-accent-link-on-reverse-hover: var(--accent-link-on-reverse-hover);
+  --color-accent-marker               : var(--accent-marker);
+  --color-background                  : var(--background);
+  --color-border                      : var(--border);
+  --color-card                        : var(--card);
+  --color-card-foreground             : var(--card-foreground);
+  --color-danger-border               : var(--danger-border);
+  --color-danger-fg                   : var(--danger-fg);
+  --color-danger-fg-hover             : var(--danger-fg-hover);
+  --color-danger-tint                 : var(--danger-tint);
+  --color-data-muted                  : var(--data-muted);
+  --color-destructive                 : var(--destructive);
+  --color-destructive-foreground      : var(--destructive-foreground);
+  --color-focus-ring                  : var(--focus-ring);
+  --color-foreground                  : var(--foreground);
+  --color-input                       : var(--input);
+  --color-level-empty                 : var(--level-empty);
+  --color-muted                       : var(--muted);
+  --color-muted-foreground            : var(--muted-foreground);
+  --color-popover                     : var(--popover);
+  --color-popover-foreground          : var(--popover-foreground);
+  --color-primary                     : var(--primary);
+  --color-primary-foreground          : var(--primary-foreground);
+  --color-rule-field                  : var(--rule-field);
+  --color-rule-on-deep                : var(--rule-on-deep);
+  --color-rule-row                    : var(--rule-row);
+  --color-rule-section                : var(--rule-section);
+  --color-secondary                   : var(--secondary);
+  --color-secondary-foreground        : var(--secondary-foreground);
+  --color-surface-card                : var(--surface-card);
+  --color-surface-card-deep           : var(--surface-card-deep);
+  --color-surface-chrome              : var(--surface-chrome);
+  --color-surface-field               : var(--surface-field);
+  --color-surface-footer              : var(--surface-footer);
+  --color-surface-front               : var(--surface-front);
+  --color-surface-front-tint          : var(--surface-front-tint);
+  --color-surface-hover               : var(--surface-hover);
+  --color-surface-hover-row           : var(--surface-hover-row);
+  --color-surface-inverse             : var(--surface-inverse);
+  --color-surface-menu                : var(--surface-menu);
+  --color-surface-page                : var(--surface-page);
+  --color-surface-raised              : var(--surface-raised);
+  --color-text-body                   : var(--text-body);
+  --color-text-inset                  : var(--text-inset);
+  --color-text-inset-strong           : var(--text-inset-strong);
+  --color-text-inverse                : var(--text-inverse);
+  --color-text-multiplier             : var(--text-multiplier);
+  --color-text-muted                  : var(--text-muted);
+  --color-text-on-accent              : var(--text-on-accent);
+  --color-text-on-hover               : var(--text-on-hover);
+  --color-text-secondary              : var(--text-secondary);
+  --color-text-strong                 : var(--text-strong);
 }
