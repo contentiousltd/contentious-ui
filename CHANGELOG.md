@@ -8,6 +8,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.13.0] – 2026-09-07
+
+Wires the design system's `components.css` in as this package's component
+layer, closing the last item in `GAPS.md` blocking that. Found while
+updating Maturity Tool to the 7 September marketing kit — its page had
+linked the design system's skill files directly rather than through the
+package's doors, which put the new tokens outside the cascade layer system
+entirely and broke the page's existing styling. The fix belongs here.
+
+### Added
+
+- **`src/styles/components.css` now imports `skills/contentious-design/components/components.css` into `layer(components)`** — the same door pattern `semantic.css` and `products.css` already use for `layer(theme)`. Makes the marketing kit (`Eyebrow`, `Hero`, `PullQuote`, `PriceBand`/`PriceRow`, `Steps`, `Divider`, `.c-bullets`, `.c-feature`/`.c-feature-row`, `.c-price`, `.c-marketing-section`) and the rest of the design system's component vocabulary reachable from `@contentious/ui/styles/components.css` for the first time, without a raw link to the skill folder.
+
+### Fixed
+
+- **`.c-section` / `.c-section-header` were recorded as colliding with the design system's marketing meanings; they don't.** The design system's marketing section wrapper is already named `.c-marketing-section`, chosen specifically to avoid this, and its marketing pattern page never uses `.c-section-header` at all — section intros are built from `.c-eyebrow` plus the section's own heading. `GAPS.md`'s two-year-old note describing this as blocking was stale; corrected.
+
 ## [0.12.0] – 2026-09-07
 
 The 7 September design round: the front door gets a ground, and Maturity Tool
