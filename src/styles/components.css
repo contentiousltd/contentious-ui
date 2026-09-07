@@ -2,33 +2,45 @@
    Contentious component classes
 
    The design system's component CSS is the reference implementation
-   (ADR-0011) and will become this package's component layer, imported the
-   way semantic.css already is. Step one of that landed 31 July 2026: the
-   .c-card collision is resolved, so the name is free.
+   (ADR-0011) and is now imported below as this package's component layer,
+   the way semantic.css and products.css already import their doors.
 
-   The two .c-cards were never two dialects of one component. The design
-   system's is the app's data surface, whose defining rule is no border and
-   no shadow; this file's was the shadcn Card — bordered, shadowed,
-   floating. Picking a winner would have bordered every data surface in
-   Content Health Check or unbordered every marketing card. So the bordered
-   container is now .c-frame, which is what --radius-frame already
-   described, and .c-card is left to the data surface.
+   Two collisions had to be resolved first, both tracked in GAPS.md.
 
-   The import itself is NOT wired up yet — two integration problems have to
-   be answered first, both recorded in GAPS.md:
-     1. The design system's components.css sizes everything in --u and
-        --t-*, which live in its tokens/typography.css alongside standalone
-        defaults (--base-font-size: 18px, --text-multiplier: 1) that must
-        not ship — they would force CHC's density on the website and flatten
-        the responsive step. That file needs splitting the way semantic.css
-        is split, or the roles need a home here.
-     2. .c-section and .c-section-header collide too, the same way .c-card
-        did: here they are a marketing page section (5rem padding), there an
-        app section (margin-top). Importing today would silently add top
-        margin to every marketing section.
+   .c-card, resolved 31 July 2026: the two .c-cards were never two dialects
+   of one component. The design system's is the app's data surface, whose
+   defining rule is no border and no shadow; this file's was the shadcn
+   Card — bordered, shadowed, floating. Picking a winner would have
+   bordered every data surface in Content Health Check or unbordered every
+   marketing card. So the bordered container is now .c-frame, which is what
+   --radius-frame already described, and .c-card is left to the data
+   surface.
 
-   c-section        — page section with vertical padding and centred container
-   c-section-header — section title + subtitle block
+   .c-section / .c-section-header, resolved 7 September 2026: here
+   .c-section is app section spacing (margin-top) and .c-section-header is
+   an app data-context header (hairline, left-aligned, an inline action).
+   The design system's marketing meanings never actually collide with
+   these — its section wrapper is already named .c-marketing-section, not
+   .c-section, precisely to avoid this; and its marketing pattern page
+   never uses .c-section-header at all, building section intros from
+   .c-eyebrow plus the section's own heading instead. So the app keeps both
+   names unchanged and the import needed no rename on either side.
+
+   --u and --t-* were the other open question and turned out not to be
+   one: they live in tokens/type-roles.css, already imported into
+   layer(theme) by semantic.css below, and that file sets no density
+   default of its own — it only reads --base-font-size / --text-multiplier
+   with a 19px / 1 fallback. tokens/typography.css, which DOES ship a
+   standalone 19px default meant only for a page that links it alone, is
+   not imported here or anywhere in this package. The marketing scope
+   (.c-marketing, in type-roles.css) is fully self-contained regardless:
+   it redeclares --u from --marketing-font-size with its own 24px
+   fallback, so it renders correctly with nothing else set.
+
+   c-section        — APP section spacing (margin-top). Unchanged.
+   c-section-header — APP data-context header. Unchanged.
+   c-marketing-section — marketing page section (vertical padding, tint
+                         variant). The design system's, imported below.
    c-feature-card   — borderless card with display heading and body text
    c-frame          — bordered, shadowed container; composes with c-feature-card
 
@@ -566,3 +578,14 @@
     .btn:active { transform: translateY(1px); transition-duration: 100ms; }
   }
 }
+
+/* The design system's component layer — the door into
+   skills/contentious-design/components/components.css, the same pattern as
+   semantic.css and products.css above it in the import order. It already
+   declares its own @layer components internally, so this wrapper is
+   belt-and-braces for a consumer whose bundler doesn't honour a nested
+   layer(...) on an @import; see the note in semantic.css.
+
+   Bare-string form, not @import url(...) — Tailwind 4 silently drops the
+   url() form. */
+@import "../../skills/contentious-design/components/components.css" layer(components);

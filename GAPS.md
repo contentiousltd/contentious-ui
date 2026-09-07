@@ -60,34 +60,36 @@ in this file, and do not answer them in product code.
   Related but distinct from `--surface-hover`, which is now settled: that one is the step
   for menus and controls; this is the step for a list row inside a card.
 
----
-
-The one below was found while wiring in the answers to
-[docs/design-brief-2026-07-31.md](docs/design-brief-2026-07-31.md), and it is the last
-thing blocking one goal: making the design system's `components.css` this package's
-component layer. The `.c-card` collision that blocked it is resolved (the bordered
-container is now `.c-frame`) and the `typography.css` split has now shipped, so this is
-what remains.
-
-- **`.c-section` and `.c-section-header` collide, exactly as `.c-card` did.** The answers
-  recorded these as marketing-only with no app equivalent, but the design system defines
-  both: here `.c-section` is a marketing page section (`padding: 5rem 0`), there it is app
-  section spacing (`margin-top: calc(var(--u) * 2.33)`). Importing today would silently add
-  top margin to every section on the marketing site and Maturity Tool. Needs the same
-  treatment `.c-card` got — decide which meaning keeps the name, and rename the other.
-
 ## Noted, not blocking
-
-- **Maturity Tool never loads the semantic layer.** Its `index.html` links `layers`,
-  `tokens`, `base`, the theme, `typography` and `components`, but not `semantic.css`, so
-  none of the design system's decisions (surfaces, scrims, chip tones, data colour) reach
-  it. Its `build.mjs` also copies only `src/styles` and `fonts`, so the `@import` in
-  `semantic.css` would 404 if it were linked — that has to be fixed in the same change.
 
 ## Answered
 
-Answered 31 July 2026 in `provenance/Design brief answers 2026-07-31.html` and applied in
-the export + v0.4.0. Kept here for one release so the reasoning is findable, then deleted.
+Answered 7 September 2026 while updating Maturity Tool, applied in v0.13.0. Kept here for
+one release so the reasoning is findable, then deleted.
+
+- **`.c-section` and `.c-section-header` collide, and `components.css` was never wired
+  up as this package's component layer.** → **They don't actually collide**, on closer
+  read. The design system's marketing section wrapper is already named
+  `.c-marketing-section`, not `.c-section` — chosen for exactly this reason, and missed
+  when this gap was first raised. And its marketing pattern page never uses
+  `.c-section-header` at all: section intros are built from `.c-eyebrow` plus the
+  section's own heading, with no separate title+subtitle wrapper class. So the app keeps
+  both names with their existing meanings, unchanged, and the import needed no rename on
+  either side — `src/styles/components.css` now imports the design system's
+  `components.css` into `layer(components)`, the same door pattern `semantic.css` and
+  `products.css` already use.
+
+  The `--u`/`--t-*` density question in the original gap also turned out to be settled
+  already: those roles live in `tokens/type-roles.css`, imported into `layer(theme)` by
+  `semantic.css` since the July split, and that file sets no density default of its own —
+  only a 19px/1 fallback if `--base-font-size`/`--text-multiplier` are unset.
+  `tokens/typography.css`, which does ship a standalone density default meant for a page
+  that links it alone, was never the file in the import chain and still isn't.
+
+- **Maturity Tool never loaded the semantic layer, and its build didn't copy the design
+  system at all.** → Fixed in the same round. `index.html` now links `semantic.css` and
+  `products.css`; `build.mjs` now copies `skills/contentious-design/` into `dist/` so
+  those `@import`s resolve instead of 404ing.
 
 - **`--warning-text` fails AA** → `amber-800`, matching `--chip-warn-fg`. There is one
   warning colour and where it sits doesn't change it. `--info-text` / `--good-text` /
