@@ -8,6 +8,25 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.14.2] – 2026-09-07
+
+Applies design round 2026-09-07c, Claude Design's answer to the two findings
+`docs/design-system-sync.md` items 5 and 6 reported from building
+contentoperatingmodel.com. CD's own account is
+`skills/contentious-design/CHANGES.md` and the provenance page in the design
+project, *COM layout findings 2026-09-07*.
+
+### Fixed
+
+- **Whole-object links no longer inherit the `a:hover` underline.** The sunshine underline belongs to a link that is a run of text; a link that is a whole object is its own affordance. One consolidated opt-out in the Links block – `.c-button`, `.c-feature--link`, `.c-topbar__brand`, `.c-topbar__sections a`, `.c-strip__tab`, `.c-footer__links a`, `.c-footer__brand` – with the contract beside it, replacing the 4 August `.c-feature--link`-only patch. Every primary call to action in the suite was drawing a 2px rule through its own word on hover.
+- **`.c-topbar` and `.c-strip` gain a chrome column.** `padding-inline: max(gutter, (100% − var(--chrome-column, var(--container-max-width))) / 2)`: full-bleed fill and hairline, constrained content. Defaults to `--container-max-width`, so no app screen moves; a product sets `--chrome-column` once on the page. Not a signature token.
+- **`Button.prompt.md` and `Card.prompt.md` said Content Health Check's base is 18px.** Now 19px for every app and 24px for marketing surfaces, derived from deployment mode.
+
+### Open
+
+- **The chrome column aligns to the box edge, not the text edge.** The library's `.c-section__inner` pads inside its 80rem box, so a front door built on it still does not line up with the band; see `docs/design-system-sync.md` item 6 for the measurements and the two candidate fixes. COM carries a local override meanwhile.
+- The marketing nav variant, unchanged. `.c-topbar`'s `flex-wrap` patch stays in COM's `site.css` and the two specimen pages until it lands.
+
 ## [0.14.1] – 2026-09-07
 
 ### Fixed
