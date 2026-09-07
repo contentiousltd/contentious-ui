@@ -8,6 +8,38 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.14.0] – 2026-09-07
+
+The third design round of 7 September: Content Operating Model becomes the
+suite's sixth product. The export was applied in `423303f` without a
+changelog entry; this release writes the entry and adds the package side
+the round needs before contentoperatingmodel.com can pin a tag. CD's own
+account of the round is in `skills/contentious-design/CHANGES.md`.
+
+### Added
+
+- **New product `[data-product="com"]`** – Content Operating Model. Limestone ground, stop for stop CHC's, recorded in the block as a deliberate exception to signature rule 4 (products sold in the same conversation differ on ground) on the argument that COM is the layer the suite answers to and should look like the house, not a sibling. Accent **sapling-700**, the dark end under the allocation rule so no fill can be mistaken for a score rung; sapling is now spent as an accent for the whole suite. Illustration register "apparatus and mechanism". `--signature-deployment: "reserved – front door only until v1"`, so every surface it owns is 24px, as Maturity Tool's are. `--surface-page` and `--surface-front` declared equal and separate when the app arrives.
+- **`--accent-link-on-reverse` / `--accent-link-on-reverse-hover`**, the eighth signature growth (36 → 38). The inverse scope lifted `--accent-link` to a hardcoded fire-350, so every non-fire product's footer showed coral links at good contrast and the wrong signature. Declared per product and matched on measured contrast rather than stop number (COM takes sapling-400, 6.63:1 on the gloaming-700 footer). One pair covers both `[data-surface="inverse"]` and `[data-surface="inset"]`, because a product has one page polarity. The danger pair stays hardcoded fire at both scopes on purpose.
+- **`guidelines/pattern-com-page.html`** – a starting page for contentoperatingmodel.com built only from the marketing kit at `data-product="com"`: nav, hero, one body section, the three-layer stack as page markup (not a component until it appears on a third page), footer.
+- **`images/com-apparatus.png`** and **`images/com-cog.png`** – the first artwork drawn to COM's register rather than borrowed. Two cuts of one mark split on size: the apparatus carries the hero and the header and footer marks; the cog is what survives 16px.
+- **`src/styles/themes/content-operating-model.css`** – the theme file. Sets density to 24px (front door only) and re-points the shadcn-era names this package's `components.css` still reads onto the semantic layer, so they follow the product block rather than carrying a second copy of its values. No chart or loading-ring colours: COM displays no scores.
+- **`brand/content-operating-model/`** and its entry in `brands.json` – `logo.png` (160) and `logo@2x.png` (320) cut from the apparatus; a favicon set cut from the cog (`favicon.ico` at 16/32/48, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`). `ProductBrand` gains an optional `favicon` field, because for this product the tab icon is not derivable from `mark`.
+
+### Changed
+
+- **`SKILL.md` names Content Operating Model** in its description, between Maturity Tool and the Content Layer. The description is the invocation trigger, so a product it does not name does not trigger the skill in its own repo. Additive; `check:design-sync` still asserts the family is named.
+- **Texture is a family trait, not a studio trait.** `products.css` and `Design system.html` said the studio site was the only place the brand's texture lived. Every Contentious illustration is lino-cut; what varies per product is subject and composition, not treatment. Signature dimension 3 is reworded accordingly, and what is studio-only is texture on a *surface* (torn edges, collage bleeding off a band), which belongs to the banded deployment mode.
+- **`.c-footer` description and both heading levels move `--text-secondary` → `--text-body`** (9.57:1 → 13.03 on the inverse ramp), on Julius's call. All three move together so the hierarchy cannot invert; the legal line stays at `--text-muted`. Supersedes the 4 August "nothing in the footer is bright" line, rewritten in place.
+- **Both specimen pages scope their link colour to the annotation block.** A bare `a { color }` on a specimen page is unlayered, so it beat `.c-button`'s foreground inside `@layer components` and every button on the page lost its text (1.26:1, sapling-750 on sapling-700). The rule for any page in this system: style links through the components, never with a bare element selector.
+- Regenerated `src/styles/tailwind4.css` against the round's tokens.
+
+### Open
+
+- **The published three-layer diagram is fire and sunshine and predates the sapling accent.** Either it is recoloured (*why* at the centre in sapling-700, the other six in sunshine) or the accent is reconsidered against its own centrepiece. A decision for Julius; nothing in the token layer is blocked on it.
+- **`.c-topbar` does not fit a front door.** At 24px the brand alone is 347px, and brand plus four links plus a button overflow a 924px viewport by 140px. The COM specimen patches it with `flex-wrap` and says so. A marketing nav variant is now a requirement rather than a hypothesis.
+- **`mt`'s `--surface-menu` / `--surface-field` collision** (0.12.0's open item) still fails `check:signatures`, which is not in CI. Unchanged by this round.
+- **The Content Layer has no block.** COM's neutrality is what leaves it the whole palette.
+
 ## [0.13.3] – 2026-09-07
 
 ### Fixed
