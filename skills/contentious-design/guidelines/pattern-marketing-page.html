@@ -1,0 +1,218 @@
+<!-- @dsCard group="Patterns" viewport="1180x2560" name="Marketing page" subtitle="A kit for a front-door page, not a template. Seven sections, and the ground pair underneath them." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Marketing page</title>
+<link rel="stylesheet" href="../styles.css"/>
+<style>*{box-sizing:border-box}
+body{margin:0;background:var(--surface-front);font-family:var(--font-body);color:var(--text-body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
+.doc{padding:20px 24px 8px}
+.cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+h1{font:var(--type-section);font-size:19px;color:var(--text-strong);margin:0 0 4px}
+.lede{font-size:12.5px;color:var(--text-muted);margin:0 0 18px;max-width:96ch;text-wrap:pretty}
+.note{font-size:11.5px;line-height:1.55;color:var(--text-muted);margin:12px 0 0;max-width:104ch;text-wrap:pretty}
+.note b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+table{border-collapse:collapse;font-size:11.5px;width:100%;max-width:104ch}
+th{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--label-color);text-align:right;font-weight:400;padding:0 0 7px 14px;vertical-align:bottom}
+th:first-child{text-align:left;padding-left:0}
+td{padding:6px 0 6px 14px;border-top:1px solid var(--rule-row);text-align:right;font-variant-numeric:tabular-nums}
+td:first-child{text-align:left;padding-left:0;color:var(--text-muted)}
+td.rule{color:var(--text-strong)}
+td.bad{color:var(--fire-700)}
+.spec{margin-top:14px;border-top:1px solid var(--rule-section)}
+/* The specimen's own gutter. A real page takes --page-padding; this is a
+   specimen inside a document, so it declares one. */
+.inner{max-width:1080px;margin:0 auto;padding-inline:calc(var(--u) * 1.33)}
+/* The closing band. Deliberately NOT a component this round - see the note. */
+.closing{background:var(--accent);color:var(--text-on-accent);text-align:center}
+.closing .t{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-section);line-height:1.1;margin:0 0 calc(var(--u) * .44)}
+.closing .s{font-size:var(--t-lede);line-height:1.5;margin:0 auto calc(var(--u) * .89);max-width:var(--measure-lede);opacity:1}
+.foot{background:var(--surface-footer);padding-block:calc(var(--u) * 1.33)}
+.foot p{margin:0;font-size:var(--t-body-app);line-height:1.55;color:var(--text-secondary);max-width:80ch}
+</style></head><body data-product="mt">
+
+<div class="doc">
+<h1>Marketing page</h1>
+<p class="lede">Read off maturitytool.com on 7 September 2026, which had answered every one of these in its own stylesheet. The specimen below is that page rebuilt on the kit, at <code>data-product="mt"</code>. Workings: <code>provenance/Maturity Tool site audit 2026-09-07.html</code>.</p>
+
+<p class="note"><b>This is a kit, not a template, and that is the first rule.</b> Nothing here says a front-door page has a hero, then benefits, then a quote, then prices, then steps. Three sites in the suite arrived at roughly that order independently, which is why it is worth writing down, and it is a starting point rather than a shape to fill. Take the sections the page needs, in the order the argument needs them. What is NOT optional is the ground pair, the section rhythm, and the eyebrow: those are the things that make two different pages look like the same family.</p>
+
+<div class="cap" style="margin-top:22px">The ground pair, and why the card is the test</div>
+<table>
+<thead><tr><th>Ground</th><th>Value at data-product="mt"</th><th>Card reads</th><th>Bar</th></tr></thead>
+<tbody>
+<tr><td>--surface-front</td><td class="rule">lichen-350</td><td class="rule">1.20:1</td><td>1.18</td></tr>
+<tr><td>--surface-front-tint</td><td class="rule">lichen-500</td><td class="rule">1.35:1</td><td>1.18</td></tr>
+<tr><td>Band step, front to tint</td><td class="rule">1.13:1</td><td>–</td><td>~1.15</td></tr>
+<tr><td>Shipping page, flush section</td><td>lichen-150</td><td class="bad">1.02:1</td><td>1.18</td></tr>
+<tr><td>Shipping page, tinted section</td><td>lichen-200</td><td class="bad">1.06:1</td><td>1.18</td></tr>
+</tbody></table>
+<p class="note">A marketing page divides itself by alternating two grounds, and until 7 September the system had no token for either: the front door had a density, a motion token and a wash, and no page. So every marketing page in the suite picked its own stops, and two of the Maturity Tool site's put a card <b>1.06:1</b> from the section it sat on – the same number that moved the Content Health Check page on 4 August, hidden here because the cards carried a border and the outline was doing the work the fill was failing to.</p>
+<p class="note"><b>The card is the whole test.</b> Whatever the pair is, <code>--surface-card</code> must clear 1.18:1 from both of them, and a band step under about 1.15 does not read as a band. The pair cannot be derived from <code>--surface-page</code>: limestone's light end is aliased, so a recipe that reads on lichen is nearly invisible on Content Health Check. It is authored per product, like <code>--wash-section</code>, and the two are related here on purpose – lichen-350 is the first stop of Content Maturity's wash, and lichen-500 is its app page. So this product's marketing ground is a step lighter than the app it sells, and its band lands exactly on the app's own page colour.</p>
+<p class="note"><b>A wash is not a band.</b> <code>--wash-section</code> softens one section; the pair separates two. They compose, and a page that uses both should use the wash on the flush sections only.</p>
+
+<div class="cap" style="margin-top:22px">What each section is made of</div>
+<table>
+<thead><tr><th>Section</th><th>Component</th><th>Ground</th></tr></thead>
+<tbody>
+<tr><td>Hero</td><td class="rule">.c-hero</td><td>front, flush</td></tr>
+<tr><td>Benefits</td><td class="rule">.c-feature-row + .c-feature</td><td>front, flush</td></tr>
+<tr><td>Pull quote</td><td class="rule">.c-pullquote</td><td>--surface-inverse, data-surface="inverse"</td></tr>
+<tr><td>Scope</td><td class="rule">.c-card + .c-bullets</td><td>front tint</td></tr>
+<tr><td>Prices</td><td class="rule">.c-price-row + .c-price</td><td>front, flush</td></tr>
+<tr><td>Steps</td><td class="rule">.c-steps</td><td>front tint</td></tr>
+<tr><td>Closing</td><td class="bad">no component yet</td><td>--accent</td></tr>
+<tr><td>Eyebrow, any section</td><td class="rule">.c-eyebrow</td><td>--accent-link</td></tr>
+<tr><td>Divider, any seam</td><td class="rule">.c-divider--taper</td><td>--rule-section</td></tr>
+</tbody></table>
+<p class="note"><b>Two things are deliberately absent.</b> The accent-filled closing band has no component: it needs <code>--text-on-accent</code> to hold 4.5:1 on the accent fill, which is exactly why this product's accent is fire-600 rather than fire-500, and that is a small decision of its own rather than a component to ship on the way past. And <code>.c-feature</code> assumes an illustration and centres its text, so the shipping page's six text-only benefit cards have no answer here – either the page gains illustrations, which is what the specimen below shows, or <code>.c-feature</code> gains a text-only variant. Flagged, not fudged.</p>
+</div>
+
+<!-- ══ SPECIMEN ══════════════════════════════════════════════════════════ -->
+<div class="spec">
+
+<section class="c-marketing c-marketing-section">
+  <div class="inner c-hero">
+    <div>
+      <p class="c-eyebrow">For consultancies</p>
+      <h2 class="c-hero__title">Run your own maturity assessment practice.</h2>
+      <p class="c-hero__intro">Maturity Tool is a platform for consultancies who deliver bespoke maturity assessments to their clients – on your own domain, with your branding, your framework, your methodology. We run the platform. You run the engagements.</p>
+      <div class="c-hero__cta"><a class="c-button c-button--lg" href="#">See pricing</a><a class="c-button c-button--ghost c-button--lg" href="#">Book a call</a></div>
+    </div>
+    <div class="c-hero__art"><img src="../images/cos-circle.png" alt="" width="300"/></div>
+  </div>
+</section>
+
+<hr class="c-divider c-divider--taper"/>
+
+<section class="c-marketing c-marketing-section">
+  <div class="inner">
+    <p class="c-eyebrow">What you get</p>
+    <div class="c-feature-row c-feature-row--3">
+      <div class="c-feature"><div class="c-feature__art"><img src="../images/estate.png" alt=""/></div>
+        <div class="c-feature__text"><h3 class="c-feature__title">Expertise on display</h3><p class="c-feature__body">Your framework, your voice, your branding, on your own domain. The tool is a public signal of your authority.</p></div></div>
+      <div class="c-feature"><div class="c-feature__art"><img src="../images/heartbeat.png" alt=""/></div>
+        <div class="c-feature__text"><h3 class="c-feature__title">A steady source of leads</h3><p class="c-feature__body">Self-serve assessments bring prospects in at their own pace. Sales conversations start warmer.</p></div></div>
+      <div class="c-feature"><div class="c-feature__art"><img src="../images/layers.png" alt=""/></div>
+        <div class="c-feature__text"><h3 class="c-feature__title">Progress you can prove</h3><p class="c-feature__body">Run the assessment annually and track maturity over time, segmenting by team, region or function.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="c-marketing c-marketing-section" data-surface="inverse" style="background:var(--surface-inverse)">
+  <div class="inner">
+    <p class="c-eyebrow">Transformation</p>
+    <div class="c-pullquote">
+      <figure class="c-pullquote__quote"><blockquote class="c-pullquote__text">A maturity assessment used to be a one-off diagnostic. Run it on this platform and it becomes the backbone of a multi-year consulting relationship.</blockquote></figure>
+      <div class="c-pullquote__body">
+        <p>Consultancies that own their maturity tool stop selling a report and start selling a practice. Clients return annually to track progress. The tool becomes the reason to stay in the room.</p>
+        <p class="c-pullquote__coda">We’ve built and run the infrastructure. You’ve built the domain knowledge. Together we can do great things.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="c-marketing c-marketing-section c-marketing-section--tint">
+  <div class="inner">
+    <p class="c-eyebrow">What’s included</p>
+    <div class="c-feature-row c-feature-row--2">
+      <div class="c-card">
+        <p class="c-eyebrow">One-off</p>
+        <h3 class="c-price__title" style="margin-bottom:calc(var(--u) * .78)">Setup</h3>
+        <ul class="c-bullets c-bullets--accent">
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Discovery workshop to shape your framework, scoring model and client journey</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Your framework built into the platform: areas, questions, maturity levels and scoring</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Your brand applied throughout: colours, typography, logos</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Your own custom domain, set up for you</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Tailored report templates, on screen and as PDF</p></li>
+        </ul>
+      </div>
+      <div class="c-card">
+        <p class="c-eyebrow">Annual licence &amp; support</p>
+        <h3 class="c-price__title" style="margin-bottom:calc(var(--u) * .78)">Run the platform</h3>
+        <ul class="c-bullets">
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Hosting, security and backups, all kept up to date</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>All platform updates and new features as they ship</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Responsive support, replying within one working day</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>A quarterly call with us to shape what comes next</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Export your data any time</p></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="max-width:80ch">Accent bullets on the left, the standard grey marker on the right. The colour means only "these belong to this page", so a whole page may take it, or one list may take it to draw the eye. It must not appear twice in one comparison meaning two different things.</p>
+  </div>
+</section>
+
+<section class="c-marketing c-marketing-section">
+  <div class="inner">
+    <p class="c-eyebrow">Indicative pricing</p>
+    <div class="c-price-row">
+      <div class="c-price">
+        <div><p class="c-eyebrow">Starter</p><h3 class="c-price__title">Essentials</h3></div>
+        <p class="c-price__description">Your own maturity product, launched on a subdomain of <span class="c-literal">maturitytool.com</span> with your branding.</p>
+        <div class="c-price__figures">
+          <p class="c-price__figure"><span class="c-price__amount">£10k–15k</span><span class="c-price__period">one-off setup</span></p>
+          <p class="c-price__figure"><span class="c-price__amount">£8k–12k</span><span class="c-price__period">per year licence &amp; support</span></p>
+        </div>
+        <ul class="c-bullets">
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Your framework, your brand</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Up to 10 consultant seats</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Standard support</p></li>
+        </ul>
+      </div>
+      <div class="c-price" data-surface="deep">
+        <div><p class="c-eyebrow">Most common</p><h3 class="c-price__title">Growth</h3></div>
+        <p class="c-price__description">A custom domain, full branding, more seats and volume. The right fit for firms building maturity into their core offer.</p>
+        <div class="c-price__figures">
+          <p class="c-price__figure"><span class="c-price__amount">£20k–25k</span><span class="c-price__period">one-off setup</span></p>
+          <p class="c-price__figure"><span class="c-price__amount">£12k–15k</span><span class="c-price__period">per year licence &amp; support</span></p>
+        </div>
+        <ul class="c-bullets">
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Your own domain</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Unlimited consultant seats</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Priority support</p></li>
+        </ul>
+      </div>
+      <div class="c-price">
+        <div><p class="c-eyebrow">Bespoke</p><h3 class="c-price__title">Enterprise</h3></div>
+        <p class="c-price__description">A tailored engagement for firms with specific integration, compliance or methodology requirements. Scoped to fit.</p>
+        <div class="c-price__figures">
+          <p class="c-price__figure"><span class="c-price__amount">from £45k</span><span class="c-price__period">one-off setup</span></p>
+          <p class="c-price__figure"><span class="c-price__amount">from £20k</span><span class="c-price__period">per year licence &amp; support</span></p>
+        </div>
+        <ul class="c-bullets">
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Everything in Growth, plus:</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Single sign-on for your team</p></li>
+          <li class="c-bullets__item"><span class="c-bullets__marker"></span><p>Dedicated onboarding lead</p></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="max-width:80ch">The middle band is <code>data-surface="deep"</code> and nothing else. One geometry, the ground carries the difference, and the eyebrow carries the words. No border, no shadow, no lift.</p>
+  </div>
+</section>
+
+<section class="c-marketing c-marketing-section c-marketing-section--tint">
+  <div class="inner">
+    <p class="c-eyebrow">Timeline to launch</p>
+    <ol class="c-steps">
+      <li class="c-steps__step"><span class="c-steps__n"></span><div><p class="c-eyebrow">Week 1</p><h3 class="c-steps__title">Discovery</h3></div><p class="c-steps__detail">Kick-off workshop. Shape your framework, scoring, client journey and brand direction.</p></li>
+      <li class="c-steps__step"><span class="c-steps__n"></span><div><p class="c-eyebrow">Weeks 2–3</p><h3 class="c-steps__title">Framework &amp; branding</h3></div><p class="c-steps__detail">Your framework built into the platform. Brand applied and reviewed. Report templates drafted.</p></li>
+      <li class="c-steps__step"><span class="c-steps__n"></span><div><p class="c-eyebrow">Week 10</p><h3 class="c-steps__title">Go-live</h3></div><p class="c-steps__detail">Public launch. Two weeks of close attention, then into the normal support rhythm.</p></li>
+    </ol>
+    <p class="note" style="max-width:80ch">The numbers are a CSS counter, so the markup does not carry them and they cannot drift from the order of the list.</p>
+  </div>
+</section>
+
+<section class="c-marketing c-marketing-section closing">
+  <div class="inner">
+    <p class="t">Ready to scope a build?</p>
+    <p class="s">A thirty-minute call is enough to tell whether this is a fit, which band you’d sit in, and roughly when we could start.</p>
+    <a class="c-button c-button--lg" href="#" style="background:var(--surface-front);color:var(--accent-hover)">Email hello@maturitytool.com</a>
+  </div>
+</section>
+
+<footer class="c-marketing foot" data-surface="inverse">
+  <div class="inner"><p>Maturity Tool is a product lovingly crafted by <a href="https://contentious.ltd">Contentious Ltd</a>. We’ve built maturity platforms for international brands, membership organisations, consultants and for ourselves.</p></div>
+</footer>
+
+</div>
+</body></html>

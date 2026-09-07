@@ -27,6 +27,40 @@
   --surface-field:       var(--limestone-200);   /* text inputs */
   --surface-inverse:     var(--gloaming-800);    /* tooltips */
   --surface-footer:      var(--gloaming-700);    /* the footer reverses */
+  /* ---- The front door, as a ground ------------------------------------
+     TWO NEW GROUND TOKENS, 7 September 2026, and the reason they exist is
+     that the system already said a product has two kinds of surface and then
+     gave only one of them a colour. --signature-deployment has recorded since
+     1 August that "deployment is a property of a surface, not a product", and
+     that every reserved product has an app and a front door. The front door
+     got a density (24px), a motion token (--motion-reveal) and a wash
+     (--wash-section). It never got a page.
+
+     So every marketing page in the suite has been picking its own stops. The
+     Maturity Tool site picks seven of them in its own stylesheet, and two of
+     them put a card 1.06:1 from the section it sits on, which is the exact
+     number that moved the Content Health Check page on 4 August. Workings:
+     provenance/Maturity Tool site audit 2026-09-07.html.
+
+     --surface-front       the front-door page. It is NOT --surface-page: a
+                           marketing page is airier than the app it sells, and
+                           on lichen the two are three stops apart.
+     --surface-front-tint  the alternating band. A marketing page divides by
+                           alternating two grounds; --wash-section softens a
+                           section, it does not separate two.
+
+     THE CARD IS THE CONSTRAINT, not the pair. Whatever the two values are,
+     --surface-card must clear 1.18:1 from BOTH of them, which is the bar the
+     ground move set. That is the whole test, and it is why this pair cannot be
+     derived: on the limestone ramp the light end is aliased, so a recipe that
+     reads on lichen is nearly invisible on Content Health Check.
+
+     AND IT FIXES A COLLISION THAT WAS ALREADY HERE. .c-marketing-section--tint
+     was --surface-card-deep, the same value as a feature card, so a card on a
+     tinted band was 1.00:1 from it. The tint band and the marketing card are
+     two different things and now have two values. */
+  --surface-front:       var(--limestone-600);
+  --surface-front-tint:  var(--limestone-750);
   /* Roles that break on --surface-card-deep and only there. Declared alongside
      the ground because [data-surface="deep"] references all three: leave any of
      them out and the scope resolves to nothing and the label silently inherits
@@ -357,7 +391,7 @@
      Workings: provenance/Chart coherence decisions 2026-08-05.html */
 
   /* ---- Marker geometry ------------------------------------------------- */
-  /* THERE IS NO MARKER COMPONENT, and these two tokens are why there does not
+  /* THERE IS NO MARKER COMPONENT, and these tokens are why there does not
      need to be one. Six sites in CHC drew a small round mark at three sizes and
      two fill models, none of them a component; what they shared was a SHAPE,
      and a shape is not a component - a circle with no owner is an invitation to
@@ -372,8 +406,38 @@
      See the ramp block below for the reservation as narrowed.
      Settled 5 August 2026 - provenance/Dots and bullets decision 2026-08-05.html */
   --marker-size:         calc(var(--u) * .39);   /* ~7.4px at the 19px app base */
+  --marker-node:         calc(var(--u) * .68);   /* ~13px: the timeline node, which is a
+                                                    different mark from a bullet - it sits
+                                                    ON the line and is read as a point in a
+                                                    sequence, so it takes the weight the
+                                                    changelog's hand-built node had */
   --marker-ring:         1.5px;                  /* the hollow half of the pair */
+  --marker-lead:         1lh;                    /* the line box the marker centres in: the
+                                                    item's own line height, so a mark sits on
+                                                    the FIRST LINE and not in the middle of a
+                                                    wrapped block. A rail whose entries lead
+                                                    with a heading sets it to that heading's
+                                                    line box - CSS cannot read a child's
+                                                    line-height, so it is declared once per
+                                                    list rather than derived. */
   --marker-color:        var(--text-secondary);
+  --marker-halo:         var(--surface-page);    /* the gap a node punches in its line.
+                                                    Set it to the surface the timeline sits
+                                                    on: --surface-card inside a card. */
+  /* THE AURA IS A RING AROUND A DOT, and it is not --marker-halo, which punches
+     a gap in a line. Added 7 September 2026 with .c-bullets--accent, from the
+     Maturity Tool site, where a fire dot carries a 4px ring and the pair reads
+     as one deliberate mark rather than a small coloured spot.
+     A DECLARED STOP, NOT AN ALPHA. The site's is color-mix at 18%, which is the
+     1 August rule against an opacity modifier standing in for a colour: on a
+     surface it is glass and on anything else it is a shade nobody declared.
+     It is also a SIZE decision. On a marketing surface the ring takes a 9.4px
+     mark to 17.5px of ink, which is why it is off by default: right at the 24px
+     base and too loud in an app list, where the same ratio gives 7.4px and
+     13.9px. Both numbers only hold because the .c-marketing scope in this file
+     redeclares --marker-size and --marker-aura-width - see the note there. */
+  --marker-aura:         transparent;
+  --marker-aura-width:   calc(var(--u) * .17);
 
   /* ---- Chip tones ------------------------------------------------------ */
   /* One geometry, six tones. Tone carries meaning; the shape never changes. */
@@ -428,6 +492,45 @@
   --label-font-size:     var(--t-label);
   --label-tracking:      0.09em;
   --label-color:         var(--gloaming-450);  /* NOT 400 – fails AA at 10px */
+  /* THE SAME LABEL, IN THE ACCENT. Added 7 September 2026 for the marketing
+     eyebrow, which the Maturity Tool site writes out four times under four
+     names with identical declarations. One class, one token.
+     IT IS THE LINK STOP, NOT THE ACCENT STOP, and that is measured rather than
+     chosen: an eyebrow is small uppercase text, so it needs 4.5:1, and on the
+     lichen front door fire-500 is nowhere, fire-600 is 4.7 and fire-650 is 5.7.
+     A coloured label is also nearer a link than a fill - it says "this is what
+     you are looking at" in the accent's voice without being a target - so
+     taking --accent-link's stop adds no value to the palette.
+     Use it for the marketing eyebrow only. An app label is grey: --label-color
+     is the metadata voice and colour there would mean something. */
+  /* THE MARKETING EYEBROW TAKES --accent-link DIRECTLY. There was a
+     --label-accent token here between the morning and the afternoon of
+     7 September 2026 and it is deleted, because it was a pure alias and pure
+     aliases are a trap in this file.
+
+     WHY. A token whose value is var(--other-token) is a COPY, not a link: the
+     substitution happens where the property is DECLARED, so a value written on
+     :root has already resolved and a scope that later remaps --other-token
+     cannot reach it. --label-accent was var(--accent-link) on :root, so inside
+     a deep card it kept the light-ground stop and the eyebrow measured 4.39:1 -
+     the identical figure products.css already records against
+     --accent-link-on-deep. It had to be re-declared in [data-surface="inverse"]
+     and again in [data-surface="deep"] to stay correct, and it resolved to
+     exactly --accent-link in all three scopes, so it earned nothing for the
+     cost of a thing to keep in step.
+
+     THE RULE THIS LEAVES: do not alias a token that any scope remaps. Either
+     the component references the remapped token directly, as .c-eyebrow now
+     does, or the alias genuinely differs from its source and is authored per
+     scope rather than derived. An alias that is always equal to its source is a
+     defect waiting for the next scope.
+
+     Why the LINK stop and not --accent: an eyebrow is small uppercase text, so
+     it needs 4.5:1, and on the lichen front door fire-500 is 3.25, fire-600 is
+     4.72 and fire-650 is 5.72. A coloured label is also nearer a link than a
+     fill - it says what you are looking at without being a target.
+     An APP label stays grey. --label-color is the metadata voice, and colour
+     there would mean something. */
 
   /* ---- Type roles ------------------------------------------------------ */
   /* Bely Display is for page titles and metric values only, never below 30px.
@@ -442,6 +545,18 @@
   --type-lede:           400 var(--t-lede)/1.5 var(--font-body);
   --type-body:           400 var(--t-body)/1.55 var(--font-body);
   --type-hint:           400 var(--t-hint)/1.45 var(--font-body);
+
+  /* ---- Marketing measure ----------------------------------------------
+     Two numbers, in ch, because a marketing headline and an app page title are
+     not the same object: --width-prose measures a column of body copy and
+     neither of these is one. Taken from the Maturity Tool site, which is the
+     only page in the suite that set them deliberately.
+     A title at 28ch breaks into two or three lines at every width the page is
+     read at, which is what text-wrap: balance then has something to work with.
+     Do NOT force the break with spans - the site does, and that fixes the
+     break at one viewport for a heading already constrained by its measure. */
+  --measure-title:       28ch;
+  --measure-lede:        48ch;
 
   /* ---- Navigation context --------------------------------------------- */
   /* The project cluster (switcher + its four sections) dims as ONE group in
@@ -514,11 +629,11 @@
   --motion-reveal:       var(--duration-reveal, 600ms) var(--ease-out-soft, cubic-bezier(0.22, 0.61, 0.36, 1));
   /* A fifth token, and the slowest thing in the suite: 2400ms, marketing HOVER
      only, and only for an illustration changing size. Breathing rather than
-     flashing — at 600ms the same 7% grow reads as a flinch. ease-in-out both
+     flashing – at 600ms the same 7% grow reads as a flinch. ease-in-out both
      ways, because it is symmetrical by intent: what grows on hover shrinks the
      same way when the pointer leaves.
      The bound is what it may animate. Nothing that carries information, nothing
-     a person is waiting on, and never a colour — a hover state a reader has to
+     a person is waiting on, and never a colour – a hover state a reader has to
      wait 2.4s to see is not a state. Chosen over 650ms on 4 August. */
   --motion-breathe:      var(--duration-breathe, 2400ms) var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1));
 
@@ -698,8 +813,20 @@
 
    Not the same thing as "inset" above, which is a region of the OPPOSITE
    polarity to the product - a light island in a dark product. This is a card
-   that is darker than a light page but still a light surface: --text-strong
-   reads at 10.87:1 on it and nothing about the type changes.
+   that is darker than a light page but still a light surface.
+
+   THE TEXT ROLES DO NOT ALL SURVIVE IT, AND THIS BLOCK USED TO CLAIM THEY DID.
+   Corrected 7 September 2026. "--text-strong reads at 10.87:1 on it and nothing
+   about the type changes" was measured on limestone-750, which is CHC's and the
+   studio's deep ground, and it is true there: strong 10.86, body 8.84,
+   secondary 5.21. It is NOT a property of the scope. On lichen-650, which CM
+   and Maturity Tool both took, secondary is 3.56 and muted is 2.61 - so a
+   price band's description failed inside a featured card and nobody had
+   measured it, because the note said it could not happen.
+   THE TEST, per product: --text-secondary needs 4.5:1 on --surface-card-deep,
+   and --label-color will not make it on any of them, which is what
+   --label-on-deep is for. Maturity Tool moved to lichen-550 for exactly this;
+   CM cannot and is flagged in products.css.
 
    WHAT IT MEANS, because a ground with no meaning becomes decoration with a
    token behind it: the deep card marks a card as A DIFFERENT KIND OF THING
@@ -737,4 +864,15 @@
   --type-lede:           400 var(--t-lede)/1.5 var(--font-body);
   --type-body:           400 var(--t-body)/1.55 var(--font-body);
   --type-hint:           400 var(--t-hint)/1.45 var(--font-body);
+  /* THE MARKER GEOMETRY HAS TO BE REDECLARED HERE TOO, for the same reason the
+     shorthands above do: substitution happens where a property is DECLARED, so
+     these sizes computed on :root have already baked in :root's --u and cannot
+     be reached by this scope redeclaring it. Missed on 7 September, which left
+     a marketing page with body copy at the 24px base and its bullet markers at
+     the app's 19px – 7.4px instead of 9.4px, in every list on the page.
+     --marker-lead is deliberately NOT here: it is 1lh, the item's own line box,
+     so it already follows whatever type the item is set in. */
+  --marker-size:         calc(var(--u) * .39);
+  --marker-node:         calc(var(--u) * .68);
+  --marker-aura-width:   calc(var(--u) * .17);
 }

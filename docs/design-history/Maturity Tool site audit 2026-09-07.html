@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"/>
+<title>Maturity Tool site audit – what the system should take, and what the site is missing</title>
+<link rel="stylesheet" href="../design-system/styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-synthesis-weight:none}
+.wrap{max-width:1000px;margin:0 auto;padding:58px 40px 120px}
+h1{font-family:var(--font-heading-display);font-weight:400;font-size:52px;line-height:1.02;color:var(--text-strong);margin:10px 0 16px;letter-spacing:-.006em}
+.lede{font-size:18px;line-height:1.55;color:var(--text-secondary);max-width:66ch;margin:0 0 6px;text-wrap:pretty}
+.part{padding-top:62px}
+h2.big{font-family:var(--font-heading-display);font-weight:400;font-size:32px;line-height:1.1;color:var(--text-strong);margin:0 0 10px}
+.part>.intro{font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:70ch;margin:0 0 6px;text-wrap:pretty}
+.issue{background:var(--surface-card);border-radius:var(--radius-surface);padding:22px 26px;margin-top:16px}
+.issue.take{background:var(--sapling-150)}
+.issue.defect{background:var(--fire-150)}
+.issue.stale{background:var(--sunshine-150)}
+.ihead{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.ihead h3{font-family:var(--font-heading);font-weight:400;font-size:20px;line-height:1.25;color:var(--text-strong);margin:0}
+.ihead .n{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;color:var(--text-muted);flex:none;padding-top:3px}
+.ihead .tag{margin-left:auto;flex:none}
+.issue p{font-size:14.5px;line-height:1.6;color:var(--text-body);margin:12px 0 0;max-width:80ch;text-wrap:pretty}
+.issue p.why{color:var(--text-secondary)}
+.issue p b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:14px 0 0}
+.col .h{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:7px}
+.col .b{font-size:14px;line-height:1.55;color:var(--text-body)}
+.rec{margin-top:14px;padding-top:12px;border-top:1px solid rgba(38,36,35,.12)}
+.rec .h{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.rec .b{font-size:14.5px;line-height:1.55;color:var(--text-strong);max-width:80ch}
+code{font-family:var(--font-mono);font-size:12.5px;color:var(--text-body);background:rgba(38,36,35,.06);padding:2px 5px;border-radius:3px}
+.quote{font-size:14px;line-height:1.55;color:var(--text-secondary);border-left:2px solid var(--rule-field);padding-left:14px;margin:12px 0 0;max-width:76ch}
+.sum{width:100%;border-collapse:collapse;margin-top:18px;font-size:13.5px}
+.sum th{text-align:left;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--rule-field)}
+.sum td{padding:10px 14px 10px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;color:var(--text-secondary);line-height:1.45}
+.sum td.w{color:var(--text-strong);font-family:var(--font-heading);white-space:nowrap}
+.sum td.num{font-family:var(--font-mono);font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sum tr:last-child td{border-bottom:0}
+.fail{color:var(--fire-700)}
+.pass{color:var(--sapling-800)}
+.stack{display:grid;gap:4px;margin-top:14px}
+.stack div{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.02em;color:var(--text-secondary);background:rgba(38,36,35,.05);padding:6px 9px;border-radius:3px}
+.demo{display:flex;gap:10px;align-items:stretch;margin-top:14px}
+.demo .sw{flex:1;height:66px;border-radius:var(--radius-surface);display:flex;align-items:flex-end;padding:7px 9px;font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="c-label">Audit · maturitytool.com against design-system/ · 7 September 2026</div>
+  <h1>Nine things to take, eight to give back.</h1>
+  <p class="lede">Read the live page and <code>juliushonnor/maturitytool</code> at <code>60279b7</code>. The site is clean because it made nine decisions the system has never written down, and it is drifting because it is pinned to <code>@contentious/ui#semver:^0.2</code> and has been building on a token vocabulary two rounds behind. One thing on it is a measured defect the system fixed in Content Health Check on 4 August and this page has reintroduced exactly.</p>
+
+  <!-- ══ PART 1 ══ -->
+  <section class="part">
+    <h2 class="big">What the system should take</h2>
+    <p class="intro">Every one of these is a marketing-surface decision. That is the shape of the gap: the system has a complete app vocabulary and, for a page like this, one feature-card pattern and a section wash. Item 15 was added after review – I had filed the two-tone bullets as drift, and they are a gap.</p>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">01</span><h3>There is no marketing page pattern, and this is the third one</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p>contentious.ltd has bands, the Content Health Check homepage has feature rows, and this page has seven section types in a settled order: hero, benefit grid, reversed pull-quote, two-column scope, pricing bands, numbered timeline, closing call to action. <b>All three sites arrived at the same rhythm independently and none of it is recorded.</b> <code>guidelines/pattern-feature-cards.html</code> documents one row of one of those sections.</p>
+      <p class="why">The composition is the reusable part. Alternating two grounds, one reversed band roughly two thirds down, and a single accent-filled closing section is a page shape, and you said there may be more of these sites coming.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b">A new <code>guidelines/pattern-marketing-page.html</code> holding the section order, the alternation rule and the ground pair. Items 02 to 08 below are its contents.</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">02</span><h3>The eyebrow, written out four times on one page</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p><code>.type-accent-label</code>, <code>.included-card__eyebrow</code>, <code>.pricing-card__eyebrow</code> and <code>.timeline__week</code> are the same six declarations under four names: <code>--font-size-sm</code>, <code>0.08em</code> tracking, uppercase, <code>--fire-600</code>, medium weight, a bottom margin. Only the margin differs.</p>
+      <div class="stack">
+        <div>.type-accent-label &nbsp;·&nbsp; fire-600 &nbsp;·&nbsp; 0.08em &nbsp;·&nbsp; margin-bottom 1.5rem</div>
+        <div>.included-card__eyebrow &nbsp;·&nbsp; fire-600 &nbsp;·&nbsp; 0.08em &nbsp;·&nbsp; margin-bottom 0.5rem</div>
+        <div>.pricing-card__eyebrow &nbsp;·&nbsp; fire-600 &nbsp;·&nbsp; 0.08em &nbsp;·&nbsp; margin-bottom 0.5rem</div>
+        <div>.timeline__week &nbsp;·&nbsp; fire-600 &nbsp;·&nbsp; 0.08em &nbsp;·&nbsp; margin-bottom 0.25rem</div>
+      </div>
+      <p>The system holds this twice already and neither is reachable here. <code>.c-label</code> is the app metadata voice: mono, <code>--t-label</code>, <code>--label-tracking</code> at 0.09em, <code>--label-color</code>. <code>.c-feature__accent</code> is the same declarations again, scoped inside a feature card, added on 4 August so the two FeatureCards could fold.</p>
+      <p class="why"><b>There is a real decision under this, not just a rename.</b> The site's eyebrow is fire-600 in the heading face; the system's is grey in mono. Fire-600 measures 5.56:1 on the hero ground, so it is legal, and a coloured kicker is doing marketing work that a grey metadata label does not do. I would keep the site's colour and the system's face, and give the marketing eyebrow one class of its own rather than a third copy.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Is the marketing eyebrow a coloured variant of <code>.c-label</code>, or its own component? And does it keep fire, which would make the accent do a fifth job after primary, star-1, danger and link?</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">03</span><h3>Pricing bands, and the featured card is not legal here</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p>Three bands, one marked "Most common", each with an eyebrow, a title, a description, a figures block and a feature list. The system has nothing for this, and it is the section most likely to recur on a partner site.</p>
+      <p>The featured treatment does three things the system has settled against: a <code>2px solid var(--fire-500)</code> border where <code>.c-card--selected</code> is the only sanctioned fire outline, a fire-tinted <code>box-shadow</code>, and <code>transform: translateY(-4px)</code>. The 4 August feature-card decision is explicit: <b>no lift and no shadow, because the app has neither and a shadow is a second surface depth.</b></p>
+      <p class="why">The need is real, so this wants an answer rather than a ban. The system already has a card that means "different kind of thing from the cards around it": <code>--surface-card-deep</code>, with the constraint that it is never used twice in one set. A row of three where the middle one is deep says the same thing without a lift or a shadow, and the eyebrow already carries the words.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b"><code>.c-price</code> and <code>.c-price-row</code>, with <code>--featured</code> taking <code>data-surface="deep"</code>. Also settles what the figures block is: it is currently lichen-300 inside a limestone-200 card, which is item 12.</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">04</span><h3>A pull quote on a reversed band</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p>The best section on the page. A gloaming band, a sorbet eyebrow, a 2em italic quote in two columns with running prose beside it, and an 8rem Bely Display opening quote mark bled off the top left. <code>[data-surface="inverse"]</code> gives the ground and every text role inside it; nothing in the system gives the editorial object.</p>
+      <p class="why">Two details worth keeping and one worth fixing. The oversized display glyph is the only place in the suite where type is used as ornament, and it works. The asymmetric <code>padding-top: 4rem</code> on the prose column, so the second column starts at the quote's first line rather than at the top of the grid, is the kind of thing that gets lost in a rebuild. The glyph is <code>--fire-400</code> at <code>opacity: 0.6</code>, which is the 1 August rule against opacity as a colour, in a decoration.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b"><code>.c-pullquote</code>, one per page, on an inverse band. The glyph takes a declared stop rather than an alpha, and the rule says it is ornament so it carries no contrast floor.</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">05</span><h3>Numbered process steps, and the system has half an answer</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p>The timeline is a three-across card grid, each card carrying a 2.5rem fire disc with a numeral in it, a week label, a title and a detail line. The system has <code>--marker-node</code> and <code>.c-bullets--timeline</code>, which are a node sitting <i>on</i> a line, read as a point in a sequence.</p>
+      <p class="why">These are two different objects and both are right. A vertical rail suits a changelog; six steps with a week each do not fit a rail on a marketing page and are better as a grid. But the disc is 40px of solid accent repeated six times, which is more fire than anything else on the page, and the numeral in it fails contrast (item 13).</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Does <code>.c-bullets--timeline</code> grow a grid variant, or is a numbered step grid its own component? I lean to its own, because the marker means "step 3 of 6" rather than "a point on a line" and takes a size the bullet scale does not hold.</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">06</span><h3>The tapered hairline</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p>The hero closes with a 1px <code>::after</code> that is a horizontal gradient from transparent, through gloaming-900 at 10%, back to transparent. It is a section divider that is strongest in the middle of the screen and absent at both edges.</p>
+      <p class="why">This is the same reasoning <code>--wash-section</code> is built on, applied to a rule instead of a fill: the 135deg angle is there so a washed section meeting a flat one divides at one edge and merges at the other, "and that taper is the point". The system has three hairline tokens and all three are constant-value lines. A tapered divider is the right weight between a full-bleed hard rule, which reads as chrome on a marketing page, and nothing at all.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b">Take it, as a section-level divider rather than a fourth <code>--rule-*</code> token: it is a gradient and the rule tokens are colours. Its alpha needs converting to a stop, same as item 04.</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">07</span><h3>Marketing measure, in ch</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p><code>max-width: 28ch</code> on the h1, <code>48ch</code> on the hero intro, <code>36rem</code> on the closing subtitle, and a hard line break in the h1 via two spans. The system has <code>--width-prose</code> for app content and nothing for a marketing headline.</p>
+      <p class="why">28ch on a title and 48ch on a lede are good numbers and they are the sort of thing that gets re-guessed on every new page. The manual span break in the h1 is the part I would not carry over: it fixes the break at one width and the heading is already constrained to 28ch.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b">Two measures in the marketing pattern page, and <code>text-wrap: balance</code> on the title instead of the spans.</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">08</span><h3>Inline code in marketing prose</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p>Two <code>&lt;code&gt;</code> spans in the pricing copy, styled as a fire tint at 10% with fire-700 text, plus a second treatment inside the accent section. There is no inline-code component in the system.</p>
+      <p class="why">It also uses the wrong face by the 1 August decision: <code>--font-mono</code> is the system stack and is the app's metadata voice, and <code>--font-mono-brand</code> is Courier, which the brand guide reserves for code. A domain name in running prose is arguably neither, and that is worth deciding once rather than per site.</p>
+      <div class="rec"><div class="h">Decision needed</div><div class="b">Is <code>yourfirm.maturitytool.com</code> in a sentence code, or is it a literal in the metadata voice? The answer sets the face.</div></div>
+    </div>
+
+    <div class="issue take">
+      <div class="ihead"><span class="n">15</span><h3>The two-tone bullets, which I filed as drift and should not have</h3><span class="tag"><span class="c-chip c-chip--good">Gap</span></span></div>
+      <p>Item 11 dismissed <code>.included-list</code> as a hand-rolled marker system, which is true of the mechanism and misses the idea. The two scope cards use the same list with two dot colours: <b>fire-500 under “Setup”, gloaming-400 under “Run the platform”.</b> The colour is carrying one-off against ongoing, across two cards sitting side by side.</p>
+      <div class="demo">
+        <div class="sw" style="background:var(--limestone-200);color:var(--text-muted);align-items:center;gap:11px"><span style="width:10px;height:10px;border-radius:50%;background:var(--fire-500);box-shadow:0 0 0 4px color-mix(in srgb, var(--fire-500) 18%, transparent);flex:none"></span>one-off &nbsp;·&nbsp; 3.89:1</div>
+        <div class="sw" style="background:var(--limestone-200);color:var(--text-muted);align-items:center;gap:11px"><span style="width:10px;height:10px;border-radius:50%;background:var(--gloaming-400);box-shadow:0 0 0 4px color-mix(in srgb, var(--gloaming-400) 18%, transparent);flex:none"></span>ongoing &nbsp;·&nbsp; 4.42:1</div>
+        <div class="sw" style="background:var(--limestone-200);color:var(--text-muted);align-items:center;gap:11px"><span style="width:8px;height:8px;border-radius:50%;background:var(--marker-color);flex:none"></span>.c-bullets today &nbsp;·&nbsp; 8.11:1</div>
+      </div>
+      <p><b>It passes the tests the system already has, which is why I would take it.</b> The 5 August reservation says a 500 stop is free where the mark carries its own word, and both lists are under a heading, so neither dot can be read as a level. Colour means something, which is the standing requirement. Both stops clear the 3:1 floor for a non-text mark. And it answers a question <code>.c-bullets</code> has not been asked: the declared pair is filled against hollow, for done and not yet, which is a <i>state within one list</i>. This is a second axis, distinguishing <i>which list you are in</i>, and the system has no vocabulary for it.</p>
+      <p class="why">Three cautions, none fatal. It does not scale past two, in the same way <code>--comp-*</code> stops at four, so the rule has to say two lists in one comparison rather than “a colour per list”. It makes fire the marker colour for half a list pair, which is the same fifth-job objection as the eyebrow in item 02, and the two should be answered together. And the halo is <code>box-shadow: 0 0 0 4px</code> at 18% alpha, which is the same alpha-as-colour problem as items 04 and 06, and is a different object from <code>--marker-halo</code>, which punches a gap in a timeline line rather than ringing a dot. The halo is also what makes the mark read as 18px of ink where <code>--marker-size</code> is 7.4px, so it is a size decision as well as a colour one.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b"><code>.c-bullets--paired</code>: two lists in one comparison, the primary taking the accent and the secondary taking <code>--marker-color</code>, capped at two. The ring becomes a declared stop and joins the <code>--marker-*</code> geometry rather than being an alpha in a shadow. Note the neutral dot here is gloaming-400 at 4.42 where <code>--marker-color</code> is gloaming-500 at 8.11, so adopting the token darkens it slightly, which I think is right on a marketing card.</div></div>
+    </div>
+  </section>
+
+  <!-- ══ PART 2 ══ -->
+  <section class="part">
+    <h2 class="big">What the site should take back</h2>
+    <p class="intro">The site is pinned to <code>^0.2</code> and its CSS is written against the shadcn-era vocabulary. None of it is broken today, and all of it is a rebuild waiting to happen.</p>
+
+    <div class="issue stale">
+      <div class="ihead"><span class="n">09</span><h3>The token vocabulary is two rounds behind</h3><span class="tag"><span class="c-chip c-chip--warn">Drift</span></span></div>
+      <div class="grid2">
+        <div class="col"><div class="h">On the site</div><div class="b"><code>--foreground</code> · <code>--muted-foreground</code> · <code>--card</code> · <code>--border</code> · <code>--font-size-sm</code> · <code>--font-size-h3</code> · <code>--body-line-height</code> · <code>--heading-line-height</code></div></div>
+        <div class="col"><div class="h">In the system</div><div class="b"><code>--text-strong</code> · <code>--text-secondary</code> · <code>--surface-card</code> · <code>--rule-section</code> · <code>--t-label</code> · <code>--t-section</code> · the <code>--type-*</code> shorthands</div></div>
+      </div>
+      <p>Also <code>.btn btn-primary btn-lg</code>, which is on the 0.4.0 rename list, and <code>calc(1.2em * var(--text-multiplier))</code> repeated eleven times with eight different multipliers, which is what the <code>.c-marketing</code> scope exists to replace: put the class on the section and <code>--u</code> resolves at 24px for everything inside it.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b">One rewrite of <code>styles.css</code> against the current layer, not a token-by-token sweep. It is 14KB and most of it becomes component classes.</div></div>
+    </div>
+
+    <div class="issue defect">
+      <div class="ihead"><span class="n">10</span><h3><code>.c-feature-card</code> is retired, and this is a second live call site</h3><span class="tag"><span class="c-chip c-chip--bad">Will break</span></span></div>
+      <p>The six benefit cards use <code>.c-frame.c-feature-card</code> with <code>__content</code>, <code>__title</code> and <code>__body</code>. The 4 August decision folded the two FeatureCards into one and <b>retired <code>c-feature-card__*</code> rather than aliasing it.</b> <code>github.md</code> records Content Health Check confirming one call site in the suite, on the Voice Tone and Style home page.</p>
+      <p class="why">This is the second. It is also bordered here, via <code>.c-frame</code>, and the folded component is borderless on <code>--surface-card-deep</code>. So the migration is not mechanical: the cards lose their outline and gain a ground.</p>
+      <div class="rec"><div class="h">Action</div><div class="b">Add this repo to the fold's call-site list before the rename ships. Flagged in <code>github.md</code> open question 5, which currently says one call site.</div></div>
+    </div>
+
+    <div class="issue stale">
+      <div class="ihead"><span class="n">11</span><h3>Four things the system already holds</h3><span class="tag"><span class="c-chip c-chip--warn">Drift</span></span></div>
+      <table class="sum">
+        <tr><th>On the site</th><th>In the system</th></tr>
+        <tr><td class="w">.included-list, .pricing-card__list</td><td>Two hand-rolled marker systems: a fire dot with an 18% halo, and a <code>→</code> pseudo-element. <code>.c-bullets</code> and the <code>--marker-*</code> tokens settled the mechanism on 5 August, including the halo, which is <code>--marker-halo</code>. <b>The two-tone colouring is not drift and is item 15.</b></td></tr>
+        <tr><td class="w">.reveal, 700ms</td><td><code>cubic-bezier(0.16, 1, 0.3, 1)</code> is the expo curve the 1 August decision replaced, having counted two independent opt-outs as evidence it was wrong. <code>--motion-reveal</code> is 600ms on a real ease-out. This site is a third opt-out.</td></tr>
+        <tr><td class="w">.section-cta .btn-primary</td><td>The primary button is recoloured by hand for the accent ground, limestone fill and fire-700 text. That is what <code>[data-surface="inverse"]</code> does, for every variant, chip, field and hairline at once.</td></tr>
+        <tr><td class="w">border-radius 0.5rem</td><td>8px, on the pricing figures block. The radius scale is 3, 6 and 12, and <code>semantic.css</code> says not to add 8 or 10.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ PART 3 ══ -->
+  <section class="part">
+    <h2 class="big">Three measured defects</h2>
+    <p class="intro">Computed from the hex in <code>tokens/colors.css</code>, so these are numbers rather than impressions.</p>
+
+    <div class="issue defect">
+      <div class="ihead"><span class="n">12</span><h3>1.06:1, and it is the exact failure fixed on 4 August</h3><span class="tag"><span class="c-chip c-chip--bad">Defect</span></span></div>
+      <p><code>.section-alt</code> is <code>--lichen-200</code>. The cards on it are the Content Maturity theme's <code>--card</code>, limestone-200. <b>That is 1.06:1</b>, so on the two tinted sections a card has no edge except where its corners are, and the pricing figures block inside a card is lichen-300 at 1.14:1.</p>
+      <div class="demo">
+        <div class="sw" style="background:var(--lichen-200);color:var(--text-muted)">lichen-200 section</div>
+        <div class="sw" style="background:var(--limestone-200);color:var(--text-muted);border-radius:var(--radius-frame)">limestone-200 card · 1.06:1</div>
+        <div class="sw" style="background:var(--lichen-300);color:var(--text-muted)">lichen-300 figures · 1.14:1</div>
+      </div>
+      <p class="why">This is the finding that moved the Content Health Check ground on 4 August, in the same words: a card sat 1.06:1 from the page while a hairline sat at 1.43:1, so the surface meant to be restrained separated seven times more strongly than the one meant to be definite. Three tokens existed only to route around it and were deleted when the page moved. <b>Here the cards keep a border, so nothing looks wrong</b>, which is why it survived: the outline is carrying the structure the fill is failing to.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b">A marketing ground pair for this product, authored, not two stops picked next to each other. Item 14 is the same problem one level up.</div></div>
+    </div>
+
+    <div class="issue defect">
+      <div class="ihead"><span class="n">13</span><h3>Two fails on the coloured grounds</h3><span class="tag"><span class="c-chip c-chip--bad">Defect</span></span></div>
+      <table class="sum">
+        <tr><th>Pair</th><th>Where</th><th>Ratio</th><th></th></tr>
+        <tr><td class="w">sorbet-500 on gloaming-550</td><td>"Transformation" eyebrow, uppercase at <code>--font-size-sm</code></td><td class="num">3.11</td><td class="num fail">fails AA</td></tr>
+        <tr><td class="w">limestone-100 on fire-500</td><td>Timeline numerals, 20px Bely Display</td><td class="num">3.99</td><td class="num fail">fails AA</td></tr>
+        <tr><td class="w">fire-400 on gloaming-550</td><td>Quote glyph, then <code>opacity: 0.6</code></td><td class="num">3.47</td><td class="num">ornament</td></tr>
+        <tr><td class="w">limestone-200 on gloaming-550</td><td>Quote text</td><td class="num">9.34</td><td class="num pass">passes</td></tr>
+        <tr><td class="w">limestone-300 on fire-600</td><td>Closing subtitle</td><td class="num">5.50</td><td class="num pass">passes</td></tr>
+        <tr><td class="w">limestone-700 on gloaming-600</td><td>Footer body copy</td><td class="num">7.38</td><td class="num pass">passes</td></tr>
+        <tr><td class="w">fire-600 on lichen-150</td><td>Hero eyebrow</td><td class="num">5.56</td><td class="num pass">passes</td></tr>
+      </table>
+      <p>The numeral is 1.25rem, so it is not large text under the rule and 3:1 does not apply to it. Both fails are a stop away from passing: fire-600 behind the numeral is 5.81:1, and the eyebrow wants a lighter sorbet or the limestone the quote text already uses.</p>
+      <p class="why">Everything else on the dark band and the accent band is comfortable, which is worth saying plainly: the reversed sections are the best-behaved part of the page.</p>
+      <div class="rec"><div class="h">Recommendation</div><div class="b">Timeline disc to fire-600. The eyebrow on the reversed band is a token question, not a one-off: the inverse scope has no accent-coloured label, and the marketing eyebrow of item 02 will need one.</div></div>
+    </div>
+  </section>
+
+  <!-- ══ PART 4 ══ -->
+  <section class="part">
+    <h2 class="big">The structural one</h2>
+
+    <div class="issue defect">
+      <div class="ihead"><span class="n">14</span><h3>Maturity Tool is a fifth product with no signature, and its grounds are 350 stops from the one it borrows</h3><span class="tag"><span class="c-chip c-chip--bad">Structural</span></span></div>
+      <p>The page loads the Content Maturity theme and sets no <code>data-product</code>. Its own docs say "content-maturity theme: fire primary, lichen surfaces". So the type, the accent and the cards come from Content Maturity, and every ground on the page is picked by hand in <code>styles.css</code>:</p>
+      <div class="stack">
+        <div>hero &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lichen-150</div>
+        <div>benefits, pricing &nbsp; (unset, so the theme page ground)</div>
+        <div>scope, timeline &nbsp;&nbsp;&nbsp; lichen-200</div>
+        <div>figures block &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lichen-300</div>
+        <div>quote band &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gloaming-550</div>
+        <div>closing &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fire-600</div>
+        <div>footer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gloaming-600</div>
+      </div>
+      <p><b>Content Maturity's <code>--surface-page</code> is lichen-500.</b> The site's lightest section is lichen-150, which is 1.33:1 from it, and the two are not close to the same page. Three of the seven grounds also sit one or two stops from a token that already exists and means that thing: <code>--surface-footer</code> is gloaming-700, <code>--surface-inverse</code> is gloaming-800, and the quote band and the footer are gloaming-550 and gloaming-600, so four near neighbours are doing two jobs.</p>
+      <p class="why"><b>The site is not wrong to be lighter, and that is the finding.</b> <code>products.css</code> already says deployment is a property of a surface rather than of a product, and that every reserved product has a working ground and a front door. What it does not have is a <i>token</i> for the front-door ground: the only marketing-specific ground the system holds is <code>--wash-section</code>, which is a two-stop wash authored per product, and Content Maturity's is lichen-350 to lichen-450. A page built on that wash would be much closer to this site than to the Content Maturity app, so the answer is nearly there and is not written where anyone would find it.</p>
+      <div class="rec"><div class="h">Decision needed, and it is the one that unblocks the rest</div><div class="b">Is Maturity Tool a product with its own signature block, or a marketing skin on Content Maturity? If it is a product, the signature set grows a marketing ground pair and every product declares it. If it is a skin, the front-door ground belongs in the Content Maturity block and this site stops picking stops by hand.</div></div>
+    </div>
+  </section>
+
+  <!-- ══ SUMMARY ══ -->
+  <section class="part">
+    <h2 class="big">In order</h2>
+    <table class="sum">
+      <tr><th></th><th>Item</th><th>What it needs</th></tr>
+      <tr><td class="num">14</td><td class="w">Product or skin</td><td>Your decision. Everything else in part 1 sits on the ground question.</td></tr>
+      <tr><td class="num">12</td><td class="w">1.06:1 on the tinted sections</td><td>Falls out of 14. Fix the ground pair, not the cards.</td></tr>
+      <tr><td class="num">01</td><td class="w">Marketing page pattern</td><td>New guideline page. Holds 02 to 08.</td></tr>
+      <tr><td class="num">02</td><td class="w">Marketing eyebrow</td><td>Your decision on face and colour, then one class replacing four.</td></tr>
+      <tr><td class="num">03</td><td class="w">Pricing bands</td><td>New component. Featured takes the deep ground, not a lift.</td></tr>
+      <tr><td class="num">04</td><td class="w">Pull quote</td><td>New component on the inverse scope. Alpha to a stop.</td></tr>
+      <tr><td class="num">05</td><td class="w">Numbered steps</td><td>Your decision: variant of <code>.c-bullets--timeline</code>, or its own.</td></tr>
+      <tr><td class="num">15</td><td class="w">Two-tone bullets</td><td><code>.c-bullets--paired</code>, capped at two lists. Answer with 02, since both spend fire.</td></tr>
+      <tr><td class="num">06</td><td class="w">Tapered divider</td><td>Take as written, once the alpha becomes a stop.</td></tr>
+      <tr><td class="num">07</td><td class="w">Marketing measures</td><td>Two numbers in the pattern page.</td></tr>
+      <tr><td class="num">08</td><td class="w">Inline code</td><td>Your decision on the face, then a component.</td></tr>
+      <tr><td class="num">13</td><td class="w">Two contrast fails</td><td>Fire-600 behind the numerals; the reversed eyebrow needs a token.</td></tr>
+      <tr><td class="num">10</td><td class="w">Retired class, live call site</td><td>Record it in <code>github.md</code> before the fold ships.</td></tr>
+      <tr><td class="num">09, 11</td><td class="w">Site drift</td><td>One rewrite of the site's <code>styles.css</code>, after the components above exist.</td></tr>
+    </table>
+  </section>
+</div>
+</body>
+</html>

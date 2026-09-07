@@ -195,7 +195,11 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 /* Named .c-marketing-section, not .c-section: the app already owns .c-section
    as a top-margin spacer further down this file, and one class cannot be both. */
 .c-marketing-section{padding-block:calc(var(--u) * 2)}
-.c-marketing-section--tint{background:var(--surface-card-deep)}
+/* The band is NOT --surface-card-deep any more. It was, which made a tinted
+   band and a feature card the same value by definition: a card on a band read
+   at 1.00:1 and there was no way to move one without the other. 7 Sep 2026.
+   Corollary: do not put a deep card on a tinted band. */
+.c-marketing-section--tint{background:var(--surface-front-tint)}
 /* First section under the top bar has nothing above it to separate from. */
 .c-marketing-section:first-child{padding-block-start:calc(var(--u) * 1.33)}
 
@@ -301,16 +305,58 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
    Settled 5 August 2026 - provenance/Dots and bullets decision 2026-08-05.html */
 .c-bullets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(var(--u) * .44)}
 .c-bullets__item{display:grid;grid-template-columns:var(--marker-size) 1fr;column-gap:calc(var(--u) * .61);align-items:start;font:var(--type-body);color:var(--text-body);text-wrap:pretty}
+/* EVERY CHILD GOES IN COLUMN 2 AND THE MARKER SITS IN ROW 1. That is what lets
+   one component mark a list of one-line items and a list of whole sections: row
+   1 is the item's first block, so the marker is positioned against the heading
+   of a changelog entry rather than against the whole entry.
+   Consequence: an item's content must be ELEMENTS, not a bare text node, or the
+   text becomes an anonymous grid item in the marker column. */
+.c-bullets__item>*{grid-column:2}
 .c-bullets__item>p{margin:0}
-/* Centred on the first line: (line box - marker) / 2, --type-body being 1.55. */
-.c-bullets__marker{box-sizing:border-box;width:var(--marker-size);height:var(--marker-size);border-radius:50%;background:var(--marker-color);flex:none;margin-top:calc((1.55em - var(--marker-size)) / 2)}
+/* THE MARKER SITS ON THE FIRST LINE OF THE ITEM, not centred on the whole first
+   block: a two-line bullet with the dot floating between its lines is the defect
+   this replaces. --marker-lead is the line box the marker centres in, and it
+   defaults to 1lh - the item's own line height, which is right for every bullet.
+   A rail whose entries lead with a heading sets it to that heading's line box,
+   once per list, because CSS cannot read a child's line-height. */
+.c-bullets__marker{box-sizing:border-box;grid-column:1;grid-row:1;align-self:start;position:relative;z-index:1;width:var(--marker-size);height:var(--marker-size);border-radius:50%;background:var(--marker-color);box-shadow:0 0 0 var(--marker-aura-width) var(--marker-aura);flex:none;margin-top:calc((var(--marker-lead, 1lh) - var(--marker-size)) / 2)}
 .c-bullets__item.is-pending .c-bullets__marker{background:transparent;border:var(--marker-ring) solid var(--marker-color)}
 .c-bullets--spaced{gap:calc(var(--u) * .89)}
-/* --timeline is a hairline down the marker column and nothing else: same
-   markers, same states. It stops AT the marker rather than running under it,
-   which is what the changelog's 2px limestone halo was compensating for. */
-.c-bullets--timeline .c-bullets__item{position:relative}
-.c-bullets--timeline .c-bullets__item:not(:last-child)::before{content:"";position:absolute;left:calc(var(--marker-size) / 2 - .5px);top:calc((1.55em - var(--marker-size)) / 2 + var(--marker-size) + calc(var(--u) * .17));bottom:calc(var(--u) * -.61);width:1px;background:var(--rule-section)}
+/* ACCENT BULLETS, and this is a SKIN rather than a semantic. Added 7 September
+   2026 from the Maturity Tool site, where the whole list takes a fire dot with
+   a ring and reads as one deliberate mark instead of a small coloured spot.
+   IT MEANS NOTHING, WHICH IS THE POINT. The fill/ring pair above is the one
+   sanctioned marker semantic and it stays free to say done-and-not-yet. This
+   says only "these bullets belong to this page", so a whole page may take it -
+   which is how the site uses it - or one list may take it to draw the eye to
+   the list that matters. What it must not do is appear twice in one comparison
+   meaning two different things: at that point the colour is carrying data and
+   the reader has to be told what it means.
+   The ring is DERIVED from the accent and resolves to an opaque colour, not an
+   alpha over the card. It assumes the list sits on --surface-card; on a tinted
+   band, set --marker-aura on the list. */
+.c-bullets--accent{--marker-color:var(--accent-marker);--marker-aura:color-mix(in srgb, var(--accent-marker) 22%, var(--surface-card))}
+/* --timeline is a NODE ON A LINE, not a bullet beside one, and it is one variant
+   for both shapes of list: entries that are lines, and entries that are whole
+   SECTIONS (heading, chip, date, nested list - the changelog). Revised at
+   review, 5 August 2026, answering chc-436. Three things were wrong and two of
+   them were geometry: the node is --marker-node rather than --marker-size (7.4px
+   is calibrated against body text, not against a display heading), it is centred
+   ON the hairline rather than measured from its own column edge, and it punches a
+   --marker-halo gap in a line that runs continuously - which is what the
+   hand-built version's 2px limestone ring was doing.
+   --marker-lead DEFAULTS TO THE SECTION HEADING'S LINE BOX here, because a rail
+   entry leads with a heading in every case the product has. A rail of one-line
+   entries sets --marker-lead:1lh back.
+   THE COLOUR STAYS NEUTRAL. The monochrome read flat because the mark was
+   undersized for what it was marking, not because it was neutral: fire on every
+   shipped node is the accent as decoration on a list, and fire already means
+   primary, active, star 1 and danger. Fill vs ring still carries done vs not yet.
+   SET --marker-halo to the surface the rail sits on. */
+.c-bullets--timeline{--marker-halo:var(--surface-page);--marker-lead:calc(var(--t-section) * 1.2)}
+.c-bullets--timeline .c-bullets__item{position:relative;grid-template-columns:var(--marker-node) 1fr;column-gap:calc(var(--u) * .67)}
+.c-bullets--timeline .c-bullets__marker{width:var(--marker-node);height:var(--marker-node);box-shadow:0 0 0 calc(var(--u) * .17) var(--marker-halo);margin-top:calc((var(--marker-lead, 1lh) - var(--marker-node)) / 2)}
+.c-bullets--timeline .c-bullets__item:not(:last-child)::before{content:"";position:absolute;left:calc(var(--marker-node) / 2 - .5px);top:0;bottom:calc(var(--u) * -.44);width:1px;background:var(--rule-section)}
 
 /* ---- Top bar ------------------------------------------------------------ */
 .c-topbar{display:flex;align-items:center;gap:calc(var(--u) * 1.22);padding:calc(var(--u) * .78) calc(var(--u) * 2.22);background:var(--surface-chrome);border-bottom:1px solid var(--rule-field)}
@@ -549,8 +595,13 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
    See provenance/Chart coherence decisions 2026-08-05.html */
 .c-history__bands{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .c-history__bands i{position:absolute;left:0;right:0}
-.c-history__grid{position:absolute;inset:0;pointer-events:none}
-.c-history__grid i{position:absolute;left:0;right:0;height:1px;background:var(--rule-row);opacity:.6}
+/* GRIDLINES ARE GONE, 7 September 2026, and the class with them. A band edge IS
+   a gridline and the ramp is already the axis, so drawing both draws the same
+   information twice - settled 5 August with the bands-as-ground decision, but
+   .c-history__grid survived it and ScoreHistory.jsx was still rendering that
+   class instead of the bands. Its rule was also `opacity:.6` on a hairline,
+   which is the 1 August rule against an alpha standing in for a colour.
+   Do not reinstate it: the y labels every 10 are what a reader counts against. */
 .c-history__ylabel{position:absolute;right:calc(100% + var(--u) * .44);transform:translateY(-50%);font-family:var(--chart-font);font-variant-numeric:var(--chart-numeric);font-size:var(--t-label);color:var(--text-muted);white-space:nowrap}
 .c-history__point{position:absolute;width:calc(var(--u) * .5);height:calc(var(--u) * .5);border-radius:50%;transform:translate(-50%,50%);background:var(--limestone-200);border:0;z-index:2}
 /* The line shares the points' coordinate system: viewBox 0 0 100 100 with
@@ -700,6 +751,142 @@ h1 a:hover,h2 a:hover,h3 a:hover{text-decoration-thickness:1px}
 .c-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:calc(var(--u) * 2.22);margin-bottom:calc(var(--u) * 1.44)}
 .c-page-head h1{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-title);line-height:1.02;color:var(--text-strong);margin:0 0 calc(var(--u) * .44)}
 .c-page-head .lede{font-size:var(--t-lede);color:var(--text-secondary);max-width:62ch;margin:0;line-height:1.5;text-wrap:pretty}
+
+/* ---- Marketing page components ------------------------------------------
+   All of these are FRONT DOOR ONLY and want .c-marketing on the section so --u
+   resolves at 24px. They came out of the Maturity Tool site on 7 September
+   2026, which had answered every one of them in its own stylesheet - see
+   provenance/Maturity Tool site audit 2026-09-07.html and
+   guidelines/pattern-marketing-page.html.
+   THEY ARE A KIT, NOT A TEMPLATE. Nothing here says a marketing page must have
+   a hero, a price row and a step list, or must have them in that order. Take
+   the ones the page needs. */
+
+/* The eyebrow. One class, replacing the four identical ones the site carried
+   under four names. It takes --accent-link, the LINK stop, which is the only
+   fire that clears 4.5:1 as small uppercase text on a front-door ground. Taking
+   the remapped token DIRECTLY rather than through an alias is what makes it
+   correct inside a deep card and on a reversed band without a declaration per
+   scope - see the note in semantic.css where the alias used to be.
+
+   BELY, NOT MONO, AND THE RULE KEYS OFF THE SURFACE RATHER THAN THE PRODUCT.
+   Settled 7 September 2026: an eyebrow on a marketing surface is naming a
+   section of an argument, and mono is the app's METADATA voice - the register
+   for a column header, a tick, a chip, a count. Uppercase mono at 24px density
+   reads as a system label on a page that is not a system. So the two classes
+   differ by face because they belong to different KINDS of surface: .c-label is
+   mono because it labels data, .c-eyebrow is Bely because it labels prose.
+   NOT a per-product token, which was the other option on the table. Face is a
+   family trait - products.css lists Bely and every --type-* role under "what
+   never varies" - and the 1 August decision refused mono a signature slot on
+   exactly this ground: two identical product overrides is the proof that a thing
+   does not vary. Nothing in the suite wants a mono eyebrow, so nothing has
+   earned the token yet. If a product ever genuinely diverges here, that is when
+   it argues for one.
+
+   WEIGHT IS 400, and it has to be stated because the site asked for medium.
+   Bely ships Regular and Bold and nothing between, so font-weight:500 falls
+   back to Regular rather than synthesising - the medium in the site's CSS was
+   a no-op, not the thing that made it look right.
+   TRACKING STAYS ON --label-tracking (0.09em). The site used 0.08em, which at
+   this size is a 0.15px difference; a second tracking token to express it would
+   cost more than it buys.
+   MARGIN IS .33u (8px at the marketing base), matching the site. 12px was an
+   invention of this component's first cut. */
+.c-eyebrow{font-family:var(--font-heading);font-weight:400;font-size:var(--t-label);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--accent-link);margin:0 0 calc(var(--u) * .33)}
+
+/* A section divider that fades at both edges: strongest mid-screen, absent at
+   the gutters. Same reasoning as --wash-section's 135deg angle, applied to a
+   hairline - a full-bleed hard rule reads as chrome on a marketing page, and
+   the taper divides without announcing itself. Uses the product's own section
+   hairline rather than a fourth --rule-* token. */
+.c-divider{height:1px;border:0;margin:0;background:var(--rule-section)}
+.c-divider--taper{background:linear-gradient(90deg,transparent,var(--rule-section),transparent)}
+
+/* Hero: eyebrow, title, intro, one pair of actions, and an illustration.
+   The measures are tokens - see --measure-title / --measure-lede. */
+.c-hero{display:grid;gap:calc(var(--u) * 1.67);align-items:center;grid-template-columns:1fr}
+@media (min-width:52rem){.c-hero{grid-template-columns:1.1fr 1fr;gap:calc(var(--u) * 2)}}
+.c-hero__title{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-title);line-height:1.02;color:var(--text-strong);margin:0 0 calc(var(--u) * .61);max-width:var(--measure-title);text-wrap:balance}
+.c-hero__intro{font-size:var(--t-lede);line-height:1.5;color:var(--text-secondary);margin:0 0 calc(var(--u) * .89);max-width:var(--measure-lede);text-wrap:pretty}
+.c-hero__cta{display:flex;flex-wrap:wrap;gap:calc(var(--u) * .5)}
+.c-hero__art{display:flex;justify-content:center}
+.c-hero__art img{max-width:100%;height:auto;display:block}
+
+/* Pull quote on a reversed band. ONE PER PAGE. Put data-surface="inverse" on
+   the section and every role inside resolves for the dark ground, including the
+   eyebrow, which resolves from --accent-link and so needs no remap of its own.
+   The glyph is ornament and carries no contrast floor, which is stated so that
+   nobody has to measure it. It is a declared stop rather than an alpha.
+   The prose column starts at the quote's first line rather than at the top of
+   the grid, which is what the padding at the breakpoint is doing. */
+.c-pullquote{display:grid;gap:calc(var(--u) * 1.67);align-items:start;margin:0}
+@media (min-width:52rem){.c-pullquote{grid-template-columns:1fr 1fr;gap:calc(var(--u) * 2.5)}.c-pullquote__body{padding-top:calc(var(--u) * 1.67)}}
+.c-pullquote__quote{margin:0;position:relative;padding-top:calc(var(--u) * 1.67)}
+.c-pullquote__quote::before{content:"\201C";position:absolute;top:0;left:0;font-family:var(--font-heading-display);font-size:calc(var(--u) * 5);line-height:.5;color:var(--accent-link)}
+.c-pullquote__text{margin:0;font-family:var(--font-body);font-style:italic;font-size:var(--t-section);line-height:1.35;color:var(--text-strong)}
+.c-pullquote__body{display:grid;gap:calc(var(--u) * .72)}
+.c-pullquote__body p{margin:0;font-size:var(--t-lede);line-height:1.5;color:var(--text-body)}
+.c-pullquote__coda{color:var(--text-strong)}
+
+/* Price bands. ONE GEOMETRY, and the ground carries the difference - the same
+   shape of answer as the chip's six tones.
+   THE FEATURED BAND IS data-surface="deep", NOT A CLASS. There is deliberately
+   no .c-price--featured: a deep card already means "a different KIND of thing
+   from the cards around it", it is already constrained to once per set, and the
+   eyebrow carries the words. The site's border-plus-shadow-plus-lift is three
+   things the system has settled against, and a lift on a marketing card is a
+   second surface depth (see .c-feature, 4 August).
+   THE FIGURES BLOCK IS NOT A SURFACE. It is a hairline pair, because a filled
+   slab inside a filled card is a slab inside a slab, and on this ramp it
+   measures 1.14:1 anyway. It is also how the 8px radius the site invented stops
+   being needed at all. */
+.c-price-row{display:grid;gap:calc(var(--u) * 1.11);grid-template-columns:1fr;align-items:stretch}
+@media (min-width:52rem){.c-price-row{grid-template-columns:repeat(3,1fr)}}
+.c-price{display:flex;flex-direction:column;gap:calc(var(--u) * .89);background:var(--surface-card);border-radius:var(--radius-surface);padding:calc(var(--u) * 1.33)}
+.c-price__title{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-section);line-height:1.15;color:var(--text-strong);margin:0}
+/* THE DESCRIPTION ABSORBS THE SLACK, and that is what aligns the figures. It
+   takes flex:1 because tier descriptions are never the same line count, and
+   without it margin-top:auto on the feature list collects ALL the slack in one
+   place: the lists line up and everything above them floats with the length of
+   the copy. Measured before the fix: a two-line description put its "from £45k"
+   29.4px above its neighbours, with the hairlines out of line too. The AMOUNT is
+   the number the row exists to compare, and the system's standing rule is that a
+   number which moves cannot be compared - which is why a metric is never
+   centred. Same rule, one axis over. */
+.c-price__description{font-size:var(--t-body-app);line-height:1.55;color:var(--text-secondary);margin:0;flex:1;text-wrap:pretty}
+.c-price__figures{display:grid;gap:calc(var(--u) * .5);padding:calc(var(--u) * .78) 0;border-top:1px solid var(--rule-row);border-bottom:1px solid var(--rule-row)}
+.c-price__figure{display:grid;margin:0}
+.c-price__amount{font-family:var(--font-heading-display);font-size:var(--t-row);line-height:1.1;color:var(--text-strong)}
+.c-price__period{font-size:var(--t-hint);color:var(--text-secondary)}
+/* Pushes the list to the bottom so three bands of unequal copy still line their
+   feature lists up against each other. */
+/* Belt and braces for a band with no description, where there is no flexible
+   element above to absorb the slack. */
+.c-price>.c-bullets{margin-top:auto}
+
+/* Numbered steps. ITS OWN COMPONENT, not a .c-bullets--timeline variant: that
+   marker is a node ON a line and means "a point in a sequence you are reading
+   down", where this means "step 3 of 6" and sits in a grid. Settled 7 September
+   2026 on Julius's call.
+   THE NUMBER IS A COUNTER, so the markup does not carry it and cannot drift
+   from the order of the list. The disc is --accent, which is why a product
+   whose accent cannot hold --text-on-accent at 4.5:1 has the wrong accent stop:
+   this is the surface that catches it. */
+.c-steps{list-style:none;margin:0;padding:0;display:grid;gap:calc(var(--u) * 1.11);grid-template-columns:1fr;counter-reset:c-step}
+@media (min-width:52rem){.c-steps{grid-template-columns:repeat(3,1fr)}}
+.c-steps__step{display:grid;gap:calc(var(--u) * .61);align-content:start;background:var(--surface-card);border-radius:var(--radius-surface);padding:calc(var(--u) * 1.11)}
+.c-steps__n{counter-increment:c-step;width:calc(var(--u) * 1.67);height:calc(var(--u) * 1.67);border-radius:50%;background:var(--accent);color:var(--text-on-accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading-display);font-size:var(--t-ui);line-height:1;flex:none}
+.c-steps__n::before{content:counter(c-step)}
+.c-steps__title{font-family:var(--font-heading);font-weight:400;font-size:var(--t-row);line-height:1.25;color:var(--text-strong);margin:0}
+.c-steps__detail{font-size:var(--t-body-app);line-height:1.55;color:var(--text-secondary);margin:0;text-wrap:pretty}
+
+/* A LITERAL IN PROSE IS NOT CODE. A domain name, a filename or a URL in a
+   sentence takes the metadata voice - --font-mono, the system stack - with no
+   fill, no radius and no tint. Courier (--font-mono-brand) stays reserved for
+   actual code, which is what the brand guide says it is for, and a tinted box
+   in running copy is a fill doing a job the face already does. */
+.c-literal{font-family:var(--font-mono);font-size:.94em;color:var(--text-strong)}
 
 /* ---- Body default ------------------------------------------------------- */
 .c-app{font-size:var(--t-body);line-height:var(--line-height-normal)}

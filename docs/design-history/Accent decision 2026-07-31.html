@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>--accent – decision · 31 July 2026</title>
+<link rel="stylesheet" href="../design-system/styles.css"/>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased;min-width:1080px}
+h1,h2,h3,h4{font-synthesis-weight:none}
+a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
+.wrap{max-width:1040px;margin:0 auto;padding:58px 40px 120px}
+.label{font-family:var(--font-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
+h1{font-family:var(--font-heading-display);font-weight:400;font-size:54px;line-height:1;color:var(--text-strong);margin:10px 0 14px;letter-spacing:-.006em}
+.lede{font-size:var(--t-lede);line-height:1.55;color:var(--text-secondary);max-width:70ch;margin:0 0 8px;text-wrap:pretty}
+.part{padding-top:52px}
+h2.big{font-family:var(--font-heading-display);font-weight:400;font-size:34px;color:var(--text-strong);margin:0 0 8px}
+.part>p.intro{font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:82ch;margin:0;text-wrap:pretty}
+.issue{background:var(--surface-card);border-radius:var(--radius-surface);padding:23px 25px;margin-top:16px}
+.issue.high{background:var(--fire-150)}
+.issue.no{background:var(--limestone-450)}
+.ihead{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+.ihead h3{font-family:var(--font-heading);font-weight:400;font-size:20px;color:var(--text-strong);margin:0}
+.ihead .n{font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;color:var(--text-muted);flex:none}
+.issue p{font-size:15px;line-height:1.6;color:var(--text-body);margin:12px 0 0;max-width:82ch;text-wrap:pretty}
+.issue p.why{color:var(--text-secondary)}
+.issue p b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+.dec{margin-top:14px;padding:13px 0 0;border-top:1px solid rgba(38,36,35,.1)}
+.dec .h{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+.dec .b{font-size:16px;line-height:1.5;color:var(--text-strong);max-width:82ch}
+code{font-family:var(--font-mono);font-size:13px;color:var(--text-body);background:rgba(38,36,35,.06);padding:2px 5px;border-radius:3px}
+pre{font-family:var(--font-mono);font-size:12.5px;line-height:1.6;color:var(--text-body);background:var(--limestone-250);border-radius:6px;padding:14px 16px;overflow-x:auto;margin:14px 0 0}
+.sum{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}
+.sum th{text-align:left;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:400;padding:0 14px 9px 0;border-bottom:1px solid var(--rule-field)}
+.sum td{padding:10px 14px 10px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;color:var(--text-secondary);line-height:1.45}
+.sum td.w{color:var(--text-strong);font-family:var(--font-mono);font-size:12.5px;white-space:nowrap}
+.sum tr:last-child td{border-bottom:0}
+.verdicts{width:100%;border-collapse:collapse;margin-top:22px;font-size:15px}
+.verdicts td{padding:14px 16px 14px 0;border-bottom:1px solid var(--rule-row);vertical-align:top;line-height:1.5;color:var(--text-secondary)}
+.verdicts td.v{font-family:var(--font-heading);font-size:17px;color:var(--text-strong);white-space:nowrap;width:1%;padding-right:26px}
+.verdicts td.q{color:var(--text-strong);width:26%;padding-right:26px}
+.verdicts tr:last-child td{border-bottom:0}
+.corr{background:var(--limestone-600);border-radius:var(--radius-surface);padding:22px 25px;margin-top:26px}
+.corr .h{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.corr p{font-size:15px;line-height:1.6;color:var(--text-body);margin:10px 0 0;max-width:84ch;text-wrap:pretty}
+.corr p:first-of-type{margin-top:0}
+.corr b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+.demo{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.demo .col{background:var(--surface-menu);border-radius:var(--radius-surface);padding:10px}
+.demo .k{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);padding:4px 8px 8px}
+.demo .it{font-family:var(--font-heading);font-size:15px;color:var(--text-strong);padding:9px 10px;border-radius:5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="label">Design brief answer · 31 July 2026</p>
+<h1>One accent, and it is the loud one.</h1>
+<p class="lede">Candidate 1. The design system keeps <code>--accent</code>; shadcn's pair is renamed to say what it is. The signature set grows by one — a hover step is a ground token, and it cannot be derived.</p>
+
+<section class="part">
+<h2 class="big">The decision</h2>
+<p class="intro">Three reasons, in the order they carried weight. The third is the one that settles it, and it is not about naming at all.</p>
+
+<div class="issue">
+<div class="ihead"><span class="n">01</span><h3>The dimension and the token have to share a name</h3></div>
+<p><b>accent</b> is one of the six signature dimensions in <code>products.css</code>, alongside deployment, ground, illustration register, display presence and density. Under candidate 2 the dimension is still called accent and the token it sets is called <code>--primary-action</code>. Every product block would then read as a small translation exercise, and the layer's whole value is that a reviewer can see a signature at a glance.</p>
+<p class="why">Meaning A also owns a coherent family of five — <code>--accent</code>, <code>-hover</code>, <code>-marker</code>, <code>-link</code>, <code>-link-hover</code> — plus <code>--focus-ring</code> sitting in the same group. Meaning B is a pair. Rename the pair.</p>
+</div>
+
+<div class="issue">
+<div class="ihead"><span class="n">02</span><h3>shadcn's <code>--accent</code> is the anomaly, not ours</h3></div>
+<p>In shadcn the loud interactive colour is <code>--primary</code>; <code>--accent</code> is a recessive hover surface. That is a local convention, and it is the opposite of what the word means in every brand vocabulary including this one, where the accent is the single colour the whole product is allowed to be loud in. <b>Renaming the anomaly is the cheaper idea even where it is the more files.</b></p>
+<p class="why">You framed this as the <code>.c-card</code> precedent, and it holds: two things that were never dialects of one thing, named apart. But that precedent also decided <em>which</em> one moved — the borderless data surface kept <code>.c-card</code> because it is the one the system talks about constantly. Same test here.</p>
+</div>
+
+<div class="issue high">
+<div class="ihead"><span class="n">03</span><h3>The value is wrong too, and that is what makes it easy</h3></div>
+<p><b>The system already decided what a hover surface is.</b> "Hover is a background step, not a colour shift" — a menu row or control goes transparent → <code>--surface-raised</code>, a list row to a lighter step. So <code>--accent: sunshine-500</code> in the theme files is not only a name collision, it is a value that contradicts a settled rule: it paints hover in a brand colour, which is exactly the colour-shift the rule forbids.</p>
+<p>Nobody has ever seen it. The bridge resolved <code>bg-accent</code> to fire-500, so meaning B was already losing before <code>products.css</code> existed. That means there is <b>no shipping appearance to preserve on either side</b> — the rename is not a migration, it is a correction that happens to need a new name. Fix both in one pass.</p>
+<div class="dec"><div class="h">Decision</div><div class="b">Candidate 1. <code>--accent</code> and its family stay as they are, in <code>semantic.css</code> and <code>products.css</code>. shadcn's <code>--accent</code> / <code>--accent-foreground</code> become <code>--surface-hover</code> / <code>--text-on-hover</code>, and take the system's hover value rather than sunshine-500.</div></div>
+</div>
+</section>
+
+<section class="part">
+<h2 class="big">Your question: does the closed set grow?</h2>
+<p class="intro">Yes, by one, and it goes in the <b>ground</b> group rather than the accent one. The first draft of this answer said no — that <code>--surface-hover</code> could alias <code>--surface-raised</code>, since every product already declares a raised step. That is wrong on half the suite, and wrong on precisely the products the argument leaned on.</p>
+
+<div class="issue high">
+<div class="ihead"><span class="n">04</span><h3>Raised is a band. Hover is a step. Only CHC makes them coincide</h3></div>
+<table class="sum">
+<tr><th style="width:130px">Product</th><th style="width:150px">Menu surface</th><th style="width:150px">Raised</th><th>What an alias would do</th></tr>
+<tr><td class="w">CHC</td><td class="w">limestone-150</td><td class="w">limestone-600</td><td>Correct — it is the shipping hover, which is why the alias looked safe.</td></tr>
+<tr><td class="w">CM</td><td class="w">limestone-150</td><td class="w">lichen-600</td><td>A green step on a limestone panel. Its menus are limestone; only its page and chrome are lichen.</td></tr>
+<tr><td class="w">VTS</td><td class="w">sorbet-800</td><td class="w">sorbet-800</td><td><b>No hover at all.</b> Raised and menu are the same stop, so the row hovers to the colour it is already sitting on.</td></tr>
+<tr><td class="w">contentious.ltd</td><td class="w">limestone-150</td><td class="w">lichen-300</td><td>Rows hover to the light alternating band — a colour shift, the thing section 03 rules out.</td></tr>
+</table>
+<p><b>Raised is a band</b> — an aside block, a section of a marketing page, the seg-control track. <b>Hover is a step off the surface being hovered.</b> Two different jobs that happen to land on the same value in CHC, which is the ground this system was written against and the reason the conflation survived a first reading.</p>
+<p>So it is declared, per product, and it is <b>neutral</b>: take the step from the family the menu and field surfaces are in, not the one the page bands in. On a dark ground it lightens.</p>
+<pre>/* products.css — the 29th token, ground group */
+[data-product="chc"]         --surface-hover: var(--limestone-600);
+[data-product="cm"]          --surface-hover: var(--limestone-600);   /* menus are limestone */
+[data-product="vts"]         --surface-hover: var(--sorbet-750);      /* lightens off sorbet-800 */
+[data-product="contentious"] --surface-hover: var(--limestone-600);   /* not the lichen band */</pre>
+<div class="dec"><div class="h">Decision</div><div class="b">The set grows to <b>29</b>. <code>--surface-hover</code> joins the ground group and every product declares it. <code>--text-on-hover</code> is <em>not</em> in the set — it equals <code>--text-strong</code> in every product and exists only so the shadcn codemod stays mechanical.</div></div>
+<p class="why">That is the third growth, and it has the same shape as the first two: a signature that could not describe a shipping product. <code>--text-inset</code> was VTS's light chrome over a dark page; <code>--signature-deployment</code> was the studio site's bands; this one is VTS again, plus the studio site.</p>
+</div>
+
+<div class="demo">
+<div class="col"><div class="k">CHC · limestone-600</div><div class="it" style="background:var(--limestone-600)">Account settings</div></div>
+<div class="col"><div class="k">CM · limestone-600</div><div class="it" style="background:var(--limestone-600)">Account settings</div></div>
+<div class="col" style="background:var(--sorbet-800)"><div class="k" style="color:var(--sorbet-400)">VTS · sorbet-750</div><div class="it" style="background:var(--sorbet-750);color:var(--limestone-200)">Account settings</div></div>
+<div class="col" style="background:var(--sorbet-800)"><div class="k" style="color:var(--sorbet-400)">VTS · the alias</div><div class="it" style="background:var(--sorbet-800);color:var(--limestone-200)">Account settings</div></div>
+</div>
+<p class="label" style="margin-top:8px">One menu row, hovered, on each product's own menu surface. The fourth column is what the alias produced on VTS: raised and menu are both sorbet-800, so there is nothing to see.</p>
+</section>
+
+<section class="part">
+<h2 class="big">What this asks of you</h2>
+<table class="verdicts">
+<tr><td class="q">Theme files</td><td>Two lines each in CHC and CM: <code>--accent</code> → <code>--surface-hover</code>, <code>--accent-foreground</code> → <code>--text-on-hover</code>. Drop the sunshine-500 value — <code>products.css</code> now declares <code>--surface-hover</code> per product. VTS and the website have no shadcn layer to change, but both take the new token like every other signature line.</td></tr>
+<tr><td class="q">Components</td><td>The ten shadcn files per product, mechanically: <code>bg-accent</code> → <code>bg-surface-hover</code>, <code>text-accent-foreground</code> → <code>text-on-hover</code>, or whatever the Tailwind mapping names them. Find-and-replace, no judgement.</td></tr>
+<tr><td class="q">Import order</td><td>Unchanged and still matters: <code>semantic.css</code> before the theme file. With the collision gone, that is now a plain layering rule rather than a trap.</td></tr>
+<tr><td class="q"><code>bg-accent/50</code></td><td>Resolves itself. The opacity modifier was being dropped on a themed <code>var()</code>; at the hover step there is no half-opacity case left — a hover is one step or it is not a hover.</td></tr>
+</table>
+</section>
+
+<section class="part">
+<h2 class="big">Found while answering</h2>
+<div class="issue">
+<div class="ihead"><span class="n">05</span><h3>Two literal limestone stops in <code>components.css</code> break on a dark ground</h3></div>
+<p><code>.c-row:hover</code> and <code>.c-button--ghost:hover</code> are <code>var(--limestone-450)</code> outright. On CHC, CM and the studio site that is correct and is the documented list-row step. <b>On VTS it hovers a dark row to near-white.</b> It has never shown, because VTS runs no design-system components yet — the same reason candidate 2 looked cheap.</p>
+<p class="why">Not folded into this decision, because fixing it properly means either a 29th token (<code>--surface-hover-row</code>, which every product would then declare) or deriving the row step from the card. That is a real argument and it deserves its own brief. Flagged so it is found before VTS adopts, not after.</p>
+</div>
+<div class="corr">
+<div class="h">Also, and separately</div>
+<p><b>The <code>typography.css</code> split is done</b>, in the same export as this answer. <code>tokens/type-roles.css</code> holds the roles and is importable on its own; <code>tokens/semantic.css</code> imports it itself, so <code>--label-font-size</code> and every <code>--type-*</code> shorthand now hold across the package boundary. <code>tokens/typography.css</code> keeps <code>--base-font-size</code> and <code>--text-multiplier</code> as prototyping defaults and every existing link is unchanged.</p>
+<p>You were right to keep it out of this decision, and right that it is a defect rather than tidiness. It just turned out to cost nothing, so it did not need to wait its turn.</p>
+</div>
+</section>
+</div>
+</body>
+</html>

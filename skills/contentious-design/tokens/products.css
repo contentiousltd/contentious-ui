@@ -1,12 +1,12 @@
 /* =============================================================================
-   Product signatures — the layer where one product stops looking like another.
+   Product signatures – the layer where one product stops looking like another.
 
-   STATUS, 31 July 2026 — SETTLED IN STRUCTURE, PROVISIONAL IN VALUE.
+   STATUS, 31 July 2026 – SETTLED IN STRUCTURE, PROVISIONAL IN VALUE.
    What is agreed and safe to build on: the six dimensions, the two deployment
    modes, the closed set, the invariant core, the allocation rules, and rule 5
    (diverge at the front door, converge inside). Cite those.
    What is NOT yet exact: the specific stops in each product block. They are a
-   coherent first proposal, not a match to what is deployed — CM's lichen page
+   coherent first proposal, not a match to what is deployed – CM's lichen page
    is a recommendation nobody has seen on a real screen, VTS's sorbet-850 needs
    checking against the live CSS (see the note in its block), and CHC's block is
    the only one transcribed from something shipping. Reconcile each product
@@ -24,23 +24,26 @@
    four dimensions at once. This layer makes divergence a declaration rather
    than an act of rebellion.
 
-   THE CONTRACT — read before adding a product
+   THE CONTRACT – read before adding a product
    1. A product overrides tokens in THIS FILE ONLY. No product-specific hex
       anywhere else in the system, in @contentious/ui, or in product code.
-   2. The overridable set is CLOSED. It is the 30 tokens listed under "THE
-      SIGNATURE SET" below. Adding a 31st is a system decision, not a product
-      decision — argue it out and record it here. It has grown four times,
+   2. The overridable set is CLOSED. It is the 36 tokens listed under "THE
+      SIGNATURE SET" below. Adding a 37th is a system decision, not a product
+      decision – argue it out and record it here. It has grown six times,
       every time because a real product would not fit: --text-inset (see VTS),
       --signature-deployment (see contentious.ltd), --surface-hover (VTS
-      again, plus contentious.ltd — see the Hover note below) and
+      again, plus contentious.ltd – see the Hover note below),
       --surface-hover-row (1 Aug 2026: the full hover step takes a list row
       DARKER than the page it sits in, so a large in-page surface needs the
-      half step. See semantic.css). Every growth is
-      the layer working — a signature that cannot describe a shipping product
+      half step. See semantic.css), the five deep-card tokens (4 Aug), and
+      --surface-front / --surface-front-tint (7 Sep 2026: the front door had a
+      density, a motion token and a wash, and no page. See semantic.css).
+      Every growth is
+      the layer working – a signature that cannot describe a shipping product
       is the thing being fixed here.
    3. Everything not in the set is the family resemblance and never varies:
       Bely + Bely Display and all --type-* roles, the spacing scale, radii
-      (3/6/12 — and the corner follows the BORDER, not the size: borderless
+      (3/6/12 – and the corner follows the BORDER, not the size: borderless
       .c-card is 6, bordered .c-frame is 12), motion (200 state / 350 slow
       state / 350 overlay / 150 exit, plus 600 reveal on marketing surfaces
       only), the two focus stops, chip geometry and tones, --star-1..5 and
@@ -48,7 +51,7 @@
       (sunshine on hover is a family trait, not a product one), the
       one-surface-depth rule, hairlines-not-boxes.
    4. No two products share the same (deployment, ground, accent) triple.
-      Products sold in the same conversation — CM and CHC — must differ on
+      Products sold in the same conversation – CM and CHC – must differ on
       GROUND, because within one deployment mode that is the dimension that
       carries at a glance. Across deployment modes the mode itself is enough:
       contentious.ltd shares limestone with CHC and is never mistakable for it.
@@ -57,7 +60,7 @@
       family consistency is worth more than product identity: a signed-in
       results page SHOULD feel like a signed-in CHC page. Products may scope
       the strong half of their signature to marketing surfaces and inherit
-      [data-product="chc"] ground inside the app — see --signature-app-ground.
+      [data-product="chc"] ground inside the app – see --signature-app-ground.
 
    THE SIX DIMENSIONS OF A SIGNATURE, in order of how much work they do
       1. Deployment    HOW colour is used structurally, before which colour.
@@ -67,32 +70,32 @@
                        every surface the product owns, INCLUDING ITS MARKETING
                        PAGE. It does not. Every reserved product has two kinds
                        of surface and they take different rules:
-                         app       — reserved. 19px. No gradient, blur, glass,
+                         app       – reserved. 19px. No gradient, blur, glass,
                                      grain. Colour is information.
-                         front door— marketing and informational surfaces.
+                         front door– marketing and informational surfaces.
                                      24px. May use --wash-section (135deg,
                                      two stops, one family, subtle; the pair
                                      is AUTHORED PER PRODUCT alongside the
                                      other ground tokens, never derived from
                                      --surface-page/--surface-raised).
                                      Reading surfaces, not working
-                                     ones — the line is not signed-out vs
+                                     ones – the line is not signed-out vs
                                      signed-in; CM's Framework page is behind
                                      the login and is a legitimate use. Not
-                                     banded — CM's full-width blocks carry the
+                                     banded – CM's full-width blocks carry the
                                      pictorial illustration set, its signature
                                      register, where the studio's bands are
                                      flat colour with a torn edge. They differ
                                      on more than hue, and only one is a band.
                        Two modes so far and they are worlds apart:
-                         reserved — one accent, everything else means something.
+                         reserved – one accent, everything else means something.
                                     Every app. Colour is information.
-                         banded   — full-bleed saturated sections at the 500
+                         banded   – full-bleed saturated sections at the 500
                                     stop, hue rotating per page, torn-paper
                                     edges between them. contentious.ltd.
                        There is no third mode. A reserved product's front door
                        is not a deployment mode, it is the marketing surface of
-                       an existing one — inventing "editorial" or similar would
+                       an existing one – inventing "editorial" or similar would
                        be marketing wearing a costume, and would license the
                        next product to claim it too.
                        Recorded in --signature-deployment. This dimension was
@@ -110,11 +113,21 @@
                        Banded / marketing = the brand's 24px. See "Density" at
                        the foot of this file.
 
-   THE SIGNATURE SET (34)
+   THE SIGNATURE SET (36)
       ground      --surface-page --surface-chrome --surface-card
                   --surface-card-deep --surface-raised --surface-menu
                   --surface-field --surface-inverse --surface-footer
                   --surface-hover --surface-hover-row
+      front door  --surface-front --surface-front-tint
+                  (the 35th and 36th, added 7 September 2026. The front-door
+                   page and its alternating band. THE CARD IS THE TEST: whatever
+                   the pair is, --surface-card must clear 1.18:1 from both of
+                   them, and a band step under ~1.15 does not read as a band.
+                   Cannot be derived - the limestone light end is aliased, so a
+                   recipe that reads on lichen is nearly invisible on CHC.
+                   Declared by every product, including contentious.ltd, whose
+                   SATURATED bands are still authored per page: this pair is its
+                   neutral alternation, not its hue rotation.)
       hairlines   --rule-section --rule-row --rule-field --rule-on-deep
       deep card   --label-on-deep --accent-link-on-deep
                   (the 30th to 34th, added 4 August 2026 with the ground move.
@@ -129,10 +142,10 @@
                   --text-inset-strong --text-inset
       accent      --accent --accent-hover --accent-marker --accent-link
                   --accent-link-hover
-                  NOT --focus-ring — focus is not an accent. It is wave in
+                  NOT --focus-ring – focus is not an accent. It is wave in
                   every product, and its only two legal values are
                   --focus-ring-on-light and --focus-ring-on-dark.
-                  NOT --surface-hover — hover is a GROUND token, not an accent
+                  NOT --surface-hover – hover is a GROUND token, not an accent
                   one. That is the whole of the decision in
                   provenance/Accent decision 2026-07-31.html.
       focus       --focus-ring   (one of the two named stops, nothing else)
@@ -141,7 +154,7 @@
       audit       --signature-illustration --signature-app-ground
                   --signature-deployment
 
-   HOVER — the 29th token, and why it is not derived
+   HOVER – the 29th token, and why it is not derived
       Hover is a background STEP, not a colour shift: a menu row or control
       goes transparent -> --surface-hover. The first answer made it an alias of
       --surface-raised, on the reasoning that every product already declares a
@@ -151,7 +164,7 @@
                          sorbet-800, so a menu item would hover to the colour
                          it already sits on. No hover state at all.
         contentious.ltd  --surface-raised is lichen-300, the light alternating
-                         band. Menu rows would hover to a green — the colour
+                         band. Menu rows would hover to a green – the colour
                          shift the rule exists to forbid.
       Raised is a BAND (an aside, a section of a marketing page); hover is a
       STEP off the surface being hovered. Two jobs, and only CHC's ground makes
@@ -159,9 +172,9 @@
       the step from the family the MENU and FIELD surfaces are in, not the one
       the page bands in. On a dark ground it lightens.
 
-   ACCENT ALLOCATION — narrower than it first looked, and that is a relief
+   ACCENT ALLOCATION – narrower than it first looked, and that is a relief
    The score ramp reserves five of eleven families at the 500 stop (fire, amber,
-   sunshine, olive, sapling) — but ONLY IN A PRODUCT THAT DISPLAYS SCORES. That
+   sunshine, olive, sapling) – but ONLY IN A PRODUCT THAT DISPLAYS SCORES. That
    qualifier was missing on the first pass and it matters: contentious.ltd shows
    no scores, so a full-bleed sunshine section there cannot be misread as level
    2, and the studio site is free to use the whole palette at full strength.
@@ -174,13 +187,13 @@
      - Or take a ramp family at 700 or darker, never 500, so no fill can be
        confused with a rung.
      - Or add a twelfth family deliberately.
-   CHC holds fire as both accent and star-1. That is a pre-existing tension —
-   a fire button beside a fire one-star bar — and it is precedent, not licence.
+   CHC holds fire as both accent and star-1. That is a pre-existing tension –
+   a fire button beside a fire one-star bar – and it is precedent, not licence.
    Do not create a second one.
    ========================================================================== */
 
 /* -----------------------------------------------------------------------------
-   THEMED UTILITIES — how these tokens surface in Tailwind. Added 1 Aug 2026.
+   THEMED UTILITIES – how these tokens surface in Tailwind. Added 1 Aug 2026.
 
    THE NAME IS PRESERVED VERBATIM. The bridge emits --<token> as
    --color-<token>, so the utility is the token name with a utility prefix in
@@ -199,35 +212,35 @@
    read well and uses a word this system already owns) was weighed and rejected
    on cost: seven of the nine are in the signature set, so it is a sweep across
    two repos and four products to buy a tidier class name. text-text-strong is
-   ugly and it is correct. The rule above is the fix — it is guessable in one
+   ugly and it is correct. The rule above is the fix – it is guessable in one
    direction with no exceptions, which is worth more than the stutter costs.
    WHAT SHOULD CATCH IT: a check that every themed utility used in product code
    exists in the built CSS. Twenty-four dead classes shipped silently; that is a
    missing check, not a missing rename.
 
-   OPACITY MODIFIERS: the old warning here — "themed utilities do NOT take an
+   OPACITY MODIFIERS: the old warning here – "themed utilities do NOT take an
    opacity modifier, bg-surface-card/50 renders opaque, reach for a numbered
-   shade" — is WITHDRAWN. It stopped being true at Tailwind 4.3.3, verified in
+   shade" – is WITHDRAWN. It stopped being true at Tailwind 4.3.3, verified in
    two products' builds: an opaque fallback plus a color-mix rule behind
    @supports, so it renders at 50% in every current browser. The literal-vs-var()
-   split in the bridge existed to work around this and can go — var() throughout
+   split in the bridge existed to work around this and can go – var() throughout
    is also what keeps a signature from being frozen into the bridge, which was
    the 0.6.0 bug.
    BUT THE GUARDRAIL STAYS, with its real reason: an opacity modifier on a
    SURFACE token is glass, and there is no glass in this system; on a TEXT token
    it is a fifth text level nobody declared and nobody checked for contrast. The
-   two legitimate uses are already tokenised — --scrim-modal / --scrim-panel
+   two legitimate uses are already tokenised – --scrim-modal / --scrim-panel
    (color-mix, not a utility) and --nav-context-standdown (opacity on a whole
    group, not on a colour). So: it works now, and it is still almost always
    wrong. Reach for a declared token, not a numbered shade.
 -------------------------------------------------------------------------------- */
 
 /* -----------------------------------------------------------------------------
-   CONTENT HEALTH CHECK — the diagnostic. Light, neutral, close-toned.
+   CONTENT HEALTH CHECK – the diagnostic. Light, neutral, close-toned.
    Declared explicitly rather than inherited, so "the default" stops being a
    product. If semantic.css and this block ever disagree, this block wins and
    semantic.css should be reverted to the CHC values.
-   Ground: warm cream, cards a clear step lighter — quiet, because the data is
+   Ground: warm cream, cards a clear step lighter – quiet, because the data is
    the loud thing, not because the surfaces are invisible. Cards may also go
    DARKER than the page; see --surface-card-deep. Illustration: schematic
    objects and diagrams.
@@ -269,6 +282,17 @@
                                                     clears the floor - that whole span
                                                     is 1.18. May fold into
                                                     --surface-hover; check the suite */
+  /* The front door. contenthealthcheck.com shares its ground with the app,
+     which is legitimate and already true - what it did not have was a BAND to
+     alternate with. Card (limestone-400) reads 1.18:1 on the front and 1.47:1
+     on the tint; the band step is 1.25.
+     The tint lands on the same stop as --surface-card-deep here. That is not
+     the collision the pair was added to fix: the fix is that the band is now
+     its own token, so a product can move one without the other, where
+     .c-marketing-section--tint used to BE --surface-card-deep by definition.
+     Corollary that still holds: do not put a deep card on a tinted band. */
+  --surface-front:       var(--limestone-600);
+  --surface-front-tint:  var(--limestone-750);
 
   --rule-section:        var(--limestone-750);   /* was 700; 1.16 on the darker page */
   --rule-row:            var(--limestone-600);   /* 1.18 pale card, 1.25 deep card */
@@ -304,32 +328,44 @@
                                                    land at 1.00:1 */
 
   --signature-display-scale: 1;
-  --signature-illustration:  "schematic — objects, diagrams, systems seen from above";
+  --signature-illustration:  "schematic – objects, diagrams, systems seen from above";
   --signature-deployment:    "reserved";
   --signature-app-ground:    "own";
 }
 
 /* -----------------------------------------------------------------------------
-   CONTENT MATURITY — the assessment. Light, but a definite ground.
+   CONTENT MATURITY – the assessment. Light, but a definite ground.
    Lichen is the lever and it is a real one: lichen-500 #DADAD2 sits ~9 points
    of lightness below limestone-500 #F2F2E7 and a step cooler. Used as the PAGE
-   it changes the structural feel, not just the tint — cards become objects on
+   it changes the structural feel, not just the tint – cards become objects on
    a ground rather than a whisper within one. That contrast is CM's signature
    as much as the hue is.
    Accent: coffee, the warm brown already in CM's illustrations. Sunshine keeps
    the marker role (the play-triangle on CM's buttons is already sunshine).
-   Illustration: pictorial — landscape, growth, buildings. Genuinely unlike
+   Illustration: pictorial – landscape, growth, buildings. Genuinely unlike
    CHC's register already; this is the dimension CM was closest to getting right.
 -------------------------------------------------------------------------------- */
 [data-product="cm"] {
   --surface-page:        var(--lichen-500);
-  /* Section wash — the value in production on the homepage and Framework page.
+  /* Section wash – the value in production on the homepage and Framework page.
      ~9 per channel: subtle enough not to read as a colour change. Authored,
      not derived from --surface-page/--surface-raised, which on this ground
      would be ~3.6x heavier. See --wash-section in tokens/semantic.css. */
   --wash-section:        linear-gradient(135deg, var(--lichen-350) 0%, var(--lichen-450) 100%);
   --surface-chrome:      var(--lichen-400);
   --surface-card:        var(--limestone-200);
+  /* MEASURED FAILURE, FLAGGED 7 SEPTEMBER 2026 AND NOT FIXED HERE, because no
+     stop on this ramp satisfies both constraints at once. CM's page is
+     lichen-500, so the deep card has to be dark enough to read against it AND
+     light enough to carry --text-secondary (gloaming-500, needs 4.5):
+         lichen-550  page 1.17 too faint  |  secondary 5.10 passes
+         lichen-600  page 1.40            |  secondary 4.27 fails
+         lichen-650  page 1.68            |  secondary 3.56 fails
+         lichen-700  page 2.04            |  secondary 2.94 fails
+     Maturity Tool escapes it because its page is the lighter front-door ground,
+     so 550 clears both. CM needs either a --text-secondary-on-deep (a 37th
+     signature token) or a deep card that is LIGHTER than its page rather than
+     darker. Own round. */
   --surface-card-deep:   var(--lichen-650);      /* 1.68:1 on the lichen page. PROVISIONAL:
                                                     the deep card is a CHC decision of
                                                     4 Aug 2026 and has not been designed
@@ -347,6 +383,15 @@
   --surface-inverse:     var(--gloaming-800);
   --surface-hover:       var(--limestone-600);   /* menus are limestone here, not lichen */
   --surface-hover-row:   var(--limestone-450);   /* cards are limestone-200; page is lichen */
+  /* The front door, and the two values line up with things already declared:
+     lichen-350 is the FIRST STOP OF --wash-section above, and lichen-500 is
+     this product's app page. So CM's marketing ground is a step lighter than
+     its app, and its marketing band lands exactly on the app's page colour.
+     Card (limestone-200) reads 1.20:1 on the front and 1.35:1 on the tint;
+     the band step is 1.13. Authored against the Maturity Tool site, which is
+     the only marketing page in the suite built on this ramp. */
+  --surface-front:       var(--lichen-350);
+  --surface-front-tint:  var(--lichen-500);
 
   --rule-section:        var(--lichen-700);
   --rule-row:            var(--lichen-600);
@@ -371,21 +416,21 @@
   --level-empty:         var(--lichen-700);
 
   --signature-display-scale: 1;
-  --signature-illustration:  "pictorial — landscape, growth, buildings, objects in a scene";
+  --signature-illustration:  "pictorial – landscape, growth, buildings, objects in a scene";
   --signature-deployment:    "reserved";
   --signature-app-ground:    "own";
 }
 
 /* -----------------------------------------------------------------------------
-   VOICE, TONE AND STYLE — the style guide. Dark, editorial, heroic.
+   VOICE, TONE AND STYLE – the style guide. Dark, editorial, heroic.
    The one product that already had a signature. This block records it rather
    than inventing it: dark ground, sorbet accent, typographic illustration,
    display type at ~1.2x.
 
-   CORRECTED — the ground is SORBET, not off-palette. The first pass called the
+   CORRECTED – the ground is SORBET, not off-palette. The first pass called the
    aubergine unreachable and reached for fire-850; wrong on both counts. The
    dark end of the sorbet family is exactly it: sorbet-850 #3A2725 for the page,
-   sorbet-800 #4D3431 raised. One thing to check against the live CSS — sorbet
+   sorbet-800 #4D3431 raised. One thing to check against the live CSS – sorbet
    -700 #744E49 is a good deal lighter than the shipping page ground and reads
    as the card/raised stop rather than the page, so if the site sets 700 as its
    page colour the tokens below are darker than production. Family confirmed,
@@ -394,11 +439,11 @@
    from the palette. The accent register is tighter than the palette is short.
 
    FIX carried in this block: sorbet-500 with limestone text is ~2.8:1. Text on
-   the accent is gloaming-800 — dark text on the salmon fill, which is also
+   the accent is gloaming-800 – dark text on the salmon fill, which is also
    what the shipping button should be doing.
 
    WHY THE SET GREW TO 27. VTS runs a LIGHT nav bar and light form fields over
-   a DARK page — that is the shipping design and it is the right one. A single
+   a DARK page – that is the shipping design and it is the right one. A single
    inverted text stack cannot serve both: --text-strong inverted to limestone
    put white type on the white chrome, 1:1. So the set gained --text-inset and
    --text-inset-strong: "text on a light island within a dark page", used by
@@ -433,6 +478,12 @@
   --surface-inverse:     var(--limestone-200);   /* inverse of a dark page is light */
   --surface-hover:       var(--sorbet-750);      /* LIGHTENS - raised is 800, same as the menu */
   --surface-hover-row:   var(--coffee-800);      /* rows sit on the coffee-850 card */
+  /* The front door. On a dark product the band goes DARKER, the same direction
+     "deep" means here. Card (coffee-850) reads 1.19:1 on the front and 1.25:1
+     on the tint; the band step is 1.48. PROVISIONAL - the live homepage has not
+     been reconciled, and the page stop itself is flagged above. */
+  --surface-front:       var(--sorbet-850);
+  --surface-front-tint:  var(--sorbet-900);
 
   --rule-section:        var(--sorbet-750);
   --rule-row:            var(--sorbet-800);
@@ -459,20 +510,20 @@
   --level-empty:         var(--sorbet-750);
 
   --signature-display-scale: 1.18;
-  --signature-illustration:  "typographic — letterforms, glyphs, printed matter, collage";
+  --signature-illustration:  "typographic – letterforms, glyphs, printed matter, collage";
   --signature-deployment:    "reserved";
   --signature-app-ground:    "own";
 }
 
 /* -----------------------------------------------------------------------------
-   CONTENTIOUS.LTD — the studio. The banded one, and the only banded one.
+   CONTENTIOUS.LTD – the studio. The banded one, and the only banded one.
 
    CORRECTED from the first pass, which had this as "dark neutral near-black
    with a fire accent". It is nothing of the kind. The page ground is the same
    warm cream as CHC; what makes the site unmistakable is that whole sections
    take a brand colour at FULL STRENGTH, full bleed, with the hue rotating page
-   to page — sunshine behind "Content matters" and "The content system", fire
-   behind "The content manifesto" — and the manifesto alternates gloaming-dark
+   to page – sunshine behind "Content matters" and "The content system", fire
+   behind "The content manifesto" – and the manifesto alternates gloaming-dark
    and lichen-light bands down its whole length. Torn-paper edges between bands.
 
    Which is why --accent here is close to meaningless and the band hue is NOT a
@@ -484,7 +535,7 @@
    The studio site is also the only place the brand's TEXTURE lives: torn
    edges, grain, printed-paper collage bleeding off the band. The app rule "no
    gradients, no blur, no glass, no grain" is unchanged and this is not a hole
-   in it — texture is a studio-site trait, and an app that grows a torn edge is
+   in it – texture is a studio-site trait, and an app that grows a torn edge is
    a defect, not a family resemblance.
 
    Shares limestone with CHC, which rule 4 permits because the deployment modes
@@ -512,6 +563,17 @@
   --surface-inverse:     var(--gloaming-750);    /* the dark alternating band */
   --surface-hover:       var(--limestone-600);   /* neutral - raised is the lichen band */
   --surface-hover-row:   var(--limestone-450);
+  /* The front door, which here is the whole site. THIS PAIR IS THE NEUTRAL
+     ALTERNATION, NOT THE HUE ROTATION: the saturated 500-stop bands stay
+     authored per page, because tokenising a band hue would turn an editorial
+     decision into a default. lichen-300 is --surface-raised here, which is
+     already described as "the light alternating band" - the same object.
+     FLAG, not fixed here: --surface-card is limestone-300 and the page is
+     limestone-500, which is 1.06:1 - the same failure the CHC ground move
+     corrected on 4 August, still present on the studio site. It needs its own
+     round; do not fix it by moving this pair. */
+  --surface-front:       var(--limestone-500);
+  --surface-front-tint:  var(--lichen-300);
 
   --rule-section:        var(--limestone-700);
   --rule-row:            var(--limestone-600);
@@ -542,19 +604,143 @@
   /* Display scale is 1, NOT 1.24. Density already carries the heroism: at the
      24px marketing base, --t-title resolves to ~58px against the app's ~46px.
      Stacking a 1.24 multiplier on top would give ~71px and, worse, would mean
-     two knobs in series controlling one ratio — which is how you lose control
+     two knobs in series controlling one ratio – which is how you lose control
      of it. If 58px turns out too small on the live site, change the ratio in
      ONE place, deliberately. */
   --signature-display-scale: 1;
-  --signature-illustration:  "textured collage — printed matter, torn paper, cut shapes bleeding off the band";
-  --signature-deployment:    "banded — full-bleed 500-stop sections, hue rotates per page, torn edges, texture permitted";
+  --signature-illustration:  "textured collage – printed matter, torn paper, cut shapes bleeding off the band";
+  --signature-deployment:    "banded – full-bleed 500-stop sections, hue rotates per page, torn edges, texture permitted";
   --signature-app-ground:    "n/a";
 }
 
 /* -----------------------------------------------------------------------------
-   ADDING THE NEXT PRODUCT — the recipe
+   MATURITY TOOL – the partner platform. The front door, and nothing behind it.
 
-   1. Pick a DEPLOYMENT MODE first. Almost certainly "reserved" — banded is
+   ADDED 7 September 2026, on Julius's call that this is a separate product
+   rather than a skin on Content Maturity. It is deliberately LOW-KEY: it
+   resells the Content Maturity platform to consultancies, so it sits below the
+   other four rather than beside them, and its signature is a restraint rather
+   than a statement.
+
+   THE FIRST PRODUCT WITH NO WORKING SURFACE. Every other product in the suite
+   has an app and a front door and takes different rules on each. Maturity Tool
+   is front door all the way down: one static page at maturitytool.com, no
+   signed-in state, no scores, no tables. Three things fall out of that and they
+   are the whole reason this block is short.
+     - Density is 24px on EVERY surface, which no other product can say. See
+       the Density note at the foot of this file.
+     - --surface-page and --surface-front are THE SAME VALUE, because the page
+       IS the front door. Declared twice on purpose: a component reaching for
+       the page ground and a section reaching for the front-door ground are
+       asking different questions, and the day this product grows an app the
+       two answers separate.
+     - --signature-app-ground is "n/a", the second time after contentious.ltd.
+
+   IT SHARES LICHEN WITH CONTENT MATURITY, AND THAT IS ALLOWED. Rule 4 says no
+   two products share the (deployment, ground, accent) triple, and requires
+   products SOLD IN THE SAME CONVERSATION to differ on ground. CM and CHC are
+   sold in the same conversation; CM and Maturity Tool are not - one is sold to
+   an organisation that wants an assessment, the other to a consultancy that
+   wants to run assessments for its own clients. Different buyer, different
+   pitch, never on the same slide. The triple is unique on accent: CM is
+   (reserved, lichen, coffee) and this is (reserved, lichen, fire).
+   Sharing the ground is also the honest thing: it IS the CM platform, and a
+   consultancy evaluating it should see the platform it is buying.
+
+   ACCENT IS FIRE, AT 600 RATHER THAN 500, and both halves are measured.
+   Fire is free here for the same reason it is free on the studio site: the
+   accent reservation binds products that DISPLAY SCORES, and this page shows
+   none, so no fire fill can be misread as one star. 600 rather than 500 because
+   every fire surface on this page carries text - the closing band, the step
+   discs - and limestone-100 on fire-500 is 3.99:1, which is the contrast defect
+   the audit found. On fire-600 it is 5.81.
+
+   ILLUSTRATION IS BORROWED, AND IT IS RECORDED AS BORROWED. The page uses CM's
+   tree. This is the one dimension the product does not own, which is what
+   "resells the platform" looks like in the signature, and it is the first thing
+   to revisit if Maturity Tool ever becomes a product in its own right. Do not
+   quietly upgrade it to "pictorial" - that would make it indistinguishable from
+   CM on the dimension the system calls the second-strongest cue.
+
+   Workings: provenance/Maturity Tool site audit 2026-09-07.html.
+-------------------------------------------------------------------------------- */
+[data-product="mt"] {
+  /* The page and the front door are one value here. lichen-350 is also the
+     first stop of CM's --wash-section, so the two products' marketing grounds
+     start from the same place by construction rather than by coincidence. */
+  --surface-page:        var(--lichen-350);
+  --surface-front:       var(--lichen-350);
+  --surface-front-tint:  var(--lichen-500);   /* = CM's app page. Band step 1.13 */
+  --wash-section:        linear-gradient(135deg, var(--lichen-350) 0%, var(--lichen-450) 100%);
+  --surface-chrome:      var(--lichen-400);   /* no chrome ships today; declared so a
+                                                 nav bar cannot land on CHC's */
+  --surface-card:        var(--limestone-200);   /* 1.20:1 on the front, 1.35 on the tint */
+  /* lichen-550, NOT the lichen-650 this block first inherited from CM, and the
+     reason is a text role rather than a ground: --text-secondary is gloaming-500
+     and measures 3.56:1 on lichen-650, so a price band's description and period
+     both failed inside the featured card. At 550 it is 5.10, body is 8.66 and
+     strong is 10.65. The card still reads 1.33:1 on the front ground, above the
+     1.18 bar, and 1.59 against a pale card beside it.
+     --label-color is gloaming-450 and is 3.74 even here, which is why
+     --label-on-deep exists and stays at gloaming-700 (8.66).
+     Against the TINT band it is 1.17, marginally under the bar - consistent with
+     the standing rule that a deep card does not go on a tinted band. */
+  --surface-card-deep:   var(--lichen-550);
+  --surface-raised:      var(--lichen-500);
+  --surface-menu:        var(--limestone-150);
+  --surface-field:       var(--limestone-150);
+  /* THE REVERSED BAND AND THE FOOTER ARE THE OTHER WAY ROUND FROM CHC, and the
+     reason is that this product has no tooltips. --surface-inverse is the
+     reversed marketing band - the pull-quote section - which is the same job
+     contentious.ltd gives it. The footer then has to be a different value from
+     the band it may sit under, and darker is right: a footer is the end of the
+     document, not a section of it. The shipping page has these at gloaming-550
+     and gloaming-600, two stops apart, with the footer LIGHTER than the band. */
+  --surface-inverse:     var(--gloaming-700);
+  --surface-footer:      var(--gloaming-800);
+  --surface-hover:       var(--limestone-600);   /* menus and fields are limestone */
+  --surface-hover-row:   var(--limestone-450);
+
+  --rule-section:        var(--lichen-700);      /* 2.31:1 on the front ground */
+  --rule-row:            var(--lichen-600);
+  --rule-field:          var(--lichen-750);
+
+  --label-on-deep:       var(--gloaming-700);
+  --rule-on-deep:        var(--lichen-800);
+  --accent-link-on-deep: var(--fire-800);        /* PROVISIONAL, as CM's is */
+
+  --text-strong:         var(--gloaming-800);    /* 14.15:1 on the front ground */
+  --text-body:           var(--gloaming-700);
+  --text-secondary:      var(--gloaming-500);    /* 6.78:1 */
+  --text-muted:          var(--gloaming-450);    /* 4.97:1 - holds, but only just */
+  --text-inverse:        var(--limestone-300);
+  --text-on-accent:      var(--limestone-100);   /* 5.81:1 on fire-600. NOT limestone-200,
+                                                    and not on fire-500 */
+  --text-inset-strong:   var(--gloaming-800);
+  --text-inset:          var(--gloaming-700);
+
+  --accent:              var(--fire-600);
+  --accent-hover:        var(--fire-650);
+  --accent-marker:       var(--fire-600);
+  --accent-link:         var(--fire-650);        /* 5.72:1 on the front ground. .c-eyebrow
+                                                    reads this token directly, so the
+                                                    marketing eyebrow is legal here and in
+                                                    every scope that remaps it */
+  --accent-link-hover:   var(--fire-800);
+  --focus-ring:          var(--focus-ring-on-light);
+
+  --level-empty:         var(--lichen-700);      /* declared, and unused: no scores */
+
+  --signature-display-scale: 1;
+  --signature-illustration:  "borrowed – Content Maturity's pictorial set, one illustration per page. The one dimension this product does not own";
+  --signature-deployment:    "reserved – front door only. No app surface exists, so every surface is 24px";
+  --signature-app-ground:    "n/a";
+}
+
+/* -----------------------------------------------------------------------------
+   ADDING THE NEXT PRODUCT – the recipe
+
+   1. Pick a DEPLOYMENT MODE first. Almost certainly "reserved" – banded is
       the studio site's and a second banded product would dilute the one thing
       that marks the studio as the parent rather than a sibling.
    2. Pick a GROUND, and check it against every existing product at a glance,
@@ -570,30 +756,33 @@
       resistance and it is how CM and CHC converged.
    4. Pick an ACCENT under the allocation rules above.
    5. Pick a DISPLAY SCALE, which for most products is 1. It exists for a
-      product that needs heroic titles WITHOUT a density change — titles and
+      product that needs heroic titles WITHOUT a density change – titles and
       metrics only, where density moves everything. A marketing surface does
       not need it: its 24px base already lifts --t-title from ~46px to ~58px.
       Cap 1.3, and check what it compounds with before using it at all.
-   6. Set the full 30. A partial signature inherits CHC and that is the bug
+   6. Set the full 36. A partial signature inherits CHC and that is the bug
       this whole layer exists to prevent. If the product mixes light and dark
       surfaces in either direction, --text-inset is the pair that saves you.
+      If the product has a marketing page - and every product does - set
+      --surface-front and --surface-front-tint, and check the card against
+      BOTH of them at 1.18:1 before you look at anything else.
    7. Decide --signature-app-ground: "own" if the product's app carries the
       signature, "chc" if it converges inside. State it; do not leave it to
       whoever builds the third screen.
 
-   OPEN ITEM — --signature-display-scale is declared here and read by the
+   OPEN ITEM – --signature-display-scale is declared here and read by the
    specimen page, but tokens/type-roles.css does not yet multiply --t-title
    and --t-metric by it. Wiring that up is a one-line change in type-roles.css
    and should land with the first product that needs a scale other than 1.
 -------------------------------------------------------------------------------- */
 /* -----------------------------------------------------------------------------
-   DENSITY — the sixth dimension, and the one that was accidental
+   DENSITY – the sixth dimension, and the one that was accidental
 
    SETTLED. Density is derived from deployment, not chosen per product:
        reserved (every app)          --base-font-size: 19px
        banded / marketing surfaces   --base-font-size: 24px   (the brand value)
 
-   IS IT STILL A KNOB? Yes — and that distinction was the right thing to ask.
+   IS IT STILL A KNOB? Yes – and that distinction was the right thing to ask.
    Density stays a knob a product theme sets, because it is a real signature
    dimension: a working tool and a first-impression surface genuinely want
    different information density, and the alternative shapes both fail. One
@@ -603,12 +792,20 @@
 
    What changes is that it is no longer FREE. It has two legal values and a rule
    saying which one a product takes, and the rule keys off a dimension the
-   signature already declares. So ADR-0011's knob list does not lose an entry —
+   signature already declares. So ADR-0011's knob list does not lose an entry –
    density, accent, mark all stay. It gains a constraint, which is the opposite
    of the list getting shorter and is what makes the theme files hard to misuse.
    A theme setting 21px is now wrong in a way a reviewer can see.
 
-   WHY 19 AND NOT 18. Neither has a design argument — 19 is the library's own
+   ONE PRODUCT IS 24px EVERYWHERE, and it is not an exception to the rule but
+   the rule reaching its edge. Density is derived from DEPLOYMENT, and
+   deployment is a property of a SURFACE. Maturity Tool has only one kind of
+   surface: it is a pitch page for a platform someone else operates, with no
+   signed-in state. So every surface it owns is a front door and every surface
+   it owns is 24px. Nothing here is special-cased for it - the existing rule
+   simply returns one answer instead of two. Added 7 September 2026.
+
+   WHY 19 AND NOT 18. Neither has a design argument – 19 is the library's own
    pre-0.2.0 default, pinned so nothing shifted when the brand base moved to
    24px; CHC's 18 was reverse-engineered from a 1.1rem body and neither theme
    file records a reason. So cost decides. 19 is the base the component CSS was
@@ -628,6 +825,6 @@
    the --t-* roles, so a density change moved the roles and left them behind.
    They were unreferenced and are deleted. --label-font-size was live and
    literal at 11px and now derives from --t-label. The single exception is chip
-   geometry, which stays literal on purpose — "one geometry, six tones" means a
+   geometry, which stays literal on purpose – "one geometry, six tones" means a
    chip that resizes with density is six geometries, and chips are app-only.
 -------------------------------------------------------------------------------- */

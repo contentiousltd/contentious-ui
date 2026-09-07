@@ -1,0 +1,103 @@
+<!-- @dsCard group="Components" viewport="1080x1140" name="Marketing – the front-door kit" subtitle="Eyebrow, hero, pull quote, price bands, steps. One geometry per object; the ground carries the difference." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>Marketing components</title>
+<link rel="stylesheet" href="../../styles.css"/>
+<style>*{box-sizing:border-box}
+body{margin:0;background:var(--surface-front);font-family:var(--font-body);color:var(--text-body);font-size:16px;line-height:var(--line-height-normal);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-synthesis-weight:none}a{color:var(--accent-link);text-decoration:none}a:hover{color:var(--accent-link-hover)}
+.pad{padding:20px 24px}
+/* ONE caption class, with a modifier for which side the margin is on. It was
+   two classes with identical declarations and different margins, which is the
+   exact defect .c-eyebrow exists to fix three sections down. */
+.cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin:0 0 11px}
+.cap--after{margin:10px 0 0}
+.grp+.grp{margin-top:30px}
+.rev{background:var(--surface-inverse);border-radius:var(--radius-surface);padding:26px 28px}</style>
+</head><body data-product="mt">
+<div class="pad c-marketing">
+
+  <div class="grp">
+    <div class="cap">Hero · title at --measure-title (28ch), intro at --measure-lede (48ch)</div>
+    <div class="c-hero">
+      <div>
+        <p class="c-eyebrow">For consultancies</p>
+        <h1 class="c-hero__title">Run your own maturity assessment practice.</h1>
+        <p class="c-hero__intro">Maturity Tool is a platform for consultancies who deliver bespoke maturity assessments to their clients. We run the platform. You run the engagements.</p>
+        <div class="c-hero__cta"><a class="c-button c-button--lg" href="#">See pricing</a><a class="c-button c-button--ghost c-button--lg" href="#">Book a call</a></div>
+      </div>
+      <div class="c-hero__art"><img src="../../images/cos-circle.png" alt="" width="260"/></div>
+    </div>
+    <div class="cap cap--after">No manual line breaks in the title – the measure constrains it and text-wrap:balance does the rest</div>
+  </div>
+
+  <div class="grp">
+    <div class="cap">Eyebrow · Bely, uppercase, weight 400, the accent link stop · Literal · a URL is not code</div>
+    <p class="c-eyebrow">Most common</p>
+    <p style="margin:0;font-size:var(--t-body-app);color:var(--text-body)">Launched on a subdomain of <span class="c-literal">maturitytool.com</span>, with your branding.</p>
+    <div class="cap cap--after">Bely because it labels prose; .c-label is mono because it labels data</div>
+  </div>
+
+  <div class="grp">
+    <div class="cap">Divider --taper · strongest mid-screen, absent at both gutters</div>
+    <hr class="c-divider c-divider--taper"/>
+  </div>
+
+  <div class="grp">
+    <div class="cap">Pull quote · one per page, on data-surface="inverse"</div>
+    <div class="rev" data-surface="inverse">
+      <p class="c-eyebrow">Transformation</p>
+      <div class="c-pullquote">
+        <figure class="c-pullquote__quote"><blockquote class="c-pullquote__text">A maturity assessment used to be a one-off diagnostic. Run it on this platform and it becomes the backbone of a multi-year consulting relationship.</blockquote></figure>
+        <div class="c-pullquote__body">
+          <p>Consultancies that own their maturity tool stop selling a report and start selling a practice. Clients return annually to track progress.</p>
+          <p class="c-pullquote__coda">We’ve built and run the infrastructure. You’ve built the domain knowledge.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grp">
+    <div class="cap">Price bands · the middle one is data-surface="deep" and nothing else</div>
+    <div class="c-price-row">
+      <div class="c-price">
+        <div><p class="c-eyebrow">Starter</p><h3 class="c-price__title">Essentials</h3></div>
+        <p class="c-price__description">Your own maturity product, launched on a subdomain with your branding.</p>
+        <div class="c-price__figures"><p class="c-price__figure"><span class="c-price__amount">£10k–15k</span><span class="c-price__period">one-off setup</span></p></div>
+        <ul class="c-bullets"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Up to 10 consultant seats</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Standard support</span></li></ul>
+      </div>
+      <div class="c-price" data-surface="deep">
+        <div><p class="c-eyebrow">Most common</p><h3 class="c-price__title">Growth</h3></div>
+        <p class="c-price__description">A custom domain, full branding, more seats and volume.</p>
+        <div class="c-price__figures"><p class="c-price__figure"><span class="c-price__amount">£20k–25k</span><span class="c-price__period">one-off setup</span></p></div>
+        <ul class="c-bullets"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Unlimited consultant seats</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Priority support</span></li></ul>
+      </div>
+      <div class="c-price">
+        <div><p class="c-eyebrow">Bespoke</p><h3 class="c-price__title">Enterprise</h3></div>
+        <p class="c-price__description">A tailored engagement, scoped to fit.</p>
+        <div class="c-price__figures"><p class="c-price__figure"><span class="c-price__amount">from £45k</span><span class="c-price__period">one-off setup</span></p></div>
+        <ul class="c-bullets"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Single sign-on</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Dedicated onboarding lead</span></li></ul>
+      </div>
+    </div>
+    <div class="cap cap--after">No border, no shadow, no lift – a lift is a second surface depth and breaks the row's shared baseline. The description takes flex:1, so the amounts align whatever the copy length</div>
+  </div>
+
+  <div class="grp">
+    <div class="cap">Steps · the number is a CSS counter, so it cannot drift from the order</div>
+    <ol class="c-steps">
+      <li class="c-steps__step"><span class="c-steps__n"></span><div><p class="c-eyebrow">Week 1</p><h3 class="c-steps__title">Discovery</h3></div><p class="c-steps__detail">Kick-off workshop. Shape your framework, scoring and client journey.</p></li>
+      <li class="c-steps__step"><span class="c-steps__n"></span><div><p class="c-eyebrow">Weeks 2–3</p><h3 class="c-steps__title">Framework &amp; branding</h3></div><p class="c-steps__detail">Your framework built into the platform. Brand applied and reviewed.</p></li>
+      <li class="c-steps__step"><span class="c-steps__n"></span><div><p class="c-eyebrow">Week 10</p><h3 class="c-steps__title">Go-live</h3></div><p class="c-steps__detail">Public launch, then into the normal support rhythm.</p></li>
+    </ol>
+    <div class="cap cap--after">The disc is --accent with --text-on-accent on it, which is the surface that catches an accent stop too light to hold text</div>
+  </div>
+
+  <div class="grp">
+    <div class="cap">Accent bullets · a skin, and it means nothing</div>
+    <div class="c-card" style="max-width:34ch">
+      <ul class="c-bullets c-bullets--accent"><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Discovery workshop to shape your framework</span></li><li class="c-bullets__item"><span class="c-bullets__marker"></span><span>Your brand applied throughout</span></li></ul>
+    </div>
+    <div class="cap cap--after">On .c-card, the borderless data surface – not .c-price, which is a price band and brings a price band's geometry</div>
+  </div>
+
+</div>
+</body></html>

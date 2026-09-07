@@ -1,4 +1,4 @@
-# Changes — 5 August 2026
+# Changes – 7 September 2026
 
 **This file is the handoff channel, and it lives inside the export on purpose.**
 `github.md` sits at the Claude Design project root, which is *outside* `design-system/`,
@@ -8,167 +8,425 @@ here, because this folder is what gets exported wholesale.
 Each export overwrites this file with the current round. Older rounds are in
 `docs/design-history/` on your side and `provenance/` on ours.
 
-**Two rounds landed on 5 August and both are below.** Dots and bullets first, because it is
-the smaller one and it answers an open handoff (`chc-431`); the chart round follows.
-
 ---
 
-# Round 2 · Dots, markers and bullets
+# The front door gets a ground, and Maturity Tool becomes a product
 
-**Full workings:** `provenance/Dots and bullets decision 2026-08-05.html`. Answering the
-`chc-431` handoff: the priority dot the chip sweep deliberately left, the six hand-built
-round markers around it, and the eight `list-disc` lists in the legal pages.
+**Full workings:** `provenance/Maturity Tool site audit 2026-09-07.html`. Read
+maturitytool.com and `juliushonnor/maturitytool@60279b7` against the current system,
+fifteen findings, and Julius answered the four decisions on 7 September.
 
-## What changed
+**Nothing in the app layer moves.** No component an app screen uses changes value,
+geometry or class name. Everything below is either a marketing surface or a new product
+block.
 
-- **The defence in `report.tsx` holds and the site was correctly left unswept.** "The colour rides on a small dot so the label text stays high-contrast" is *a level is never text* applied to something that is not a level, which is the same move `ScoreValue` makes. What the sweep missed is that its options were not chip-or-nothing: **`Chip bare` already exists for exactly this case** and its note says so, in almost the words of the objection ("five stacked opportunity cards each with a solid chip is too loud").
-- **There is no `c-marker` and there will not be one.** Six sites shared a *shape*, and a shape is not a component — a circle with no owner is an invitation to assert a colour anywhere on a page. A dot belongs to whatever carries its meaning. What the system gains instead is **two tokens: `--marker-size` (`calc(var(--u) * .39)`, ~7.4px at the app base) and `--marker-ring` (1.5px)**, plus `--marker-color` (`--text-secondary`). Three sizes become one and it moves with density.
-- **The bare chip's dots were read as spending reserved score colour, and the reservation is what moved instead.** `fire-500`, `sunshine-500` and `sapling-500` **are** `--star-1`, `--star-3` and `--star-5`, so the first answer was to retone the dot to the tone foregrounds (`--danger-text` and friends). Drawn at size that fails: those four are dark warm values within a few points of each other, and at `--marker-size` they are one colour. Julius's objection was the wider one, and it wins: **the five stops are reserved against being *read* as a level, not withheld from the app.** The reservation binds an **unlabelled** mark - an orange bar in a chart reads as level 2 because nothing beside it says otherwise. Where a mark carries its own word, a 500 stop says what it is and nothing more. **So the dots stay exactly as they shipped**, sized off `--marker-size`. `sunshine-500` at 1.81:1 is acceptable here for the same reason and would not be on a chart mark: the dot is not the only carrier of the fact.
-- **Nothing in the chart layer moves, which is the test of whether that narrowing is safe.** `--categorical` and `--process-*` exist because a bar in a chart of numbers is unlabelled by construction, and both stay as written. The rule next door does not move either: colour still has to mean something. This widens what the ramp may be used for, not what colour is for. Recorded in `readme.md` under the level ramp and beside `--star-1` in `semantic.css`.
-- **Fill versus ring is sanctioned, as a state of a list item rather than a property of dots.** Filled means done or shipped, `is-pending` is the ring. Same size, same colour, one variable. **Both are neutral and the fire goes:** fire means primary, active, star 1 and danger, and a shipped changelog entry is none of those — neutral also leaves the pair free to say done-and-not-yet in any list without spending a meaning colour.
-- **New `Bullets` / `.c-bullets`: the bullet, everywhere, and the only one.** Marker in its own column so text hangs indented, one size, gap off `--u`, `--timeline` for a hairline down the marker column, `--spaced` for paragraph-length items. **`list-disc` and `list-inside` are retired suite-wide, legal pages included** — `list-inside` runs a wrapped line back under the marker, which is visible on every long item in `privacy.tsx`. It is deliberately **not** `c-list`: that name is the aligned data list.
-- **The priority dot survives as `Chip bare`: `high` → `bad`, `medium` → `warn`, `low` → `neutral`.** On rank versus status: the tone names describe strength of signal, not brokenness, and `bad` is what a reader acts on first. `low` takes `neutral` rather than `info` because low priority is the absence of a signal, and wave is spent on focus. A priority ramp of its own is refused — it would be a second meaning scale differing from the tone scale only in intent.
-- **The two chart legend dots leave the marker question entirely.** A legend swatch takes the shape of the mark it names, so in that chart it is a **square at `--radius-chart`** from the chart palette, in the chart theme. One swatch, one size; the 10px/12px pair collapses.
-- **`PresenceBadge`'s `●` is refused on two existing rules**: no unicode glyph as an icon (it cannot be sized off `--u` and carries the font's metrics), and `sapling-600/45` is an opacity modifier on text, which is an undeclared text level. It becomes `Chip bare tone="good"`, static — a monitored page is a state, not activity, so the 1.6s pulse stays reserved.
-- Applied here: `tokens/semantic.css` (the three marker tokens, and the ramp reservation narrowed to unlabelled marks), `components/components.css` (bare dot sized off `--marker-size`, new `.c-bullets`), **new `components/core/Bullets.{jsx,d.ts,prompt.md}`**, **new `components/core/bullets.card.html`** specimen, `components/core/Chip.{jsx,prompt.md}`, `readme.md`, `Design system.html` (new Markers &amp; bullets chapter).
+## The headline: `--surface-front` and `--surface-front-tint`
 
-## Note on the reservation, for review
+The signature set grows to **36**, the seventh growth, and the reason is that the system
+had already said a product has two kinds of surface and then given only one of them a
+colour. `--signature-deployment` has recorded since 1 August that deployment is a property
+of a surface rather than of a product, and that every reserved product has an app and a
+front door. The front door got a density (24px), a motion token (`--motion-reveal`) and a
+wash (`--wash-section`). **It never got a page.**
 
-The narrowing is the only thing in this round that touches a headline rule, so it is worth
-stating what it does **not** license. A 500 stop is free where the mark carries its own word.
-It is not free on a data mark, a chart mark, a bar, a segment, a cell, or any fill whose
-meaning a reader has to infer from its colour - all of those are still `--categorical`,
-`--comp-*` or `--process-*`. And a labelled mark still has to be worth colouring: colour
-means something or it is not applied.
+So every marketing page in the suite has been picking its own stops, and the audit found
+what that costs: the Maturity Tool page picks seven grounds in its own stylesheet, and two
+of them put a card **1.06:1** from the section it sits on. That is the same number that
+moved the Content Health Check page on 4 August. It survived here because the cards carry a
+`.c-frame` border, so the outline was doing the structural work the fill was failing to.
 
-## Your side
+- **`--surface-front`** is the front-door page. It is *not* `--surface-page`: a marketing
+  page is airier than the app it sells, and on lichen the two are three stops apart.
+- **`--surface-front-tint`** is the alternating band. A marketing page divides itself by
+  alternating two grounds; the wash softens one section, it does not separate two.
+- **The card is the whole test.** Whatever the pair is, `--surface-card` must clear
+  **1.18:1 from both**, and a band step under about 1.15 does not read as a band.
+- **It cannot be derived.** Limestone's light end is aliased, so a recipe that reads on
+  lichen is nearly invisible on Content Health Check. Authored per product, like the wash.
 
-1. **`src/styles/semantic.css`** — `--marker-size`, `--marker-ring`, `--marker-color`. None is a signature token: a marker size does not vary by product, so **no theme file changes**.
-2. **The `Badge` bare variant in `@contentious/ui`** — size the four dots off `--marker-size`. The colours do not change; only the geometry does.
-3. **`report.tsx`** — `PRIORITY_DOT` deletes outright; the span becomes `<Badge bare tone={PRIORITY_TONE[o.priority]}>` with `high` → `bad`, `medium` → `warn`, `low` → `neutral`. The three colours are the ones already on the page, so this is a markup change rather than a visual one. Keep the defending comment, pointed at the provenance doc instead of at itself.
-4. **`changelog.tsx`** — both markers become one `Bullets` with `timeline`; shipped entries filled, coming-soon `pending`. The `h-3.5 w-3.5` node, the 2px limestone halo and the `border-fire-500/40` ring all go: the halo existed to separate the dot from a line that now stops at the marker.
-5. **`inventory.tsx`** — `PresenceBadge` becomes `Badge bare tone="good"`.
-6. **`criteria-trend.tsx`** — if the heatmap from the chart round has already taken the thirteen-item legend with it, there is nothing to do here. If any legend survives, it is one square swatch at `--radius-chart` and `--marker-size`.
-7. **`privacy.tsx` (×7) and `terms.tsx` (×1)** — `list-disc list-inside` → `Bullets`. Mechanical, and the cheapest item on the list.
+**All five product blocks declare both.** Values, with the card ratio each produces:
 
-### Check worth adding
+| Product | front | tint | card on front | card on tint | band step |
+| --- | --- | --- | --- | --- | --- |
+| chc | limestone-600 | limestone-750 | 1.18 | 1.47 | 1.25 |
+| cm | lichen-350 | lichen-500 | 1.20 | 1.35 | 1.13 |
+| mt | lichen-350 | lichen-500 | 1.20 | 1.35 | 1.13 |
+| vts | sorbet-850 | sorbet-900 | 1.19 | 1.25 | 1.48 |
+| contentious | limestone-500 | lichen-300 | 1.06 | 1.40 | 1.32 |
 
-- **No `rounded-full` on anything smaller than a control, outside `c-chip`, `c-bullets` and `c-score`.** That is the marker rule in a form review can apply, and it is how six of these appeared without anyone deciding to add a marker.
+CM's two values are not arbitrary and are worth keeping that way: **lichen-350 is already
+the first stop of CM's `--wash-section`, and lichen-500 is CM's app page.** So CM's
+marketing ground is a step lighter than its app, and its marketing band lands exactly on
+the app's own page colour. VTS and contentious.ltd are **provisional** – neither live
+homepage has been reconciled.
 
-### Open
+**And it fixes a collision that was already in the system.**
+`.c-marketing-section--tint` *was* `--surface-card-deep`, so a tinted band and a feature
+card were the same value by definition and a card on a band read at 1.00:1. The band now
+has its own token. Corollary that still holds: do not put a deep card on a tinted band.
 
-- **The four `prose` configurations** across privacy, terms, learn-article and about (audit Part 2). The bullet was the part of that finding with a component-shaped answer; the rest is a reading-surface question — measure, leading, heading scale on a long page — and wants its own round. Point all four at `Bullets` for lists meanwhile.
+**One flag, not fixed here, and it is yours to schedule:** contentious.ltd's
+`--surface-card` is limestone-300 against a limestone-500 page, which is **1.06:1** – the
+4 August failure, still live on the studio site. Do not fix it by moving the front pair;
+it needs its own round.
 
----
+## New product: `[data-product="mt"]`
 
-# Round 1 · Chart coherence
+Julius's call: Maturity Tool is a separate product, not a skin on Content Maturity,
+and deliberately low-key – it resells the CM platform to consultancies, so it sits below
+the other four rather than beside them.
 
-**Full workings for this round:** `provenance/Chart coherence decisions 2026-08-05.html`,
-with the side-by-side specimens in `explorations/Chart family.html`. This round is about
-CHC's nine charts and it is mostly *your* side: two tokens and one component change land
-here, the rest is geometry in six app components.
+**It is the first product in the suite with no working surface.** One static page, no
+signed-in state, no scores, no tables. Three things fall out of that:
 
----
+- **Density is 24px on every surface**, which no other product can say. Not an exception to
+  the density rule: the rule derives density from deployment, deployment is a property of a
+  surface, and this product has one kind of surface, so the rule returns one answer instead
+  of two.
+- **`--surface-page` and `--surface-front` are the same value.** Declared twice on purpose:
+  a component asking for the page ground and a section asking for the front-door ground are
+  asking different questions, and the day this product grows an app the answers separate.
+- `--signature-app-ground: "n/a"`, the second after contentious.ltd.
 
-## What changed
+**It shares lichen with Content Maturity, and rule 4 permits it.** The rule requires
+products *sold in the same conversation* to differ on ground – CM and CHC are, CM and
+Maturity Tool are not: one is sold to an organisation that wants an assessment, the other
+to a consultancy that wants to run assessments for its clients. Never on the same slide.
+The triple is unique on accent: CM is (reserved, lichen, coffee), this is (reserved,
+lichen, fire). Sharing the ground is also the honest thing, since it *is* the CM platform.
 
-- **Four of the nine charts were already a set, and nothing in this round invents a chart style.** The bubble chart, the two stacked bars and the Nivo donut agree on five traits, and each trait is a rule the system already had: square ends (the arc-length rule), the star ramp, the one legal spring, `CHART_TOOLTIP`, serif legend on sans ticks. The five charts that feel wrong are the five that were each built on a day when one of those rules was not reached for. So the work was to close the two questions the set never had to answer — **how thick is a ring, and what does a corner do** — and then apply the answers everywhere. The five traits are now documented as a page: **new `guidelines/chart-family.html`**.
-- **The gauge ring goes from 0.07 of its diameter to 0.16, the donut comes down from 0.20 to meet it, and the per-size ramp is deleted.** Band width over outer diameter: the Nivo donut is **0.20** (`innerRadius={0.6}`), the hand-rolled estate donut 0.17, the gauge at `lg` **0.07** — a third of the weight of the mark it sits beside on the same page. It was also inconsistent with itself (0.13 sm / 0.093 md / 0.07 lg) on a rationale that does not survive measurement: the ramp existed so a small badge would "hold its colour", and 0.2 gives `sm` a **9px** band where 0.13 gave it 6px, so it was solving its stated problem in the wrong direction. **New `--ring-band: 0.2`** in `semantic.css`, read by JS because a stroke width is a geometry input rather than a property; `ScoreGauge.jsx` now derives `stroke = round(box × 0.2)` and no longer carries a per-size table. lg 200/40, md 86/17, sm 46/9. **One thing to check:** at 0.2 the `sm` badge's inner diameter is 27.6px — two digits fit comfortably, nothing is spare, so verify a three-digit 100 before that box changes.
-- **New `--radius-chart`, `var(--border-radius-sm, 3px)`, and it replaces three different answers.** Bars ship square, the Nivo donut ships `cornerRadius={4}`, the criterion bars and the estate bars ship fully round — and 4 is not on the 3/6/12 scale. One value now covers every bar end, arc corner, heatmap cell and sparkline bar in the suite. **It does not join the signature set**: a corner does not vary by product. The rule it is careful not to disturb is the one written for the gauge — **a radius rounds a corner inward and removes material, so it is legal at any size; a cap adds half a stroke width beyond the value and stays banned.** Round the corners, never the ends.
-- **The criterion bars have three defects and the corner is the least of them.** `rounded-full` on a 24px bar adds 12px per end, so 3% draws at the length of 7% — the gauge's cap defect on a different mark. Worse: the bar is scaled **against the largest value rather than against 100**, so every criterion's biggest bar is full width, no two criteria can be compared, and the chart looks identical whether a level holds 40% or 95%. Third, any value under 8% is **replaced by a 24px circle**, so 1% and 7% draw identically and both draw longer than an honest 3% bar. All three go: `--radius-chart`, scale to 100, no substitution. A 2% bar in a 700px column is 14px and the tooltip carries the figure anyway.
-- **The estate donut is swapped for the Nivo donut, and the three habits it had are recorded so they do not come back.** Julius's call, and it needs no argument. But: the `limestone-100` 2px seam is a near-white line *inside* one mark where everything else in the family separates segments with a gap; **`opacity: 0.78` on inactive segments is a sixth colour the palette never declared** — the opacity-modifier rule from 1 August, in a chart — and hover should move geometry (`activeOuterRadiusOffset`) rather than alpha; and the permanent hover panel is a legend that changes, so something is always asserted next to the chart. The family's answer is a tooltip on request and a legend that stays put.
-- **The estate bars come into the family too** (Julius added them to scope). 10px tall becomes a 24px row, `--radius-chart` replaces the full round, the `gloaming-500/10` literal alpha becomes **`--comp-track`**, and the label moves **into** the bar — which is what makes them the same object as the criteria breakdown: one row, one bar, the name in it, the figure at the end. Colour stays `--categorical`; a section name is not a verdict, and that rule already has its worked example on this exact chart.
-- **The two line charts cannot be fixed by styling, and the number is four pixels.** A 0–100 axis in a 440px box makes one pixel worth 0.26 of a score, so the estate score's 80 → 81 is **four pixels of travel in a 380px plot**. **The estate trend stays a line and the five score bands become its ground** — that changes the question from "how far did it travel" to "which band, and how close to the edge", which two points can answer. Area fill out (a filled region under a score implies an accumulated quantity), curve linear (monotone invents readings between snapshots months apart), dot 18px → 10px (the hover target is the full-height column, so the dot was large for nothing), line 3px → 2px. The y-domain may be padded to the data **only with the bands drawn**; a zoomed axis alone turns noise into news.
-- **The criteria breakdown becomes a heatmap: criteria down, months across, cell on the star ramp.** Thirteen series all averaging into the 60s and 70s occupy the same fifth of the plot and cross; the `DEFAULT_VISIBLE = 5` is the chart admitting it. A month holding several runs stacks its points on one x position, so the tangle is worst where the data is densest. In a heatmap nothing shares an axis so nothing can cross, fifty runs in a month is still one cell, and **it improves as data accumulates** — it gains columns where the line gains crossings. Sort by latest score so the weakest criteria are at the top; keep click-to-focus as a row highlight and drop the thirteen-item toggle legend. **Stream and area bump were asked about and both are rejected**: they stack, and thirteen independent averages out of 100 do not sum to anything, so a band's thickness would mean nothing. The bump chart is rejected for a better reason — it fixes the tangle, but a criterion can climb four places while its score falls, which on this page is a trap rather than a finding.
-- **`criteria-trend.tsx` asked us what the categorical palette is past four, and the answer is that there isn't one.** The file deserves credit for asking rather than inventing. **There is no categorical palette past `--comp-4` and there is not going to be one** — thirteen hues cannot be told apart whichever families they come from, so the honest reading of that fifteen-colour palette is that the chart was wrong. **More than four categories at once is a chart-type decision, not a colour decision**: small multiples, a heatmap or rows, all of which encode the category by *position* and leave colour to the value. Recorded in `semantic.css` beside `--comp-4`. The palette is deleted with the chart that needed it.
-- **Where the shared chart rules live, since you left it to us: here as a page, one theme object there.** `chartSpring()` and `CHART_TOOLTIP` are both right where they are — one reads the motion tokens, the other only means anything inside Tailwind. What is missing is above them: **the per-chart `theme={{…}}` literal is duplicated across four files with three different tick sizes**, and that should collapse into a single `CHART_THEME` beside `CHART_TOOLTIP`. Not a component library: Nivo owns the marks, we own the surface and the geometry. That split is the same reasoning `chart-tooltip.ts` already argues for itself, and it was right.
-- **Found while measuring, and it is yours: every chart tick in the product is in the wrong face.** All four Nivo `theme` literals specify `fontFamily: "var(--font-sans), sans-serif"`, and **no stylesheet in the suite declares `--font-sans`** — so the var is invalid at computed-value time and every axis tick, every legend item and every cell label falls through to the browser's generic sans. Nothing looks broken, which is why it has survived. The system's metadata voice is **`--font-mono`** (a system stack, not Courier — settled 1 August, item 11), and the axis legend is `--font-body`. Fix it in the one `CHART_THEME` rather than in four places, and it is worth a check: **a `var()` in a chart theme resolves in JS, not in CSS, so a missing token degrades silently instead of erroring.**
-- Applied here: `tokens/semantic.css` (`--radius-chart`, `--ring-band`, the categorical-past-four rule), `components/data/ScoreGauge.jsx`, `components/components.css` (`.c-series` corners, the gauge stroke note), four `prompt.md` files (`ScoreGauge`, `ScoreHistory`, `CompositionBar`, `MicroSeries` — each now carries the five traits), `Design system.html` (Charts section), and **new `guidelines/chart-family.html`**.
+**Accent is fire at 600, not 500, and both halves are measured.** Fire is free here for the
+same reason it is free on the studio site: the accent reservation binds products that
+*display scores*, and this page shows none. 600 rather than 500 because every fire surface
+on the page carries text, and `limestone-100` on fire-500 is **3.99:1** – which is one of
+the two contrast defects the audit found. On fire-600 it is 5.81.
 
----
+**The reversed band and the footer are the other way round from CHC.**
+`--surface-inverse` is gloaming-700 (the pull-quote band – the same job contentious.ltd
+gives it, and this product has no tooltips) and `--surface-footer` is gloaming-800, so the
+footer is darker than the band it may sit under. The shipping page has these at gloaming-550
+and gloaming-600, with the footer *lighter* than the band.
 
-## Your side
+**Illustration is recorded as borrowed**, not upgraded to "pictorial". The page uses CM's
+tree. That is the one dimension this product does not own and it is what "resells the
+platform" looks like in a signature. Do not quietly promote it – that would make it
+indistinguishable from CM on the dimension the system calls the second-strongest cue.
 
-Roughly in dependency order. Nothing here is a design decision; the decisions are above.
+## New: the marketing kit
 
-1. **`src/styles/semantic.css`** — `--chart-font`, `--chart-numeric`, `--radius-chart` and `--ring-band`, plus the
-   categorical-past-four comment. Neither is a signature token, so **no theme file changes**:
-   a corner and a band ratio do not vary by product. Worth checking the Tailwind bridge —
-   `--radius-chart` will emit a utility by name prefix, which is fine, and `--ring-band` is a
-   unitless number in the same position `--color-text-multiplier` was found in on 1 August.
-2. **`score-gauge.tsx`** — replace `DIMS` with a box map plus `BAND = 0.16`; stroke derives.
-   The doc comment's "13% / 9% / 7%" paragraph is now wrong and should say why it went.
-   Then check `score-gauge.test.tsx`: it almost certainly asserts stroke widths.
-3. **`criterion-bar-chart.tsx`** — the three defects. The scale change is the one with teeth:
-   `barWidth` becomes `count` (the backend already sends a percentage), and
-   `shouldShowCircle` and its branch delete outright.
-4. **`estate/charts.tsx`** — `DonutChart` is replaced by `ResponsivePie` at
-   `innerRadius={0.6} padAngle={2} cornerRadius={3} activeOuterRadiusOffset={8}`, the
-   permanent panel becomes `CHART_TOOLTIP` on hover, and the `limestone-100` stroke and
-   `opacity 0.78` both go. `HorizontalBars` goes to a 24px row, `--comp-track`,
-   `--radius-chart`, label inside the bar. `freshnessSegments` is unchanged.
-5. **`charts/score-line-chart.tsx`** — bands as the plot ground (a `layers` entry beneath
-   `grid`), `enableArea` off, `curve="linear"`, `pointSize={10}`, `lineWidth={2}`.
-   `enableSlices="x"` stays; it is what makes the small dot fine.
-6. **`estate/criteria-trend.tsx`** — becomes the heatmap. The `PALETTE` const and
-   `DEFAULT_VISIBLE` both go with it. Same query, same `criterionAverages` shape.
-7. **One `CHART_THEME`** beside `CHART_TOOLTIP`, and the four inline `theme={{…}}` literals
-   point at it. Tick 12px sans, axis legend 14px `--font-body`, grid `--rule-row`.
-8. **`cornerRadius={4}` → `{3}`** on the page-analysis pie, and `--radius-chart` on the
-   pipeline progress bars.
+Seven new classes in `components/components.css`, all front-door only, all wanting
+`.c-marketing` on the section. Specimen and the rules:
+`guidelines/pattern-marketing-page.html`.
 
-### Checks worth adding
+- **`.c-eyebrow`** – the marketing eyebrow, replacing **four identical classes under four
+  names** on the shipping page (`.type-accent-label`, `.included-card__eyebrow`,
+  `.pricing-card__eyebrow`, `.timeline__week`; only the bottom margin differed). **Bely,
+  uppercase, weight 400**, and coloured, unlike every other label in the suite.
+  It takes **`--accent-link`** directly – **the link stop, not the accent stop**, because an
+  eyebrow is small uppercase text and needs 4.5:1: on the lichen
+  front door fire-500 is 3.25, fire-600 is 4.72 and fire-650 is 5.72. Reading the remapped
+  token directly is what makes it correct on a reversed band (fire-350, 6.16:1 on
+  gloaming-700) and inside a deep card (fire-750, 6.54:1) with no per-scope declaration –
+  see "A pure alias is a trap" below.
+- **`.c-divider--taper`** – a 1px section divider that fades to transparent at both edges.
+  Same reasoning as the wash's 135deg angle applied to a hairline: a full-bleed hard rule
+  reads as chrome on a marketing page. Uses the product's `--rule-section`, not a fourth
+  rule token.
+- **`.c-hero`** – eyebrow, title, intro, one pair of actions, illustration. Two new
+  measures, **`--measure-title: 28ch`** and **`--measure-lede: 48ch`**, taken from the
+  shipping page, which is the only page in the suite that set them deliberately. Use
+  `text-wrap: balance` rather than the site's two hard `<span>` breaks, which fix the break
+  at one viewport for a heading that is already constrained.
+- **`.c-pullquote`** – one per page, on a section carrying `data-surface="inverse"`. The
+  oversized Bely Display opening glyph is kept, as a **declared stop rather than the site's
+  `opacity: 0.6`**, and the rule states it is ornament so nobody has to measure it. The
+  prose column starts at the quote's first line rather than the top of the grid.
+- **`.c-price-row` / `.c-price`** – **the featured band is `data-surface="deep"` and
+  nothing else.** There is deliberately no `.c-price--featured`: a deep card already means
+  "a different kind of thing from the cards around it", is already constrained to once per
+  set, and the eyebrow carries the words. The site's 2px fire border plus fire-tinted
+  shadow plus `translateY(-4px)` is three things the system has settled against, and a lift
+  on a marketing card is a second surface depth (`.c-feature`, 4 August). **The figures
+  block is a hairline pair, not a surface** – a filled slab inside a filled card is a slab
+  inside a slab, and it measured 1.14:1 anyway. That is also how the site's 8px radius
+  stops being needed.
+- **`.c-steps`** – its own component, **not** a `.c-bullets--timeline` variant, on Julius's
+  call: that marker is a node *on* a line and means "a point in a sequence", where this
+  means "step 3 of 6" and sits in a grid. **The number is a CSS counter**, so the markup
+  does not carry it and it cannot drift from the order of the list. The disc is `--accent`
+  with `--text-on-accent` on it, which is the surface that catches a product whose accent
+  stop is too light – see the fire-600 decision above.
+- **`.c-literal`** – a domain name, filename or URL in running prose. Metadata voice
+  (`--font-mono`), no fill, no radius, no tint. **Courier (`--font-mono-brand`) stays
+  reserved for actual code**, which is what the brand guide says it is for. Julius agreed a
+  URL in a sentence is not code.
 
-- **No chart may set a corner radius that is not `--radius-chart`.** Three of the nine set
-  their own, and one of them (4) is not on the radius scale at all.
-- **No chart may draw a mark with a round cap.** The gauge was fixed for this in July and the
-  criterion bars have had the same defect the whole time, on a different mark. It is greppable:
-  `strokeLinecap="round"` and `rounded-full` on anything inside a chart.
-- **A bar that encodes a percentage is scaled against 100, not against the largest bar.**
-  This one is not greppable and is the most damaging of the three defects, so it wants a note
-  in review rather than a test.
+## Also new: `.c-bullets--accent`
 
-### Open, and worth flagging
+Julius liked the shipping page's two-tone bullets and asked me not to overcomplicate them,
+which was right – my first answer built a two-list comparison system around them and the
+better answer is a skin.
 
-- **The page loading graphic.** Julius added it to scope and it is the one thing that may not
-  belong to this family at all: it is **chrome, not data** — nothing about it encodes a value,
-  so the five traits do not obviously bind it, and the motion rule that governs it is the
-  chrome one rather than the chart spring. It needs a decision about which family it joins
-  before it is styled to match anything.
-- **Level fills under 3:1**, unchanged from 4 August. olive-500 is 2.22:1 on a pale card. A
-  thicker gauge band makes the mark read better and does not move the ratio; the ramp itself
-  would have to move, and "five dark stops stop reading as a ramp" still rules that out.
+`.c-bullets--accent` sets the marker to `--accent-marker` and turns on a ring. **It means
+nothing, which is the point:** the fill/ring pair remains the one sanctioned marker
+semantic and stays free to say done-and-not-yet. This says only "these bullets belong to
+this page", so a whole page may take it – which is how the site uses it – or one list may
+take it to draw the eye to the list that matters. It must not appear twice in one
+comparison meaning two different things.
 
----
+New geometry: **`--marker-aura`** (default `transparent`) and **`--marker-aura-width`**.
+Not `--marker-halo`, which punches a gap in a timeline line. The ring is **derived from the
+accent and resolves to an opaque colour** via `color-mix` against `--surface-card`, rather
+than the site's 18% alpha, which is the 1 August rule against an opacity modifier standing
+in for a colour. It is also a **size** decision: on a marketing surface the ring takes a
+9.4px mark to **17.5px of ink**, which is why it is off by default – right at the 24px base,
+too loud in an app list, where the same ratio gives 7.4px and 13.9px.
 
-## Revised at review, 5 August
+**Caught at review, and it is the trap the token layer already documents:** `--marker-size`
+and `--marker-aura-width` are declared on `:root`, and custom-property substitution happens
+where a property is *declared*, so `.c-marketing` redeclaring `--u` could not reach them.
+The first cut of this shipped a marketing page with body copy at the 24px base and every
+bullet marker still at the app's 19px. **`.c-marketing` in `semantic.css` now redeclares
+`--marker-size`, `--marker-node` and `--marker-aura-width`** alongside the `--type-*`
+shorthands, which is the same fix the shorthands themselves needed on 4 August.
+`--marker-lead` is deliberately left out: it is `1lh`, so it already follows the item's own
+type.
 
-Julius reviewed `explorations/Chart family.html`; five things changed and each is recorded
-beside the original reasoning in the provenance doc. **Read this section after the bullets
-above — where the two disagree, this wins.**
+## For your side
 
-- **The ring ratio is 0.16, not 0.2, and the donut moves down to meet the gauge.** `innerRadius = 1 - 2 x band`, so the freshness donut goes **0.6 → 0.68** and the gauge 0.07 → 0.16: lg 200/**32**, md 86/**14**, sm 46/**7**. "Already shipping" was a tie-breaker rather than an argument, and two things support the smaller number: at 0.2 **the gauge band is thicker than a criterion bar is tall**, and the `sm` badge gets 32px of inner diameter instead of 27.6px, which is the difference between a three-digit 100 fitting and not. `--ring-band` and `ScoreGauge.jsx` are at 0.16 here.
-- **The score bands go to FULL strength and the line becomes `--limestone-200`.** A 13% tint read as a printing accident, and a tint beside a saturated line is two strengths of the same five colours doing different jobs on one chart. At full strength the ramp is the ramp and the line is a thread carrying only the shape. **Check the line on all five grounds** — limestone-200 holds on sunshine and sapling, the two brightest, and a `--surface-card` halo is available if it does not.
-- **The heatmap gains a per-row sparkline scaled to that row's own range, labels every month, and drops the year.** Most cells will be olive and that is the encoding working: the bands are 90/70/50/30, most estates live between 70 and 89, so a flip is rare and therefore significant. But a chart where nothing changes for a year looks broken, so the cell says which band and the sparkline says which way it is moving inside it. No sixth colour is invented to show a fifth of a band.
-- **A label inside a mark moves outside it when it does not fit the drawn width.** "Contact" holds one page of forty-six, so its bar is 31px and the name is unreadable at any weight; a label you have to hover for is not a label. Inside the fill it is `--limestone-200`, outside it is `--text-secondary`, because outside the fill it is text on a card. **This applies to the stacked bars too** — they have the identical failure on any criterion whose 5-star segment is short. Same rule, two components.
-- **Ties settle the bump chart, which was the only other option Julius liked.** Scores tie constantly at whole numbers and a rank has nowhere to put a tie: two criteria on 77 take two rows, the tie breaks on whatever the sort is stable on, and next month it breaks the other way — so **the chart draws a crossing where nothing happened**. It is the only encoding here that can manufacture movement out of no change, and there is no styling fix. A heatmap is untroubled: two criteria on 77 are two cells of the same colour.
+1. **`.c-feature-card` has a second live call site and open question 5 says one.**   `juliushonnor/maturitytool@main/index.html` uses `.c-frame.c-feature-card` with the
+   retired `__content` / `__title` / `__body` family. The migration is not mechanical: the
+   cards are bordered there and the folded component is borderless on
+   `--surface-card-deep`. Add the repo to the fold's call-site list before the rename ships.
+2. **The site is pinned to `@contentious/ui#semver:^0.2`** and its `styles.css` is written
+   against the shadcn-era names (`--foreground`, `--muted-foreground`, `--card`, `--border`,
+   `--font-size-*`, `--body-line-height`), uses `.btn btn-primary btn-lg` from the 0.4.0
+   rename list, and repeats `calc(1.2em * var(--text-multiplier))` eleven times with eight
+   different multipliers where `.c-marketing` does it once. Julius has approved a rewrite;
+   **it has not been done yet** – it wants the components above published first.
+3. **Two contrast fails on the shipping page**, both a stop from passing: sorbet-500 on
+   gloaming-550 at **3.11** (the reversed eyebrow) and limestone-100 on fire-500 at
+   **3.99** (the timeline numerals, 20px, so not large text). Both are answered by the mt
+   block and `.c-eyebrow` rather than by patching the site.
+4. **The reveal is 700ms on the expo curve** the 1 August decision replaced, which makes
+   this repo a **third independent opt-out**. `--motion-reveal` is 600ms on a real ease-out.
+5. **Em dashes swept** from `tokens/products.css` and `tokens/semantic.css` (64 and 2),
+   against the brand rule the style guide lints for. Comment text only, no values changed.
 
----
+## The eyebrow's face: Bely, and NOT a per-product token
 
-## Second review, 5 August
+Settled 7 September. Julius chose Bely and proposed making the face a per-product setting.
+**Bely yes, per-product no**, and the mechanism matters more than the value here.
 
-Six more comments, and three of them reverse something above. **Where this section and anything
-earlier disagree, this wins.**
+**Why Bely.** An eyebrow on a marketing surface is naming a section of an argument. Mono is
+the app's *metadata* voice – the register for a column header, a tick, a chip, a count – and
+uppercase mono at 24px density reads as a system label on a page that is not a system. The
+shipping site already had this right.
 
-- **The in-bar label on the estate bars is WITHDRAWN, and so is the flip-outside rule.** Julius: "this is ugly… I'd rather deal with the overlap, or revert to label above." He is right, and the flip was the weaker half of the idea — **a label has one position, not two**; two positions give a set of rows a ragged left edge and a rule the reader has to work out. So the name goes **above** the bar, which is what the shipped version already had right, in the **body face** rather than mono. The family resemblance comes from the geometry alone: 24px row, `--radius-chart`, `--comp-track`. **The stacked bars are a different case and keep their in-bar label** — it sits at a fixed offset in the row rather than inside a segment, so its position never depends on the distribution. They do want a contrast check: `--limestone-200` on a sunshine or sapling segment is pale text on the brightest colours in the ramp.
-- **One rule for absence, asked of three charts: the time axis is the full twelve-month window and the data starts where the data starts.** Nothing before the first snapshot — no line, no dot, no cell colour, and **never a flat run at zero or at the first value** (the defect `ScoreHistory` already records for the single-point case). The empty part of the window is **the account being young**, and drawing it is what lets these charts appear from the first snapshot instead of hiding until they look respectable. In the heatmap, empty months are **`--limestone-700`** cells: a grid filling up over a year is the most legible thing on the chart in its first year, and it answers "when do we first show this" with "immediately".
-- **The bump chart is ADOPTED as well, and my tie objection is overruled.** Julius: the heatmap is about absolute progress towards a finish line, the bump is about relative strength across the framework, and the second always flexes where the first mostly does not. Both ship, and the second is not redundant for plotting the same numbers. On ties — two criteria on 77 take two rows, the tie breaks on the sort, and a re-sort can draw a crossing where nothing happened — that is disqualifying only if the chart is read as measurement, and it is not. **Break ties alphabetically** so the order is stable between renders, and **put the scores in the tooltip** so a crossing can be checked. The general form is worth keeping: a defect counts against a chart only if it corrupts the reading the chart is for.
-- **The heatmap's row sparkline moves into the tooltip on the criterion name.** Julius's placement and better than either option: the grid stays one encoding readable at a glance, and the movement inside the band arrives where someone is already pointing. One `MicroSeries` at a time instead of thirteen, on the tooltip surface the family already has.
-- **Names are Bely, ticks are the mono role.** A criterion name down the side of a grid is content; a tick, a count and a date are metadata. **Watch the mechanism** — in SVG a CSS rule beats a `font-family` presentation attribute, so a blanket `svg text{}` rule silently overrides every per-element face. That is a second instance of the same class of bug as the `--font-sans` finding: chart type falling back without erroring.
+**Why not a per-product token.** Face is a family trait: `products.css` lists Bely and every
+`--type-*` role under "what never varies", and **the 1 August decision refused mono a
+signature slot on exactly this ground** – *two identical product overrides is the proof that
+a thing does not vary.* Adding `--eyebrow-font` would reopen a settled argument and grow the
+closed set to 37 for a value every product would set identically.
 
-- **Score axes are labelled every 10** rather than at the band boundaries, because the bands are the ground and already legible as colour, so the axis is free to be a regular scale a reader can count against.
-- **New `--chart-font` and `--chart-numeric`, and the type trait ends SIMPLER than the round started: one face for everything a chart draws.** It is **a token rather than a reference to `--font-body`** on purpose: chart type is then one switch for the whole suite if mono ever wins the argument, and "nothing inside a plot names a second face" becomes checkable. Its value is Bely. Ticks, axis legends, row labels, cell labels. Two versions were tried and withdrawn on the way — "serif legend, sans ticks" (what ships) and "Bely for names, mono for values" — because both put **two faces inside one chart, which is a distinction no reader takes as one: it reads as a mistake**, and in Nivo it is a per-element override waiting to drift. **It is Bely rather than the mono role for the reason that matters most here: a chart is part of the app, not a widget dropped into it.** The axis in the same voice as the card title above it is what makes a chart look built rather than embedded, and the shipped charts already prove it works. Set `font-variant-numeric: tabular-nums` so a column of figures does not shuffle. **A metric beside a chart is still `--t-metric` in Bely Display and belongs outside the plot** — an HTML element next to the SVG, not a `<text>` inside it, because a CSS rule beats a presentation attribute and an in-SVG exception silently loses. For you this is **one `fontFamily` in one `CHART_THEME`** in place of four theme literals with three tick sizes, and the cheapest thing on the list to check.
+**The key the system already has is better: deployment is a property of a SURFACE.** So the
+rule is that `.c-label` is mono because it labels **data** and `.c-eyebrow` is Bely because
+it labels **prose**. Two classes, two faces, one distinction – and it generalises to every
+product's marketing page for free rather than being declared five times. If a product ever
+genuinely wants a mono eyebrow, that is when it argues for the token, with a real case in
+front of it rather than a hypothetical.
 
-- **The composition bar was the last round mark, and it was the worst of them.** `.c-comp` shipped a `calc(--u * .28)` radius — about **5px on a 9px bar, more than half its height** — so it read as a pill, and a short bar is where an off-scale radius shows most: the two end segments lose material at their corners while the middle segments keep theirs, so the outer values draw slightly short. Now `--radius-chart` like everything else. The legend swatches were a literal `2px` and take the same token. Applied in `components.css`, `CompositionBar.prompt.md` and the Charts chapter.
+**Weight is 400, and this is a defect in the site worth carrying over.** It asked for
+`font-weight: medium`. **Bely ships Regular and Bold and nothing between**, so 500 on a Bely
+eyebrow synthesises a fake weight – and the `font-synthesis-weight: none` guard in
+`tokens/fonts.css` covers `h1`–`h6`, `.font-display` and `.font-heading-display`, not a
+`<p>`. Worth checking whether that guard should be wider than six element selectors and two
+classes, since any `.c-*` component in Bely at a non-shipping weight has the same exposure.
 
-- **"Bar over donut, always" is withdrawn — it was a slogan, and it was not true.** The suite uses a donut where **percentage composition matters more than the counts**: freshness is "90% of your estate is fresh", and nobody needs to compare 41 pages against 4. The rule is now the reading rather than the mark, with two tests a reviewer can apply. **Can the reader do the comparison the chart implies?** Segment lengths in a row can be compared; arc lengths at different angles cannot, so a donut is only honest when one slice dominates or the exact ordering does not matter. **How many segments?** Past three or four a donut is a legend with a picture attached. Also removed: "donuts are reserved for content freshness", which was a list of approved pages standing in for a test — and a reminder that a ring is not necessarily a composition, since `ScoreGauge` is one value against a maximum. Applied in `readme.md`, the Charts chapter, `CompositionBar.prompt.md` and `data.card.html`.
+## Found while measuring the eyebrow: `--label-color` is 4.39:1 on a tint band
+
+Not fixed, because it wants a decision rather than a patch at the end of a round.
+
+`--label-color` is gloaming-450, invariant across the suite, and `semantic.css` records why:
+"NOT 400 – fails AA at 10px". It is the floor for a mono label. On the new
+`--surface-front-tint` for `mt` (lichen-500) it measures **4.39:1**, marginally under the
+4.5 floor for small text. On `--surface-front` (lichen-350) it is 4.97 and holds.
+
+**Nothing shipped is affected.** The thing that actually goes on a tint band is
+`.c-eyebrow`, which reads `--accent-link` and measures 5.05 there. But a `.c-label` on a
+tinted marketing section would fail, and that is now a legal combination because this round
+made the tint band a token.
+
+Three ways out, and none is obviously right: darken `--label-color` to gloaming-500 (about
+6.2 there, but it is invariant, so it moves the metadata voice in four products to solve a
+fifth's marketing band); lighten `--surface-front-tint` to lichen-450 (which costs the band
+step, already only 1.13); or rule that **a mono metadata label does not belong on a
+front-door surface at all** — which is arguably true, since the eyebrow is the marketing
+label and `.c-label` is the app's. I lean to the third, as a rule rather than a value
+change, but it is a rule about where a component may go and that is worth agreeing.
+
+## The deep card was too dark on lichen, and `semantic.css` said it could not be
+
+Found while checking the eyebrow, and it is a **shipped-component defect**, not a
+specimen one.
+
+`[data-surface="deep"]` remaps four properties: `--surface-card`, `--label-color`,
+`--rule-section`, `--accent-link`. **`--text-secondary` is not one of them**, and
+`.c-price__description` and `.c-price__period` both use it – inside a card that is
+`data-surface="deep"` by design. On lichen-650 that is **3.56:1**.
+
+**The block in `semantic.css` is what hid it.** It said "--text-strong reads at 10.87:1 on
+it and nothing about the type changes". That was measured on **limestone-750**, CHC's and
+the studio's deep ground, and it is true there: strong 10.86, body 8.84, secondary 5.21. It
+is not a property of the scope, and it was never true on lichen, which CM and Maturity Tool
+both took. The note is corrected, and it now states the test instead of a figure:
+**`--text-secondary` needs 4.5:1 on `--surface-card-deep`, per product**, and
+`--label-color` will not make it on any of them, which is what `--label-on-deep` is for.
+
+**Fixed for `mt`: `--surface-card-deep` is lichen-550, not lichen-650.** Secondary 5.10,
+body 8.66, strong 10.65, and the card still reads 1.33:1 on the front ground, above the
+1.18 bar, and 1.59 against a pale card beside it. Against the tint band it is 1.17, which is
+consistent with the standing rule that a deep card does not go on a tinted band.
+
+**Not fixed for `cm`, and flagged in `products.css`, because no stop on the ramp satisfies
+both constraints.** CM's page is lichen-500, so its deep card must be dark enough to read
+against that *and* light enough to carry secondary text:
+
+| stop | vs the lichen-500 page | `--text-secondary` on it |
+| --- | --- | --- |
+| lichen-550 | 1.17 too faint | 5.10 passes |
+| lichen-600 | 1.40 | 4.27 fails |
+| lichen-650 | 1.68 | 3.56 fails |
+| lichen-700 | 2.04 | 2.94 fails |
+
+Maturity Tool escapes it only because its page is the lighter front-door ground. CM needs
+either a `--text-secondary-on-deep` (a 37th signature token, and the `-on-deep` group would
+then be four) or a deep card that is **lighter** than its page rather than darker – which is
+what "further from the cards" would mean on a mid-toned ground, and is arguably the more
+interesting answer. Own round.
+
+**Worth a look on VTS too.** Its deep card is sorbet-900 and its text roles are already
+light (`--text-secondary` is coffee-300), so it is almost certainly fine, but it has the
+same provisional marker and nobody has measured it.
+
+## Still open, and one of them is a decision
+- **`.c-feature` assumes an illustration and centres its text**, so the shipping page's six
+  text-only benefit cards have no answer in the kit. Either the page gains illustrations or
+  `.c-feature` gains a text-only variant. Flagged in the guideline rather than fudged.
+- **The accent-filled closing band has no component.** It needs `--text-on-accent` to hold
+  4.5:1 on the accent fill, which is exactly why mt's accent moved to fire-600, and that is
+  a small decision of its own.
+- **`guidelines/pattern-feature-cards.html` prose is stale**: it says the card ground is
+  `--surface-raised`, which was true on 4 August and is now `--surface-card-deep`. The same
+  sentence in `Design system.html` is corrected in this round; the guideline page is not.
+
+## Unrelated fix in the same round: ScoreHistory was never ported
+
+Julius spotted this browsing the system. The 5 August bands-as-ground decision landed in
+`components.css`, `Design system.html` and `ScoreHistory.prompt.md`, and **`ScoreHistory.jsx`
+was never updated to match** – so the documented rule and the component Claude Code would
+implement from disagreed on four points. The JSX was still:
+
+- rendering **`.c-history__grid`**, the gridlines the decision deleted, and not rendering
+  `.c-history__bands` at all;
+- colouring each dot **`--level-N`** inline, where the rule is that over full-strength bands
+  the ramp is the ground and the dot takes `--limestone-200` like the line;
+- defaulting to **`ticks={[0, 25, 50, 75, 100]}`**, where the rule is every 10;
+- defaulting to a **full 0–100 domain**, where the rule is padded to the data – and a
+  0–100 domain at full strength draws a fire band under a healthy score, which is a claim
+  the data never made.
+
+**Now ported.** Bands derived from the `--score-band-*` edges (30/50/70/90) and clipped to
+the domain, so only the bands the data crosses are drawn. The domain is derived: **one
+ten-step below the lowest reading's ten, up to the ten above the highest**, which is what
+the specimen in `Design system.html` shows (40 to 90 for readings of 52 to 83), with a
+**30-point minimum span** so two near-identical readings cannot produce a ten-point axis
+and re-create the problem the bands fix. `min` and `max` still pin it, and the `.d.ts` now
+says what pinning 0–100 costs. Y labels every 10 across the domain.
+
+**`.c-history__grid` is deleted from `components.css`**, not left dead – its survival is
+what let the JSX keep rendering the old chart. Its rule was also `opacity: .6` on a
+hairline, which is the 1 August rule against an alpha standing in for a colour.
+
+**Still not implemented, and it is in the prompt as a rule:** "the hover target is the
+full-height column, not the dot". There is no hover column in the JSX and no CSS for one.
+It needs the tooltip surface, so it is flagged rather than invented here.
+
+## A pure alias is a trap, and one token was added and deleted the same day
+
+Worth reading before you write a token, because **this mechanism bit three times in one
+round** and the system now documents it in three places without any way to catch it.
+
+**A token whose value is `var(--other-token)` is a copy, not a link.** Custom-property
+substitution happens where the property is *declared*, so a value written on `:root` has
+already resolved there; a scope that later remaps its source cannot reach it, because the
+alias is not re-declared on that element and simply inherits the value it already computed.
+
+The three instances:
+
+1. **4 August** – the `--type-*` shorthands. `.c-marketing` redeclares `--u` and the `--t-*`
+   steps in `type-roles.css`, and `semantic.css` has to redeclare the shorthands too,
+   because a shorthand computed on `:root` has baked in `:root`'s `--t-*`. Already recorded.
+2. **7 September, caught at review** – the marker geometry. `--marker-size` and
+   `--marker-aura-width` are declared on `:root`, so a marketing page had body copy at the
+   24px base and every bullet marker still at the app's 19px. Fixed by redeclaring them in
+   the `.c-marketing` scope.
+3. **7 September, caught at review and then deleted** – `--label-accent`. It shipped for
+   half a day as `var(--accent-link)` on `:root`, so the eyebrow inside a deep price card
+   kept the light-ground stop and measured **4.39:1** – the identical figure `products.css`
+   already records against `--accent-link-on-deep`. **It is gone rather than patched a
+   third time:** it resolved to exactly `--accent-link` in all three scopes, so it earned
+   nothing and cost a thing to keep in step. `.c-eyebrow` now reads `--accent-link`, and
+   every existing and future scope remap applies to it automatically.
+
+**The rule: do not alias a token that any scope remaps.** Either the component references
+the remapped token directly, or the alias genuinely differs from its source and is authored
+per scope rather than derived. An alias that is always equal to its source is a defect
+waiting for the next scope.
+
+**The check this wants, and it is the same shape as the dead-utility check from 1 August:**
+for every token defined as `var(--X)`, assert that every scope remapping `--X` also
+remaps it, or that the token does not exist. It reads the CSS, needs no build step, and
+would have caught all three of the above. Cases 1 and 2 are legitimate redeclarations and
+would pass; case 3 would have failed on the day it was written.
+
+## New folder: `components/marketing/`
+
+Six components with full contracts – `.jsx`, `.d.ts` and `.prompt.md` each, plus a
+`marketing.card.html` specimen, matching `core/` and `data/`.
+
+| Component | Class | Notes |
+| --- | --- | --- |
+| `Eyebrow`, `Literal` | `.c-eyebrow`, `.c-literal` | `Literal` lives here because it is the other inline marketing type class |
+| `Divider` | `.c-divider`, `--taper` | `taper` prop, default false |
+| `Hero` | `.c-hero` | Title is plain text, and the props doc says why not to force a break |
+| `PullQuote` | `.c-pullquote` | The section supplies `data-surface="inverse"`; the component paints no ground |
+| `PriceBand`, `PriceRow` | `.c-price`, `.c-price-row` | `featured` sets `data-surface="deep"`; there is no `--featured` class to set |
+| `Steps` | `.c-steps` | `steps[]` carries no numbers – `counter-increment` fills them |
+
+**Three things the contracts enforce that CSS alone could not.** `Steps` renders the numeral
+as an empty `aria-hidden` span, so the markup cannot carry a number that disagrees with the
+list order, and the `<ol>` is what tells a screen reader the sequence. `PriceBand` takes a
+boolean and sets the attribute itself, so `featured` cannot become a class someone then
+adds a border to. And `PriceBand` imports `Bullets` from `core/` rather than accepting a
+pre-rendered list, which is what stops the next price table hand-rolling a third marker
+system.
+
+**Each `prompt.md` carries the shared conventions block**, extended with a front-door
+paragraph: put `.c-marketing` on the section, because `type-roles.css` re-derives `--u`, the
+`--t-*` steps and the marker geometry there and `semantic.css` re-derives the `--type-*`
+shorthands, and without it the component renders at app density.
+
+## Files changed
+
+`tokens/semantic.css`, `tokens/products.css` (set 34 → 36, seventh growth recorded, new
+`[data-product="mt"]` block, density note), `components/components.css`, **new
+`components/marketing/` (19 files)**, new
+`guidelines/pattern-marketing-page.html`, `components/data/ScoreHistory.jsx` and
+`ScoreHistory.d.ts` (the port above), and **`Design system.html`** – new Marketing page
+chapter, `.c-bullets--accent` added to Markers &amp; bullets, the closed set corrected from
+30 to 36 and “grown four times” to seven, the fifth product recorded under Product
+signatures, and the feature-card ground corrected from `--surface-raised` to
+`--surface-card-deep`, which had been stale since 4 August. On our side and not exported
+wholesale: `provenance/Maturity Tool site audit 2026-09-07.html` (for
+`docs/design-history/`).
