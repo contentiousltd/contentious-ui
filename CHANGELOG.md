@@ -8,11 +8,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.13.3] – 2026-09-07
+
+### Fixed
+
+- **`--font-body`, `--font-heading` and `--font-heading-display` named the wrong font family and had done since before this package tracked a changelog.** `base.css`'s `@font-face` registers `'Bely'` / `'Bely Display'`; `typography.css`'s tokens said `'bely'` / `'bely-display'`. CSS font-family matching is neither space- nor hyphen-insensitive, so neither ever matched anything, and every `.display-heading` in this package's own `components.css` and `typography.css` — and everywhere `var(--font-heading-display)` reached a consuming product — silently rendered in the `serif` fallback. v0.13.2's reassertion block had reinstated these three from this package's *own*, wrong values, overriding `skills/contentious-design/tokens/type-roles.css`'s already-correct ones and making Bely Display disappear on Maturity Tool. `typography.css`, the generated `tailwind4.css`, and `tailwind-preset.ts` now say `'Bely'` / `'Bely Display'`; the reassertion block no longer touches these three, since both sources now agree.
+
 ## [0.13.2] – 2026-09-07
 
 ### Fixed
 
-- **v0.13.1 fixed three of six tokens `type-roles.css` silently overrides once `semantic.css` is linked.** A closer, exhaustive diff (every token it redeclares, checked by value rather than by name) found `--heading-line-height` (`1.15` vs. `1.2em`), `--body-line-height` (`1.55` vs. `1.4em`), and `--font-body`/`--font-heading`/`--font-heading-display` (capitalised, with Georgia/Times New Roman fallbacks, vs. this package's lowercase names matching what `base.css`'s `@font-face` actually registers) also mismatched, same mechanism as the font-size fix. `typography.css`'s reassertion block now covers all six. The other fourteen tokens `type-roles.css` redeclares are byte-identical to this package's own, so left alone. `GAPS.md` also now flags `--info-text` (`semantic.css`: `wave-700`, this package's `tokens.css`: `wave-800`), not worked around since nothing here reads it yet.
+- **v0.13.1 fixed three of six tokens `type-roles.css` silently overrides once `semantic.css` is linked.** A closer, exhaustive diff (every token it redeclares, checked by value rather than by name) found `--heading-line-height` (`1.15` vs. `1.2em`) and `--body-line-height` (`1.55` vs. `1.4em`) also mismatched, same mechanism as the font-size fix — plus `--font-body`/`--font-heading`/`--font-heading-display`, which turned out to be the opposite of a collision to work around; see v0.13.3. The other fourteen tokens `type-roles.css` redeclares are byte-identical to this package's own, so left alone. `GAPS.md` also now flags `--info-text` (`semantic.css`: `wave-700`, this package's `tokens.css`: `wave-800`), not worked around since nothing here reads it yet.
 
 ## [0.13.1] – 2026-09-07
 

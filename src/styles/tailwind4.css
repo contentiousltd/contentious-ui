@@ -283,7 +283,7 @@
   --font-sans      : var(--font-body);
   --font-serif     : var(--font-body);
   --font-display   : var(--font-heading-display);
-  --font-heading   : 'bely', serif;
+  --font-heading   : 'Bely', serif;
   --font-mono      : ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --font-mono-brand: 'Courier New', Courier, monospace;
   /* ---- Weight ------------------------------------------------------------ */

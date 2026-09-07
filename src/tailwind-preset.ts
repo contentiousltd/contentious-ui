@@ -115,7 +115,11 @@ export const contentiousPreset: Config = {
         base: ["1.1rem", { lineHeight: "1.6" }],
       },
       fontFamily: {
-        display: ["bely-display", "serif"],
+        // Must match base.css's @font-face family name exactly — CSS font
+        // matching is neither space- nor hyphen-insensitive, so a
+        // lowercase-hyphen form silently falls through to serif. See
+        // typography.css and GAPS.md.
+        display: ["Bely Display", "serif"],
         mono: ["Courier New", "Courier", "monospace"],
         hand: ["Caveat", "cursive"],
       },

@@ -19,9 +19,20 @@
     --heading-line-height: 1.2em;
     --body-line-height: 1.4em;
 
-    --font-body: 'bely', serif;
-    --font-heading: 'bely', serif;
-    --font-heading-display: 'bely-display', serif;
+    /* 'Bely' / 'Bely Display', matching what base.css's own @font-face rules
+       register (base.css:37, :10/:19/:28). CSS font-family matching is
+       neither space- nor hyphen-insensitive, so the lowercase-hyphen forms
+       this file used until 7 September 2026 ('bely', 'bely-display') never
+       matched anything and silently fell through to the serif fallback —
+       every .display-heading and font-heading-display use on this page's
+       actual output, this whole time. Found via
+       skills/contentious-design/tokens/type-roles.css, which already had
+       this right and said so explicitly; this package had the bug it was
+       warning about. See GAPS.md — Claude Design's names are correct here,
+       not a divergence to work around. */
+    --font-body: 'Bely', serif;
+    --font-heading: 'Bely', serif;
+    --font-heading-display: 'Bely Display', serif;
     /* The metadata voice, not the code face. Courier is --font-mono-brand,
        for code specimens only — settled in provenance/Adoption items 8-11
        decision 2026-08-01.html. Two products overrode this identically,
@@ -194,37 +205,38 @@
     line-height: var(--heading-line-height);
   }
 
-  /* Display heading — switches to bely-display face */
+  /* Display heading — switches to the Bely Display face */
   .display-heading {
     font-family: var(--font-heading-display);
   }
 }
 
 /* GAPS.md, 7 September 2026: skills/contentious-design/tokens/type-roles.css
-   redeclares six tokens this file also owns, with different values, and its
-   own header says everything in it "is a ROLE and never varies by product" —
-   its real, used scale is --u/--t-*, right below the colliding block. But
-   type-roles.css lands in layer(theme) via the semantic.css door, one layer
-   above this file's tokens layer, so once a consumer also links semantic.css
-   the unrelated values win regardless of source order. Found on Maturity
-   Tool: headings and section titles shrank and stopped scaling with
-   --text-multiplier the moment semantic.css was linked, with no rename or
-   removal anywhere to explain it. The other fourteen tokens type-roles.css
-   redeclares (checked by value, not just by name) are byte-identical to this
-   file's, so only these six are load-bearing here:
-     --font-size-h1/h2/h3   3.5rem/2.4rem/1.5rem vs. calc(Xem * multiplier)
-     --heading-line-height  1.15 vs. 1.2em
-     --body-line-height     1.55 vs. 1.4em
-     --font-body / --font-heading / --font-heading-display
-       lowercase family names here ('bely') vs. capitalised with Georgia /
-       Times New Roman fallbacks there ('Bely', ...) — base.css's @font-face
-       registers the family as 'Bely', matching this file, so reasserted
-       rather than left to chance on whether @font-face matching is
-       case-sensitive in every engine this ships to.
+   redeclares six tokens this file also owns. Three are a real duplicate
+   this file needed to win back: --font-size-h1/h2/h3 (3.5rem/2.4rem/1.5rem
+   vs. this file's calc(Xem * var(--text-multiplier))), --heading-line-height
+   (1.15 vs. 1.2em) and --body-line-height (1.55 vs. 1.4em) — type-roles.css
+   lands in layer(theme) via the semantic.css door, one layer above this
+   file's tokens layer, so once a consumer also links semantic.css those
+   values win regardless of source order, and every heading and section
+   title on this page shrank and stopped scaling with --text-multiplier the
+   moment that happened. Reasserted below.
 
-   Reasserted here, in layer(theme), so this package's own values win back
-   regardless of whether a consumer also links semantic.css. The fix belongs
-   in type-roles.css — this package doesn't hand-edit that file; see
+   The other three — --font-body / --font-heading / --font-heading-display —
+   are NOT reasserted, because type-roles.css had them right and this file
+   had the bug: base.css's @font-face registers 'Bely' / 'Bely Display', and
+   this file's values were 'bely' / 'bely-display' until this fix, which
+   CSS's neither-space-nor-hyphen-insensitive font matching never resolved
+   to anything, so every .display-heading on this page rendered in the
+   serif fallback. Corrected at the source above instead of reasserted here
+   — see that block's comment. Caught only because linking semantic.css
+   made the WRONG value start winning over the (until-now-unused) correct
+   one, which read at a glance like a regression the reassertion should
+   undo. It wasn't; the earlier state was already broken.
+
+   Reasserted here, in layer(theme), so this file's own scale wins back
+   regardless of whether a consumer also links semantic.css. The fix
+   belongs in type-roles.css — this package doesn't hand-edit that file; see
    docs/design-system-sync.md. Remove this block once type-roles.css drops
    its own copies. */
 @layer theme {
@@ -234,8 +246,5 @@
     --font-size-h3: calc(1.5em * var(--text-multiplier));
     --heading-line-height: 1.2em;
     --body-line-height: 1.4em;
-    --font-body: 'bely', serif;
-    --font-heading: 'bely', serif;
-    --font-heading-display: 'bely-display', serif;
   }
 }

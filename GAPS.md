@@ -61,37 +61,47 @@ in this file, and do not answer them in product code.
   for menus and controls; this is the step for a list row inside a card.
 
 - **`tokens/type-roles.css` redeclares twenty tokens this package's `typography.css`
-  also declares, six of them with different values.** Found on Maturity Tool,
-  7 September 2026, right after `components.css` was wired in as this package's component
-  layer (the item above this one, now closed) — headings and section titles shrank and
-  stopped scaling with `--text-multiplier` the moment `semantic.css` was linked alongside
-  the existing `typography.css`, with no rename or removal anywhere to explain it.
+  also declares. Three genuinely collide; on three more, `type-roles.css` was RIGHT and
+  this package had the bug.** Found on Maturity Tool, 7 September 2026, right after
+  `components.css` was wired in as this package's component layer (the item above this
+  one, now closed) — headings and section titles shrank and stopped scaling with
+  `--text-multiplier` the moment `semantic.css` was linked alongside the existing
+  `typography.css`, with no rename or removal anywhere to explain it.
 
   `type-roles.css`'s own header says everything in the file "is a ROLE and never varies by
   product," and its real, used scale is `--u`/`--t-*`, declared right below the colliding
   block. Fourteen of the twenty (`--font-mono`, `--font-mono-brand`, `--font-size-sm`,
   `--font-size-xs`, every `--font-weight-*`, every named `--line-height-*`) are
-  byte-identical to this package's own, so harmless. Six are not: `--font-size-h1/h2/h3`
-  (`3.5rem`/`2.4rem`/`1.5rem` vs. `calc(Xem * var(--text-multiplier))`),
-  `--heading-line-height` (`1.15` vs `1.2em`), `--body-line-height` (`1.55` vs `1.4em`),
-  and `--font-body`/`--font-heading`/`--font-heading-display` (capitalised with
-  Georgia/Times New Roman fallbacks vs. this package's lowercase, matching what
-  `base.css`'s `@font-face` actually registers). `type-roles.css` is imported into
-  `layer(theme)` by the `semantic.css` door, one layer above this package's own tokens
-  (`typography.css`, `layer(tokens)`), so once a consumer links both, the six mismatched
-  values win regardless of source order, and it looks exactly like a rename with no
-  changelog entry.
+  byte-identical to this package's own, so harmless.
 
-  **Worked around, not fixed.** `src/styles/typography.css` now reasserts its own values
-  for all six into `layer(theme)`, so this package's scale and faces win back regardless
-  of whether a consumer also links `semantic.css`. The reassertion is dead weight the
-  moment this is fixed at the source.
+  **Three are a real duplicate, worked around, not fixed:** `--font-size-h1/h2/h3`
+  (`3.5rem`/`2.4rem`/`1.5rem` vs. this package's `calc(Xem * var(--text-multiplier))`),
+  `--heading-line-height` (`1.15` vs `1.2em`), `--body-line-height` (`1.55` vs `1.4em`).
+  `type-roles.css` is imported into `layer(theme)` by the `semantic.css` door, one layer
+  above this package's own tokens (`typography.css`, `layer(tokens)`), so once a
+  consumer links both, its values win regardless of source order. `typography.css` now
+  reasserts these three into `layer(theme)` so its own scale wins back. Dead weight the
+  moment this is fixed at the source — drop these three lines from `type-roles.css`, its
+  own `--u`/`--t-*` scale already covers what a component needs.
 
-  **The ask:** either drop the fourteen identical lines and the six mismatched ones from
-  `type-roles.css` (its own `--u`/`--t-*` scale covers what a component actually needs),
-  or, if some of the six are a deliberate divergence from this package rather than an
-  oversight, say which and why — that changes this from a bug to a decision we need
-  written down, not just worked around at the door.
+  **Three more looked like the same bug and weren't — `type-roles.css` had them right,
+  this package didn't, and fixed here instead.** `--font-body`/`--font-heading` were
+  `'bely'` and `--font-heading-display` was `'bely-display'` in this package's own
+  `typography.css`, neither matching `base.css`'s `@font-face` registration of `'Bely'`
+  / `'Bely Display'` — CSS font matching is neither space- nor hyphen-insensitive, which
+  `type-roles.css`'s own comment on this exact point already said, correctly, and this
+  package had the bug it was describing. Every `.display-heading` and
+  `var(--font-heading-display)` use in this package's own `components.css` and
+  `typography.css` — and everything downstream in a consuming product, this whole time —
+  silently fell through to the `serif` fallback. `typography.css`, `tailwind4.css`
+  (regenerates from the fix) and `tailwind-preset.ts` are now corrected to `'Bely'` /
+  `'Bely Display'`, matching `type-roles.css`, which needs no change on these three.
+
+  Caught only because fixing the first three surfaced the second three: reasserting
+  `type-roles.css`'s values away made the (until-then-unused) wrong local values start
+  winning, which read like the display font had "broken," when the state before this fix
+  was already broken and nobody had linked anything that exercised the collision to
+  notice.
 
   **Same shape, smaller, found in the same audit: `tokens/semantic.css` sets
   `--info-text: var(--wave-700)`, this package's `tokens.css` sets `--wave-800`.**
