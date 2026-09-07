@@ -8,6 +8,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.13.1] – 2026-09-07
+
+### Fixed
+
+- **Headings silently shrank and stopped scaling with `--text-multiplier` for any consumer that links `semantic.css`.** `tokens/type-roles.css` declares its own `--font-size-h1/h2/h3/h4` (unrelated legacy values, unused elsewhere in the design system) into `layer(theme)` via the `semantic.css` door — one layer above this package's own `--font-size-h1/h2/h3` in `typography.css` (`layer(tokens)`), which every heading in `components.css` and `typography.css` itself still reads. Layer order beats source order, so the legacy values silently won regardless of which file loaded last. `typography.css` now reasserts its own values into `layer(theme)` so they win back. Root cause is tracked in `GAPS.md` for a fix at the source.
+
 ## [0.13.0] – 2026-09-07
 
 Wires the design system's `components.css` in as this package's component

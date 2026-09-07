@@ -60,6 +60,32 @@ in this file, and do not answer them in product code.
   Related but distinct from `--surface-hover`, which is now settled: that one is the step
   for menus and controls; this is the step for a list row inside a card.
 
+- **`tokens/type-roles.css` declares its own `--font-size-h1/h2/h3/h4`, unrelated to and
+  colliding with this package's tokens of the same name.** Found on Maturity Tool,
+  7 September 2026, right after `components.css` was wired in as this package's component
+  layer (the item above this one, now closed) — headings shrank and stopped scaling with
+  `--text-multiplier` the moment `semantic.css` was linked alongside the existing
+  `typography.css`, with no rename or removal anywhere to explain it.
+
+  `type-roles.css`'s own header says everything in the file "is a ROLE and never varies by
+  product," and its real, used scale is `--u`/`--t-*`, declared right below the four lines
+  in question (`type-roles.css:74-77`). Nothing else in `skills/contentious-design/`
+  reads `--font-size-h1` through `-h4` — they look like a leftover from before the
+  `--u`/`--t-*` split. But `type-roles.css` is imported into `layer(theme)` by the
+  `semantic.css` door, one layer above this package's own `--font-size-h1/h2/h3`
+  (`typography.css`, `layer(tokens)`), so once a consumer links both, the unrelated
+  legacy values win regardless of source order, and it looks exactly like a rename with
+  no changelog entry.
+
+  **Worked around, not fixed.** `src/styles/typography.css` now reasserts its own
+  `--font-size-h1/h2/h3` into `layer(theme)`, so this package's scale wins back
+  regardless of whether a consumer also links `semantic.css`. The reassertion is dead
+  weight the moment this is fixed at the source.
+
+  **The ask:** drop the four `--font-size-h1/h2/h3/h4` lines from `type-roles.css`. If
+  they're load-bearing somewhere `grep` didn't find, say where and we'll keep the
+  workaround at the door instead — same shape as the `url()` item above.
+
 ## Noted, not blocking
 
 ## Answered
