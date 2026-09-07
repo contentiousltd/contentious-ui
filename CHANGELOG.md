@@ -8,16 +8,40 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Most re
 
 ## [Unreleased]
 
+## [0.12.0] – 2026-09-07
+
+The 7 September design round: the front door gets a ground, and Maturity Tool
+becomes the suite's fifth product. Applied via the DesignSync API rather than
+a downloaded export — this session's Claude Design authorization landed
+mid-round with no zip available, so the round was fetched file-by-file and
+verified against the repo's own checks instead of a wholesale `rsync`.
+CD's own summary is in `skills/contentious-design/CHANGES.md`; full workings
+in `docs/design-history/Maturity Tool site audit 2026-09-07.html`.
+
 ### Added
 
 - **CI** (`.github/workflows/checks.yml`) – the four checks this repo already had now run on every push and pull request, plus a guard that `package.json`'s version has a matching tag. Consumers install by git tag, so an untagged version reaches nobody; the guard runs on pushes only, since a PR is legitimately ahead of the tag. Deliberately no test runner and no linter – see [ADR-UI-0006](docs/adr/adr-ui-0006-ci-for-the-design-system.md).
 - **`npm run check:types`** – `tsc --noEmit`, with `typescript` pinned at `5.9.3` as a devDependency. It was not previously a dependency at all: `npx tsc` resolved an unrelated package from the registry, so the type-check in the original CI draft would never have run TypeScript. The check now also covers `brand/`, which is shipped via the `./brand` exports and was unchecked.
+- **`--surface-front` / `--surface-front-tint`**, the seventh signature growth (30 → 36): every product's marketing page now has its own ground pair instead of picking stops by hand. `--surface-card` must clear 1.18:1 from both; a band step under ~1.15 doesn't read as a band. CM and mt share lichen-350/500 – CM's own wash first stop and app page. VTS and contentious.ltd are provisional.
+- **New product `[data-product="mt"]`** – Maturity Tool. Fire-600 accent (not 500 – every fire surface on the page carries text, and limestone-100 on fire-500 is 3.99:1). No working surface, so density is 24px everywhere rather than the usual 19px/24px split. Illustration recorded as borrowed from Content Maturity's set.
+- **New marketing kit**, front-door only: `Eyebrow`/`Literal` (`.c-eyebrow`, `.c-literal`), `Divider` (`--taper`), `Hero` (`--measure-title: 28ch`, `--measure-lede: 48ch`), `PullQuote` (one per page, on `data-surface="inverse"`), `PriceBand`/`PriceRow` (`.c-price`, `.c-price-row` – the featured band is `data-surface="deep"`, no separate modifier class), `Steps` (`.c-steps`, its own component rather than a `Bullets` timeline variant, numbered via CSS counter). Each ships full `.jsx`/`.d.ts`/`.prompt.md` contracts. New `guidelines/pattern-marketing-page.html`.
+- **`.c-bullets--accent`** – a marketing-only skin on `Bullets`: sets the marker to `--accent-marker` and an opaque `color-mix` ring. Means nothing on its own; the fill/ring pair stays reserved for done-vs-not-yet.
+
+### Fixed
+
+- **`ScoreHistory.jsx` ported to match the 5 August bands-as-ground decision.** The rule landed in `components.css`, `Design system.html` and the `.prompt.md` on 5 August; the JSX itself was never updated, so it still rendered the deleted `.c-history__grid` gridlines, coloured dots by `--level-N` instead of the ground ramp, and defaulted to a fixed `[0,25,50,75,100]` domain. Domain is now derived from the data with a 30-point minimum span.
+- **`tailwind-preset` loads its two plugins with `import` rather than `require()`.** The calls were the only type errors in the package – `require` is undeclared in a `"type": "module"` package without `@types/node`. No consumer imports this module and no repository in the suite has a `tailwind.config.*`, so this is not expected to affect anyone; the plugins were verified to resolve at runtime after the change. It also removes an emit hazard for any future dual ESM/CJS build ([ADR-UI-0005](docs/adr/adr-ui-0005-shipping-javascript-to-consumers.md)).
 
 ### Changed
 
-- **`tailwind-preset` loads its two plugins with `import` rather than `require()`.** The calls were the only type errors in the package – `require` is undeclared in a `"type": "module"` package without `@types/node`. No consumer imports this module and no repository in the suite has a `tailwind.config.*`, so this is not expected to affect anyone; the plugins were verified to resolve at runtime after the change. It also removes an emit hazard for any future dual ESM/CJS build ([ADR-UI-0005](docs/adr/adr-ui-0005-shipping-javascript-to-consumers.md)).
 - **`tsconfig.json` is now check-only** – `noEmit`, with `rootDir`/`outDir`/`declaration` dropped. Nothing has ever been emitted here; the package ships raw TypeScript. Whether that changes is ADR-UI-0005's question.
 - **[ADR-UI-0005](docs/adr/adr-ui-0005-shipping-javascript-to-consumers.md) is answered rather than decided, and the answer is written up in [docs/plans/contentious-platform.md](docs/plans/contentious-platform.md).** `@contentious/auth` already ships compiled JavaScript by git tag through a `prepare` hook, and Content Health Check and Content Maturity both import it – so option A is in production in the same org, installed the same way, by the consumer whose esbuild `--packages=external` server build was the stated blocker. Neither ADR-UI-0005 nor the suite's ADR-0014 mentions that package. The plan proposes a `contentious-platform` workspace holding `ui`, `auth`, a new `core`, and the identity provider, on the structural argument that those four must change together across version boundaries; products stay in their own repos, pinning by exact tag. No code has moved.
+- Regenerated `src/styles/tailwind4.css` against the round's new tokens.
+
+### Open
+
+- **`mt`'s `--surface-menu` and `--surface-field` collide** (both `limestone-150`), which `scripts/check-product-signatures.mjs` fails on. `cm` has the identical pair and is already an allowlisted baseline exemption there; the script's own comment says that baseline "may shrink and must never grow," so extending it to `mt` is a call for Claude Design or Julius rather than something resolved automatically here. See `docs/design-history/github.md`.
+- **`docs/design-history/github.md` was several rounds stale before this entry** – its last recorded sync was 30 July, while the repo's commit log shows at least two more design rounds landed since (5 August, this one). The gap has not been reconstructed.
 
 ## [0.11.0] – 2026-08-05
 
