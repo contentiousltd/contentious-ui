@@ -244,6 +244,37 @@ components as such inside the one skill instead.
    committed copy still carries `fonts/` and its `tokens/fonts.css` still points only at
    `../fonts/`. Deleting the directory ahead of the export would break the specimen
    pages. The failure is accurate — the repo is stale — and it clears on the next apply.
+5. **`.c-button` inherits the bare `a:hover` underline.** Found building
+   contentoperatingmodel.com: `components.css:723-724` gives every `a:hover` a
+   2px sunshine underline (`text-decoration:underline`), and it propagates to
+   descendants. `.c-feature--link` was already patched against exactly this at
+   `components.css:180`, with a comment explaining why (same specificity, later
+   in the layer, so source order can't undo it without a second class) — but
+   `.c-button` never got the same one-line fix, so every button that's an `<a>`
+   (which is most of them) shows an underline mid-word on hover. Needs
+   `.c-button:hover{text-decoration:none}` alongside the existing
+   `.c-button:hover{background:var(--accent-hover)}` at line 55. Worth checking
+   `.c-topbar__brand`, `.c-topbar__sections span`, and `.c-footer__links a` for
+   the same gap while in there — none of them reset `text-decoration` either.
+   **Claude Design's call**, per the one-writer rule; this file just reports it.
+6. **`.c-topbar` has no content-column constraint, confirmed at a real wide viewport.**
+   `CHANGELOG.md` 0.14.0 already flags that `.c-topbar` doesn't fit a front door and
+   calls a marketing nav variant "a real requirement rather than a hypothetical one" —
+   this is a concrete instance of it. Screenshotting contentoperatingmodel.com at
+   2200px (an actual reported monitor width, not a synthetic test): `.c-hero` and
+   every `.c-section__inner`-based section correctly cap at `max-width:1280px` and
+   centre with equal margins, but `.c-topbar` has no max-width at all and stretches
+   the full 2200px, with only `calc(var(--u) * 2.22)` (≈64px at this width) of
+   padding each side. The header band and the content band visibly disagree about
+   where the page edge is. Separately at the same viewport, `--text-multiplier`
+   is 1.2 (the `min-width:96rem` step, `src/styles/typography.css:84-88`, no step
+   above it), which puts `.c-marketing` body copy at 28.8px and the topbar brand
+   at 33.7px — each individually is the formula working as specified, but with no
+   upper step and no nav container, a 2200px+ monitor reads as oversized in a way
+   narrower widths do not surface. Whether the fix is a `--container-max-width` on
+   `.c-topbar`, a fourth `--text-multiplier` step that caps rather than keeps
+   climbing, or the marketing nav variant already on record, is **Claude Design's
+   call**; this file just reports what a real wide viewport does today.
 
 5. **The warm shadow set never crosses the package boundary.** The design system defines
    shadows in warm gloaming at `skills/contentious-design/tokens/effects.css` —
