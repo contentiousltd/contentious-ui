@@ -173,11 +173,9 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 .c-feature--link .c-feature__title{transition:color var(--motion-state)}
 .c-feature--link:hover .c-feature__art img{transform:scale(1.07)}
 .c-feature--link:hover .c-feature__title{color:var(--accent-link)}
-/* styles.css gives every a:hover the sunshine underline, at the same specificity
-   as a.c-feature and later in the layer, and text-decoration propagates to
-   descendants – so without this the card would paint a 2px underline across the
-   title and the paragraph. Two classes, so source order cannot undo it. */
-.c-feature--link:hover{text-decoration:none}
+/* The underline opt-out that used to sit here has moved into the one list in
+   the Links block at the foot of this file, with the rule attached. Patching it
+   per component is what let .c-button ship underlined for a month. */
 @media (prefers-reduced-motion:reduce){.c-feature--link:hover .c-feature__art img{transform:none}}
 
 /* ---- Marketing section rhythm ------------------------------------------- */
@@ -359,7 +357,23 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 .c-bullets--timeline .c-bullets__item:not(:last-child)::before{content:"";position:absolute;left:calc(var(--marker-node) / 2 - .5px);top:0;bottom:calc(var(--u) * -.44);width:1px;background:var(--rule-section)}
 
 /* ---- Top bar ------------------------------------------------------------ */
+/* THE CHROME COLUMN, added 7 September 2026. A chrome band is full-bleed in its
+   FILL and constrained in its CONTENT: the surface and the hairline run the
+   width of the window because that is what makes them chrome, and what sits on
+   them lines up with the content column because otherwise the page has two
+   answers to where its edge is. Reported from contentoperatingmodel.com at
+   2200px, where every section capped and centred and the top bar did not, so
+   the brand sat ~64px from the window edge and the hero title ~460px in.
+   Padding rather than a max-width on an inner element, because an inner
+   element is markup and every app in the suite has already shipped its top bar
+   without one. The gutter is the floor, so nothing changes below the column
+   width - which is why no app screen moves. --chrome-column is the alignment
+   target and defaults to --container-max-width: a product whose sections cap
+   at 1280 sets it to --width-content on the page, in ONE place, and the two
+   bands agree again. NOT a signature token: it is a layout variable of two
+   components, not a thing a product's identity varies. */
 .c-topbar{display:flex;align-items:center;gap:calc(var(--u) * 1.22);padding:calc(var(--u) * .78) calc(var(--u) * 2.22);background:var(--surface-chrome);border-bottom:1px solid var(--rule-field)}
+.c-topbar{padding-inline:max(calc(var(--u) * 2.22), calc((100% - var(--chrome-column, var(--container-max-width))) / 2))}
 .c-topbar__brand{display:flex;align-items:center;gap:calc(var(--u) * .67);font-family:var(--font-heading);font-weight:700;font-size:calc(var(--u) * 1.17);color:var(--text-strong);white-space:nowrap}
 .c-topbar__brand img{height:calc(var(--u) * 1.67);display:block}
 .c-topbar__divider{width:1px;height:calc(var(--u) * 1.33);background:var(--rule-field);flex:none}
@@ -374,7 +388,12 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 .c-avatar{width:calc(var(--u) * 1.89);height:calc(var(--u) * 1.89);border-radius:50%;background:var(--gloaming-800);display:grid;place-items:center;font-family:var(--font-mono);font-size:calc(var(--u) * .61);color:var(--limestone-300);cursor:pointer;flex:none}
 
 /* ---- Secondary nav (the one strip) ------------------------------------- */
+/* Takes the chrome column too, and for the same reason one band down: the strip
+   sits directly under the top bar, so a realm label indented differently from
+   the brand above it is the defect twice on one screen. Same floor, same
+   variable, so a product sets --chrome-column once and both bands follow. */
 .c-strip{display:flex;align-items:stretch;gap:var(--u);padding:0 calc(var(--u) * 1.56);background:var(--surface-chrome);border-bottom:1px solid var(--rule-field)}
+.c-strip{padding-inline:max(calc(var(--u) * 1.56), calc((100% - var(--chrome-column, var(--container-max-width))) / 2))}
 .c-strip__realm{display:flex;align-items:center;padding-right:calc(var(--u) * 1.33);margin-right:2px;border-right:1px solid var(--rule-section);font-family:var(--font-mono);font-size:var(--t-label);letter-spacing:var(--label-tracking);text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
 .c-strip__tab{display:flex;align-items:center;font-family:var(--font-heading);font-size:var(--t-ui);color:var(--text-muted);padding:calc(var(--u) * .78) 2px;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:none;cursor:pointer}
 .c-strip__tab.is-active{color:var(--text-strong);border-bottom-color:var(--accent-marker)}
@@ -723,6 +742,22 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
 a{color:var(--accent-link);text-decoration:none}
 a:hover{color:var(--accent-link-hover);text-decoration:underline;text-decoration-color:var(--link-underline);text-decoration-thickness:2px;text-underline-offset:3px}
 h1 a:hover,h2 a:hover,h3 a:hover{text-decoration-thickness:1px}
+/* THE RULE, written down 7 September 2026: the sunshine underline belongs to a
+   link that is a RUN OF TEXT. A link that is a whole OBJECT - a button, a card,
+   a nav item, a footer row - carries no underline, because the object is
+   already the affordance and text-decoration propagates to every descendant
+   inside it, which is how a button gets a 2px rule through the middle of its
+   own word.
+   ONE LIST, not a patch per component. .c-feature--link was patched alone on
+   4 August and .c-button was not, so hover underlined every primary CTA in the
+   suite - most buttons are <a>. A second one-line fix would have left the same
+   trap for the next component, so the opt-out is consolidated here and the
+   contract is stated: A COMPONENT THAT WRAPS A WHOLE OBJECT IN AN <a> JOINS
+   THIS LIST. That is checkable in a way "remember to reset it" is not.
+   Specificity, since the 4 August comment worried about it: a:hover is
+   (0,1,1) and every selector here is at least (0,2,0), so source order does
+   not come into it and one class is enough. */
+.c-button:hover,.c-feature--link:hover,.c-topbar__brand:hover,.c-topbar__sections a:hover,.c-strip__tab:hover,.c-footer__links a:hover,.c-footer__brand:hover{text-decoration:none}
 
 /* ---- Accepted element / state names ------------------------------------- */
 /* Elements inside a block may use their short name; the block prefix scopes

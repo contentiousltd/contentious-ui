@@ -18,6 +18,7 @@ Sits on `--surface-footer`, gloaming-700, and carries `data-surface="inverse"`. 
 - **The wordmark is Bely Display**, matching the header. A name set in the display cut at the top of a page must not change face at the bottom of it.
 - **The mark is a pair.** `clipboard-gloaming.png` on light grounds, `clipboard-pale.png` here. The gloaming cut's dark passage is 36% of its ink and lands at 1.17:1 on this ground — it ghosts rather than vanishes, which for a logo is worse. The pale cut takes that passage to limestone at 10.95:1 and keeps the red (`--fire-500`, 3.54:1) and yellow (`--sunshine-500`, 7.00:1). **The pale cut is dark-grounds-only:** its pale passage is 1.01:1 against the limestone-600 page.
 - Watch the `--rule-section` hairline above the legal line: 1.30:1 on gloaming-700, down from 1.59 on gloaming-800. It reads, but it is the thinnest thing in the footer.
+- **A footer row is an object, so it takes no hover underline.** `.c-footer__links a` and `.c-footer__brand` are in the one opt-out list in the Links block of `components.css`. On this ground the hover colour is what moves; a 2px sunshine rule under one of seven stacked rows reads as a selection state.
 
 ---
 

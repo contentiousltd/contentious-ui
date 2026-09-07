@@ -13,9 +13,13 @@ Level-1 navigation. Project-scoped work sections only – admin realms are reach
 **`contextActive={false}` in every admin realm.** The switcher and its sections dim together to 42%, which says two things at once: these five are one group, and this group is not the page you’re on – the strip below is. They remain clickable. Full strength returns on Estate, Inventory, Watchlist and Results.
 
 Other rules:
+- **The band is full-bleed, its content is not.** The fill and the bottom hairline run the width of the window; what sits on them lines up with the content column, via `padding-inline: max(gutter, (100% - var(--chrome-column)) / 2)` in `components.css`. Otherwise a wide viewport gives the page two different edges: at 2200px on contentoperatingmodel.com every section centred inside 1280px while the brand sat 64px from the window.
+- **`--chrome-column` is the alignment target and defaults to `--container-max-width` (1080px).** A product whose sections cap wider sets it once on the page, not per band, and `.c-strip` follows automatically. It is not a signature token and does not join the closed set.
+- **This is not the marketing nav variant.** It aligns the app's chrome band and closes the wide-viewport defect; a front door still gets `.c-topbar` doing marketing duty, `nowrap` and all, and what collapses first at narrow widths is still open.
 - The brand lockup and nav items never wrap.
 - The avatar sits alone on the right. No Sign out here; it lives in the avatar menu.
 - Never a third horizontal band. If the project needs more room, it doesn’t get its own row – it gets the cluster.
+- **The brand is a link and takes no hover underline.** It is in the one opt-out list in the Links block of `components.css`, with `.c-topbar__sections a` and `.c-strip__tab`: the sunshine underline belongs to a link that is a run of text, not to one that is a whole object.
 
 ---
 

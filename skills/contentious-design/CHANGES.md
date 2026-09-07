@@ -10,6 +10,102 @@ Each export overwrites this file with the current round. Older rounds are in
 
 ---
 
+# Two corrections reported from building COM, and both are fixes in here
+
+**Added third on 7 September, after the Maturity Tool and COM product rounds.** Claude Code
+reported them in `docs/design-system-sync.md` under `## Open`, items 5 and 6, at commit
+`1f3c2a6`, and both are `skills/contentious-design/` files, so they come back as an export
+rather than a fix in place. The manifest at the foot of this file now covers all three of
+today's rounds.
+
+**Nothing moves except the two things named.** No token changes value, no component changes
+geometry, no class is renamed, and no app screen below 1080px wide renders differently.
+
+## Item 5: the underline is decided by what a link IS, and it is one list
+
+`a:hover` draws the 2px sunshine underline, per the brand guide, and `text-decoration`
+propagates to descendants. `.c-feature--link` was patched against exactly that on 4 August;
+`.c-button` was not, and most buttons in the suite are anchors, so **every primary call to
+action drew a rule through the middle of its own word on hover.**
+
+The one-line fix is right and insufficient. Patching the second component leaves the trap
+for the third, and the report names three more sites in the same sentence. So the rule is
+written down instead: **the underline belongs to a link that is a RUN OF TEXT. A link that
+is a whole OBJECT carries no underline**, because the object is already the affordance.
+
+One consolidated opt-out in the Links block at the foot of `components.css`, with the
+contract beside it: **a component that wraps a whole object in an `<a>` joins the list.**
+Seven selectors today - `.c-button`, `.c-feature--link`, `.c-topbar__brand`,
+`.c-topbar__sections a`, `.c-strip__tab`, `.c-footer__links a`, `.c-footer__brand`. The
+4 August patch is folded in rather than left beside it, and the four sites the report asked
+about are covered.
+
+**The specificity worry in the old comment was over-careful.** `a:hover` is (0,1,1) and
+every selector in the list is at least (0,2,0), so one class wins whatever the source order.
+The 4 August note was comparing against `a.c-feature:hover` at (0,2,1), which is where the
+second class came from.
+
+**Rejected: inverting the default** so the underline is drawn only inside a prose wrapper.
+Tidier model, and it silently removes underlines from body-copy links in every product that
+has not adopted the wrapper, which is an accessibility regression arriving quietly. The
+brand rule stays the default and the exceptions are declared.
+
+## Item 6: a chrome band is full-bleed in its FILL and constrained in its CONTENT
+
+At 2200px every section capped at 1280px and centred, and `.c-topbar` had no cap at all, so
+the brand sat ~64px from the window and the hero title it labels sat ~460px in. Two bands
+that touch, giving two answers to where the page edge is.
+
+**`padding-inline: max(gutter, (100% - var(--chrome-column)) / 2)` on `.c-topbar` and
+`.c-strip`.** The fill and the bottom hairline still run the width of the window, which is
+what makes them chrome; what sits on them lines up with the content column.
+
+- **`--chrome-column` defaults to `--container-max-width`**, so the gutter is a floor and
+  nothing below the column width moves. **No app screen changes.** A product whose sections
+  cap wider - COM caps at 1280 - sets `--chrome-column: var(--width-content)` **once on the
+  page**, and both bands follow.
+- **It is not a signature token and the closed set stays at 38.** It is a layout variable of
+  two components, not a dimension a product's identity varies on.
+- **`.c-strip` takes it too**, because a realm label indented differently from the brand
+  directly above it is the same defect twice on one screen.
+
+**Three alternatives rejected.** A `max-width` on `.c-topbar` caps the fill as well, so the
+chrome surface and its hairline stop short and the page ground shows either side of the
+header. A `.c-topbar__inner` element is the textbook answer and is markup, so it is a
+migration in four repos to fix what one declaration fixes. And **a fourth
+`--text-multiplier` step is refused**: the multiplier is the library's responsive step, a
+step that reduces is density wearing the responsive token's name, and the system already
+forbids that in as many words. 1.2 at 96rem is the last step and it is correct.
+
+**On the 28.8px body copy at that viewport.** Each figure is the formula working - 24px
+marketing base, 1.2 at the top breakpoint - and the measures are in `ch`, so the reading
+column holds at 48 characters whatever the size. Once both bands agree on the edge the page
+reads as large rather than as broken. If it still reads oversized after this lands, the
+conversation is about the **marketing base**, not the multiplier, and it wants a real page
+in front of it.
+
+**This is not the marketing nav variant**, which is still a requirement and still unbuilt.
+This closes the wide-viewport misalignment in the app's own chrome. The front door
+additionally needs a nav that knows what to collapse first at narrow widths, and the
+`flex-wrap` patch that COM's `site.css` and two guideline pages carry locally stays until it
+lands.
+
+**The footer was already right, which is what settled the shape.** `.c-footer__legal`
+centres on `--container-max-width` inside a full-bleed ground. The top of the page now does
+what the bottom of it has done since 4 August.
+
+## Item 7 of the same file closes in passing
+
+`Button.prompt.md` and `Card.prompt.md` both said Content Health Check's base is 18px,
+predating the density decision. Both now say **19px for every app, 24px for marketing
+surfaces, derived from deployment mode**. They are in the skill tree, so this needed an
+export rather than an edit on your side - which is what the item said.
+
+Workings, on our side and not exported wholesale:
+`provenance/COM layout findings 2026-09-07.html`.
+
+---
+
 # Content Operating Model becomes the sixth product
 
 **Added after the Maturity Tool round, same day.** If that round has not been applied yet,
@@ -674,12 +770,12 @@ shorthands, and without it the component renders at app density.
 
 **A round is a diff, not a folder, and this is the manifest for it.** The export is 163
 files: 150 text and 13 images. The images are 2.1MB of the 2.3MB and have changed once, on
-4 August. Today's two rounds touched **34 files: 32 text and two new images**. That is the number to ask the
+4 August. Today's three rounds touched **39 files: 37 text and two new images**. That is the number to ask the
 DesignSync API for, not 163.
 
 ```design-sync-manifest
-round: 2026-09-07b
-covers: both of today's rounds - the front-door pair plus Maturity Tool, and Content Operating Model. Union, so applying this list once is enough
+round: 2026-09-07c
+covers: all three of today's rounds - the front-door pair plus Maturity Tool, Content Operating Model, and the two corrections reported in docs/design-system-sync.md items 5 and 6. Union, so applying this list once is enough
 source: Claude Design project, design-system/
 target: skills/contentious-design/
 images-changed: yes - TWO FILES ADDED, images/com-apparatus.png and images/com-cog.png. The other 13 are untouched
@@ -689,6 +785,11 @@ changed:
   CHANGES.md
   SKILL.md
   components/components.css
+  components/core/Button.prompt.md
+  components/core/Card.prompt.md
+  components/navigation/TopBar.prompt.md
+  components/navigation/SecondaryNav.prompt.md
+  components/navigation/AppFooter.prompt.md
   Design system.html
   tokens/semantic.css
   guidelines/pattern-marketing-page.html
@@ -724,6 +825,7 @@ deleted: none
 
 not-exported-wholesale:
   provenance/Maturity Tool site audit 2026-09-07.html  ->  docs/design-history/
+  provenance/COM layout findings 2026-09-07.html  ->  docs/design-history/
 ```
 
 **Why the manifest matters more than which transport carries it.** `readme.md` names the

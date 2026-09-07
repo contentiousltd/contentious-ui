@@ -9,6 +9,8 @@ The single secondary-navigation pattern in the product. Sits directly under `<To
 - **No vertical rails anywhere, at any level.** Billing had one; four items didn’t earn 280px of permanent chrome.
 - Active state is a 2px fire underline plus strong text. No pills, no filled blocks, no boxes.
 - Realm label left, exit right – the two jobs a side nav gave for free: where am I, how do I get out.
+- **Takes the chrome column, like the band above it.** Full-bleed fill, content aligned to `--chrome-column`: a realm label indented differently from the brand directly above it is the same defect twice on one screen. Set the variable once on the page and both bands follow.
+- **The active tab's underline is the fire marker, not a link underline.** `.c-strip__tab` is in the opt-out list in the Links block of `components.css`, so hovering a tab cannot draw a second 2px rule in sunshine under the one that means active.
 - Repeat the active tab as the page h1. Redundant on purpose: it anchors the page on a deep link or back button.
 - Order by most-visited, destructive last. Never alphabetical.
 - Level 3 is not navigation. Sub-views use `<SegmentedControl>`; never nest a second strip.

@@ -276,6 +276,22 @@ components as such inside the one skill instead.
    climbing, or the marketing nav variant already on record, is **Claude Design's
    call**; this file just reports what a real wide viewport does today.
 
+   **Round 2026-09-07c landed the chrome column and it does not close this.**
+   Measured on contentoperatingmodel.com after applying it: brand left 456px,
+   body text left 488px at 2192px; at 900px, brand 58px, text 24px. The chrome
+   column aligns the band's content to the edge of the 80rem **box**, but every
+   section in the suite's front doors sits in the library's `.c-section__inner`
+   (`src/styles/components.css:72-92`, library side, not skill side), which pads
+   1rem / 1.5rem / 2rem **inside** that box by breakpoint. And the band's gutter
+   floor is `--u × 2.22` where the box's is rem. The two edges cross but never
+   coincide at any width. COM carries a local override in its `site.css` that
+   mirrors `.c-section__inner` breakpoint for breakpoint, verified identical
+   left and right at 500, 900, 1280, 1600, 2192, 2560 and 5120px. The durable
+   fix needs both sides to agree what the column IS: either `--chrome-column`
+   means the text edge and `.c-section__inner` (ours to change) reads the same
+   variable and gutter, or the marketing nav variant ships with the container
+   it aligns to. Flagged for a decision rather than fixed on one side again.
+
 5. **The warm shadow set never crosses the package boundary.** The design system defines
    shadows in warm gloaming at `skills/contentious-design/tokens/effects.css` —
    `rgba(38, 36, 35, …)`, consistent with the readme's *"pure white and pure black appear
