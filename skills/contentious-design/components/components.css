@@ -666,7 +666,17 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
    there and fire-350 does not. Only the GROUND is its own: --surface-inverse is
    gloaming-800 and belongs to tooltips, so the footer declares --surface-footer
    at gloaming-700, warmer and less absolute. Nothing here is set by hand.
-   Weakest value in the footer is the legal line at 5.3:1. */
+   Weakest value in the footer is the legal line at 5.3:1.
+   PALER, 7 September 2026, on Julius's call, and it supersedes the "nothing in
+   the footer is bright" line below. The description and both heading levels move
+   --text-secondary -> --text-body: limestone-700 to limestone-400 on the inverse
+   ramp, 9.57:1 to 13.03. All three move together so the hierarchy cannot invert
+   (a description brighter than the heading above it). The legal line stays at
+   --text-muted and remains the quietest thing here.
+   Worth knowing what this spends: on this ramp --text-body is 13.03 and
+   --text-strong is 13.77, so the footer is now within 0.7 of the brightest ink
+   in the system and the face-and-size argument below is the only thing still
+   separating the wordmark from the description. Do not also raise it to strong. */
 .c-footer{background:var(--surface-footer);margin-top:calc(var(--u) * 4.44);padding:calc(var(--u) * 2) 0 calc(var(--u) * 1.67)}
 .c-footer__in{max-width:var(--container-max-width);margin:0 auto;padding:0 calc(var(--u) * 1.56);display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u) * 2.67)}
 /* Bely DISPLAY, not plain Bely. The product name is set in the display cut in
@@ -680,9 +690,9 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
    measures 10.95:1, keeping the red (--fire-500, 3.54:1) and the yellow
    (--sunshine-500, 7.00:1). The pale cut is dark-grounds-only: its pale
    passage is 1.01:1 against the limestone-600 page. */
-.c-footer__brand{display:flex;align-items:center;gap:calc(var(--u) * .56);font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-section);color:var(--text-secondary);white-space:nowrap;margin-bottom:calc(var(--u) * .67)}
+.c-footer__brand{display:flex;align-items:center;gap:calc(var(--u) * .56);font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-section);color:var(--text-body);white-space:nowrap;margin-bottom:calc(var(--u) * .67)}
 .c-footer__brand img{height:calc(var(--u) * 1.22);display:block}
-.c-footer p{font-size:var(--t-hint);line-height:1.55;color:var(--text-secondary);margin:0 0 calc(var(--u) * .56);max-width:46ch}
+.c-footer p{font-size:var(--t-hint);line-height:1.55;color:var(--text-body);margin:0 0 calc(var(--u) * .56);max-width:46ch}
 /* Named columns, one link per line. The previous form was right-aligned mono
    labels above a wrapped run, which put seven Core links on one line reading
    right to left in two directions at once. The heading is Bely Display and
@@ -691,13 +701,15 @@ a.c-feature:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring
    size carry the heading; it does not also need the brightest ink. */
 .c-footer__groups{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:calc(var(--u) * 2.44)}
 .c-footer__group{text-align:left}
-/* Every heading in the footer sits at --text-secondary, wordmark included -
-   limestone-700 on the inverse ramp, 9.6:1, the same as the description.
-   Nothing in the footer is bright: it is the end of the document rather than a
-   section of it, and the display cut carries the hierarchy on face and size
-   rather than on ink. --text-strong put the wordmark at 13.8:1, which claimed
-   a top level the footer does not have. */
-.c-footer__group h4{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-row);color:var(--text-secondary);margin:0 0 calc(var(--u) * .78)}
+/* SUPERSEDED 7 September 2026 - see the note at the top of the footer block.
+   Every heading here now sits at --text-body, wordmark included, the same as
+   the description: one value for everything except the legal line, so the
+   display cut still carries the hierarchy on face and size rather than on ink.
+   That part of the reasoning survives the change; "nothing in the footer is
+   bright" does not. --text-strong remains refused, and now for a sharper
+   reason: at 13.77 against body's 13.03 it would buy 0.7 of contrast and cost
+   the wordmark its distinction from the paragraph under it. */
+.c-footer__group h4{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-row);color:var(--text-body);margin:0 0 calc(var(--u) * .78)}
 .c-footer__links{display:grid;gap:calc(var(--u) * .5);font-family:var(--font-heading);font-size:var(--t-ui)}
 .c-footer__legal{max-width:var(--container-max-width);margin:calc(var(--u) * 1.56) auto 0;padding:calc(var(--u) * 1.11) calc(var(--u) * 1.56) 0;border-top:1px solid var(--rule-section);font-size:calc(var(--u) * .7);color:var(--text-muted);line-height:1.5}
 

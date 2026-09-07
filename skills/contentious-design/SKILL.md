@@ -1,6 +1,6 @@
 ---
 name: contentious-design
-description: Use this skill before building or changing any UI anywhere in the Contentious product family - Content Health Check, Voice Tone & Style, Content Maturity, Maturity Tool, the Content Layer and contentious.ltd - and to generate well-branded interfaces, prototypes, mocks and assets. Contains the brand foundations (colour, type, voice, iconography), the semantic token layer, and every component with the rules that govern it. Design decisions are originated here, never invented in product code.
+description: Use this skill before building or changing any UI anywhere in the Contentious product family - Content Health Check, Voice Tone & Style, Content Maturity, Maturity Tool, Content Operating Model, the Content Layer and contentious.ltd - and to generate well-branded interfaces, prototypes, mocks and assets. Contains the brand foundations (colour, type, voice, iconography), the semantic token layer, and every component with the rules that govern it. Design decisions are originated here, never invented in product code.
 user-invocable: true
 ---
 
@@ -8,7 +8,10 @@ user-invocable: true
      invocation trigger, not design content: narrow it to one product and the skill
      stops being invoked in the sibling repos that need it. It reverted twice through
      export. Do not rewrite it to describe Content Health Check alone.
-     npm run check:design-sync in contentious-ui fails if it stops naming the family. -->
+     npm run check:design-sync in contentious-ui fails if it stops naming the family.
+     Content Operating Model added 7 September 2026 with its signature block. A product
+     that is not named here does not trigger the skill in its own repo, which is how an
+     agent ends up reporting that the design system has nothing about it. -->
 
 Read the `readme.md` file within this skill, and explore the other available files.
 If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out and create static HTML files for the user to view. If working on production code, you can copy assets and read the rules here to become an expert in designing with this brand.

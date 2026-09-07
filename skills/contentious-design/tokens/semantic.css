@@ -68,6 +68,21 @@
   --label-on-deep:       var(--gloaming-500);
   --rule-on-deep:        var(--limestone-900);
   --accent-link-on-deep: var(--fire-750);
+  /* The 37th and 38th signature tokens, added 7 September 2026. The link pair
+     for a surface of the OPPOSITE POLARITY to the product's page: a dark island
+     in a light product, or a light island in a dark one. Both
+     [data-surface="inverse"] and [data-surface="inset"] read it, and a product
+     only ever uses one of them, because a product has one page polarity.
+     WHY IT EXISTS: the inverse scope hardcoded fire-350, so a footer or reversed
+     band showed coral links in every non-fire product - CM, VTS and COM - at
+     perfectly good contrast and the wrong signature. And "pale" is not the rule:
+     VTS's --surface-inverse is limestone-200, a LIGHT island, where a pale stop
+     measured 2.24:1. Direction is the product's to declare, exactly as
+     --surface-card-deep goes darker on VTS and lighter everywhere else.
+     Matched on MEASURED CONTRAST, not on stop number: fire-350 reads 6.16 on
+     gloaming-700 and sapling-350 reads 7.49, so COM takes 400. */
+  --accent-link-on-reverse:       var(--fire-350);
+  --accent-link-on-reverse-hover: var(--fire-250);
   /* Lichen is the background neutral of the Content Maturity app, per the brand
      style guide. Reserved: do not use it in Content Health Check. */
 
@@ -790,8 +805,18 @@
   --text-secondary:       var(--limestone-700);
   --text-muted:           var(--gloaming-300);
   --label-color:          var(--gloaming-300);
-  --accent-link:          var(--fire-350);
-  --accent-link-hover:    var(--fire-250);
+  /* FIXED 7 September 2026. These two were a hardcoded fire stop inside a scope
+     every product uses, so a footer or reversed band showed coral links in CM,
+     VTS and COM - good contrast, wrong signature. They now read the signature
+     pair, declared per product. See --accent-link-on-reverse at the top of this
+     file for the reasoning and the measured stops.
+     THE DANGER PAIR STAYS HARDCODED, and that is correct rather than an
+     oversight: danger is fire in every product, accent or not, per the states
+     decision of 1 August, and this scope is only ever applied to a DARK island,
+     so the pale fire stops are right in it. A product whose reversal runs the
+     other way uses [data-surface="inset"] instead - see the note there. */
+  --accent-link:          var(--accent-link-on-reverse);
+  --accent-link-hover:    var(--accent-link-on-reverse-hover);
   --danger-fg:            var(--fire-350);
   --danger-fg-hover:      var(--fire-250);
   --danger-border:        var(--fire-400);
@@ -803,6 +828,16 @@
    REGIONAL rather than structural. VTS's chrome is structural and keeps the
    --text-inset pair at product level; this is for everything else. */
 [data-surface="inset"] {
+  /* THE LINK PAIR IS THE SAME TOKEN THE INVERSE SCOPE READS, and that is the
+     point of naming it "on-reverse" rather than "on-inverse". A light island in
+     a dark product and a dark island in a light one are one job seen from either
+     polarity, and no product uses both scopes. Added 7 September 2026: without
+     it VTS's light chrome and fields kept sorbet-300, its dark-page link stop,
+     which measures 1.60:1 on limestone-200. The danger pair needs no remap here
+     - it inherits the product's light-ground values, which is what a light
+     island wants. */
+  --accent-link:          var(--accent-link-on-reverse);
+  --accent-link-hover:    var(--accent-link-on-reverse-hover);
   --text-strong:          var(--text-inset-strong);
   --text-body:            var(--text-inset);
   --focus-ring:           var(--focus-ring-on-light);

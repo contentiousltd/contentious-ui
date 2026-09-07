@@ -4,7 +4,10 @@
 <link rel="stylesheet" href="../styles.css"/>
 <style>*{box-sizing:border-box}
 body{margin:0;background:var(--surface-front);font-family:var(--font-body);color:var(--text-body);-webkit-font-smoothing:antialiased}
-a{color:var(--accent-link)}a:hover{color:var(--accent-link-hover)}
+/* Scoped to the annotation block: a bare a{} rule is unlayered and beats
+   .c-button's own colour inside @layer components, which put sapling-750 text
+   on a sapling-700 fill in the COM page copied from this one. */
+.doc a{color:var(--accent-link)}.doc a:hover{color:var(--accent-link-hover)}
 .doc{padding:20px 24px 8px}
 .cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
 h1{font:var(--type-section);font-size:19px;color:var(--text-strong);margin:0 0 4px}

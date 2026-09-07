@@ -1,8 +1,8 @@
-<!-- @dsCard group="Patterns" viewport="1180x900" name="Product signatures" subtitle="One system, four expressions. Deployment mode, ground and illustration register do the work; type, spacing, radii and data colour never vary." -->
+<!-- @dsCard group="Patterns" viewport="1180x900" name="Product signatures" subtitle="One system, five expressions. Deployment mode, ground and illustration register do the work; type, spacing, radii and data colour never vary." -->
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"/><title>Product signatures</title><link rel="stylesheet" href="../styles.css"/>
 <style>*{box-sizing:border-box}body{margin:0;background:var(--limestone-600);font-family:var(--font-body);color:var(--text-body);padding:20px;-webkit-font-smoothing:antialiased}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;align-items:start}
 .sig{background:var(--surface-page);border-radius:var(--radius-frame);overflow:hidden;color:var(--text-body);display:flex;flex-direction:column}
 .chrome{background:var(--surface-chrome);color:var(--text-inset);display:flex;align-items:center;gap:7px;padding:9px 12px;white-space:nowrap;border-bottom:1px solid var(--rule-section);overflow:hidden}
 .mark{width:13px;height:13px;border-radius:3px;background:var(--accent);flex:none}
@@ -40,7 +40,7 @@
 .foot ul{margin:0;padding-left:14px}
 .foot li{font-size:10.5px;line-height:1.55;color:var(--gloaming-600);margin-bottom:3px;text-wrap:pretty}
 .foot code{font-family:var(--font-mono);font-size:9.5px;color:var(--gloaming-700)}</style></head><body>
-<p class="caption"><b>Shared, never varied:</b> Bely and Bely Display, every <code>--type-*</code> role, the spacing scale, radii 3/6/12, motion 200/350/150, chip geometry, the five-rung score ramp and its bands, and the one-surface-depth rule. <b>Varied per product:</b> deployment mode, ground, illustration register, accent, display scale, and density — which is itself derived from deployment (19px app, 24px marketing) rather than freely chosen. The mock below is the same markup four times — only <code>data-product</code> changes, except the studio column, which gains a band because <em>banded</em> is a structure and not a colour.</p>
+<p class="caption"><b>Shared, never varied:</b> Bely and Bely Display, every <code>--type-*</code> role, the spacing scale, radii 3/6/12, motion 200/350/150, chip geometry, the five-rung score ramp and its bands, and the one-surface-depth rule. <b>Varied per product:</b> deployment mode, ground, illustration register, accent, display scale, and density – which is itself derived from deployment (19px app, 24px marketing) rather than freely chosen. The mock below is the same markup five times – only <code>data-product</code> changes, except the studio column, which gains a band because <em>banded</em> is a structure and not a colour.</p>
 <div class="grid">
 
 <div class="sig" data-product="chc">
@@ -52,19 +52,19 @@
 <div class="btns"><button class="b1">Run analysis</button><button class="b2">Export</button></div>
 <div class="rule"></div>
 <div class="sw"><span style="background:var(--surface-page)"></span><span style="background:var(--surface-chrome)"></span><span style="background:var(--surface-card)"></span><span style="background:var(--surface-raised)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-marker)"></span></div>
-<div class="meta"><div class="l">Reserved · limestone, close-toned</div><p>Schematic illustration — objects, diagrams, systems seen from above. Density 19px, display scale 1. The data is the loud thing.</p></div>
+<div class="meta"><div class="l">Reserved · limestone, close-toned</div><p>Schematic illustration – objects, diagrams, systems seen from above. Density 19px, display scale 1. The data is the loud thing.</p></div>
 </div></div>
 
 <div class="sig" data-product="cm">
 <div class="chrome"><span class="mark"></span><b>Content Maturity</b><span class="tabs"><i>Framework</i></span></div>
 <div class="body">
 <div class="title">Growing up gracefully</div>
-<p class="lede">Not a single piece, but the whole operation — systems, processes, attitudes. <a href="#">Explore the framework</a></p>
+<p class="lede">Not a single piece, but the whole operation – systems, processes, attitudes. <a href="#">Explore the framework</a></p>
 <div class="card"><div class="l">Overall maturity</div><div class="v">62%</div><div class="stars"><i style="background:var(--star-1)"></i><i style="background:var(--star-2)"></i><i style="background:var(--star-3)"></i><i style="background:var(--level-empty)"></i><i style="background:var(--level-empty)"></i></div></div>
 <div class="btns"><button class="b1">Get started</button><button class="b2">See example</button></div>
 <div class="rule"></div>
 <div class="sw"><span style="background:var(--surface-page)"></span><span style="background:var(--surface-chrome)"></span><span style="background:var(--surface-card)"></span><span style="background:var(--surface-raised)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-marker)"></span></div>
-<div class="meta"><div class="l">Reserved · lichen, high card contrast</div><p>Pictorial illustration — landscape, growth, buildings. Coffee accent, sunshine marker. Density 19px. Cards are objects on a ground, not whispers in one.</p></div>
+<div class="meta"><div class="l">Reserved · lichen, high card contrast</div><p>Pictorial illustration – landscape, growth, buildings. Coffee accent, sunshine marker. Density 19px. Cards are objects on a ground, not whispers in one.</p></div>
 </div></div>
 
 <div class="sig" data-product="vts">
@@ -76,7 +76,19 @@
 <div class="btns"><button class="b1">Read the guide</button><button class="b2">Notify me</button></div>
 <div class="rule"></div>
 <div class="sw"><span style="background:var(--surface-page)"></span><span style="background:var(--surface-chrome)"></span><span style="background:var(--surface-card)"></span><span style="background:var(--surface-raised)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-link)"></span></div>
-<div class="meta"><div class="l">Reserved · sorbet-850, dark, warm</div><p>Typographic illustration — letterforms, glyphs, printed matter. Sorbet accent with dark text on the fill. Light chrome over a dark page. Density 19px with display scale 1.18 — the one product using scale, for heroic titles without a density change.</p></div>
+<div class="meta"><div class="l">Reserved · sorbet-850, dark, warm</div><p>Typographic illustration – letterforms, glyphs, printed matter. Sorbet accent with dark text on the fill. Light chrome over a dark page. Density 19px with display scale 1.18 – the one product using scale, for heroic titles without a density change.</p></div>
+</div></div>
+
+<div class="sig" data-product="com">
+<div class="chrome"><span class="mark"></span><b>Content Operating Model</b><span class="tabs"><i>Framework</i></span></div>
+<div class="body">
+<div class="title">The harness for your content function</div>
+<p class="lede">Three layers, seven questions: why, what, where, when, for whom, by whom and how. <a href="#">Read the framework</a></p>
+<div class="card"><div class="l">The content layer</div><div class="v">7</div></div>
+<div class="btns"><button class="b1">Build your model</button><button class="b2">Toolkit</button></div>
+<div class="rule"></div>
+<div class="sw"><span style="background:var(--surface-page)"></span><span style="background:var(--surface-chrome)"></span><span style="background:var(--surface-card)"></span><span style="background:var(--surface-card-deep)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-link)"></span></div>
+<div class="meta"><div class="l">Reserved · limestone, by exception</div><p>Apparatus and mechanism – machines, looms, frames, a figure operating one, in the shared lino-cut treatment. Sapling accent at 700. Takes CHC's ground deliberately, as the layer the others answer to; the accent, the register and the absence of scores carry the difference. Density 24px, display scale 1.</p></div>
 </div></div>
 
 <div class="sig" data-product="contentious">
@@ -89,28 +101,28 @@
 <div class="btns"><button class="b1">Get in touch</button><button class="b2">Our writing</button></div>
 <div class="rule"></div>
 <div class="sw"><span style="background:var(--surface-page)"></span><span style="background:var(--surface-chrome)"></span><span style="background:var(--surface-card)"></span><span style="background:var(--surface-raised)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-link)"></span></div>
-<div class="meta"><div class="l">Banded · limestone ground, 500-stop bands</div><p>Textured collage — printed matter, torn paper. Band hue is authored per page, never a token. The only place texture lives. Density 24px, display scale 1 — density carries the heroism.</p></div>
+<div class="meta"><div class="l">Banded · limestone ground, 500-stop bands</div><p>Textured collage – printed matter, torn paper. Band hue is authored per page, never a token. The only place texture lives. Density 24px, display scale 1 – density carries the heroism.</p></div>
 </div></div>
 
 </div>
-<p class="caption" style="margin:18px 0 0"><b>Settled in structure, provisional in value.</b> The six dimensions, two deployment modes, closed set, invariant core and allocation rules are agreed. The specific stops in each product block are a coherent first proposal — only the CHC block is transcribed from something shipping. Reconcile each against production CSS before treating a hex as canonical, and correct it in <code>tokens/products.css</code> rather than in product code.</p>
+<p class="caption" style="margin:18px 0 0"><b>Settled in structure, provisional in value.</b> The six dimensions, two deployment modes, closed set, invariant core and allocation rules are agreed. The specific stops in each product block are a coherent first proposal – only the CHC block is transcribed from something shipping. Reconcile each against production CSS before treating a hex as canonical, and correct it in <code>tokens/products.css</code> rather than in product code.</p>
 <div class="foot">
 <div><h4>Rules the layer enforces</h4><ul>
 <li>A product overrides <code>tokens/products.css</code> only. No product hex anywhere else, in any repo.</li>
-<li>The overridable set is closed at 30 tokens. A 31st is a system decision. It has grown four times, every time because a shipping product wouldn’t fit — most recently <code>--surface-hover</code>, because a hover step is not the raised band.</li>
-<li>No two products share the same (deployment, ground, accent) triple. CM and CHC — sold in one conversation — must differ on <em>ground</em>.</li>
-<li>A partial signature silently inherits CHC. Set all 30 or none.</li>
+<li>The overridable set is closed at 38 tokens. A 39th is a system decision. It has grown eight times, every time because a shipping product would not fit: most recently <code>--accent-link-on-reverse</code> and its hover, because <code>[data-surface="inverse"]</code> hardcoded a fire stop and every non-fire product showed coral links in its own footer.</li>
+<li>No two products share the same (deployment, ground, accent) triple. CM and CHC, sold in one conversation, must differ on <em>ground</em>. <b>COM is the one stated exception:</b> it takes limestone, in the same reserved mode as CHC, because it is the layer the others answer to. Recorded in its block as an exception and not as precedent.</li>
+<li>A partial signature silently inherits CHC. Set all 38 or none.</li>
 <li><em>Banded</em> is the studio site's alone. A second banded product dilutes the one thing marking the parent as the parent.</li>
-<li>Chrome and fields read <code>--text-inset</code>, never <code>--text-body</code> — VTS runs a light bar over a dark page.</li>
+<li>Chrome and fields read <code>--text-inset</code>, never <code>--text-body</code> – VTS runs a light bar over a dark page.</li>
 <li>Diverge at the front door, converge inside: <code>--signature-app-ground</code> says which.</li>
 </ul></div>
 <div><h4>Open, and worth deciding soon</h4><ul>
-<li><b>VTS's stop, not its family.</b> Ground is sorbet — corrected. sorbet-850 is set here; sorbet-700 is lighter than the shipping page and reads as a card stop. Check the live CSS.</li>
-<li><b>Accents are tight, the palette isn't.</b> The 500-stop reservation binds only products that <em>display scores</em> — which is why the studio site may run full-bleed sunshine. Wave is the last free accent for scoring products.</li>
+<li><b>VTS's stop, not its family.</b> Ground is sorbet – corrected. sorbet-850 is set here; sorbet-700 is lighter than the shipping page and reads as a card stop. Check the live CSS.</li>
+<li><b>Accents are tight, the palette is not.</b> The 500-stop reservation binds only products that <em>display scores</em>, which is why the studio site may run full-bleed sunshine. Wave went to focus on 1 August and sapling to COM on 7 September, so a scoring product now needs a ramp family at 700 or darker, or a twelfth family.</li>
 <li><b>CHC holds fire as accent and star-1.</b> A fire button beside a fire one-star bar. Precedent, not licence.</li>
-<li><b>Density is settled, not accidental.</b> Derived from deployment: 19px every app, 24px marketing. 19 rather than CHC's 18 because 19 is the library's own pre-0.2.0 default — the base the component CSS was drawn against. Land it before chc-367.</li>
-<li><code>--signature-display-scale</code> is declared but <code>--t-title</code> and <code>--t-metric</code> don't multiply by it yet. Wire it before anything sets it — VTS's 1.18 is the only non-1 value.</li>
-<li><b>Texture is studio-only.</b> The app rule — no gradient, blur, glass or grain — stands. An app growing a torn edge is a defect, not a family trait.</li>
+<li><b>Density is settled, not accidental.</b> Derived from deployment: 19px every app, 24px marketing. 19 rather than CHC's 18 because 19 is the library's own pre-0.2.0 default – the base the component CSS was drawn against. Land it before chc-367.</li>
+<li><code>--signature-display-scale</code> is declared but <code>--t-title</code> and <code>--t-metric</code> don't multiply by it yet. Wire it before anything sets it – VTS's 1.18 is the only non-1 value.</li>
+<li><b>Texture in an illustration is a family trait; texture on a surface is studio-only.</b> Corrected 7 September: every illustration in every product is lino-cut, flat colour with rough cut edges and grain, and no product opts out. What the studio owns is the torn-paper edge between full-bleed bands. The app rule – no gradient, blur, glass or grain – stands, because it governs surfaces: an app growing a torn edge on its chrome is still a defect.</li>
 </ul></div>
 </div>
 </body></html>

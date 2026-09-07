@@ -10,6 +10,259 @@ Each export overwrites this file with the current round. Older rounds are in
 
 ---
 
+# Content Operating Model becomes the sixth product
+
+**Added after the Maturity Tool round, same day.** If that round has not been applied yet,
+the manifest at the foot of this file covers both: it is the union of the two, and the only
+file it adds is `guidelines/pattern-product-signatures.html`.
+
+**Nothing existing moves.** No token changes value, no component changes geometry or class
+name, and no other product block is touched. This round is one new product block plus the
+three places the suite counts its products.
+
+## `[data-product="com"]`, and it takes CHC's ground on purpose
+
+contentoperatingmodel.com is the upstream strategic layer: the blueprint a content function
+is designed against, sold a level above the rest of the suite. v0 is content marketing and
+the component library - text, charts and line drawings - with the blueprint generator and a
+browseable library arriving at v1, when it gains a working surface. Until then it is front
+door all the way down, so **every surface it owns is 24px**, the same shape as Maturity
+Tool.
+
+**Ground is limestone, and that is the exception rule 4 asks products not to take.** The
+tight clause is that products sold in the same conversation must differ on GROUND, because
+within one deployment mode that is the dimension that carries at a glance. COM and CHC are
+sold in the same conversation and both are reserved. So this block deliberately does the
+thing that made CM and CHC read as one product, and the block says so in those words.
+
+The argument is positional rather than visual: **COM is the layer the others answer to, not
+a sibling of them**, so it should look like the house, and the house ground is limestone.
+Three warm tints and two cool ones were built and rejected first, on the grounds that a
+mid-tone tint reads as pastel beside Bely and the suite already has four warm neutrals.
+Workings, including the measured tables for the rejected grounds:
+`explorations/COM signature proposal.html`, `v2`, `v3` on the Claude Design side.
+
+**What carries the difference instead**, and it is worth stating because two of the three
+are not colour:
+
+- **Accent: sapling, at 700.** The dark end, under the allocation rule - sapling-500 is a
+  rung on the score ramp, and no accent fill may be mistakable for a level. COM shows no
+  scores today, but the locator rubric may yet render one, so the rule is obeyed rather
+  than argued around. **Sapling is now spent as an accent for the whole suite**, which
+  leaves a scoring product needing a ramp family at 700 or darker, or a twelfth family.
+  `--text-on-accent` is limestone-100 rather than CHC's limestone-200: 6.59:1 on
+  sapling-700.
+- **Illustration: measured line drawing** - orthographic layers, exploded stacks, plan and
+  section, leader lines and callouts. Unlike anything else in the suite, and it is the
+  register the canonical three-layer diagram is already in.
+- **No scores.** CHC's screens are full of star ramps and gauges. COM shows none, and
+  `--level-empty` is declared and unused.
+
+**Recorded as an exception, not as precedent.** A seventh product citing this block to land
+on limestone is the failure the signature layer exists to prevent. The exception is
+available to the product upstream of the whole suite, and there is only one of those.
+
+**Two things carried forward in the block's comments.** `--surface-page` and
+`--surface-front` are the same value, declared twice, as Maturity Tool does - they separate
+when the app arrives. And if CHC's ground ever moves again, **this block does not follow
+automatically**: sapling-700 has 5.15:1 of room on limestone-600 and not much more, so the
+accent is re-measured against the new page first.
+
+## `SKILL.md` names Content Operating Model
+
+**One line, and it is the invocation trigger rather than design content.** The description
+lists the product family, and a product it does not name does not trigger the skill in its
+own repo - which is how an agent ends up reporting that the design system has nothing about
+Content Operating Model. COM is now in the list, between Maturity Tool and the Content
+Layer. `npm run check:design-sync` asserts the description still names the family, so this
+is additive and the check is unaffected.
+
+## Correction in the same round: texture is a family trait, not a studio trait
+
+**Raised by Julius on seeing the first COM illustration, and it is a wording defect rather
+than a decision.** `products.css` said "the studio site is also the only place the brand's
+TEXTURE lives" and `Design system.html` said "texture is studio-only". That is not what the
+brand does. **Every Contentious illustration, on every site and in every product, is
+lino-cut** - flat colour, rough cut edges, grain in the fill. The sets differ slightly from
+product to product and texture is not one of the differences, so no product opts out of it.
+
+Three consequences, all applied:
+
+- **Dimension 3 is SUBJECT and COMPOSITION, not treatment.** The old wording licensed a
+  product to invent a treatment, which is a licence the brand does not give. What varies is
+  what is depicted: objects and diagrams from above (CHC), landscape and growth (CM),
+  letterforms and printed matter (VTS), apparatus (COM).
+- **What is studio-only is texture on a SURFACE** - the torn-paper edge between two
+  full-bleed bands, and collage bleeding off a band into the page. That belongs to the
+  banded deployment mode, not to the drawings.
+- **The app rule is unchanged and was never the problem**, because it governs surfaces: no
+  gradient, blur, glass or grain on the page, chrome, cards, fields or tables. A lino-cut
+  illustration on a clean card was never a breach of it. An app growing a torn edge on its
+  own chrome still is. `readme.md` already scoped this correctly ("the rule is scoped to
+  what a surface is for"); the two files that did not now match it.
+
+**COM's register is rewritten accordingly**: "apparatus and mechanism - machines, looms,
+frames, a figure operating one, cut shapes suspended on lines. Lino-cut like every other
+product's set; what is COM's is the subject, not the treatment." The first draft said
+"measured line drawing", which claimed a treatment that does not exist in this brand.
+
+**The canonical three-layer diagram already exists** and is published at
+contentious.ltd/resources/the-content-operating-model-in-the-ai-age: three stacked layer
+cards, the seven questions as circles with *why* at the centre. It is drawn in **fire and
+sunshine**, which predates the sapling accent - see the open item below.
+
+## A reference page, so the site has somewhere to start
+
+**New `guidelines/pattern-com-page.html`.** Nav, hero, one body section, footer, built only
+from the kit and the token layer at `data-product="com"`. Deliberately short: sections get
+added as the content arrives, and `pattern-marketing-page.html` is where the rest come from.
+It exists so the first page of contentoperatingmodel.com is an assembly job rather than a
+set of small decisions taken one at a time.
+
+**Two placeholders, and they are the two things the design system cannot supply.** The mark
+is an accent square, because COM has no logo and the wordmark is simply Bely. The hero
+illustration is a striped box captioned with what belongs there. Delete the `.ph` rules when
+the artwork lands.
+
+**Two things flagged rather than solved.** `.c-topbar` is app chrome doing marketing duty -
+it carries a project switcher and an avatar in the app, and here it is brand, links and one
+action. That is what the other sites do, and a marketing nav variant is a system decision if
+it recurs. And **the three-layer stack is page markup, not a component**: three cards and a
+question grid, with the content layer on `--surface-card-deep` because it is a different
+kind of thing from the two foundations under it, not because it matters more. If it appears
+on a third page it earns a component; until then it stays plain HTML so it is cheap to
+change.
+
+## Four defects the reference page found, three fixed and one logged
+
+Building the page is what surfaced them, which is the argument for building it.
+
+1. **The primary CTA was 1.26:1, and the cause was the cascade rather than a token.**
+   `.c-button` sets its foreground from `--text-on-accent` inside `@layer components`. A
+   specimen page's own `a { color: var(--accent-link) }` is **unlayered**, so it beats any
+   layered rule however specific, and every `&lt;a class="c-button"&gt;` lost its foreground:
+   sapling-750 text on a sapling-700 fill. Fixed by scoping the rule to the annotation block
+   in both this page and `pattern-marketing-page.html`, which had the same rule and the same
+   effect on its own buttons. **The rule for any page in this system: style links through the
+   components, never with a bare element selector.** An unlayered element rule beating a
+   layered component rule is a trap the layer order makes invisible.
+2. **A deep card on a tinted band, at 1.00:1** - the corollary `products.css` already
+   records, reproduced within a day of it being written down. The three-layer stack put
+   `--surface-card-deep` on `.c-marketing-section--tint`, and on COM both are limestone-750,
+   so the content layer was invisible as a card and only its inner hairlines read. **The
+   section is now flush**, where the deep card is 1.25:1. Worth noting the corollary is
+   currently prose in a comment and nothing checks it: a rule that a card's ground must
+   differ from its section's would have caught this and the 4 August failure both.
+3. **`.c-topbar` does not fit a front door, and now there is a number.** It is `nowrap`
+   because it was drawn at the app's 19px; at 24px the brand alone is 347px, and brand plus
+   four links plus one button overflow a 924px viewport by **140px**, scrolling the whole
+   document sideways. The page patches it with `flex-wrap` in its own stylesheet and says so.
+   **A marketing nav variant is now a requirement rather than a hypothesis**, and the
+   decision it needs is what collapses first at narrow widths.
+4. **`[data-surface="inverse"]` hardcoded a fire stop for `--accent-link`, and that is now
+   fixed rather than logged** - see the next section, because the fix grew the set.
+
+## The set grows to 38: `--accent-link-on-reverse` and its hover
+
+**Eighth growth, and Julius's call the same afternoon it was flagged.** The inverse scope
+lifted `--accent-link` to a hardcoded fire-350, so a footer or reversed band showed coral
+links in every non-fire product - CM, VTS and COM - at perfectly good contrast and the wrong
+signature. Same class of defect as `--text-secondary` on a deep card, logged that morning: a
+scope that remaps some roles and not others, where the ones it remaps were tuned against one
+product.
+
+**"Pale form of the accent" was the obvious rule and it is not the rule**, which is what
+made this worth a token rather than a value change. **VTS's `--surface-inverse` is
+limestone-200 - a LIGHT island** - so a pale stop measures **2.24:1** there and its hover
+1.60. Direction belongs to the product, exactly as `--surface-card-deep` goes darker on VTS
+and lighter everywhere else. Hence the name: **on-reverse**, not on-inverse.
+
+**One pair covers both scopes, because no product uses both.** `[data-surface="inverse"]`
+(a dark island in a light product) and `[data-surface="inset"]` (a light island in a dark
+one) are one job seen from either polarity, and a product has one page polarity. The inset
+scope had no link remap at all before this, which is a second defect the same token closes:
+VTS's light chrome and fields kept sorbet-300, its dark-page stop, at 1.60:1 on
+limestone-200.
+
+**Matched on measured contrast, not on stop number**, because the ramps are not perceptually
+aligned - fire-350 reads 6.16:1 on gloaming-700 where sapling-350 reads 7.49, so COM takes
+400 and lands at 6.63 rather than being brighter than the link it replaces.
+
+| Product | reversed ground | link | hover | reads |
+| --- | --- | --- | --- | --- |
+| chc | gloaming-700 footer / 800 tooltip | fire-350 | fire-250 | 6.16 / 8.60 |
+| cm | gloaming-700 | coffee-400 | coffee-300 | 7.44 / 9.17 |
+| mt | gloaming-700 quote band | fire-350 | fire-250 | 6.16 / 8.60 |
+| contentious | gloaming-750 dark band | fire-350 | fire-250 | 6.85 / 9.56 |
+| com | gloaming-700 footer | sapling-400 | sapling-300 | 6.63 / 8.42 |
+| vts | limestone-200, a light island | sorbet-700 | sorbet-750 | 6.91 / 8.68 |
+
+**The danger pair stays hardcoded fire, and that is correct rather than an oversight.**
+Danger is fire in every product, accent or not, per the states decision of 1 August, and the
+inverse scope is only ever applied to a dark island, so the pale fire stops are right in it.
+A product whose reversal runs the other way uses the inset scope, where danger inherits the
+product's light-ground values - which is what a light island wants. Stated at both scopes so
+nobody "fixes" it.
+
+**Worth a sweep when someone next opens this file.** Two defects of this shape in one day
+says the pattern is the problem, not the instances: for every `[data-surface]` scope, check
+that every role it remaps is a signature token or a family constant, and that every role it
+does NOT remap still holds on that ground. `--text-secondary` on a deep card is the one
+still open.
+
+## The footer goes paler, and the first COM artwork lands
+
+**`.c-footer` description and both heading levels move `--text-secondary` ->
+`--text-body`**, on Julius's call: limestone-700 to limestone-400 on the inverse ramp, 9.57:1
+to 13.03. All three move together so the hierarchy cannot invert - a description brighter
+than the heading above it - and the legal line stays at `--text-muted`, still the quietest
+thing there. **This supersedes the 4 August "nothing in the footer is bright" line**, which
+is rewritten in place rather than deleted, because half of its reasoning survives: the
+display cut carries the hierarchy on face and size rather than on ink. Worth knowing what it
+spends - on this ramp `--text-body` is 13.03 and `--text-strong` is 13.77, so the footer is
+now within 0.7 of the brightest ink in the system, and `--text-strong` stays refused for a
+sharper reason than before: it would buy 0.7 and cost the wordmark its distinction from the
+paragraph under it.
+
+**Two new images, and they are two cuts of one mark.** `images/com-apparatus.png` is the
+lino-cut apparatus - transparent, 1200px square, the first artwork drawn to COM's register
+rather than borrowed. It carries the hero, the header mark at 40px and the footer mark at
+29px, which is Julius's call. Worth stating what the small sizes do: the drawing holds about
+thirty elements, so at 40px they average four pixels each and it reads as a texture and a
+silhouette rather than as a machine. That is a legitimate thing for a mark to do, and it is
+recorded rather than assumed. `images/com-cog.png` is the **favicon**: one shape, sunshine
+cog with a gloaming hub and a sapling centre, which is what survives 16px where the
+apparatus cannot.
+
+**Two cuts of one mark is already the house pattern** - CHC ships `clipboard-gloaming.png`
+and `clipboard-pale.png` for light and dark grounds. This pair splits on **size** instead,
+which is a second axis and the first time the system has one. If a third product does the
+same, the naming wants a convention rather than two ad-hoc suffixes.
+
+**Still to produce on your side:** the favicon as an actual `.ico` or the `.png` size set a
+browser asks for. The reference page links `images/com-cog.png` directly, which works and is
+not what ships.
+
+## What is not done, and what needs a decision
+
+- **The favicon file set.** The cog exists as a PNG; the `.ico` and the size variants a
+  browser expects do not.
+- **The published three-layer diagram is fire and sunshine, and the product accent is
+  sapling.** The diagram exists and is live, and it predates this block. Either it is
+  recoloured (`why` at the centre in sapling-700, the other six in sunshine, which is what
+  the accent and marker pair already says) or COM's accent is reconsidered against its own
+  centrepiece. **A decision for Julius, not for either side to take quietly**, and nothing
+  in the token layer is blocked on it.
+- **The library's surfaces.** A browseable, deep-linkable catalogue of 30 to 50 components
+  is a working surface in everything but name, and it arrives with v1. `--surface-card-deep`
+  is declared and measured for it: a component entry is a different kind of thing from the
+  section it sits in.
+- **The Content Layer.** Pitched as the pair to COM: design your Content Operating Model,
+  run it on The Content Layer. It has no block, and when it gets one, COM's neutrality is
+  what leaves it the whole palette.
+
+---
+
 # The front door gets a ground, and Maturity Tool becomes a product
 
 **Full workings:** `provenance/Maturity Tool site audit 2026-09-07.html`. Read
@@ -418,6 +671,82 @@ paragraph: put `.c-marketing` on the section, because `type-roles.css` re-derive
 shorthands, and without it the component renders at app density.
 
 ## Files changed
+
+**A round is a diff, not a folder, and this is the manifest for it.** The export is 163
+files: 150 text and 13 images. The images are 2.1MB of the 2.3MB and have changed once, on
+4 August. Today's two rounds touched **34 files: 32 text and two new images**. That is the number to ask the
+DesignSync API for, not 163.
+
+```design-sync-manifest
+round: 2026-09-07b
+covers: both of today's rounds - the front-door pair plus Maturity Tool, and Content Operating Model. Union, so applying this list once is enough
+source: Claude Design project, design-system/
+target: skills/contentious-design/
+images-changed: yes - TWO FILES ADDED, images/com-apparatus.png and images/com-cog.png. The other 13 are untouched
+fonts: excluded (the repo's top-level fonts/ is authoritative)
+
+changed:
+  CHANGES.md
+  SKILL.md
+  components/components.css
+  Design system.html
+  tokens/semantic.css
+  guidelines/pattern-marketing-page.html
+  tokens/products.css
+  components/components.css
+  components/data/ScoreHistory.jsx
+  components/data/ScoreHistory.d.ts
+  guidelines/pattern-marketing-page.html
+  guidelines/pattern-product-signatures.html
+  guidelines/pattern-com-page.html
+  readme.md
+  components/marketing/Eyebrow.jsx
+  components/marketing/Eyebrow.d.ts
+  components/marketing/Eyebrow.prompt.md
+  components/marketing/Divider.jsx
+  components/marketing/Divider.d.ts
+  components/marketing/Divider.prompt.md
+  components/marketing/Hero.jsx
+  components/marketing/Hero.d.ts
+  components/marketing/Hero.prompt.md
+  components/marketing/PullQuote.jsx
+  components/marketing/PullQuote.d.ts
+  components/marketing/PullQuote.prompt.md
+  components/marketing/PriceBand.jsx
+  components/marketing/PriceBand.d.ts
+  components/marketing/PriceBand.prompt.md
+  components/marketing/Steps.jsx
+  components/marketing/Steps.d.ts
+  components/marketing/Steps.prompt.md
+  components/marketing/marketing.card.html
+
+deleted: none
+
+not-exported-wholesale:
+  provenance/Maturity Tool site audit 2026-09-07.html  ->  docs/design-history/
+```
+
+**Why the manifest matters more than which transport carries it.** `readme.md` names the
+one real risk in this arrangement: Claude Design cannot commit, so a stale skill in the repo
+is always one forgotten export away. That is equally true of the zip route and the API
+route. What closes it is a round having a **declared, checkable file list and a date**, so
+`docs/design-system-stamp.json` has something to compare against and
+`npm run check:design-sync` can fail when the repo's stamp is older than this file's
+`round:`.
+
+**Two cases where the manifest is the wrong tool and the zip is right**, and they are worth
+naming because they are the ones that would break silently:
+
+1. **Deletions and restructures.** A targeted pull adds and updates; it does not remove a
+   file this project deleted. The `deleted:` key exists for that, but a folder move (like
+   the 30 July restructure) is a wholesale operation and rsync should do it.
+2. **Image rounds.** 13 files, 2.1MB. `images-changed: yes - TWO FILES ADDED, images/com-apparatus.png and images/com-cog.png. The other 13 are untouched` is the signal to skip them
+   entirely, which is what most rounds will say.
+
+If `CHANGES.md` carries no manifest block at all, that is itself the signal to fall back to
+the zip: an absent list is not the same as an empty one.
+
+### Prose summary of the same round
 
 `tokens/semantic.css`, `tokens/products.css` (set 34 → 36, seventh growth recorded, new
 `[data-product="mt"]` block, density note), `components/components.css`, **new

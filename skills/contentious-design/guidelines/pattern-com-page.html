@@ -1,0 +1,163 @@
+<!-- @dsCard group="Patterns" viewport="1180x2200" name="COM front door" subtitle="A starting page for contentoperatingmodel.com: nav, hero, body, footer, on the kit. Content is placeholder; the structure is not." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/><title>COM front door</title>
+<link rel="icon" href="../images/com-cog.png"/>
+<link rel="stylesheet" href="../styles.css"/>
+<style>*{box-sizing:border-box}
+body{margin:0;background:var(--surface-front);font-family:var(--font-body);color:var(--text-body);-webkit-font-smoothing:antialiased}
+/* SCOPED TO THE ANNOTATION BLOCK ON PURPOSE. A bare a{} rule here is UNLAYERED,
+   so it beats .c-button's own color inside @layer components however specific
+   that is, and every button in the specimen loses its foreground: the hero CTA
+   measured 1.26:1, sapling-750 text on a sapling-700 fill. Style links inside
+   the specimen through the components, never with a bare element selector. */
+.doc a{color:var(--accent-link)}.doc a:hover{color:var(--accent-link-hover)}
+.doc{padding:20px 24px 8px}
+.cap{font-family:var(--font-mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+h1{font:var(--type-section);font-size:19px;color:var(--text-strong);margin:0 0 4px}
+.lede{font-size:12.5px;color:var(--text-muted);margin:0 0 18px;max-width:96ch;text-wrap:pretty}
+.note{font-size:11.5px;line-height:1.55;color:var(--text-muted);margin:12px 0 0;max-width:104ch;text-wrap:pretty}
+.note b{font-family:var(--font-heading);font-weight:400;color:var(--text-strong)}
+table{border-collapse:collapse;font-size:11.5px;width:100%;max-width:104ch}
+th{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--label-color);text-align:left;font-weight:400;padding:0 14px 7px 0}
+td{padding:6px 14px 6px 0;border-top:1px solid var(--rule-row)}
+td:first-child{color:var(--text-muted)}
+td.rule{color:var(--text-strong);font-family:var(--font-mono);font-size:11px}
+td.bad{color:var(--fire-700)}
+.spec{margin-top:14px;border-top:1px solid var(--rule-section)}
+.inner{max-width:1080px;margin:0 auto;padding-inline:calc(var(--u) * 1.33)}
+/* The nav wraps, and that is a patch on a component rather than a decision.
+   .c-topbar is nowrap by design because it is app chrome at 19px; at the
+   front-door 24px the brand alone is 347px and brand plus four links plus the
+   button overflow a 924px viewport by 140px. See the note on the marketing nav. */
+.spec .c-topbar{flex-wrap:wrap;row-gap:calc(var(--u) * .5)}
+.spec .c-topbar__right{margin-left:auto}
+/* PLACEHOLDERS, and they are the two things this page cannot supply. Delete
+   both when the real artwork lands: nothing here is a component. */
+.ph{display:grid;place-items:center;text-align:center;gap:calc(var(--u) * .5);border-radius:var(--radius-frame);color:var(--text-muted);font-family:var(--font-mono);font-size:calc(var(--u) * .6);letter-spacing:.06em;text-transform:uppercase;line-height:1.5;padding:calc(var(--u) * 1.33);background-color:var(--surface-card);background-image:repeating-linear-gradient(135deg,transparent 0 7px,var(--rule-row) 7px 8px)}
+.ph--art{aspect-ratio:1/1.1;width:100%}
+/* The layer stack. PAGE MARKUP, NOT A COMPONENT - see the note above. */
+.stack{display:grid;gap:calc(var(--u) * .67)}
+.layer{background:var(--surface-card);border-radius:var(--radius-surface);padding:calc(var(--u) * 1.11) calc(var(--u) * 1.22)}
+.layer h3{font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-row);color:var(--text-strong);margin:0}
+.layer p{margin:calc(var(--u) * .22) 0 0;font-size:var(--t-body-app);line-height:1.55;color:var(--text-secondary)}
+.layer--top{background:var(--surface-card-deep)}
+.layer--top h3,.layer--top p{color:var(--text-strong)}
+.layer--top .c-eyebrow{color:var(--accent-link-on-deep)}
+.qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(14ch,1fr));gap:calc(var(--u) * .67);margin-top:var(--u)}
+.q{border-top:1px solid var(--rule-on-deep);padding-top:calc(var(--u) * .44)}
+.q b{display:block;font-family:var(--font-heading-display);font-weight:400;font-size:var(--t-row);color:var(--text-strong)}
+.q span{font-size:var(--t-hint);line-height:1.45;color:var(--text-secondary)}
+.prose p{font-size:var(--t-body-app);line-height:1.6;color:var(--text-body);max-width:var(--measure-lede);margin:0 0 calc(var(--u) * .67)}
+</style></head><body data-product="com">
+
+<div class="doc">
+<h1>COM front door</h1>
+<p class="lede">A starting page for contentoperatingmodel.com, built only from the kit and the token layer at <code>data-product="com"</code>. Nav, hero, one body section, footer. It is deliberately short: sections get added as the content arrives, and the marketing kit in <code>pattern-marketing-page.html</code> is where the rest of them come from.</p>
+
+<p class="note"><b>What is settled here and should not be re-decided per page.</b> The <code>data-product</code> attribute on <code>&lt;body&gt;</code> or <code>&lt;html&gt;</code>, which is the whole theming integration. <code>.c-marketing</code> on every section, which re-derives the type scale to the 24px front-door density. The ground alternation, front and tint, and the section rhythm that comes with <code>.c-marketing-section</code>. And the eyebrow above a section title, which is the single strongest family cue on a Contentious page.</p>
+
+<div class="cap" style="margin-top:22px">What this page uses</div>
+<table>
+<thead><tr><th>Region</th><th>Component</th><th>Ground</th></tr></thead>
+<tbody>
+<tr><td>Nav</td><td class="rule">.c-topbar</td><td>--surface-chrome</td></tr>
+<tr><td>Mark, header and footer</td><td class="rule">images/com-apparatus.png</td><td>transparent, any ground</td></tr>
+<tr><td>Favicon</td><td class="rule">images/com-cog.png</td><td>transparent, any ground</td></tr>
+<tr><td>Hero</td><td class="rule">.c-hero + .c-eyebrow</td><td>front, flush</td></tr>
+<tr><td>Seam</td><td class="rule">.c-divider--taper</td><td>--rule-section</td></tr>
+<tr><td>Body prose</td><td class="rule">.c-marketing-section</td><td>front, flush</td></tr>
+<tr><td>The three layers</td><td class="bad">page markup, no component</td><td>front, flush</td></tr>
+<tr><td>Footer</td><td class="rule">.c-footer</td><td>--surface-footer</td></tr>
+</tbody></table>
+
+<p class="note"><b>The artwork is real, and it is two cuts rather than one.</b> <code>images/com-apparatus.png</code> is the lino-cut apparatus: transparent, 1200px square, the register in <code>--signature-illustration</code> rather than a stand-in for it. It carries the <b>hero</b>, the <b>header mark</b> at 40px and the <b>footer mark</b> at 29px, which is Julius's call and worth stating plainly because the small sizes are a compression: the drawing holds about thirty elements and at 40px they average four pixels each, so it reads as a texture and a silhouette rather than as a diagram of a machine. That is a legitimate thing for a mark to do. <code>images/com-cog.png</code> is the <b>favicon</b>: one shape – sunshine cog, gloaming hub, sapling centre – which is what survives 16px, where the apparatus cannot. <b>Two cuts of one mark is already the house pattern</b>: Content Health Check ships <code>clipboard-gloaming.png</code> and <code>clipboard-pale.png</code> for light and dark grounds. This pair splits on size rather than on ground. The <b>diagram</b> is separate again: published at <code>contentious.ltd/resources/the-content-operating-model-in-the-ai-age</code> in fire and sunshine, with the recolour still open in <code>CHANGES.md</code>.</p>
+
+<p class="note"><b>Three things are flagged rather than solved, and the first one now has a number.</b> <code>.c-topbar</code> is app chrome doing marketing duty: it holds a project switcher and an avatar in the app, and here it is brand, links and one action. <b>It does not fit.</b> The bar is <code>nowrap</code> because it was drawn at the app's 19px, and at the front door's 24px the brand alone is 347px, so brand plus four links plus the button overflow a 924px viewport by 140px and scroll the whole document sideways. This page patches it with <code>flex-wrap</code> in its own stylesheet, which is a patch and not a fix: <b>a marketing nav variant is now a real requirement rather than a hypothetical one</b>, and the decision it needs is what collapses first at narrow widths. The footer links, by contrast, are fixed rather than flagged: they were coral inside a sapling product until <code>--accent-link-on-reverse</code> landed, and they now read sapling-400 at 6.63:1 on the gloaming-700 footer ground. And the <b>three-layer stack is page markup, not a component</b> – three cards and a question grid, with the top layer on <code>--surface-card-deep</code> because the content layer is a different kind of thing from the two foundations under it. If it appears on a third page it earns a component; until then it is deliberately plain HTML so it is cheap to change.</p>
+</div>
+
+<!-- ══ SPECIMEN ══════════════════════════════════════════════════════════ -->
+<div class="spec">
+
+<nav class="c-marketing c-topbar">
+  <span class="c-topbar__brand"><img src="../images/com-apparatus.png" alt=""/>Content Operating Model</span>
+  <span class="c-topbar__sections"><span class="is-active">Framework</span><span>Library</span><span>The case for a COM</span><span>Writing</span></span>
+  <span class="c-topbar__right"><a class="c-button" href="#">Download the toolkit</a></span>
+</nav>
+
+<section class="c-marketing c-marketing-section">
+  <div class="inner c-hero">
+    <div>
+      <p class="c-eyebrow">The framework</p>
+      <h2 class="c-hero__title">The harness for your content function.</h2>
+      <p class="c-hero__intro">A Content Operating Model stacks three layers: an essence layer and a knowledge and opinion layer that steer, and a content layer on top of them that answers seven questions – why, what, where, when, for whom, by whom and how – encompassing humans, agents and the handoffs between them.</p>
+      <div class="c-hero__cta"><a class="c-button c-button--lg" href="#">Read the framework</a><a class="c-button c-button--ghost c-button--lg" href="#">Download the toolkit</a></div>
+    </div>
+    <div class="c-hero__art"><img src="../images/com-apparatus.png" alt="" width="440"/></div>
+  </div>
+</section>
+
+<hr class="c-divider c-divider--taper"/>
+
+<section class="c-marketing c-marketing-section">
+  <div class="inner prose">
+    <p class="c-eyebrow">What it is</p>
+    <p>Where harness engineering names the scaffolding around an AI agent – the prompts, tools, hooks, feedback loops and recovery paths that turn a model into something that ships – a Content Operating Model names the same scaffolding at the scale of the whole function. It encompasses the work humans do alone, the work agents do alone, and the collaborations, handoffs and guardrails between them.</p>
+    <p>As your tools and team mature, the model stays stable. What flows through it shifts deliberately.</p>
+  </div>
+</section>
+
+<section class="c-marketing c-marketing-section">
+  <div class="inner">
+    <p class="c-eyebrow">Three layers, seven questions</p>
+    <div class="stack">
+      <div class="layer layer--top" data-surface="deep">
+        <p class="c-eyebrow">On top</p>
+        <h3>The content layer</h3>
+        <p>The working machinery and everything it needs.</p>
+        <div class="qs">
+          <div class="q"><b>Why</b><span>Strategic aims</span></div>
+          <div class="q"><b>What</b><span>Substance</span></div>
+          <div class="q"><b>Where</b><span>Structure</span></div>
+          <div class="q"><b>When</b><span>Cadence and lifecycle</span></div>
+          <div class="q"><b>For whom</b><span>Audience and relationships</span></div>
+          <div class="q"><b>By whom</b><span>Responsibility and execution</span></div>
+          <div class="q"><b>How</b><span>Artefacts, interfaces, workflows, guardrails</span></div>
+        </div>
+      </div>
+      <div class="layer">
+        <p class="c-eyebrow">Foundations</p>
+        <h3>The knowledge and opinion layer</h3>
+        <p>Frames, data and beliefs. How the organisation sees the world, what it knows, and what it holds to be true.</p>
+      </div>
+      <div class="layer">
+        <p class="c-eyebrow">Foundations</p>
+        <h3>The essence layer</h3>
+        <p>Purpose, character and relationships. What the organisation is for, how it behaves, and how it relates to the people it serves.</p>
+      </div>
+    </div>
+    <p class="note" style="max-width:80ch">The stack reads top-down on the page and bottom-up in the model, which is how the published diagram runs. The content layer is the deep card because it is a different kind of thing from the two foundations, not because it matters more: the foundations are owned by the organisation rather than by content.</p>
+  </div>
+</section>
+
+<footer class="c-marketing c-footer" data-surface="inverse">
+  <div class="c-footer__in">
+    <div>
+      <p class="c-footer__brand"><img src="../images/com-apparatus.png" alt=""/>Content Operating Model</p>
+      <p>The blueprint for how a content function adapts to the AI era. A framework, a component library and a toolkit, from the strategic content studio <a href="https://contentious.ltd">Contentious</a>.</p>
+    </div>
+    <div class="c-footer__groups">
+      <div class="c-footer__group">
+        <h4>The model</h4>
+        <div class="c-footer__links"><a href="#">Framework</a><a href="#">Component library</a><a href="#">The case for a COM</a><a href="#">Download the toolkit</a></div>
+      </div>
+      <div class="c-footer__group">
+        <h4>Contentious</h4>
+        <div class="c-footer__links"><a href="#">Content Health Check</a><a href="#">Content Maturity</a><a href="#">Voice, Tone and Style</a><a href="#">The studio</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="c-footer__legal">© 2026 Contentious Ltd. Content Operating Model is a Contentious product.</div>
+</footer>
+
+</div>
+</body></html>
