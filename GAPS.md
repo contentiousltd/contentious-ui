@@ -60,31 +60,45 @@ in this file, and do not answer them in product code.
   Related but distinct from `--surface-hover`, which is now settled: that one is the step
   for menus and controls; this is the step for a list row inside a card.
 
-- **`tokens/type-roles.css` declares its own `--font-size-h1/h2/h3/h4`, unrelated to and
-  colliding with this package's tokens of the same name.** Found on Maturity Tool,
+- **`tokens/type-roles.css` redeclares twenty tokens this package's `typography.css`
+  also declares, six of them with different values.** Found on Maturity Tool,
   7 September 2026, right after `components.css` was wired in as this package's component
-  layer (the item above this one, now closed) — headings shrank and stopped scaling with
-  `--text-multiplier` the moment `semantic.css` was linked alongside the existing
-  `typography.css`, with no rename or removal anywhere to explain it.
+  layer (the item above this one, now closed) — headings and section titles shrank and
+  stopped scaling with `--text-multiplier` the moment `semantic.css` was linked alongside
+  the existing `typography.css`, with no rename or removal anywhere to explain it.
 
   `type-roles.css`'s own header says everything in the file "is a ROLE and never varies by
-  product," and its real, used scale is `--u`/`--t-*`, declared right below the four lines
-  in question (`type-roles.css:74-77`). Nothing else in `skills/contentious-design/`
-  reads `--font-size-h1` through `-h4` — they look like a leftover from before the
-  `--u`/`--t-*` split. But `type-roles.css` is imported into `layer(theme)` by the
-  `semantic.css` door, one layer above this package's own `--font-size-h1/h2/h3`
-  (`typography.css`, `layer(tokens)`), so once a consumer links both, the unrelated
-  legacy values win regardless of source order, and it looks exactly like a rename with
-  no changelog entry.
+  product," and its real, used scale is `--u`/`--t-*`, declared right below the colliding
+  block. Fourteen of the twenty (`--font-mono`, `--font-mono-brand`, `--font-size-sm`,
+  `--font-size-xs`, every `--font-weight-*`, every named `--line-height-*`) are
+  byte-identical to this package's own, so harmless. Six are not: `--font-size-h1/h2/h3`
+  (`3.5rem`/`2.4rem`/`1.5rem` vs. `calc(Xem * var(--text-multiplier))`),
+  `--heading-line-height` (`1.15` vs `1.2em`), `--body-line-height` (`1.55` vs `1.4em`),
+  and `--font-body`/`--font-heading`/`--font-heading-display` (capitalised with
+  Georgia/Times New Roman fallbacks vs. this package's lowercase, matching what
+  `base.css`'s `@font-face` actually registers). `type-roles.css` is imported into
+  `layer(theme)` by the `semantic.css` door, one layer above this package's own tokens
+  (`typography.css`, `layer(tokens)`), so once a consumer links both, the six mismatched
+  values win regardless of source order, and it looks exactly like a rename with no
+  changelog entry.
 
-  **Worked around, not fixed.** `src/styles/typography.css` now reasserts its own
-  `--font-size-h1/h2/h3` into `layer(theme)`, so this package's scale wins back
-  regardless of whether a consumer also links `semantic.css`. The reassertion is dead
-  weight the moment this is fixed at the source.
+  **Worked around, not fixed.** `src/styles/typography.css` now reasserts its own values
+  for all six into `layer(theme)`, so this package's scale and faces win back regardless
+  of whether a consumer also links `semantic.css`. The reassertion is dead weight the
+  moment this is fixed at the source.
 
-  **The ask:** drop the four `--font-size-h1/h2/h3/h4` lines from `type-roles.css`. If
-  they're load-bearing somewhere `grep` didn't find, say where and we'll keep the
-  workaround at the door instead — same shape as the `url()` item above.
+  **The ask:** either drop the fourteen identical lines and the six mismatched ones from
+  `type-roles.css` (its own `--u`/`--t-*` scale covers what a component actually needs),
+  or, if some of the six are a deliberate divergence from this package rather than an
+  oversight, say which and why — that changes this from a bug to a decision we need
+  written down, not just worked around at the door.
+
+  **Same shape, smaller, found in the same audit: `tokens/semantic.css` sets
+  `--info-text: var(--wave-700)`, this package's `tokens.css` sets `--wave-800`.**
+  Every other status colour it redeclares (`--star-1..5`, `--warning-text`) matches
+  exactly. Not worked around — nothing in this package currently reads `--info-text`,
+  so it's silent today rather than visibly broken, but it's the identical mechanism and
+  will bite the first consumer that uses it while both files are linked.
 
 ## Noted, not blocking
 

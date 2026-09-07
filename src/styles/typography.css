@@ -201,28 +201,41 @@
 }
 
 /* GAPS.md, 7 September 2026: skills/contentious-design/tokens/type-roles.css
-   declares its own --font-size-h1/h2/h3/h4 (3.5rem/2.4rem/1.5rem/1.1rem),
-   unrelated legacy values never read by anything else in the design system —
-   its real, used scale is --u/--t-*, right below that block. But it lands in
-   layer(theme) via the semantic.css door, one layer above this file's tokens
-   layer, so once a consumer also links semantic.css it silently wins over
-   THIS file's --font-size-h1/h2/h3 (calc(Xem * var(--text-multiplier))),
-   which every heading in this package's own components.css and
-   typography.css still reads. Found on Maturity Tool: headings and section
-   titles shrank and stopped scaling with --text-multiplier the moment
-   semantic.css was linked, with no rename or removal on either side to
-   explain it.
+   redeclares six tokens this file also owns, with different values, and its
+   own header says everything in it "is a ROLE and never varies by product" —
+   its real, used scale is --u/--t-*, right below the colliding block. But
+   type-roles.css lands in layer(theme) via the semantic.css door, one layer
+   above this file's tokens layer, so once a consumer also links semantic.css
+   the unrelated values win regardless of source order. Found on Maturity
+   Tool: headings and section titles shrank and stopped scaling with
+   --text-multiplier the moment semantic.css was linked, with no rename or
+   removal anywhere to explain it. The other fourteen tokens type-roles.css
+   redeclares (checked by value, not just by name) are byte-identical to this
+   file's, so only these six are load-bearing here:
+     --font-size-h1/h2/h3   3.5rem/2.4rem/1.5rem vs. calc(Xem * multiplier)
+     --heading-line-height  1.15 vs. 1.2em
+     --body-line-height     1.55 vs. 1.4em
+     --font-body / --font-heading / --font-heading-display
+       lowercase family names here ('bely') vs. capitalised with Georgia /
+       Times New Roman fallbacks there ('Bely', ...) — base.css's @font-face
+       registers the family as 'Bely', matching this file, so reasserted
+       rather than left to chance on whether @font-face matching is
+       case-sensitive in every engine this ships to.
 
-   Reasserted here, in layer(theme), so this package's own scale wins back
+   Reasserted here, in layer(theme), so this package's own values win back
    regardless of whether a consumer also links semantic.css. The fix belongs
-   in type-roles.css — that block is dead weight even inside the design
-   system — but that file is authored by Claude Design and this package does
-   not hand-edit it; see docs/design-system-sync.md. Remove this block once
-   type-roles.css drops its own copy. */
+   in type-roles.css — this package doesn't hand-edit that file; see
+   docs/design-system-sync.md. Remove this block once type-roles.css drops
+   its own copies. */
 @layer theme {
   :root {
     --font-size-h1: calc(3.5em * var(--text-multiplier));
     --font-size-h2: calc(2.8em * var(--text-multiplier));
     --font-size-h3: calc(1.5em * var(--text-multiplier));
+    --heading-line-height: 1.2em;
+    --body-line-height: 1.4em;
+    --font-body: 'bely', serif;
+    --font-heading: 'bely', serif;
+    --font-heading-display: 'bely-display', serif;
   }
 }
